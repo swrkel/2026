@@ -1,0 +1,129 @@
+/*
+ * Global operation guard
+ * Prevents accidental repeat actions and gives one consistent progress status.
+ * Existing page-level loaders remain authoritative and are never restyled here.
+ */
+
+#erp-global-operation-status {
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    z-index: 2147483000;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: min(390px, calc(100vw - 32px));
+    padding: 15px 17px;
+    color: #17304f;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(47, 111, 237, 0.22);
+    border-left: 5px solid #2f6fed;
+    border-radius: 14px;
+    box-shadow: 0 18px 45px rgba(22, 45, 78, 0.22);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-12px);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+}
+
+#erp-global-operation-status.erp-operation-status--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#erp-global-operation-status.erp-operation-status--error {
+    border-left-color: #dc3545;
+}
+
+.erp-operation-status__spinner,
+.erp-operation-button__spinner {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(47, 111, 237, 0.22);
+    border-top-color: #2f6fed;
+    border-radius: 50%;
+    animation: erp-operation-spin 0.75s linear infinite;
+}
+
+.erp-operation-status--error .erp-operation-status__spinner {
+    border-color: rgba(220, 53, 69, 0.22);
+    border-top-color: #dc3545;
+}
+
+.erp-operation-status__content {
+    min-width: 0;
+}
+
+.erp-operation-status__title {
+    display: block;
+    margin: 0 0 2px;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.erp-operation-status__message {
+    display: block;
+    margin: 0;
+    color: #60728a;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+[data-erp-operation-busy="true"] {
+    cursor: wait !important;
+}
+
+button[data-erp-operation-busy="true"],
+input[data-erp-operation-busy="true"],
+a[data-erp-operation-busy="true"] {
+    pointer-events: none !important;
+}
+
+.erp-operation-button__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.erp-operation-button__spinner {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.45);
+    border-top-color: currentColor;
+}
+
+body.erp-operation-in-progress {
+    cursor: progress;
+}
+
+@keyframes erp-operation-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+    #erp-global-operation-status {
+        top: 12px;
+        right: 12px;
+        width: calc(100vw - 24px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #erp-global-operation-status {
+        transition: none;
+    }
+
+    .erp-operation-status__spinner,
+    .erp-operation-button__spinner {
+        animation-duration: 1.4s;
+    }
+}

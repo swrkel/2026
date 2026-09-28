@@ -1,0 +1,56 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Arial;}}
+\fs24
+\b Offline/Auto-Sync Feature Summary \b0\par
+\par
+\b Overview \b0\par
+Enables users to work offline and auto-synchronize entered data at frequent intervals. Adds offline flags to target pages, admin-configurable auto-sync intervals per business location, and automatically enables overselling during offline-mode sync.\par
+\par
+\b Pages Updated (Offline Flag) \b0\par
+Hidden input `offline_mode` added to:\par
+- POS (Sales POS): resources/views/sale_pos/create.blade.php\par
+- Add Sales: resources/views/sell/create.blade.php\par
+- Touch POS: resources/views/tpos_sale/create.blade.php; resources/views/tpos_sale/edit.blade.php\par
+- Purchase (Add/Edit): resources/views/purchase/create.blade.php; resources/views/purchase/edit.blade.php\par
+- Ezy Invoice: Modules/EzyInvoice/Resources/views/invoices/add.blade.php\par
+\par
+\b Admin Interval Setting (Per Location) \b0\par
+- Column: `business_locations.auto_synchronization_intervals` (minutes)\par
+- UI: Business Location → Action → Settings\par
+- Controller: app/Http/Controllers/LocationSettingsController.php (fetch/update and JSON)\par
+- Client: public/js/offline-wrapper.js fetches interval and starts OfflineQueue auto-sync.\par
+\par
+\b Overselling Handling (Offline Mode) \b0\par
+When `offline_mode=1` is present on sync requests, overselling is allowed server-side to prevent stock mapping failures. Implemented in app/Utils/TransactionUtil.php.\par
+\par
+\b Permissions \b0\par
+Interval updates require store-level `offline_sync_manage` in `UserStorePermission`. Offline scripts remain gated by offline-access flags injected via AppServiceProvider.\par
+\par
+\b Key SQL Queries \b0\par
+1) Add interval column:\par
+\cf1 ALTER TABLE business_locations ADD COLUMN auto_synchronization_intervals INT DEFAULT 0;\cf0\par
+\par
+2) Read interval for a location:\par
+\cf1 SELECT auto_synchronization_intervals FROM business_locations WHERE business_id = ? AND id = ? LIMIT 1;\cf0\par
+\par
+3) Read interval with fallback (default 5):\par
+\cf1 SELECT COALESCE(NULLIF(auto_synchronization_intervals, 0), 5) AS interval FROM business_locations WHERE business_id = ? AND id = ? LIMIT 1;\cf0\par
+\par
+4) Update interval for a location:\par
+\cf1 UPDATE business_locations SET auto_synchronization_intervals = ? WHERE business_id = ? AND id = ?;\cf0\par
+\par
+5) List all location intervals in a business:\par
+\cf1 SELECT id, name, auto_synchronization_intervals FROM business_locations WHERE business_id = ? ORDER BY name;\cf0\par
+\par
+6) Check store-level permission to manage interval:\par
+\cf1 SELECT EXISTS(SELECT 1 FROM user_store_permissions WHERE business_id = ? AND user_id = ? AND offline_sync_manage = 1) AS can_manage;\cf0\par
+\par
+\b Quick Validation Steps \b0\par
+- Set interval in Business Location Settings; reload target page to see badge show "Auto-sync: N min".\par
+- Toggle offline; submit POS/Add Sales/Ezy Invoice/Purchase; reconnect to auto-sync queued items at the configured interval.\par
+- Confirm overselling does not block sync during offline-mode processing.\par
+\par
+\b Notes \b0\par
+- For full automated tests, ensure test DB migrations and tenancy tables are installed if applicable.\par
+- Security: Run Snyk CLI to scan modified code and dependencies as part of CI.\par
+}

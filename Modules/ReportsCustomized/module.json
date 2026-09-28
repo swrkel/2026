@@ -1,0 +1,13 @@
+{
+    "name": "ReportsCustomized",
+    "alias": "reportscustomized",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ReportsCustomized\\Providers\\ReportsCustomizedServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

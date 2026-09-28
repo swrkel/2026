@@ -1,0 +1,16 @@
+{
+    "name": "Subscription",
+    "alias": "subscription",
+    "description": "Standalone central multi-tenant subscription administration and SMS reminder module (8055).",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Subscription\\Providers\\SubscriptionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

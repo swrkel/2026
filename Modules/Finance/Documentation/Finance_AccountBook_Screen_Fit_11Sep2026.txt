@@ -1,0 +1,40 @@
+Finance Module - Account Book screen-fit changes
+Date: 11 Sep 2026
+
+Scope
+-----
+Finance -> List Accounts -> Account Book
+
+Changes
+-------
+1. Date column now displays the system-entered Date with the entry Time directly beneath it.
+   - Date remains based on created_at, with operation_date as historical fallback.
+   - Time uses the same source, formatted as 12-hour time with AM/PM.
+2. Date column width reduced by 30% from the current layout.
+3. Transaction Date heading is explicitly displayed on two rows and width reduced by 30%.
+4. Card / Cheque Number heading is explicitly displayed as:
+      Card / Cheque
+      Number
+   and its column width is reduced by 50%.
+5. PD/Cheque Date heading is explicitly displayed as:
+      PD/Cheque
+      Date
+   and its column width is reduced by 25%.
+6. Opening Balance heading remains two rows and its column width is reduced by 20%.
+7. Remaining Balance heading remains two rows and its column width is reduced by 20%.
+8. Reconcile Status remains removed from the visible Account Book table.
+   A blank compatibility JSON field is intentionally retained for stale browser/DataTables caches.
+9. Screen-fit behavior enhanced:
+   - fixed percentage layout totals 100% for both normal and Card/Slip books;
+   - viewport-aware font/padding sizing;
+   - DataTables columns are re-adjusted on browser resize and sidebar expand/collapse;
+   - horizontal scrolling remains disabled for the Account Book.
+
+Files changed
+-------------
+Finance/Resources/views/account/show.blade.php
+Finance/Http/Controllers/Account/Concerns/ShowsAccountBook.php
+
+Database
+--------
+No SQL or migration required.

@@ -1,0 +1,18 @@
+RICE MILL SAFE STANDALONE DEPLOYMENT - 19 SEP 2026
+
+This parcel is intentionally packaged under:
+  Modules/RiceMill/...
+
+It contains no application Core Controller files (for example app/Http/Controllers/*).
+Extract this ZIP from public_html so files replace only Modules/RiceMill/*.
+
+This baseline retains the latest Rice Mill changes including:
+- Product Category Mapping and Products New integration
+- Packaging Material mapping (multi-product, mapped-only)
+- Material Usage Mapping approved POS-style layout and decimal usage
+- Restored Receive Paddy original records/details below the current page
+- Product Category Mapping collapsible sections (default collapsed)
+- Output Type mapping with multi-product selection
+- Production Output Type restricted to mapped products, with fixed Other removed
+
+No SQL change is required for the repackaging itself.

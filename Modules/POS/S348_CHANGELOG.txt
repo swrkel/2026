@@ -1,0 +1,14 @@
+POS Standalone S348 - Products & Stock
+
+Added:
+- Product register page with Communication Hub style KPI cards, filters, table and actions.
+- Add/edit/delete POS products using only POS-owned tables.
+- Standalone categories, brands and units table support.
+- Stock adjustment page with stock in/out/damage/correction movement types.
+- Stock movement report with before/after stock tracking.
+- Standalone POSInventoryService and ProductController.
+- Raw SQL: Modules/POS/Database/SQL/pos_standalone_s348_products_stock.sql
+
+Notes:
+- No dependency added on main products, contacts, units, brands, categories or variations tables.
+- Product quantities are 3 decimals; currency prices are 4 decimals in DB.

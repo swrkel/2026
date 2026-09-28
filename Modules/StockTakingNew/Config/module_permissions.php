@@ -1,0 +1,25 @@
+<?php
+
+return [
+    ['key' => 'stock_taking_new_module', 'label' => 'Stock Taking - New Module', 'type' => 'module'],
+    ['key' => 'stock_taking_new_dashboard', 'label' => 'Dashboard', 'type' => 'page'],
+    ['key' => 'stock_taking_new_sessions', 'label' => 'Stock Taking Sessions', 'type' => 'page'],
+    ['key' => 'stock_taking_new_sessions_create', 'label' => 'Create Stock Taking Session', 'type' => 'page'],
+    ['key' => 'stock_taking_new_count_sheet', 'label' => 'Count Sheet', 'type' => 'page'],
+    ['key' => 'stock_taking_new_recounts', 'label' => 'Recounts', 'type' => 'page'],
+    ['key' => 'stock_taking_new_approvals', 'label' => 'Approvals', 'type' => 'page'],
+    ['key' => 'stock_taking_new_posting', 'label' => 'Post Stock Reconciliation', 'type' => 'page'],
+    ['key' => 'stock_taking_new_import', 'label' => 'Import Counts', 'type' => 'page'],
+    ['key' => 'stock_taking_new_templates', 'label' => 'Count Templates', 'type' => 'page'],
+    ['key' => 'stock_taking_new_schedules', 'label' => 'Count Schedules', 'type' => 'page'],
+    ['key' => 'stock_taking_new_reports', 'label' => 'Reports', 'type' => 'page'],
+    ['key' => 'stock_taking_new_report_variance', 'label' => 'Variance Report', 'type' => 'tab'],
+    ['key' => 'stock_taking_new_report_progress', 'label' => 'Progress Report', 'type' => 'tab'],
+    ['key' => 'stock_taking_new_report_accuracy', 'label' => 'Stock Accuracy Report', 'type' => 'tab'],
+    ['key' => 'stock_taking_new_report_audit', 'label' => 'Audit Trail Report', 'type' => 'tab'],
+    ['key' => 'stock_taking_new_documents', 'label' => 'Print and PDF Documents', 'type' => 'page'],
+    ['key' => 'stock_taking_new_share_sms', 'label' => 'Send by SMS', 'type' => 'page'],
+    ['key' => 'stock_taking_new_share_email', 'label' => 'Send by Email', 'type' => 'page'],
+    ['key' => 'stock_taking_new_share_whatsapp', 'label' => 'Send by WhatsApp', 'type' => 'page'],
+    ['key' => 'stock_taking_new_settings', 'label' => 'Settings', 'type' => 'page'],
+];

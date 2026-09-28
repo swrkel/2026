@@ -1,0 +1,25 @@
+{
+    "name": "CustomerStatements",
+    "alias": "customerstatements",
+    "description": "Customer Statements workspace with isolated pages and Customer-wise or General numbering",
+    "keywords": [
+        "customer-statements",
+        "statement-payments",
+        "statement-settings",
+        "statement-logos",
+        "font-settings",
+        "print-formats",
+        "alert-settings",
+        "customer-wise-numbering",
+        "general-numbering"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\CustomerStatements\\Providers\\CustomerStatementsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [
+        "Customers"
+    ]
+}

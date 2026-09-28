@@ -1,0 +1,11 @@
+.erp-double-confirm-popup { width: min(760px, calc(100vw - 32px)) !important; }
+.erp-confirm-summary { text-align: left; color: #1f2937; font-size: 14px; }
+.erp-confirm-summary__action, .erp-confirm-summary__context, .erp-confirm-summary__row { display: grid; grid-template-columns: minmax(130px, 35%) 1fr; gap: 16px; padding: 9px 12px; border-bottom: 1px solid #e5e7eb; }
+.erp-confirm-summary__action { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px 10px 0 0; }
+.erp-confirm-summary__context { background: #f8fafc; }
+.erp-confirm-summary__fields { max-height: 42vh; overflow: auto; border: 1px solid #e5e7eb; border-top: 0; border-radius: 0 0 10px 10px; }
+.erp-confirm-summary__row:nth-child(even) { background: #f8fafc; }
+.erp-confirm-summary__row span { overflow-wrap: anywhere; }
+.erp-confirm-summary__empty, .erp-confirm-final { padding: 16px; text-align: center; line-height: 1.55; }
+.erp-confirm-action-started { pointer-events: none; opacity: .72; }
+@media (max-width: 575px) { .erp-confirm-summary__action, .erp-confirm-summary__context, .erp-confirm-summary__row { grid-template-columns: 1fr; gap: 3px; } }

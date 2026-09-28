@@ -1,0 +1,225 @@
+IS2320 – 24 Sep 2026
+- Fixed Daily Management Report 503 for central/master installations where authenticated businesses live in the current database even when the hostname is not listed in tenancy.central_domains.
+- Current database ownership is verified from the authenticated business row before any Stancl/legacy tenant fallback.
+- Prevents stale tenant mappings from switching a genuine central business to another database.
+- Keeps dynamic initialized tenants and copied standalone tenants unchanged.
+- Missing module-owned mgmt_* tables are still created safely only for a verified central/shared business database.
+- Resets the module connection-verification cache at the start of each request.
+
+IS2314 – 23 Sep 2026
+- Fixed Daily Management Report 503 for businesses that legitimately run in the configured central-domain database.
+- Added central-business database resolution without disturbing dynamic tenant/standalone tenant flows.
+- Added safe first-access creation of missing module-owned mgmt_* tables for central-business mode only.
+- No existing ERP table/data is altered or deleted by this fix.
+
+MANAGEMENT REPORT CLEAN INTEGRATION - CHANGED FILES
+===================================================
+
+Added:
+  Config/module_permissions.php
+  Docs/SAFE_GLOBAL_INTEGRATION_2026-07-29.md
+
+Changed:
+  Resources/views/layouts/partials/sidebar.blade.php
+    - Replaced copied global sidebar with a compact module-only sidebar.
+    - Uses the latest global AutomaticModuleRegistry and Manage permission keys.
+    - Does not include the global automatic sidebar again.
+
+  Services/Reports/Sections/SalesSectionService.php
+    - Unit Price now uses the actual tax-inclusive sales-line price.
+    - Discount calculation remains independent.
+
+  Services/Reports/Sections/OperatorSalesSectionService.php
+    - Detail and footer Total Sale use the signed sum of all preceding columns.
+
+  Resources/views/daily/sections/sales.blade.php
+    - Removed the Unit Price explanatory note.
+
+Removed from the active module:
+  Resources/views/layouts/sidebar.blade.php
+    - This was a second full copied global sidebar and caused recursive rendering.
+
+  modules_statuses.json
+    - Root modules_statuses.json remains controlled by the application.
+
+Moved to the correct application path:
+  Module-owned public assets are supplied only under:
+    public/modules/management-report/
+
+Unchanged:
+  Latest global sidebar framework
+  Latest Super Admin Manage framework
+  Latest permission discovery services
+  Latest application RouteServiceProvider
+  Root modules_statuses.json
+  public/index.php
+  Existing module migrations and SQL reference files
+
+8053 MANAGEMENT REPORT - 06 SEP 2026
+=====================================
+
+Added:
+  Services/Reports/Sections/ReceivedInSectionService.php
+    - Restores the missing Received In section immediately above the former Add / Less area.
+    - Uses current-period sale/purchase-return receipts plus finalized PD/SW/Direct Settlement sources.
+    - Keeps configured/custom payment channels instead of limiting the report to only Cash/Card/Cheque.
+    - Excludes shortage recovery and excess/commission so they remain in the dedicated 8053 Total Add / Out lines.
+
+  Resources/views/daily/sections/received-in.blade.php
+    - Displays Account / Payment Type, Received Amount and Total Received In.
+
+Changed:
+  Config/sections.php
+    - Adds selectable Received In section (order 25).
+    - Places Out immediately below Received In.
+    - Retains Total Add in the former Add / Less area.
+
+  Support/ReportContext.php
+  Http/Controllers/DailyReportController.php
+  Http/Controllers/SettingsController.php
+    - Legacy Add / Less selections/defaults now map to Received In + Out + Total Add.
+    - Existing stored defaults automatically include Received In without manual reconfiguration.
+
+  Database/SQL/03_Insert_Defaults.sql
+  Database/SQL/MGMT_MASTER_SQL.sql
+  Database/SQL/MGMT_MASTER_SQL_TENANT_DATABASE.sql
+  MGMT_MASTER_SQL_TENANT_DATABASE_FULL_IGNORE.sql
+    - New default report templates include Received In in the correct section sequence.
+
+8053 RECEIVED IN - ACCOUNTS MODULE SOURCE - 06 SEP 2026
+======================================================
+
+Changed:
+  Services/Reports/Sections/ReceivedInSectionService.php
+    - Replaced operational POS/settlement-source aggregation with Accounts Module ledger aggregation.
+    - Source of truth is now accounts + account_transactions.
+    - Received amounts are debit movements for the selected report period, excluding opening balances.
+    - Payment sectors are discovered from Business Location default_payment_accounts mappings.
+    - Supports all configured payment account groups and custom payment sectors.
+    - Standard Cash/Bank/Cheque/Card/CPC-style account groups are used only as a compatibility fallback.
+    - Uses business/date scope and available location/store scope without requiring account_transactions.location_id.
+    - Unpaid credit sales are no longer treated as Received In because no Accounts Module receipt exists.
+
+  Resources/views/daily/sections/received-in.blade.php
+    - Shows Account Sector, Accounts Module Account, and Received Amount.
+    - Adds sector totals and final Total Received In.
+
+Database changes:
+  None.
+
+IS2210 MANAGEMENT REPORT - 08 SEP 2026
+======================================
+
+Changed:
+  Services/Reports/Sections/AddLessSectionService.php
+    - Customer Payments Received now includes Customer Bulk and Customer Simple receipt entry points.
+    - Customer receipt date filtering uses full selected calendar dates.
+    - Shortage Recovered now reads shortage_bulk_payment parent receipts and legacy parentless allocations without double counting.
+    - Excess and Commission Paid now reads excess_bulk_payment parent receipts and legacy parentless allocations without double counting.
+
+  Services/Reports/Sections/SalesSectionService.php
+    - Finalized Settlement SW (SET-SW*) product sales are read directly from meter_sales / other_sales / other_incomes.
+    - SW product rows are grouped by product sub-category and merged with normal sale rows.
+    - Generated SET-SW sell transactions are excluded from the normal path when direct SW rows are available, preventing duplicate totals.
+
+  Services/Reports/Sections/OperatorSalesSectionService.php
+    - Finalized Settlement SW rows are now included in Sales by Cashiers / Pump Operators.
+    - SW payment breakdown is read from the shared settlement_* payment tables.
+    - SW Total Sale uses the saved meter_sales + other_sales + other_incomes source rows.
+    - Duplicate pump_operator_payments copies for the same saved settlement are suppressed.
+
+Database changes:
+  None.
+
+TOTAL ADD / TOTAL OUT SAME-SECTION LAYOUT - 08 SEP 2026
+======================================================
+
+Added:
+  Resources/views/daily/sections/total-add-out.blade.php
+    - Renders Total Add on the left and Total Out on the right inside one report section.
+    - Uses the existing responsive/print-safe two-column layout.
+    - Pads only the shorter table with blank display rows so both total footers align.
+
+Changed:
+  Resources/views/daily/partials/report-body.blade.php
+    - Detects Total Add + Total Out and renders them once as one combined visual section.
+    - Keeps the underlying section services and selection keys independent.
+    - Preserves correct numbering for old saved snapshots even if their stored order was Out then Total Add.
+
+  Resources/views/daily/sections/total-add.blade.php
+    - Supports optional display-row padding when used in the combined section.
+    - Existing Total Add calculation is unchanged.
+
+  Resources/views/daily/sections/out.blade.php
+    - Adds the requested Total Out footer using the existing OutSectionService total.
+    - Supports optional display-row padding so Total Out aligns with Total Add.
+
+  Services/Reports/Sections/OutSectionService.php
+    - Updates the maintenance note to reflect that the existing total is now displayed as Total Out.
+    - No calculation logic changed.
+
+  Config/sections.php
+    - Displays Total Add before Total Out in the report/section selector.
+    - Renames the Out display label to Total Out.
+
+Database changes:
+  None.
+
+Calculation changes:
+  None. This is a report layout/display change only.
+
+IS2213 MANAGEMENT REPORT - 08 SEP 2026
+======================================
+
+Changed:
+  Services/Reports/Sections/AddLessSectionService.php
+    - Customer Payments Received accepts the current customer payment entry types and valid standalone parent receipts.
+    - Parent allocation rows remain excluded so a single customer receipt is counted once.
+    - Customer receipts with a NULL payment location/store are no longer hidden by a selected report location/store.
+    - Shortage Recovered reads the authoritative shortage_bulk_payment parent transaction once.
+    - Excess and Commission Paid reads the authoritative excess_bulk_payment parent transaction once.
+    - Legacy fallback remains limited to parentless settlement/opening-balance payment rows.
+
+  Services/Reports/Sections/SalesSectionService.php
+    - Adds direct support for the standalone SW module's sw_* settlement tables.
+    - Only settled/final sw_settlements rows (status = 2) are reportable.
+    - Reads sw_settlement_lines, sw_other_sales and sw_other_income product rows and groups them by product sub-category.
+    - Reads product-level SW credit-sale detail when the tenant schema provides it.
+    - Excludes Finance-generated core sell copies for the same SW settlement to prevent duplicate product totals.
+
+  Services/Reports/Sections/OperatorSalesSectionService.php
+    - Adds standalone SW settlements to Sales by Cashiers / Pump Operators.
+    - Uses sw_settlements.total_sales as the authoritative Total Sale.
+    - Reads the saved SW collection/payment breakdown from sw_collections and sw_settlement_credit_sales.
+    - Supports cash deposit, credit sale, loan payment, customer loan and owner drawing payment classifications.
+    - Suppresses duplicate legacy operator rows for the same saved settlement number.
+
+Database changes:
+  None.
+
+Deployment:
+  Replace the ManagementReport module, run php artisan optimize:clear, then hard-refresh the report page.
+
+STOCK VALUE STATUS MOVEMENT BREAKDOWN - 25 SEP 2026
+===================================================
+
+Changed:
+  Services/Reports/Sections/StockValueSectionService.php
+    - Replaces the location/store row list with the requested stock-status movement breakdown.
+    - Keeps the proven historical closing-stock valuation as Balance Stock and as payload.total.
+    - Adds Opening Stock, Purchased Value, Sales Return, Stock Adjustment, Sold and Purchase Return.
+    - Stock Adjustment is positive for increase adjustments and negative for reduction adjustments.
+    - Opening Stock is the brought-forward value that reconciles the movement formula exactly to Balance Stock.
+
+  Resources/views/daily/sections/stock-value.blade.php
+    - Displays the six movement rows in the requested order.
+    - Displays Balance Stock as the section total.
+
+Required formula:
+  Balance Stock = Opening Stock + Purchased Value + Sales Return + Stock Adjustment - Sold - Purchase Return
+
+Database changes:
+  None.
+
+Deployment:
+  Replace the ManagementReport module, run php artisan optimize:clear, then hard-refresh the report page.

@@ -1,0 +1,19 @@
+<?php
+namespace Modules\Ran\Integrations;
+use App\AccountTransaction;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Modules\Finance\Entities\Account;
+use Modules\Ran\Entities\FinancePosting;
+use Modules\Ran\Support\RanContext;
+use RuntimeException;
+class FinanceIntegrationService {
+ public function dropdown(bool $prepend=true):Collection{$q=Account::query()->where('business_id',RanContext::businessId())->where('is_closed',0)->orderBy('name')->pluck('name','id');return $prepend?$q->prepend('Please select',''):$q;}
+ public function accountId(string $configKey):int{$name=(string)config('ran.default_accounts.'.$configKey);$id=Account::query()->where('business_id',RanContext::businessId())->where('is_closed',0)->whereRaw('LOWER(name)=?',[strtolower($name)])->value('id');if(!$id)throw new RuntimeException("Ran Finance account is missing: {$name}");return (int)$id;}
+ public function postPair(string $sourceType,int $sourceId,string $postingType,int $debitAccountId,int $creditAccountId,float $amount,string $date,string $note):FinancePosting{return DB::transaction(function()use($sourceType,$sourceId,$postingType,$debitAccountId,$creditAccountId,$amount,$date,$note){$existing=FinancePosting::query()->where(['source_type'=>$sourceType,'source_id'=>$sourceId,'posting_type'=>$postingType])->first();if($existing)return $existing;if($amount<=0)throw new RuntimeException('Accounting posting amount must be greater than zero.');$debit=AccountTransaction::createAccountTransaction(['business_id'=>RanContext::businessId(),'account_id'=>$debitAccountId,'amount'=>$amount,'type'=>'debit','sub_type'=>'ran','operation_date'=>$date,'created_by'=>RanContext::userId(),'note'=>$note,'skip_account_fallback'=>true]);$credit=AccountTransaction::createAccountTransaction(['business_id'=>RanContext::businessId(),'account_id'=>$creditAccountId,'amount'=>$amount,'type'=>'credit','sub_type'=>'ran','operation_date'=>$date,'created_by'=>RanContext::userId(),'note'=>$note,'skip_account_fallback'=>true]);return FinancePosting::create(['business_id'=>RanContext::businessId(),'location_id'=>RanContext::locationId(),'store_id'=>RanContext::storeId(),'source_type'=>$sourceType,'source_id'=>$sourceId,'posting_type'=>$postingType,'debit_account_id'=>$debitAccountId,'credit_account_id'=>$creditAccountId,'amount'=>$amount,'debit_account_transaction_id'=>$debit->id,'credit_account_transaction_id'=>$credit->id,'status'=>'posted']);});}
+ public function postPurchase($p):void{$this->postPair('purchase',$p->id,'purchase',$this->accountId('raw_material'),$this->accountId('accounts_payable'),(float)$p->total_amount,(string)$p->purchase_date,"Ran Purchase {$p->purchase_no}");}
+ public function postSupplierPayment($p):void{$this->postPair('supplier_payment',$p->id,'supplier_payment',$this->accountId('accounts_payable'),(int)$p->finance_account_id,(float)$p->amount,(string)$p->payment_date,"Ran Supplier Payment {$p->payment_no}");}
+ public function postSale($s):void{$this->postPair('sale',$s->id,'sale_revenue',$this->accountId('accounts_receivable'),$this->accountId('sales_income'),(float)$s->total_amount,(string)$s->invoice_date,"Ran Sale {$s->invoice_no}");$cost=(float)$s->lines()->sum('cost_amount');if($cost>0)$this->postPair('sale',$s->id,'sale_cost',$this->accountId('cost_of_goods'),$this->accountId('finished_goods'),$cost,(string)$s->invoice_date,"Ran COGS {$s->invoice_no}");}
+ public function postCustomerPayment($p):void{$this->postPair('customer_payment',$p->id,'customer_payment',(int)$p->finance_account_id,$this->accountId('accounts_receivable'),(float)$p->amount,(string)$p->payment_date,"Ran Customer Payment {$p->payment_no}");}
+ public function postReturn($r):void{$this->postPair('sale_return',$r->id,'sale_return',$this->accountId('sales_income'),$this->accountId('accounts_receivable'),(float)$r->total_amount,(string)$r->return_date,"Ran Sale Return {$r->return_no}");}
+}

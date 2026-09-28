@@ -1,0 +1,11 @@
+Rice Mill - Out Put Type filter adjustment - 21 Sep 2026
+
+1. Product Category now supports multiple selection and shows all Products New top-level Product Categories.
+2. Product Sub Category / Product is compulsory and supports multiple selection.
+3. When Product Categories are selected, only their linked Product Sub Categories are shown.
+4. The Output Products checkbox list remains hidden/empty until at least one Product Sub Category is selected.
+5. The Output Products checkbox list then shows only Products linked to the selected Product Sub Categories.
+6. Server-side validation rejects Output Products outside the selected Product Sub Categories.
+7. Output Product eligibility remains limited to Products under Rice and By Products, as previously requested.
+8. Only checked Output Products are mapped and shown in Mill Production.
+9. No database change is required.

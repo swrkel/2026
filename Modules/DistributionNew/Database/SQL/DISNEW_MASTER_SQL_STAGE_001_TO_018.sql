@@ -1,0 +1,1 @@
+-- Master SQL continuation: run Stage 001-017 master first, then DISNEW_018_scanner_barcode_qr.sql

@@ -1,0 +1,22 @@
+Settlement SW - Reconfirmation/Settlement Preview + Shift Isolation
+Date: 26 Sep 2026
+
+Purpose
+- Add the same confirmation discipline used by Petro PD/Petro Direct before saving an SW Settlement.
+- Ensure the preview and final print cannot combine rows from another SW Shift/operator/business.
+
+Main safeguards
+1. Save Settlement opens a Reconfirmation/Settlement Preview modal first.
+2. Preview includes Meter Sales, Other Sales, Other Income, Credit Sales and Payment Details.
+3. Confirmation button: "Confirm all the entered details are correct".
+4. Preview is rendered from the exact browser draft that is submitted; it does not re-query broad live data.
+5. Pump lookup requires the exact selected SW shift(s), business, location and operator.
+6. Server save verifies the operator is linked to EVERY selected SW shift and validates submitted pumps against the active business/location/operator context.
+7. Changing SW shift clears stale Meter Sale rows before the new shift is loaded.
+8. Daily Credit Sales are replaced on shift change, not accumulated from the previous shift.
+9. Daily payment rows already use authoritative replacement logic on shift change.
+10. After confirmation/save, View/Print uses the saved SW settlement snapshot tables for Meter/Other/Income/Credit rows, not live shift queries.
+11. The saved print includes those detail sections and their totals.
+
+Database
+- No SQL or migration required.

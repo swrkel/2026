@@ -1,0 +1,8 @@
+/* Product settings tabs styles kept inside the Product module. */
+.product-settings-tabs .nav-tabs {
+    margin-bottom: 12px;
+}
+
+.product-settings-tabs .tab-pane {
+    padding-top: 10px;
+}

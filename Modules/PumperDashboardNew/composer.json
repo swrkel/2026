@@ -1,0 +1,10 @@
+{
+  "name": "syzygy/pumper-dashboard-new",
+  "description": "Standalone Pumper Dashboard-New Laravel module",
+  "type": "laravel-module",
+  "autoload": {
+    "psr-4": {
+      "Modules\\PumperDashboardNew\\": ""
+    }
+  }
+}

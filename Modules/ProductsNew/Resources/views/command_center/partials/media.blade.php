@@ -1,0 +1,1 @@
+<div class="row">@forelse($workspace['media'] as $media)<div class="col-sm-3"><div class="productsnew-media-tile"><i class="fa fa-file"></i><span>{{ $media->title ?? $media->file_name ?? 'File' }}</span></div></div>@empty<div class="col-sm-12 text-muted">No media attached.</div>@endforelse</div>

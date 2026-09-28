@@ -1,0 +1,27 @@
+/* Super Admin Manage - stable parent/child permission hierarchy */
+.sa-module-parent-off .sa-module-parent-off-notice {
+    display: block;
+    margin: 12px 15px 0 15px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: #fff3cd;
+    color: #8a5a00;
+    font-weight: 700;
+    border: 1px solid #ffe8a1;
+}
+.sa-permission-disabled-child {
+    opacity: 0.55;
+}
+/* Never let old visual-lock CSS block the master module checkbox. */
+.sa-master-module-checkbox,
+.sa-master-module-checkbox + label,
+.sa-master-module-checkbox ~ label,
+.sa-master-module-checkbox.closest-fallback {
+    pointer-events: auto !important;
+    opacity: 1 !important;
+}
+/* Search-collapse should hide/show sections only; it must not block expanded section inputs. */
+.card:not(.sa-section-collapsed) input[type="checkbox"],
+.box:not(.sa-section-collapsed) input[type="checkbox"] {
+    pointer-events: auto;
+}

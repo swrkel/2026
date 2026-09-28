@@ -1,0 +1,13 @@
+{
+    "name": "SalesAgent",
+    "alias": "salesagent",
+    "description": "Standalone Sales Agent module",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SalesAgent\\Providers\\SalesAgentServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

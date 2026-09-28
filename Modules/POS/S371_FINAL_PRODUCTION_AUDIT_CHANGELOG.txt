@@ -1,0 +1,17 @@
+POS Standalone S371 - Final Production Audit & Hardening
+
+Scope completed in this parcel:
+1. Final production audit notes added for deployment and testing.
+2. Route inventory confirmed for /pos-module dashboard, sales, products, purchases, registers, shifts, cash drawer, returns, exchanges, reports, settings and standalone audit.
+3. UI standard reminder added: POS views now render through ERP system layout after S364 realignment and keep Communication Hub visual standard.
+4. SQL inventory confirmed: all standalone POS SQL files remain database-name-free and tenant-safe.
+5. Customers integration reminder added: POS should use standalone Customers module for customer lookup/ledger/statement flows; no old Contacts dependency should be reintroduced.
+6. Cache-clear deployment checklist included.
+
+Important deployment commands:
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+
+Browser:
+Hard refresh after upload: Ctrl + F5

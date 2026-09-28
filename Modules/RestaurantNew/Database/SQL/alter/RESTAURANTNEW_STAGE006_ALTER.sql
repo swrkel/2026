@@ -1,0 +1,2 @@
+-- Stage 006 creates new standalone billing tables only.
+-- No existing shared/core table is altered.

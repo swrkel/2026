@@ -1,0 +1,16 @@
+HR-003 Department / Designation / Shift Setup
+
+Replace/add the files in the same paths.
+Run Docs/raw-sql-HR-003.sql inside each tenant database.
+All new tables use the hr_ prefix and no database name is hardcoded.
+
+Main URL:
+/hr/setup
+
+This parcel includes:
+- Departments setup
+- Designations setup
+- Shift setup with grace/OT/night shift
+- Holidays setup
+- Weekly offs setup
+- Professional tabbed UI and modal forms

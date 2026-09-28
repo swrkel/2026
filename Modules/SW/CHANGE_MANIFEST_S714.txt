@@ -1,0 +1,67 @@
+S 714 - SW Module Testing - consolidated correction
+Date: 12 Sep 2026
+Base: user-supplied SW.zip (latest code in this chat)
+
+Issues corrected
+1. SW Operators - Pump Operators DataTable Ajax warning
+   - Made the operator data endpoint schema-compatible across existing tenant versions.
+   - Optional legacy/new columns and joins are now guarded before use.
+   - Active tenant user's business_id is preferred to avoid stale session business context.
+
+2. SW Operators - Excess / Shortage Payments stuck on Loading
+   - Made pump_operator_payments field selection compatible with tenant schemas that do not yet contain every newer optional column.
+   - Amount source safely falls back between net_amount and payment_amount.
+   - Optional settlement no, shift no, note, deleted_at and operator/location fields are guarded.
+
+3. SW Shifts - Daily Shift DataTable Ajax warning
+   - Daily shift endpoint now checks optional tables/columns before joining/reading them.
+   - Settlement-link status logic only uses sw_settlement_shifts.sw_shift_id when that exact column exists.
+   - Operator assignment list and opened-by user join are optional and cannot break the table.
+
+4. SW Shifts - Open New Shift save error: sw_number_sequences table missing
+   - NumberService now uses sw_number_sequences when available.
+   - Existing tenants without that table fall back to the already-saved SW shift/settlement numbers, so opening a shift no longer crashes.
+   - Fallback is protected with a MySQL/MariaDB advisory lock.
+   - CollectionFormNumberService received the same compatibility protection so Daily Cash cannot fail for the same missing-table reason.
+
+5. SW Shifts - Daily Cash Status Shift No field stuck on Loading
+   - Removed the user-visible Loading option from the shift selector.
+   - The control now starts with Please Select while the request runs.
+   - Added failure handling so it never remains indefinitely disabled/loading if the endpoint fails.
+   - Cash Status now prefers the active tenant user's business_id.
+
+6. SW Payments - DataTable warning on page load
+   - Daily Cash endpoint made compatible with old/new SW daily-cash schemas and derives missing current/running fields where possible.
+   - Daily Cards supports both current card_type_account_id/slip_no fields and older account_id/reference/card_type layouts.
+   - Daily Cheques safely returns an empty valid dataset when the optional table is not installed, rather than causing a DataTables Ajax warning.
+   - Daily Credit Sales now tolerates older schemas without the newer display/cache columns and derives safe display values.
+   - Daily Shortage/Excess safely handles missing optional table/settled_amount fields.
+   - Action partials were hardened against optional legacy properties.
+
+Files changed
+- Services/NumberService.php
+- Services/CollectionFormNumberService.php
+- Http/Controllers/OperatorController.php
+- Http/Controllers/DailyShiftController.php
+- Http/Controllers/DailyCashController.php
+- Http/Controllers/DailyCardController.php
+- Http/Controllers/DailyChequeController.php
+- Http/Controllers/DailyCreditSaleController.php
+- Http/Controllers/ShortageExcessController.php
+- Http/Controllers/CashStatusController.php
+- Resources/views/operators/partials/daily_cash_status.blade.php
+- Resources/views/operators/partials/shortage_excess_actions.blade.php
+- Resources/views/operators/partials/operator_actions.blade.php
+
+Safety / validation
+- Changes are confined to the SW module.
+- No existing settlement save/finance posting/tank-stock code was changed.
+- No existing database rows are altered by this parcel.
+- All 128 PHP/Blade PHP files passed php -l syntax validation.
+- ZIP integrity checked after packaging.
+
+After upload
+cd /home/nivasa/public_html
+php artisan optimize:clear
+
+No SQL import is required for this consolidated compatibility parcel.

@@ -1,0 +1,51 @@
+Help Guide Article Save Timeout Fix - 07 Sep 2026
+=================================================
+
+Issue
+-----
+Saving an article through:
+/superadmin/help-guide-modules/articles/save
+could time out.
+
+Root cause
+----------
+ArticleAdminController::save() saved the English article and then immediately
+called TranslationService::translateAll(). TranslationService translates title,
+summary, and every non-empty HTML text node for every active non-English
+language using external HTTP requests. Each request can wait up to the configured
+translation timeout (25 seconds by default), so rich articles and/or multiple
+languages can exceed the web request timeout.
+
+Fix
+---
+1. Article save is now DB-only and returns immediately after saving.
+2. Existing ready translations with the same source hash remain ready.
+3. Changed/missing translations are marked pending without external HTTP calls.
+4. Translation-status bookkeeping cannot turn an already-saved English article
+   into a failed save response.
+5. Existing List Articles -> Retry action remains available for translation
+   refresh.
+6. Editor wording/button labels were updated to match the non-blocking save flow.
+
+Changed files
+-------------
+HelpGuide/Http/Controllers/ArticleAdminController.php
+HelpGuide/Services/TranslationService.php
+HelpGuide/Resources/views/admin/articles.blade.php
+
+Database / SQL
+--------------
+No database migration or SQL change is required.
+
+After deployment
+----------------
+Run:
+php artisan optimize:clear
+
+Recommended test
+----------------
+1. Open Help Guide -> Articles.
+2. Create/edit a large article.
+3. Click Save/Update Article.
+4. Confirm redirect returns promptly and the English article is saved.
+5. Open List Articles and use Retry if non-English translations need refresh.

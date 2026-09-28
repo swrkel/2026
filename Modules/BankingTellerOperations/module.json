@@ -1,0 +1,17 @@
+{
+    "name": "BankingCoreTeller",
+    "alias": "banking-core-teller",
+    "description": "BKG-CORE-002 General Banking / Teller Operations standalone module",
+    "keywords": [
+        "banking",
+        "core",
+        "teller",
+        "cash",
+        "vault"
+    ],
+    "priority": 102,
+    "providers": [
+        "Modules\\BankingTellerOperations\\Providers\\BankingCoreTellerServiceProvider"
+    ],
+    "aliases": {}
+}

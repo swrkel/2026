@@ -1,0 +1,41 @@
+POS S371 Deployment Checklist
+
+1. Upload/replace the complete Modules/POS folder from this parcel.
+2. Run tenant-safe SQL only if not already applied:
+   - Modules/POS/Database/SQL/pos_standalone_master.sql
+3. Clear Laravel cache:
+   php artisan optimize:clear
+   php artisan route:clear
+   php artisan view:clear
+4. Test URLs:
+   /pos-module
+   /pos-module/sales/workspace
+   /pos-module/products
+   /pos-module/purchases
+   /pos-module/registers
+   /pos-module/shifts
+   /pos-module/cash-drawer
+   /pos-module/returns
+   /pos-module/exchanges
+   /pos-module/reports
+   /pos-module/settings
+   /pos-module/standalone-audit
+5. Confirm UI:
+   - Same ERP sidebar/header from system layout.
+   - Communication Hub style cards, buttons, table spacing and fonts.
+6. Confirm core flows:
+   - Sale checkout
+   - Hold/resume sale
+   - Receipt print
+   - Purchase stock
+   - Stock adjustment
+   - Register open/close
+   - Shift open/close
+   - Cash in/out
+   - Return/refund/exchange
+   - Reports/export
+   - Settings save
+7. Confirm Customers module integration:
+   - Customer search
+   - Credit sale
+   - Customer ledger/statement posting

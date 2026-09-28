@@ -1,0 +1,13 @@
+SUPER ADMIN / SUPER ADMIN SETTINGS / BANNERS
+Update: 19 Sep 2026
+
+Banner Add/Edit upload restrictions removed:
+- No application-level maximum banner file weight.
+- No application-level maximum banner pixel width/height.
+- Uploaded banner files are stored at their original dimensions/quality without forced 400x400 resizing.
+- Supported image-type validation remains (JPEG, JPG, PNG, GIF, SVG).
+- Add still supports multiple banner images in one submission.
+- Edit remains a single replacement-image operation.
+
+Note: Web-server/PHP infrastructure limits such as upload_max_filesize, post_max_size,
+proxy/body limits, or hosting limits are outside this module and may still apply if configured.

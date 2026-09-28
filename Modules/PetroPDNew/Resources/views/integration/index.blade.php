@@ -1,0 +1,16 @@
+@extends('petropdnew::layouts.app')
+@section('title','PD Integration Monitor')
+@section('page_title','PD Integration Monitor')
+@section('pdnew_content')
+<div class="pdn-page-head"><div><h2>Integration Monitor</h2><p>Exclusive Pumper Dashboard-New source verification and final settlement-reference writeback.</p></div><div class="pdn-actions">
+@can('petro_pd_new.integration.manage')<form method="post" action="{{ route('petro-pd-new.integration.verify-sources') }}" data-prevent-double-submit>@csrf<button class="pdn-btn purple">Verify All Sources</button></form><form method="post" action="{{ route('petro-pd-new.integration.retry-all') }}" data-prevent-double-submit>@csrf<button class="pdn-btn warning">Retry Pending/Failed</button></form>@endcan
+</div></div>
+@if($changedSources->isNotEmpty())<div class="pdn-alert error"><strong>{{ $changedSources->count() }} changed source snapshot(s)</strong> require review before their settlements can be finalized.</div>@endif
+<div class="pdn-card"><h3>Integration Outbox</h3><form method="get" class="pdn-toolbar"><div class="pdn-field"><label>Status</label><select class="pdn-select" name="status"><option value="">All</option>@foreach(['pending','processing','processed','failed'] as $status)<option value="{{ $status }}" @selected(request('status')===$status)>{{ ucfirst($status) }}</option>@endforeach</select></div><button class="pdn-btn primary">Apply</button></form>
+<div class="pdn-table-wrap"><table class="pdn-table"><thead><tr><th>ID</th><th>Event</th><th>Aggregate</th><th>Status</th><th>Attempts</th><th>Available</th><th>Processed</th><th>Error</th><th>Action</th></tr></thead><tbody>
+@forelse($jobs as $row)<tr><td>{{ $row->id }}</td><td>{{ $row->event_type }}</td><td>{{ $row->aggregate_type }} #{{ $row->aggregate_id }}</td><td><span class="pdn-badge {{ $row->status }}">{{ $row->status }}</span></td><td>{{ $row->attempts }}</td><td>{{ optional($row->available_at)->format('d M Y H:i') }}</td><td>{{ optional($row->processed_at)->format('d M Y H:i') ?: '—' }}</td><td>{{ $row->last_error ?: '—' }}</td><td>@can('petro_pd_new.integration.manage')<form method="post" action="{{ route('petro-pd-new.integration.retry',$row->id) }}">@csrf<button class="pdn-btn small warning">Retry</button></form>@endcan</td></tr>@empty<tr><td colspan="9" class="pdn-empty">No integration operations.</td></tr>@endforelse
+</tbody></table></div><div class="pdn-pagination">{{ $jobs->links() }}</div></div>
+<div class="pdn-card" style="margin-top:14px"><h3>Recent Integration Logs</h3><div class="pdn-table-wrap"><table class="pdn-table"><thead><tr><th>ID</th><th>Direction</th><th>Operation</th><th>Aggregate</th><th>Status</th><th>Started</th><th>Completed</th><th>Error</th></tr></thead><tbody>
+@forelse($logs as $row)<tr><td>{{ $row->id }}</td><td>{{ $row->direction }}</td><td>{{ $row->operation }}</td><td>{{ $row->aggregate_type }} #{{ $row->aggregate_id }}</td><td><span class="pdn-badge {{ $row->status }}">{{ $row->status }}</span></td><td>{{ optional($row->started_at)->format('d M Y H:i') }}</td><td>{{ optional($row->completed_at)->format('d M Y H:i') ?: '—' }}</td><td>{{ $row->error_message ?: '—' }}</td></tr>@empty<tr><td colspan="8" class="pdn-empty">No integration logs.</td></tr>@endforelse
+</tbody></table></div><div class="pdn-pagination">{{ $logs->links() }}</div></div>
+@endsection

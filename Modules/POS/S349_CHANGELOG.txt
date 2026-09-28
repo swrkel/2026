@@ -1,0 +1,14 @@
+POS Standalone S349 - Customers, Credit Sales, Ledger and Statements
+
+Included:
+1. Added standalone POS customer master.
+2. Added standalone POS customer ledger table and service.
+3. Added customer list, add/edit, ledger, receive payment and statement pages.
+4. Added credit-sale ledger posting during POS checkout when payment method is Credit and a POS customer is selected.
+5. Added POS sidebar customer entry.
+6. Added database-agnostic raw SQL script.
+
+Important:
+- This parcel keeps POS customer records inside POS tables only.
+- It does not use Contacts, Customers module, main ledgers or main customer files.
+- Run Modules/POS/Database/SQL/pos_standalone_s349_customers_credit_ledger.sql after selecting the correct tenant database.

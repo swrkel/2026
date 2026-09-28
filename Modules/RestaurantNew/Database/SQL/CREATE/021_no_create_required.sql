@@ -1,0 +1,1 @@
+-- Stage 021 contains support/readiness files only. No new create table SQL required.

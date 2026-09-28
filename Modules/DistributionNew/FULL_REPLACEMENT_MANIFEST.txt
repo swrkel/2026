@@ -1,0 +1,5 @@
+DistributionNew full replacement package
+Includes stages 001 to 024 where available in generated source.
+Generated with 892 filesystem entries.
+Replace Modules/DistributionNew with this folder.
+Run Database/Sql/DISNEW_MASTER_001_TO_024.sql or tenant migrations.

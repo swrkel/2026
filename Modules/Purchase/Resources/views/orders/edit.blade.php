@@ -1,0 +1,1 @@
+@extends('purchase::entries.edit')

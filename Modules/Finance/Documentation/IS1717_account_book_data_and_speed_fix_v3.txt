@@ -1,0 +1,26 @@
+IS1717 Finance Account Book - Data + Instant Loading Fix V3
+Date: 21 July 2026
+
+Scope
+-----
+Finance module files only. No root app/, root resources/, or root routes/ files are changed.
+
+Fixes
+-----
+1. Account Book data now uses a dedicated Finance-owned JSON endpoint.
+2. DataTables uses true server-side pagination and returns only 25 rows initially.
+3. The first unfiltered/all-history AJAX request has been removed.
+4. Default date range is applied before the first data request.
+5. Debit, credit, opening balance, running balance, filtered totals and ending balance are returned in the same request.
+6. Filtering supports date, transaction type, customer, supplier, amount, cheque number, slip number, card type and search.
+7. The query uses joins and grouped totals only; it does not run per-row database lookups.
+8. Missing realize_date is always normalized, preventing DataTables unknown-column warnings.
+
+Files
+-----
+Modules/Finance/Http/Controllers/AccountController.php
+Modules/Finance/Routes/accounting_module.php
+Modules/Finance/Resources/views/account/show.blade.php
+Modules/Finance/Services/Accounts/AccountBookDataService.php
+
+No SQL or migration is required.

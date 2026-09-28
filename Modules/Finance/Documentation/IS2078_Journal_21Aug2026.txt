@@ -1,0 +1,26 @@
+IS2078 – Journal – 21 Aug 2026
+
+1. Journal transaction date integrity
+- Native Journal date field submits ISO Y-m-d.
+- Finance JournalController resolves the date once and persists the same canonical date to:
+  journals.date
+  account_transactions.operation_date
+  transactions.transaction_date
+  contact_ledgers.operation_date
+  opening-balance account transactions
+- Prevents day/month reversal such as 2026-08-01 becoming 2026-01-08.
+- Edit/save of an older affected journal re-synchronises its linked ledger dates.
+
+2. Account Book description
+- Journal source number now displays JOUR + zero-padded journal_id, e.g. JOUR0003.
+
+3. PetroGeneral Pump Operator ledger
+- Restored Finance Journal reader removed by the later PetroGeneral live baseline.
+- Reads authoritative journals rows linked by show_in_ledger=pump_operator and pump_operator id.
+- Recovery fallback reads linked transactions/contact_ledgers for older tenant data.
+- Journal debit/credit rows are rendered in the Pump Operator ledger and included in running balance.
+- Current Pumper Management Daily Collection and Excess/Shortage route fixes are preserved.
+
+Database
+- No new IS2078 schema change.
+- Existing IS2073 idempotent compatibility SQL remains under Finance/Database/SQL for tenants that have not yet added/hardened Journal ledger-link columns.

@@ -1,0 +1,8 @@
+Distribution New Full Replacement 001 to 023
+
+1. Backup current code and tenant databases.
+2. Replace Modules/DistributionNew with the DistributionNew folder in this ZIP.
+3. Run Database/Sql/DISNEW_MASTER_SQL_STAGE_001_TO_023.sql on every tenant database, or run Laravel migrations from DistributionNew/Database/Migrations.
+4. Clear application/cache/route/view config caches as per your deployment process.
+5. Enable Distribution New permissions in Super Admin / Manage.
+6. Open /distribution-new and /distribution-new/final-readiness to verify UI visibility.

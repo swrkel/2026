@@ -1,0 +1,82 @@
+-- HOTELMGT_040_SQL.sql
+-- Parcel 040 only: Hotel Staff Payroll / Payroll Cost Control.
+-- Execute inside each tenant database. No database name is hardcoded.
+
+CREATE TABLE IF NOT EXISTS `hm_staff_payroll_rules` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `staff_id` BIGINT UNSIGNED NOT NULL,
+  `salary_type` VARCHAR(40) NOT NULL DEFAULT 'monthly',
+  `basic_salary` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `ot_rate` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `allowance_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `deduction_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `effective_from` DATE NOT NULL,
+  `status` VARCHAR(40) NOT NULL DEFAULT 'active',
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hm_staff_payroll_rules_business_staff_idx` (`business_id`, `staff_id`),
+  KEY `hm_staff_payroll_rules_location_idx` (`business_location_id`),
+  KEY `hm_staff_payroll_rules_status_idx` (`status`),
+  KEY `hm_staff_payroll_rules_effective_idx` (`effective_from`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hm_staff_payroll_runs` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `payroll_no` VARCHAR(60) NULL,
+  `period_from` DATE NOT NULL,
+  `period_to` DATE NOT NULL,
+  `pay_date` DATE NULL,
+  `department` VARCHAR(100) NULL,
+  `gross_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `deduction_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `net_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `status` VARCHAR(40) NOT NULL DEFAULT 'draft',
+  `remarks` TEXT NULL,
+  `approved_by` BIGINT UNSIGNED NULL,
+  `approved_at` TIMESTAMP NULL DEFAULT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hm_staff_payroll_runs_business_period_idx` (`business_id`, `period_from`, `period_to`),
+  KEY `hm_staff_payroll_runs_location_idx` (`business_location_id`),
+  KEY `hm_staff_payroll_runs_status_idx` (`status`),
+  KEY `hm_staff_payroll_runs_payroll_no_idx` (`payroll_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hm_staff_payroll_lines` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `payroll_run_id` BIGINT UNSIGNED NOT NULL,
+  `staff_id` BIGINT UNSIGNED NOT NULL,
+  `payroll_rule_id` BIGINT UNSIGNED NULL,
+  `attendance_days` DECIMAL(8,2) NOT NULL DEFAULT 0.00,
+  `ot_hours` DECIMAL(8,2) NOT NULL DEFAULT 0.00,
+  `basic_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `ot_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `allowance_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `deduction_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `gross_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `net_amount` DECIMAL(20,4) NOT NULL DEFAULT 0.0000,
+  `status` VARCHAR(40) NOT NULL DEFAULT 'draft',
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hm_staff_payroll_lines_business_run_idx` (`business_id`, `payroll_run_id`),
+  KEY `hm_staff_payroll_lines_location_idx` (`business_location_id`),
+  KEY `hm_staff_payroll_lines_staff_idx` (`staff_id`),
+  KEY `hm_staff_payroll_lines_status_idx` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -1,0 +1,4 @@
+<?php
+namespace Modules\Ran\Http\Controllers;
+use Illuminate\Http\Request;use Modules\Ran\Entities\{RateCard,Metal,Purity};
+class RateCardController extends RanController {public function index(){return view('ran::rates.index',array_merge($this->pageOptions(),['rates'=>RateCard::with(['metal','purity'])->latest('effective_date')->paginate(25),'metals'=>Metal::where('is_active',1)->pluck('name','id'),'purities'=>Purity::where('is_active',1)->pluck('name','id')]));} public function store(Request $request){RateCard::create($request->validate(['effective_date'=>'required|date','location_id'=>'nullable|integer','metal_id'=>'required|integer','purity_id'=>'nullable|integer','purchase_rate'=>'required|numeric|min:0','sale_rate'=>'required|numeric|min:0','rate_unit'=>'required|in:gram,ounce,piece']));return back()->with('status','Metal rate saved.');} public function destroy(RateCard $rate){$rate->delete();return back()->with('status','Rate removed.');}}

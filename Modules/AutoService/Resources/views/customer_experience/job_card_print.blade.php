@@ -1,0 +1,11 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Customer Job Card - {{ $job->job_no }}</title>
+<style>body{font-family:Arial,sans-serif;color:#1f2d3d}.wrap{max-width:900px;margin:auto}.header{border-bottom:2px solid #1f6fb2;margin-bottom:15px;padding-bottom:10px}.box{border:1px solid #d9e2ec;border-radius:6px;padding:12px;margin-bottom:12px}.table{width:100%;border-collapse:collapse}.table th,.table td{border:1px solid #d9e2ec;padding:7px;font-size:12px}.text-right{text-align:right}@media print{.no-print{display:none}}</style>
+</head><body><div class="wrap">
+<div class="header"><h2>Service Job Card</h2><p><strong>Job No:</strong> {{ $job->job_no }} | <strong>Status:</strong> {{ ucwords(str_replace('_',' ', $job->status)) }}</p></div>
+<button class="no-print" onclick="window.print()">Print / Save PDF</button>
+<div class="box"><h3>Vehicle</h3><table class="table"><tr><th>Vehicle No</th><td>{{ $vehicle->registration_no ?? '-' }}</td><th>Make / Model</th><td>{{ trim(($vehicle->make ?? '').' '.($vehicle->model ?? '')) }}</td></tr><tr><th>VIN</th><td>{{ $vehicle->vin ?? '-' }}</td><th>Odometer</th><td>{{ number_format((float)($job->odometer ?? $vehicle->current_odometer ?? 0),0) }}</td></tr></table></div>
+<div class="box"><h3>Service Details</h3><table class="table"><tr><th>Job Date</th><td>{{ $job->job_date }}</td><th>Estimated Completion</th><td>{{ $job->estimated_completion_at ?? $job->estimated_delivery_at ?? '-' }}</td></tr><tr><th>Complaint</th><td colspan="3">{{ $job->customer_complaint ?? '-' }}</td></tr><tr><th>Customer Visible Note</th><td colspan="3">{{ $job->customer_visible_note ?? '-' }}</td></tr></table></div>
+<div class="box"><h3>Timeline</h3><table class="table"><thead><tr><th>Date/Time</th><th>Event</th><th>Description</th></tr></thead><tbody>@foreach($timeline as $item)<tr><td>{{ $item->event_at }}</td><td>{{ $item->title }}</td><td>{{ $item->description }}</td></tr>@endforeach</tbody></table></div>
+<div class="box"><h3>Customer Documents / Photos</h3><table class="table"><thead><tr><th>Type</th><th>Title</th><th>Status</th></tr></thead><tbody>@forelse($documents as $doc)<tr><td>{{ $doc->document_type }}</td><td>{{ $doc->title }}</td><td>{{ $doc->document_status }}</td></tr>@empty<tr><td colspan="3">No customer-visible documents.</td></tr>@endforelse</tbody></table></div>
+</div></body></html>

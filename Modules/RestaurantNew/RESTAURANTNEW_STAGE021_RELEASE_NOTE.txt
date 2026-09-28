@@ -1,0 +1,5 @@
+RestaurantNew Stage 021
+
+This package adds post-production testing support files, readiness checklist, troubleshooting notes, install order, support route, and readiness controller/view.
+
+Apply after Stage 020 if you want server verification support screens and documentation.

@@ -1,0 +1,7 @@
+@extends('communicationhub::layout')
+@section('title', $title ?? 'Enterprise Excellence')
+@section('content')
+<style>.ch-card{background:#fff;border:1px solid #e7edf5;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 8px 22px rgba(15,23,42,.05)}.ch-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.ch-stat{background:#f8fafc;border:1px solid #e7edf5;border-radius:12px;padding:16px}.ch-stat h3{margin:0;font-size:24px;font-weight:700}.ch-stat p{margin:4px 0 0;color:#64748b}.ch-table{width:100%;border-collapse:collapse}.ch-table th,.ch-table td{padding:10px 12px;border-bottom:1px solid #edf2f7;vertical-align:top}.ch-table th{font-weight:600;color:#475569;background:#f8fafc}.ch-badge{display:inline-block;padding:4px 9px;border-radius:999px;background:#eef2ff;font-size:12px}.ch-toolbar{display:flex;gap:8px;align-items:end;flex-wrap:wrap}.ch-toolbar .form-control{min-width:150px}@media(max-width:900px){.ch-grid{grid-template-columns:1fr}.ch-toolbar .form-control{width:100%}}</style>
+<div class="container-fluid">
+<h3>Final Enterprise Audit</h3><div class="ch-card"><table class="ch-table"><thead><tr><th>Required Table</th><th>Status</th><th>Rows</th></tr></thead><tbody>@foreach($checks as $c)<tr><td>{{ $c['table'] }}</td><td><span class="ch-badge">{{ $c['exists'] ? 'OK' : 'Missing' }}</span></td><td>{{ number_format($c['rows']) }}</td></tr>@endforeach</tbody></table></div></div>
+@endsection

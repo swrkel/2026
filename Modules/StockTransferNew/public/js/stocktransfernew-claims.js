@@ -1,0 +1,1 @@
+(function(){document.addEventListener('submit',function(e){var f=e.target;if(f.matches('.stn-action-row form,.stn-inline-form')){var b=f.querySelector('button[type="submit"],button:not([type])');if(b){b.disabled=true;b.dataset.oldText=b.innerText;b.innerText='Processing...';}}});})();

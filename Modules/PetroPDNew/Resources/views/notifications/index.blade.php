@@ -1,0 +1,15 @@
+@extends('petropdnew::layouts.app')
+@section('title','Petro PD-New Notifications')
+@section('page_title','Notification Templates')
+@section('pdnew_content')
+<div class="pdn-page-head"><div><h2>Notification Templates</h2><p>Petro PD-New-owned settlement event messages and delivery records.</p></div></div>
+<div class="pdn-card"><h3>Add or Replace Template</h3><form method="post" action="{{ route('petro-pd-new.notifications.store') }}" class="pdn-form-grid" data-prevent-double-submit>@csrf
+<div class="pdn-field"><label>Event Key</label><input class="pdn-input" name="event_key" placeholder="settlement.finalized" required></div><div class="pdn-field"><label>Name</label><input class="pdn-input" name="name" required></div><div class="pdn-field"><label>Subject</label><input class="pdn-input" name="subject"></div>
+<div class="pdn-field full"><label>Message Body</label><textarea class="pdn-textarea" name="body" required></textarea></div><div class="pdn-field"><label>Channels</label><select class="pdn-select" name="channels[]" multiple><option value="system">System</option><option value="email">Email</option><option value="sms">SMS</option><option value="whatsapp">WhatsApp</option></select></div><label class="pdn-check"><input type="hidden" name="is_active" value="0"><input type="checkbox" name="is_active" value="1" checked> Active</label><div class="full pdn-actions"><button class="pdn-btn success">Save Template</button></div></form></div>
+<div class="pdn-card" style="margin-top:14px"><h3>Templates</h3><div class="pdn-table-wrap"><table class="pdn-table"><thead><tr><th>Event</th><th>Name</th><th>Subject</th><th>Channels</th><th>Status</th><th>Body</th><th>Action</th></tr></thead><tbody>
+@forelse($templates as $row)<tr><td>{{ $row->event_key }}</td><td>{{ $row->name }}</td><td>{{ $row->subject ?: '—' }}</td><td>{{ implode(', ',(array)$row->channels) }}</td><td><span class="pdn-badge {{ $row->is_active ? 'success' : 'danger' }}">{{ $row->is_active ? 'Active' : 'Inactive' }}</span></td><td>{{ \Illuminate\Support\Str::limit($row->body,80) }}</td><td><form method="post" action="{{ route('petro-pd-new.notifications.destroy',$row->id) }}" data-confirm="Remove this notification template?">@csrf @method('DELETE')<button class="pdn-btn small danger">Delete</button></form></td></tr>@empty<tr><td colspan="7" class="pdn-empty">No notification templates.</td></tr>@endforelse
+</tbody></table></div></div>
+<div class="pdn-card" style="margin-top:14px"><h3>Recent Delivery Logs</h3><div class="pdn-table-wrap"><table class="pdn-table"><thead><tr><th>Event</th><th>Settlement</th><th>Channel</th><th>Recipient</th><th>Status</th><th>Sent/Failed</th></tr></thead><tbody>
+@forelse($logs as $row)<tr><td>{{ $row->event_key }}</td><td>{{ $row->settlement_id ?: '—' }}</td><td>{{ $row->channel }}</td><td>{{ $row->recipient }}</td><td><span class="pdn-badge {{ $row->status }}">{{ $row->status }}</span></td><td>{{ optional($row->sent_at ?: $row->failed_at)->format('d M Y H:i') }}</td></tr>@empty<tr><td colspan="6" class="pdn-empty">No notification delivery logs.</td></tr>@endforelse
+</tbody></table></div></div>
+@endsection

@@ -1,0 +1,100 @@
+CREATE TABLE IF NOT EXISTS restaurant_new_analytics_snapshots (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  snapshot_date DATE NOT NULL,
+  gross_sales DECIMAL(22,4) NOT NULL DEFAULT 0,
+  net_sales DECIMAL(22,4) NOT NULL DEFAULT 0,
+  discount_total DECIMAL(22,4) NOT NULL DEFAULT 0,
+  tax_total DECIMAL(22,4) NOT NULL DEFAULT 0,
+  service_charge_total DECIMAL(22,4) NOT NULL DEFAULT 0,
+  food_cost_total DECIMAL(22,4) NOT NULL DEFAULT 0,
+  gross_profit DECIMAL(22,4) NOT NULL DEFAULT 0,
+  food_cost_percentage DECIMAL(12,4) NOT NULL DEFAULT 0,
+  order_count INT NOT NULL DEFAULT 0,
+  guest_count INT NOT NULL DEFAULT 0,
+  table_turns INT NOT NULL DEFAULT 0,
+  kpi_payload JSON NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  UNIQUE KEY rn_analytics_snapshot_unique (business_id, location_id, snapshot_date),
+  KEY rn_analytics_business_idx (business_id),
+  KEY rn_analytics_location_idx (location_id)
+);
+
+CREATE TABLE IF NOT EXISTS restaurant_new_menu_profitability (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  menu_item_id BIGINT UNSIGNED NOT NULL,
+  period_date DATE NOT NULL,
+  qty_sold DECIMAL(22,4) NOT NULL DEFAULT 0,
+  sales_total DECIMAL(22,4) NOT NULL DEFAULT 0,
+  recipe_cost_total DECIMAL(22,4) NOT NULL DEFAULT 0,
+  gross_margin DECIMAL(22,4) NOT NULL DEFAULT 0,
+  margin_percentage DECIMAL(12,4) NOT NULL DEFAULT 0,
+  void_count INT NOT NULL DEFAULT 0,
+  complaint_count INT NOT NULL DEFAULT 0,
+  performance_band VARCHAR(40) NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  KEY rn_menu_profit_business_idx (business_id),
+  KEY rn_menu_profit_location_idx (location_id),
+  KEY rn_menu_profit_item_idx (menu_item_id)
+);
+
+CREATE TABLE IF NOT EXISTS restaurant_new_hourly_sales_trends (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  trend_date DATE NOT NULL,
+  hour_no TINYINT UNSIGNED NOT NULL,
+  net_sales DECIMAL(22,4) NOT NULL DEFAULT 0,
+  order_count INT NOT NULL DEFAULT 0,
+  guest_count INT NOT NULL DEFAULT 0,
+  average_bill_value DECIMAL(22,4) NOT NULL DEFAULT 0,
+  order_type_breakdown JSON NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  KEY rn_hourly_business_idx (business_id),
+  KEY rn_hourly_location_idx (location_id),
+  KEY rn_hourly_date_idx (trend_date)
+);
+
+CREATE TABLE IF NOT EXISTS restaurant_new_table_utilization (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  table_id BIGINT UNSIGNED NULL,
+  utilization_date DATE NOT NULL,
+  turn_count INT NOT NULL DEFAULT 0,
+  guest_count INT NOT NULL DEFAULT 0,
+  occupied_minutes INT NOT NULL DEFAULT 0,
+  sales_total DECIMAL(22,4) NOT NULL DEFAULT 0,
+  revenue_per_seat DECIMAL(22,4) NOT NULL DEFAULT 0,
+  hourly_usage JSON NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  KEY rn_table_util_business_idx (business_id),
+  KEY rn_table_util_location_idx (location_id),
+  KEY rn_table_util_table_idx (table_id)
+);
+
+CREATE TABLE IF NOT EXISTS restaurant_new_forecast_runs (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  forecast_date DATE NOT NULL,
+  forecast_type VARCHAR(60) NOT NULL,
+  forecast_sales DECIMAL(22,4) NOT NULL DEFAULT 0,
+  forecast_orders INT NOT NULL DEFAULT 0,
+  forecast_payload JSON NULL,
+  confidence_score DECIMAL(8,4) NOT NULL DEFAULT 0,
+  status VARCHAR(40) NOT NULL DEFAULT 'generated',
+  created_by BIGINT UNSIGNED NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  KEY rn_forecast_business_idx (business_id),
+  KEY rn_forecast_location_idx (location_id),
+  KEY rn_forecast_date_idx (forecast_date)
+);

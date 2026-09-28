@@ -1,0 +1,12 @@
+Finance Account Book – Font and Width Adjustments
+Date: 11 Sep 2026
+
+Changes:
+1. Increased Account Book table font sizes by 70% from the prior effective sizes.
+2. Opening Balance width now exactly matches Remaining Balance width (4.5%).
+3. Card / Cheque Number width increased by 60% (2.63% -> 4.21%).
+4. Existing Date & Time correction and all prior cumulative Finance fixes retained.
+5. Reconcile Status remains removed from the visible Account Book, per user instruction.
+
+Database changes: None.
+Migration/SQL required: No.

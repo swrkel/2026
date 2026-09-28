@@ -1,0 +1,86 @@
+/* ERP Experience Framework V2 - Toolbar + Buttons + Control Tokens
+   Safe layer: loads after the approved EXF tab standard. Does not change page layout. */
+:root{
+  --erp-control-height-sm:32px;
+  --erp-control-height-md:36px;
+  --erp-control-radius:7px;
+  --erp-control-font-size:13px;
+  --erp-control-icon-size:14px;
+  --erp-control-gap:5px;
+  --erp-control-padding-x:10px;
+  --erp-primary:#2563eb;
+  --erp-secondary:#64748b;
+  --erp-success:#16a34a;
+  --erp-warning:#d97706;
+  --erp-danger:#dc2626;
+  --erp-info:#0891b2;
+  --erp-dark:#334155;
+  --erp-light:#f8fafc;
+}
+.erp-btn,
+.btn.erp-btn,
+a.erp-btn,
+button.erp-btn{
+  min-height:var(--erp-control-height-sm) !important;
+  height:auto !important;
+  padding:5px var(--erp-control-padding-x) !important;
+  border-radius:var(--erp-control-radius) !important;
+  font-size:var(--erp-control-font-size) !important;
+  line-height:1.15 !important;
+  font-weight:600 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:var(--erp-control-gap) !important;
+  border:1px solid transparent !important;
+  text-decoration:none !important;
+  white-space:nowrap !important;
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .12s ease;
+}
+.erp-btn i,.erp-btn .fa,.erp-btn .glyphicon,.erp-btn svg{font-size:var(--erp-control-icon-size) !important;line-height:1 !important;margin:0 !important;}
+.erp-btn:hover{transform:translateY(-1px);box-shadow:0 2px 7px rgba(15,23,42,.13);}
+.erp-btn:active{transform:translateY(0);box-shadow:none;}
+.erp-btn-primary{background:var(--erp-primary) !important;color:#fff !important;border-color:var(--erp-primary) !important;}
+.erp-btn-secondary{background:var(--erp-secondary) !important;color:#fff !important;border-color:var(--erp-secondary) !important;}
+.erp-btn-success{background:var(--erp-success) !important;color:#fff !important;border-color:var(--erp-success) !important;}
+.erp-btn-warning{background:var(--erp-warning) !important;color:#fff !important;border-color:var(--erp-warning) !important;}
+.erp-btn-danger{background:var(--erp-danger) !important;color:#fff !important;border-color:var(--erp-danger) !important;}
+.erp-btn-info{background:var(--erp-info) !important;color:#fff !important;border-color:var(--erp-info) !important;}
+.erp-btn-light{background:#fff !important;color:var(--erp-dark) !important;border-color:#cbd5e1 !important;}
+.erp-btn-outline{background:#fff !important;color:var(--erp-primary) !important;border-color:var(--erp-primary) !important;}
+.erp-btn-xs{min-height:28px !important;padding:3px 8px !important;font-size:12px !important;}
+.erp-btn-md{min-height:var(--erp-control-height-md) !important;padding:7px 12px !important;}
+.erp-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:8px 10px;
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  box-shadow:0 1px 4px rgba(15,23,42,.06);
+  margin-bottom:10px;
+}
+.erp-toolbar-left,.erp-toolbar-right,.erp-toolbar-group{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.erp-toolbar .form-control,.erp-toolbar select,.erp-toolbar input[type="text"],.erp-toolbar input[type="search"],.erp-toolbar input[type="date"]{
+  min-height:var(--erp-control-height-sm) !important;
+  height:var(--erp-control-height-sm) !important;
+  padding:5px 9px !important;
+  border-radius:var(--erp-control-radius) !important;
+  font-size:var(--erp-control-font-size) !important;
+}
+.erp-toolbar .btn,
+.dt-buttons .btn,
+.dataTables_wrapper .dt-buttons .btn{
+  min-height:var(--erp-control-height-sm) !important;
+  padding:5px 9px !important;
+  border-radius:var(--erp-control-radius) !important;
+  font-size:12.5px !important;
+  line-height:1.1 !important;
+}
+.erp-toolbar-title{font-size:15px;font-weight:700;color:#1e293b;margin:0 8px 0 0;}
+.erp-page-note{font-size:12px;color:#64748b;margin-top:4px;}
+@media(max-width:768px){.erp-toolbar{align-items:stretch}.erp-toolbar-left,.erp-toolbar-right{width:100%;justify-content:flex-start}.erp-toolbar .form-control{max-width:100%;}}

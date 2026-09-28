@@ -1,0 +1,4 @@
+<?php
+namespace Modules\BankingCheque\Http\Controllers;
+use Illuminate\Routing\Controller; use Illuminate\Http\Request; use Modules\BankingCheque\Entities\ChequeClearingBatch; use Modules\BankingCheque\Services\ChequeClearingService;
+class ClearingController extends Controller { public function index($direction){ $batches=ChequeClearingBatch::where('direction',$direction)->latest()->paginate(25); return view('bankingcheque::clearing.'.$direction.'.index',compact('batches','direction')); } public function storeBatch(Request $r,$direction){ ChequeClearingBatch::create($r->all()+['direction'=>$direction,'status'=>'draft','batch_no'=>'CHQ-'.strtoupper($direction).'-'.time()]); return back(); } public function approve($direction, ChequeClearingBatch $batch, ChequeClearingService $s){ $s->approve($batch, auth()->id()); return back()->with('status','Batch approved'); } }

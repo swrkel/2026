@@ -1,0 +1,19 @@
+{
+    "name": "BankingUI",
+    "alias": "banking-ui",
+    "description": "Banking Suite UI integration, navigation, permissions, smoke tests and release readiness",
+    "keywords": [
+        "banking",
+        "ui",
+        "navigation",
+        "permissions",
+        "testing"
+    ],
+    "priority": 500,
+    "providers": [
+        "Modules\\BankingUI\\Providers\\BankingUIServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

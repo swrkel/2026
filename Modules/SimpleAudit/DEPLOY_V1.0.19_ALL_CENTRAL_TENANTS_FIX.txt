@@ -1,0 +1,18 @@
+Simple Audit v1.0.19 - All Central Tenants Fix
+
+Issue
+-----
+The Tenant selector showed only tenant 100 even though the Central system has multiple linked tenants.
+
+Root cause
+----------
+Simple Audit central DB autodetection could prefer the active mysql/default connection before the host ERP's canonical `system` central connection. A tenant/copied database may contain a local tenants table with only one row, causing the selector to expose only that tenant.
+
+Fix
+---
+1. Central connection priority now matches the host ERP: `system` first, then tenancy.database.central_connection, then module/default compatibility fallbacks.
+2. Tenant selector reads all rows from the authoritative central `tenants` registry.
+3. Added low-memory diagnostic command: php artisan simple-audit:tenants
+4. Tenant labels also use registered tenant name/domain where available.
+
+No SQL changes. No memory-limit change. No tenant schema changes.

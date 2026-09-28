@@ -1,0 +1,2 @@
+<?php
+namespace Modules\RestaurantNew\Http\Requests; use Illuminate\Foundation\Http\FormRequest; class KitchenStatusRequest extends FormRequest { public function authorize(): bool{return $this->user()?->can('restaurant_new.kitchen.use')??false;} public function rules(): array{return ['status'=>'required|in:accepted,preparing,ready,cancelled'];}}

@@ -1,0 +1,3 @@
+<?php
+namespace Modules\Ran\Http\Controllers;use Illuminate\Http\Request;use Modules\Ran\Services\SettingService;
+class SettingController extends RanController{public function index(SettingService $s){return view('ran::settings.index',['settings'=>$s->all()]);}public function update(Request $r,SettingService $s){$d=$r->validate(['default_terms'=>'nullable|string|max:4000','sms_message'=>'nullable|string|max:1000','email_message'=>'nullable|string|max:2000','whatsapp_message'=>'nullable|string|max:1000','show_cost_on_documents'=>'nullable|boolean','require_sale_approval'=>'nullable|boolean']);$s->save($d);return back()->with('status','Ran settings saved.');}}

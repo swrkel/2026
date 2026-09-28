@@ -1,0 +1,14 @@
+DISNEW_026 Deployment Notes
+
+1. Upload this package after DISNEW_001_TO_025 full replacement.
+2. Run Database/Sql/DISNEW_026_stage_sql.sql on every tenant database.
+3. Or run Laravel migrations if you use module migrations.
+4. Clear caches:
+   php artisan optimize:clear
+   php artisan route:clear
+   php artisan view:clear
+   php artisan config:clear
+5. Assign permissions:
+   disnew.stabilization.view
+   disnew.stabilization.repair
+6. Open /distribution-new/stabilization and run checks.

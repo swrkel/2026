@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS `stn_delivery_confirmations` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `business_id` bigint unsigned NULL,
+  `location_id` bigint unsigned NULL,
+  `store_id` bigint unsigned NULL,
+  `transfer_id` bigint unsigned NOT NULL,
+  `delivered_at` datetime NULL,
+  `received_by` varchar(191) NULL,
+  `receiver_mobile` varchar(50) NULL,
+  `condition_status` varchar(50) NOT NULL DEFAULT 'good',
+  `remarks` text NULL,
+  `signature_data` longtext NULL,
+  `photo_reference` varchar(255) NULL,
+  `confirmed_by` bigint unsigned NULL,
+  `created_at` timestamp NULL,
+  `updated_at` timestamp NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `stn_delivery_transfer_unique` (`transfer_id`),
+  KEY `stn_delivery_business_idx` (`business_id`),
+  KEY `stn_delivery_location_idx` (`location_id`),
+  KEY `stn_delivery_store_idx` (`store_id`),
+  KEY `stn_delivery_date_idx` (`delivered_at`),
+  KEY `stn_delivery_status_idx` (`condition_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `stn_delivery_damages` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `delivery_confirmation_id` bigint unsigned NOT NULL,
+  `product_id` bigint unsigned NOT NULL,
+  `qty` decimal(22,6) NOT NULL DEFAULT 0.000000,
+  `damage_type` varchar(100) NOT NULL,
+  `estimated_value` decimal(22,6) NOT NULL DEFAULT 0.000000,
+  `remarks` text NULL,
+  `created_by` bigint unsigned NULL,
+  `created_at` timestamp NULL,
+  `updated_at` timestamp NULL,
+  PRIMARY KEY (`id`),
+  KEY `stn_delivery_damage_confirmation_idx` (`delivery_confirmation_id`),
+  KEY `stn_delivery_damage_product_idx` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

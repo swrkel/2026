@@ -1,0 +1,18 @@
+Rice Mill - Packaging Material mapped-only filter
+Date: 19 Sep 2026
+
+Change:
+- Packaging Material displays/selectors now expose only Products explicitly saved in:
+  Rice Mill > Settings > Product Category Mapping > Select Packaging Material.
+- The Product selector in that Settings section intentionally continues to show eligible Products New products so new mappings can still be added.
+- Settings > Material Usage Mapping shows only mapped Packaging Materials.
+- Standalone Material Usage Mapping dropdown/list shows only mapped Packaging Materials.
+- Rice Mill > Packaging Materials list shows only mapped Products.
+- Existing legacy/manual rcm_packaging_materials records are NOT deleted; they are only hidden from these mapped-only workflows.
+- Existing stock, status, notes and movement history remain untouched.
+- Server-side Material Usage Mapping validation rejects unmapped Packaging Material IDs.
+
+No database migration or SQL is required.
+After deployment run:
+php artisan optimize:clear
+php artisan view:clear

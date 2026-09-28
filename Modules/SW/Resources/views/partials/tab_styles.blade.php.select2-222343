@@ -1,0 +1,62 @@
+{{-- Styling for the SW tab partials.
+
+     Included BY THE PARTIALS, not by a layout: the tabs render under two
+     different layouts now - sw::layouts.app on the old pages, layouts.app on
+     SW Payments and SW Daily Shifts - and styling held in one layout never
+     reached the other. That is why the tables looked wrong on the new pages.
+
+     @once, so six tabs on a page emit it a single time. --}}
+
+@once
+<style>
+/* S-697: the Add button, 20% larger. Padding and font size rather than a fixed
+   width, so it still fits its label in any language. */
+.sw-tab-pane .box-tools .btn-primary,
+.box-tools .btn.btn-modal {
+    padding: 9px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+/* S-697: the tables were cut off.
+
+   The DataTables stylesheet puts overflow:hidden on the TABLE element, so
+   rules aimed at the wrapper never reach it - the same fault as the Pump
+   Operators Actions menu. */
+.sw-table-wrap,
+.sw-table-wrap .dataTables_wrapper,
+.sw-table-wrap table.dataTable {
+    overflow: visible !important;
+}
+
+.sw-table-wrap { width: 100%; }
+
+.sw-table-wrap table {
+    width: 100% !important;
+    font-size: 13px;
+}
+
+.sw-table-wrap thead th {
+    white-space: normal;
+    vertical-align: middle;
+    font-size: 12px;
+    line-height: 1.25;
+    background: #f7f9fc;
+}
+
+.sw-table-wrap tbody td {
+    vertical-align: middle;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Figures right, names left - a column of amounts is unreadable ragged. */
+.sw-table-wrap td.text-right,
+.sw-table-wrap th.text-right { text-align: right; }
+
+/* The Actions menu must escape the table, as on Pump Operators. */
+.sw-table-wrap .btn-group { position: relative; }
+.sw-table-wrap .dropdown-menu { position: absolute; z-index: 1051; top: 100%; bottom: auto; }
+</style>
+@endonce

@@ -1,0 +1,28 @@
+Communication Hub v1.0 - Page by Page Operation Package
+
+Deployment scope:
+- Replace Modules/CommunicationHub only.
+- Keep modules_statuses.json entry: "CommunicationHub": true.
+- Main sidebar should include the module sidebar partial only once.
+
+Testing order:
+1. Communication Hub > Dashboard
+2. SMS Marketplace > SMS Packages
+3. SMS Marketplace > SMS Clients
+4. Wallet & Billing > Business Wallets
+5. Wallet & Billing > Credit Refills
+6. Wallet & Billing > Credit Transactions
+7. SMS Centre > Send SMS
+8. SMS Centre > Bulk SMS
+9. API Gateway > API Tokens
+10. Reports > Delivery Reports
+11. Reports > SMS Profit Reports
+
+Raw SQL:
+- Database/SQL/00_RUN_THIS_IN_EACH_TENANT_DATABASE.sql has the complete tenant schema.
+- Database/SQL/02_COMMERCIAL_SMS_PLATFORM_TABLES.sql contains only the new commercial tables in this package.
+
+Commercial features in this package:
+- Visible UI operations for SMS packages, clients, wallets, refills, transactions, send SMS, bulk SMS, API tokens and reports.
+- Module registration standard file: module_registration.php.
+- Versioned API routes remain under /api/v1/communication-hub.

@@ -1,0 +1,13 @@
+{
+    "name": "Poultry",
+    "alias": "poultry",
+    "description": "Poultry farm management - flock lifecycle, daily operations, health, production and batch costing.",
+    "keywords": ["poultry", "farm", "livestock", "broiler", "layer", "hatchery"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Poultry\\Providers\\PoultryServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,1 @@
+-- Stage 010: No ALTER statements required.

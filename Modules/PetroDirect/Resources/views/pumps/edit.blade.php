@@ -1,0 +1,131 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+        {!! Form::open(['url' => action('\Modules\PetroDirect\Http\Controllers\PumpController@update', $pump->id), 'method' =>
+        'put',
+        'id' =>
+        'add_pumps_form' ]) !!}
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">@lang( 'petrodirect::lang.add_pump' )</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('pump_no', __( 'petrodirect::lang.pump_no' ) . ':*') !!}
+                            {!! Form::text('pump_no', $pump->pump_no, ['class' => 'form-control pump_no', 'required',
+                            'placeholder' => __(
+                            'petrodirect::lang.pump_no' ) ]); !!}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('pump_name', __( 'petrodirect::lang.pump_name' ) . ':*') !!}
+                            {!! Form::text('pump_name', $pump->pump_name, ['class' => 'form-control pump_name',
+                            'required',
+                            'placeholder' => __(
+                            'petrodirect::lang.pump_name' ) ]); !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('location_id', __( 'petrodirect::lang.branch' ) . ':*') !!}
+                            {!! Form::select('location_id', $locations, $pump->location_id , ['class' => 'form-control
+                            select2
+                            fuel_tank_location', 'required',
+                            'placeholder' => __(
+                            'petrodirect::lang.please_select' ), 'style' => 'width: 100%;']); !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('product_id', __( 'petrodirect::lang.product' ) . ':*') !!}
+                            {!! Form::select('product_id', $products, $pump->product_id , ['class' => 'form-control
+                            select2
+                            ', 'required',
+                            'placeholder' => __(
+                            'petrodirect::lang.please_select' ), 'style' => 'width: 100%;']); !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('installation_date', __( 'petrodirect::lang.installation_date' ) . ':*') !!}
+                            {!! Form::text('installation_date',  \Carbon::parse($pump->transaction_date)->format('m/d/Y'),
+                            ['class' => 'form-control
+                            fuel_tank_date',
+                            'required', 'placeholder' => __(
+                            'petrodirect::lang.installation_date' ) ]); !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('transaction_date', __( 'petrodirect::lang.transaction_date' ) . ':*') !!}
+                            {!! Form::text('transaction_date', \Carbon::parse($pump->transaction_date)->format('m/d/Y'),
+                            ['class' => 'form-control fuel_tank_date',
+                            'required', 'placeholder' => __(
+                            'petrodirect::lang.transaction_date' ) ]); !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('bulk_sale_meter', __( 'petrodirect::lang.bulk_sale_meter' ) . ':*') !!}
+                            {!! Form::select('bulk_sale_meter', ['0' => 'No', '1' => 'Yes'], $pump->bulk_sale_meter ,
+                            ['class' =>
+                            'form-control select2
+                            bulk_sale_meter', 'required',
+                            'placeholder' => __(
+                            'petrodirect::lang.please_select' ), 'style' => 'width: 100%;']); !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('meter_value', __( 'petrodirect::lang.meter_value' ) . ':*') !!}
+                            {!! Form::text('meter_value', $pump->starting_meter, ['class' => 'form-control meter_value input_number', 'readonly',
+                            'required', 'placeholder' => __(
+                            'petrodirect::lang.meter_value' ) ]); !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('fuel_tank_id', __( 'petrodirect::lang.fuel_tank' ) . ':*') !!}
+                            {!! Form::select('fuel_tank_id', $tanks, $pump->fuel_tank_id , ['class' => 'form-control select2
+                            ', 'required',
+                            'placeholder' => __(
+                            'petrodirect::lang.please_select' ), 'style' => 'width: 100%;']); !!}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="checkbox">
+                            <label>{!! Form::checkbox('is_petro_pd_only', 1, old('is_petro_pd_only', (bool) ($pump->is_petro_pd_only ?? false))) !!} <strong>Petro PD only</strong></label>
+                            <p class="help-block">Exclude this pump and its data from Petro Direct, Petro and Settlement SW settlements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary add_fuel_tank_btn">@lang( 'messages.save' )</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@lang( 'messages.close' )</button>
+            </div>
+
+            {!! Form::close() !!}
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+    <script>
+        $('.fuel_tank_location').select2();
+        $('.fuel_tank_product').select2();
+        $('.fuel_tank_date').datepicker();
+    </script>

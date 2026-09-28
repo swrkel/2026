@@ -1,0 +1,13 @@
+IS2068 - Journal - 20 Aug 2026
+
+Changes
+1. Add/Edit Journal now displays the reference as JOUR0001, JOUR0002, etc. while keeping the stored journal_id numeric.
+2. Pump Operator journals are read by Petro General Operator Ledger directly from the authoritative journals table; no duplicate accounting posting is created.
+3. Operator ledger opening balance / period balance now includes linked Finance journals while shortage/excess totals remain separate.
+4. Journal Edit synchronizes journal rows, account transactions, the linked ledger transaction and contact ledger immediately.
+5. Removed journal lines are removed from live account transactions during Edit.
+6. Edit and Delete are locked in the UI and server-side after a non-deleted positive payment exists against the linked journal transaction.
+7. Edit submits through the Finance AJAX handler so List Journal refreshes immediately.
+
+Database changes: NONE.
+Existing optional journal ledger-link columns are respected; no migration or SQL is added by IS2068.

@@ -1,0 +1,1 @@
+$(document).on('keyup', '.bkg-search', function(){var v=$(this).val().toLowerCase();$('.table tbody tr,.bkg-card,.bkg-page-tile').each(function(){$(this).toggle($(this).text().toLowerCase().indexOf(v)>-1);});});

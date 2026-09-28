@@ -1,0 +1,10 @@
+{
+  "name": "syzygy/petro-pd-new",
+  "description": "Standalone Petro PD-New Laravel module",
+  "type": "laravel-module",
+  "autoload": {
+    "psr-4": {
+      "Modules\\PetroPDNew\\": ""
+    }
+  }
+}

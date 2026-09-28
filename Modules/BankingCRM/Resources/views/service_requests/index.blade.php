@@ -1,0 +1,28 @@
+@extends('bankingcrm::layouts.master')
+
+@section('content')
+<div class="bkg-rc2-page">
+    <div class="bkg-page-header">
+        <h1>{{ $pageTitle ?? 'Service Requests' }}</h1>
+        <p>Customer 360, relationship management, service requests, complaints, campaigns and cross-selling.</p>
+    </div>
+    <div class="bkg-toolbar">
+        <input type="text" class="form-control" placeholder="Search">
+        <input type="text" class="form-control" placeholder="Date Range">
+        <button class="btn btn-primary">CSV</button>
+        <button class="btn btn-primary">Excel</button>
+        <button class="btn btn-primary">PDF</button>
+        <button class="btn btn-primary">Print</button>
+        <button class="btn btn-primary">Column Visibility</button>
+    </div>
+    <div class="bkg-card-grid">
+        <div class="bkg-card"><strong>Status</strong><span>Ready for UI testing</span></div>
+        <div class="bkg-card"><strong>Permission</strong><span>bankingcrm.view</span></div>
+        <div class="bkg-card"><strong>Module</strong><span>Banking CRM</span></div>
+    </div>
+    <div class="bkg-panel">
+        <h3>Service Requests</h3>
+        <p>This standalone Banking Suite page is prepared for tester navigation and workflow validation. Backend posting logic can be extended after UI approval.</p>
+    </div>
+</div>
+@endsection

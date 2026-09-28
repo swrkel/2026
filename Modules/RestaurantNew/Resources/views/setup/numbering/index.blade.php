@@ -1,0 +1,5 @@
+@extends('restaurantnew::layouts.app')
+@section('restaurantnew_content')
+@include('restaurantnew::setup.partials.header', ['title' => __('restaurantnew::lang.numbering')])
+<section class="content restaurant-new-setup">@include('restaurantnew::partials.toolbar')<div class="box box-primary rn-pos-box"><div class="box-body table-responsive"><table class="table table-bordered table-striped rn-data-table"><thead><tr><th>@lang('messages.action')</th><th>@lang('restaurantnew::lang.document_type')</th><th>@lang('restaurantnew::lang.prefix')</th><th>@lang('restaurantnew::lang.next_number')</th><th>@lang('restaurantnew::lang.padding')</th></tr></thead><tbody>@foreach($rows as $row)<tr><td><a class="btn btn-xs btn-info" href="{{ route('restaurant-new.numbering.edit',$row->id) }}"><i class="fa fa-edit"></i></a></td><td>{{ ucfirst($row->document_type) }}</td><td>{{ $row->prefix }}</td><td>{{ $row->next_number }}</td><td>{{ $row->padding }}</td></tr>@endforeach</tbody></table>{{ $rows->links() }}</div></div></section>
+@endsection

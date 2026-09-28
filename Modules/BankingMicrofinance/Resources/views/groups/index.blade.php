@@ -1,0 +1,5 @@
+@extends('bankingmicrofinance::layouts.app')
+@section('page-title','Microfinance Groups')
+@section('module-content')
+<div class="box"><div class="box-header"><a href="{{ route('banking.microfinance.groups.create') }}" class="btn btn-primary">Add Group</a></div><div class="box-body table-responsive"><table class="table table-bordered table-striped"><thead><tr><th>Group No</th><th>Name</th><th>Center</th><th>Meeting</th><th>Field Officer</th><th>Status</th><th>Action</th></tr></thead><tbody>@foreach($groups as $group)<tr><td>{{ $group->group_no }}</td><td>{{ $group->name }}</td><td>{{ $group->center_name }}</td><td>{{ $group->meeting_day }} {{ $group->meeting_time }}</td><td>{{ $group->field_officer }}</td><td>{{ ucfirst($group->status) }}</td><td><a class="btn btn-xs btn-info" href="{{ route('banking.microfinance.groups.show',$group) }}">View</a> <a class="btn btn-xs btn-primary" href="{{ route('banking.microfinance.groups.edit',$group) }}">Edit</a></td></tr>@endforeach</tbody></table>{{ $groups->links() }}</div></div>
+@endsection

@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'audit_health_check' => 'Audit & Health Check',
+    'latest_checks' => 'Latest Checks',
+    'run_health_check' => 'Run Health Check',
+    'health_check_completed' => 'Distribution New health check completed.',
+    'installation_checklist' => 'Installation Checklist',
+    'installation_step_completed' => 'Installation step completed.',
+    'business_required' => 'Business is required.',
+    'location_required' => 'Business location is required.',
+    'at_least_one_line_required' => 'At least one line is required.',
+    'quantity_must_be_positive' => 'Quantity must be greater than zero.',
+    'over_invoice_not_allowed' => 'Invoice quantity cannot exceed remaining sales order quantity.',
+    'group' => 'Group',
+    'check' => 'Check',
+    'status' => 'Status',
+    'message' => 'Message',
+    'checked_at' => 'Checked At',
+    'no_records_found' => 'No records found',
+    'step' => 'Step',
+    'notes' => 'Notes',
+    'action' => 'Action',
+    'mark_completed' => 'Mark Completed',
+];

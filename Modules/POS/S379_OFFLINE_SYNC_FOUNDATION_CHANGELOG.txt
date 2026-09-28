@@ -1,0 +1,17 @@
+POS Standalone S379 - Offline / Online Sync Foundation
+
+Added:
+- /pos-module/offline-sync dashboard
+- Online/offline browser detector
+- Browser IndexedDB local queue foundation
+- Server sync manifest endpoint
+- Server sync queue endpoint with idempotent client_token protection
+- Device UUID/session foundation
+- Offline product/customer/settings cache endpoints
+- Pending server queue endpoint
+- Risk control dashboard for duplicate invoices, duplicate sync, stock oversell, credit limit mismatch, partial payment sync, returns before original sale sync, offline register close, and customer ledger mismatch
+- Raw SQL: Modules/POS/Database/SQL/pos_standalone_s379_offline_sync_foundation.sql
+
+Important:
+- This package builds the foundation only. Offline sales should be enabled only after testing this page and installing the SQL in all tenant databases.
+- The next package should implement actual offline sale save + later sync posting into POS sales, payments, stock, register and Customers module ledger.

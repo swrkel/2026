@@ -1,0 +1,12 @@
+POS Standalone S361 - Final Audit, Menu and UI Polish
+
+Changed:
+- Added /pos-module/standalone-audit page.
+- Added route health, table health and standalone dependency review cards.
+- Fixed sidebar Configuration Center link from /pos-module/configuration to /pos-module/configuration-center.
+- Added Settings and Standalone Audit items to POS sidebar.
+- Updated asset cache-busting version to s361.
+- Added Communication Hub style status badges and table polish.
+
+SQL:
+- No new SQL required for this stage.

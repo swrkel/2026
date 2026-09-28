@@ -1,0 +1,11 @@
+{
+  "name": "TeaEstateManagement",
+  "alias": "teaestatemanagement",
+  "description": "Standalone Tea Estate Management: plantation, green-leaf buying, processing, inventory, sales and Finance integration",
+  "keywords": ["tea", "estate", "plantation", "processing", "inventory", "sales"],
+  "priority": 0,
+  "providers": ["Modules\\TeaEstateManagement\\Providers\\TeaEstateManagementServiceProvider"],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

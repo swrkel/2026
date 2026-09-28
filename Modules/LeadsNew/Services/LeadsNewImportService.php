@@ -1,0 +1,4 @@
+<?php
+namespace Modules\LeadsNew\Services;
+use Modules\LeadsNew\Models\LeadsNewImportBatch; use Modules\LeadsNew\Models\LeadsNewLead;
+class LeadsNewImportService { public function importRows(array $rows,string $fileName): LeadsNewImportBatch { $batch=LeadsNewImportBatch::create(['business_id'=>session('business.id'),'file_name'=>$fileName,'status'=>'processing','total_rows'=>count($rows),'created_by'=>auth()->id()]); $ok=0;$fail=0;$errors=[]; foreach($rows as $i=>$row){ try{ LeadsNewLead::create(array_merge(['business_id'=>session('business.id'),'lead_no'=>'LN-'.date('YmdHis').'-'.$i,'status'=>'open'],$row)); $ok++; }catch(\Throwable $e){$fail++;$errors[$i]=$e->getMessage();}} $batch->update(['status'=>$fail?'completed_with_errors':'completed','success_rows'=>$ok,'failed_rows'=>$fail,'errors'=>$errors]); return $batch; } }

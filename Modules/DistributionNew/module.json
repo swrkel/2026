@@ -1,0 +1,14 @@
+{
+    "name": "DistributionNew",
+    "alias": "distribution-new",
+    "description": "Standalone Distribution New module for sales orders, invoices, loading, unloading, vehicle stock and store stock tracking.",
+    "keywords": ["distribution", "sales-order", "invoice", "vehicle-stock"],
+    "priority": 0,
+    "providers": [
+        "Modules\\DistributionNew\\Providers\\DistributionNewServiceProvider",
+        "Modules\\DistributionNew\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

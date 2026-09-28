@@ -1,0 +1,147 @@
+/*
+ * GLOBAL-SIDEBAR-16
+ * Absolute old-sidebar typography lock.
+ * Uses px values and very broad selectors so page/global design CSS cannot enlarge the sidebar.
+ */
+
+/* Sidebar base */
+html body ul#accordionSidebar,
+html body #accordionSidebar.sidebar,
+html body .custom-overflow.sidebar-menu.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion {
+    font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+}
+
+/* Brand */
+html body ul#accordionSidebar .sidebar-brand,
+html body ul#accordionSidebar .sidebar-brand * {
+    font-size: 24px !important;
+    line-height: 28px !important;
+    font-weight: 800 !important;
+}
+
+/* Filter */
+html body ul#accordionSidebar #sidebarFilter,
+html body #accordionSidebar #sidebarFilter {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-weight: 400 !important;
+    height: 42px !important;
+    padding: 8px 12px !important;
+}
+
+/* Parent module links - target every possible module-generated markup */
+html body ul#accordionSidebar > li > a,
+html body ul#accordionSidebar li.nav-item > a,
+html body ul#accordionSidebar li.nav-item > a.nav-link,
+html body ul#accordionSidebar li.nav-item > .nav-link,
+html body ul#accordionSidebar .nav-item .nav-link,
+html body ul#accordionSidebar .sidebar-menu > li > a,
+html body #accordionSidebar > li > a,
+html body #accordionSidebar li.nav-item > a,
+html body #accordionSidebar li.nav-item > a.nav-link,
+html body #accordionSidebar li.nav-item > .nav-link,
+html body #accordionSidebar .nav-item .nav-link {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-weight: 500 !important;
+    padding: 10px 16px !important;
+    margin: 0 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+}
+
+html body ul#accordionSidebar > li > a span,
+html body ul#accordionSidebar li.nav-item > a span,
+html body ul#accordionSidebar li.nav-item > a.nav-link span,
+html body ul#accordionSidebar li.nav-item > .nav-link span,
+html body ul#accordionSidebar .nav-item .nav-link span,
+html body #accordionSidebar > li > a span,
+html body #accordionSidebar li.nav-item > a span,
+html body #accordionSidebar li.nav-item > a.nav-link span,
+html body #accordionSidebar li.nav-item > .nav-link span,
+html body #accordionSidebar .nav-item .nav-link span {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
+
+html body ul#accordionSidebar > li > a i,
+html body ul#accordionSidebar li.nav-item > a i,
+html body ul#accordionSidebar li.nav-item > a.nav-link i,
+html body ul#accordionSidebar li.nav-item > .nav-link i,
+html body ul#accordionSidebar .nav-item .nav-link i,
+html body #accordionSidebar > li > a i,
+html body #accordionSidebar li.nav-item > a i,
+html body #accordionSidebar li.nav-item > a.nav-link i,
+html body #accordionSidebar li.nav-item > .nav-link i,
+html body #accordionSidebar .nav-item .nav-link i {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    width: 18px !important;
+    min-width: 18px !important;
+    margin-right: 7px !important;
+    vertical-align: top !important;
+}
+
+/* Collapse arrow */
+html body ul#accordionSidebar .nav-item .nav-link[data-toggle="collapse"]::after,
+html body #accordionSidebar .nav-item .nav-link[data-toggle="collapse"]::after {
+    font-size: 12px !important;
+    line-height: 20px !important;
+}
+
+/* White submenu panels */
+html body ul#accordionSidebar .collapse .collapse-inner,
+html body ul#accordionSidebar .collapsing .collapse-inner,
+html body #accordionSidebar .collapse .collapse-inner,
+html body #accordionSidebar .collapsing .collapse-inner {
+    font-size: 13px !important;
+    line-height: 18px !important;
+    padding: 8px 0 !important;
+    margin: 0 0 10px !important;
+}
+
+/* Submenu header */
+html body ul#accordionSidebar .collapse .collapse-inner .collapse-header,
+html body ul#accordionSidebar .collapsing .collapse-inner .collapse-header,
+html body #accordionSidebar .collapse .collapse-inner .collapse-header,
+html body #accordionSidebar .collapsing .collapse-inner .collapse-header {
+    font-size: 10px !important;
+    line-height: 14px !important;
+    font-weight: 700 !important;
+    padding: 8px 16px 6px !important;
+    letter-spacing: .4px !important;
+    text-transform: uppercase !important;
+}
+
+/* Submenu items */
+html body ul#accordionSidebar .collapse .collapse-inner a,
+html body ul#accordionSidebar .collapse .collapse-inner .collapse-item,
+html body ul#accordionSidebar .collapsing .collapse-inner a,
+html body ul#accordionSidebar .collapsing .collapse-inner .collapse-item,
+html body #accordionSidebar .collapse .collapse-inner a,
+html body #accordionSidebar .collapse .collapse-inner .collapse-item,
+html body #accordionSidebar .collapsing .collapse-inner a,
+html body #accordionSidebar .collapsing .collapse-inner .collapse-item {
+    font-size: 13px !important;
+    line-height: 18px !important;
+    font-weight: 400 !important;
+    padding: 7px 14px !important;
+    margin: 0 6px !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    text-decoration: none !important;
+}
+
+html body ul#accordionSidebar .collapse .collapse-inner .collapse-item.active,
+html body #accordionSidebar .collapse .collapse-inner .collapse-item.active {
+    font-size: 13px !important;
+    line-height: 18px !important;
+    font-weight: 600 !important;
+}

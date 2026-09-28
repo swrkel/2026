@@ -1,0 +1,1 @@
+@extends('expensesnew::costing.index')

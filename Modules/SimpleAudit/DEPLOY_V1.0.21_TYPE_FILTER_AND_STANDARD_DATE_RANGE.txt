@@ -1,0 +1,11 @@
+Simple Audit v1.0.21 - Type/Auto Filter + System Standard Date Range
+
+Changes
+1. Tenant, Business, Location and Store remain searchable custom combo fields.
+2. When a selected field is focused/clicked, its text is selected so typing immediately replaces the displayed value and filters all options.
+3. Filtering is case-insensitive and token based. Selection changes reload the report instantly.
+4. Replaced the separate Date preset + From + To controls with the standard daterangepicker interaction used by the host Purchase/List Purchase pages.
+5. Standard ranges included: This Year, Last Year, This FY, Last FY and Custom Range.
+6. Date range is typeable; a complete valid range auto-applies after a short debounce.
+7. The selected date range remains visible and hidden ISO From/To values continue to be used by report/export/print/share endpoints.
+8. No SQL or database changes.

@@ -1,0 +1,172 @@
+Reference No: 8-5-LA1189
+Release ZIP: 8-5-LA1189-Deposit_Date_Picker_Never_Opens_Fix_16Aug2026.zip
+
+LA-1189 (3rd pass) - Finance Deposits: the calendar never opens
+Date: 16 August 2026
+
+Supersedes 8-3 and 8-4. Contains everything in both; neither needs deploying
+separately.
+
+Scope
+-----
+Finance Module > List Accounts > Cash Deposit
+Finance Module > List Accounts > Card Deposit
+Finance Module > List Accounts > Cheque Deposit
+Finance Module > List Accounts > Fund Transfer
+
+
+WHAT THE VIDEO SHOWED, AND WHY IT CHANGES EVERYTHING
+----------------------------------------------------
+The recording (Deposits_date_issue.mp4, 7.9s, sonali.nivasa.shop) was examined
+frame by frame - 197 frames at full rate, with the region below the date field
+measured on every one of them.
+
+THE CALENDAR NEVER APPEARS. Not once. The user clicks the date text, then the
+calendar icon, repeatedly. The pixel content below the field is identical in
+every frame after the modal finishes fading in. Nothing is drawn, anywhere.
+
+That is NOT the fault described in the ticket text, and it is not the fault any
+release in this series has been aimed at. LA-1176, 8-1, 8-3 and 8-4 all assumed
+a calendar that OPENS and then misbehaves - wrongly placed, clipped, or with
+dead arrows. Every one of those releases was treating the wrong problem. The
+ticket wording ("the dates cannot be changed, and the marked sections are not
+working") reads naturally as a calendar that is on screen and unresponsive,
+which is how it was taken, but the video shows there is no calendar to be
+unresponsive.
+
+
+ROOT CAUSE
+----------
+There is exactly one place in the shared date binding that produces precisely
+this - no calendar, no error, no clue:
+
+    if (!$picker || !$picker.length || !$input || !$input.length
+        || !$.fn.datetimepicker) {
+        return null;
+    }
+
+It gives up and writes nothing anywhere. The field keeps the value the server
+rendered (which is why the date still LOOKS right in the video, 08/16/2026
+21:20), the page reports no error, and clicking does nothing for as long as the
+form is open.
+
+The last condition is the one most likely to be firing. The deposit form is
+injected by ajax and its inline script runs the moment the HTML lands. If
+bootstrap-datetimepicker has not been defined by that instant - a deferred or
+late-loading bundle - the guard fails. And because binding was only ever
+attempted ONCE, it never recovered afterwards, even when the plugin finished
+loading a moment later. A race that is lost is lost permanently.
+
+This also explains something otherwise puzzling: the calendar demonstrably
+rendered in the 13 August screenshot on the other tenant. A load-order race
+does not have to fail the same way on every install or every page load.
+
+There is a second, related silent failure directly below it. The call to
+.datetimepicker() was not guarded, so an exception there would take down the
+REST of the form's ready callback - including the submit confirmation - with
+nothing shown on screen.
+
+
+THE FIX
+-------
+1. A MISSING PLUGIN NOW MEANS "NOT YET", NOT "NEVER".
+   Binding retries for about five seconds - frequently at first, then backing
+   off - and succeeds as soon as bootstrap-datetimepicker becomes available.
+   Verified against the retry logic directly:
+       - plugin arrives 900ms late  -> binds successfully, nothing reported
+       - plugin never arrives       -> reports clearly after 5s
+       - plugin already present     -> binds immediately, no waiting
+
+2. NOTHING FAILS SILENTLY ANY MORE.
+   Every failure path now writes a specific reason to the browser console
+   prefixed FINANCE-DP, and each one says something different:
+       - no date field found to bind to
+       - date field has no input inside it
+       - moment.js is not loaded
+       - bootstrap-datetimepicker is not loaded (waited 5s)
+       - bootstrap-datetimepicker threw while starting up (...)
+       - bootstrap-datetimepicker ran but left no instance on the field
+
+3. THE INITIALISATION IS WRAPPED.
+   An exception while starting the picker is caught and reported instead of
+   killing everything set up after it.
+
+4. THE CALENDAR IS CHECKED THE FIRST TIME IT IS OPENED.
+   Binding succeeding is not the same as the widget appearing, so the first
+   time the field is used the code confirms a widget was actually created and
+   is actually visible. If not, it says which - "no widget was created" versus
+   "created but not visible" - which separates a plugin problem from a styling
+   one.
+
+5. WITH ?finance_dp_debug=1 ON THE URL, the reason is ALSO printed in a red
+   strip directly under the date field. Four rounds have now gone by without
+   the console being read; this puts the answer where it cannot be missed.
+   Without the parameter it is console-only and users see nothing.
+
+Everything from 8-4 is retained: the click fallback for the calendar's own
+controls, the insulation from the compact-modal sizing, and the 40% width
+reduction.
+
+
+HONEST ASSESSMENT
+-----------------
+The load-order race is a hypothesis. It is the best-supported explanation for
+the video and it is consistent with the fault being intermittent across tenants,
+but it has not been proven on the running site.
+
+What is NOT a hypothesis is that the code was hiding its own failure. Whatever
+the underlying cause turns out to be, after this release the reason will be
+stated instead of concealed - and if the retry is the answer, it is fixed as
+well.
+
+If the calendar still does not open after this, the console will now contain one
+line beginning FINANCE-DP naming the reason, and that single line finishes this
+ticket. With ?finance_dp_debug=1 it will be on screen under the field.
+
+
+Changed Code Files
+------------------
+Modules/Finance/Resources/views/account/partials/date_picker_bind.blade.php
+Modules/Finance/Resources/views/account/deposit.blade.php
+Modules/Finance/Resources/views/account/transfer.blade.php
+Modules/Finance/Resources/views/account/cheque_deposit.blade.php
+
+Database
+--------
+No migration or SQL required.
+
+Deployment
+----------
+Extract from the Laravel project root preserving the Modules/Finance path, then:
+
+php artisan optimize:clear
+
+Validation Performed
+--------------------
+- Video examined frame by frame: 197 frames measured, calendar absent in all.
+- Structural check of all four changed Blade files: passed.
+- The complete <script> block parsed as JavaScript by Node: passed.
+- Retry logic exercised directly across three cases (late plugin, absent
+  plugin, plugin already present): all behaved correctly.
+- The 8-4 fallback checks re-run: still takes no action across 50 consecutive
+  clicks with a responding library.
+- Day-selection maths re-run including both year boundaries: still correct.
+
+NOT YET PERFORMED
+-----------------
+No PHP runtime or browser here, so Blade compilation and click testing remain
+to be done on the tenant server.
+
+A SIDE OBSERVATION FROM THE VIDEO
+---------------------------------
+The Deposit dialog in the recording measures roughly 80% of the viewport width.
+The shared compact sizing has been setting it to 72% since S-627, and 8-4 takes
+it to 43.2%. A dialog at 80% suggests the compact stylesheet was not in effect
+on that page load at all.
+
+That is worth checking on its own, because if that stylesheet is not applying
+then neither are the other rules scoped the same way, several of which this
+series has relied on. The width change in 8-4/8-5 is a quick way to tell: if
+the dialog does not become noticeably narrower after deploying this, the
+compact styling is not reaching the page and that is a separate fault worth
+raising as its own ticket.

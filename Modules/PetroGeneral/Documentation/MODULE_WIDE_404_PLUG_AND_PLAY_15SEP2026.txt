@@ -1,0 +1,11 @@
+PetroGeneral - module-wide 404 hardening - 15 Sep 2026
+
+- Supports businesses in the master/system database and businesses in separate tenant databases.
+- Registers the installed PetroGeneral route set even if Laravel loaded an older route cache.
+- Existing /petro-general/... URLs are re-registered from the installed module for hard-coded AJAX/backward compatibility.
+- Named petrogeneral.* routes are mirrored to /petro-general-live/... so route() helpers avoid stale/core route collisions.
+- Legacy /petro compatibility remains intact when the old Petro module is disabled.
+- po_payment.js is served by PetroGeneral itself, so these pages do not depend on vendor:publish/public modules assets.
+- No SQL, migration, route:clear, optimize:clear, or vendor:publish is required.
+
+Deployment: replace Modules/PetroGeneral and Ctrl+F5.

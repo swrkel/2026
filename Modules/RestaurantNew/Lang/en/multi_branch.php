@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'title' => 'Multi-Branch Operations',
+    'subtitle' => 'Central kitchen, commissary, and branch transfer control center.',
+    'active_branches' => 'Active Branches',
+    'central_kitchens' => 'Central Kitchens',
+    'open_transfers' => 'Open Transfers',
+    'shortage_alerts' => 'Shortage Alerts',
+    'workflow' => 'Branch Workflow',
+    'workflow_note' => 'Use this screen to coordinate branch demand, central kitchen production, dispatch, and receiving.',
+    'branch_transfers' => 'Branch Transfers',
+    'transfer_no' => 'Transfer No',
+    'from_branch' => 'From Branch',
+    'to_branch' => 'To Branch',
+    'status' => 'Status',
+    'requested_date' => 'Requested Date',
+    'action' => 'Action',
+    'branch_comparison' => 'Branch Comparison',
+    'branch' => 'Branch',
+    'sales' => 'Sales',
+    'food_cost' => 'Food Cost',
+    'gross_profit' => 'Gross Profit',
+    'wastage' => 'Wastage',
+    'transfer_approved' => 'Transfer approved successfully.',
+    'transfer_dispatched' => 'Transfer dispatched successfully.',
+    'transfer_received' => 'Transfer received successfully.',
+];

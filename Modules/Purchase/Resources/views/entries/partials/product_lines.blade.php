@@ -1,0 +1,14 @@
+<div class="table-responsive">
+<table class="table table-bordered" id="purchase_entry_lines_table">
+    <thead>
+        <tr>
+            <th>@lang('purchase::lang.product')</th>
+            <th class="text-right">@lang('purchase::lang.qty')</th>
+            <th class="text-right">@lang('purchase::lang.unit_cost')</th>
+            <th class="text-right">@lang('purchase::lang.line_total')</th>
+            <th>@lang('messages.actions')</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+</div>

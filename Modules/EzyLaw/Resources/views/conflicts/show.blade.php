@@ -1,0 +1,6 @@
+@extends('ezylaw::layouts.module')
+@section('ezylaw_title','Conflict Check '.$check->check_no)
+@section('ezylaw_content')
+<div class="box"><div class="box-body"><h3>{{ $check->query_name }}</h3><p><b>Checked:</b> {{ optional($check->checked_at)->format('Y-m-d H:i') }} &nbsp; <b>Result:</b> {{ strtoupper($check->result_status) }}</p><p><b>Identifiers:</b> {{ $check->identifiers }}</p><a class="btn btn-default" href="{{ route('ezylaw.conflicts.index') }}">Back</a></div></div>
+<div class="box"><div class="box-header"><h3 class="box-title">Potential Matches - Human Review Required</h3></div><div class="box-body table-responsive"><table class="table table-bordered table-striped"><thead><tr><th>Source</th><th>Name</th><th>Matched Field</th><th>Relationship</th><th>Score</th></tr></thead><tbody>@forelse($check->matches as $m)<tr><td>{{ ucwords(str_replace('_',' ',$m->source_type)) }}</td><td>{{ $m->matched_name }}</td><td>{{ $m->matched_field }}</td><td>{{ $m->relationship }}</td><td>{{ number_format((float)$m->match_score*100,0) }}%</td></tr>@empty<tr><td colspan="5">No potential matches found in EzyLaw records.</td></tr>@endforelse</tbody></table><p class="help-block">A clear result means no matching EzyLaw record was found; it is not a substitute for external conflict databases or professional review.</p></div></div>
+@endsection

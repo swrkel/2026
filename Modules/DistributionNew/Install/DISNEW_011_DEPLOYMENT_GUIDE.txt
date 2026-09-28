@@ -1,0 +1,8 @@
+DISNEW 011 Deployment Guide
+
+1. Upload/replace the DistributionNew folder.
+2. Execute Database/SQL/DISNEW_011_STAGE_SQL.sql in every tenant database.
+3. Use Database/SQL/DISNEW_MASTER_SQL.sql as the master reference for fresh installation.
+4. Open Distribution New > Role Dashboard and Settings > Notification Preferences.
+5. In Super Admin/Manage, use BusinessLimitUsageService output to show usage against limits.
+6. For rollback, run Database/SQL/DISNEW_011_ROLLBACK_SQL.sql only after confirming Stage 11 data is not needed.

@@ -1,0 +1,17 @@
+Simple Audit v1.0.20 - Tenant dropdown all-options fix
+
+Root cause
+----------
+The backend was already returning all linked tenants from the canonical central registry.
+However, the custom searchable Combo rendered its selected label as the search term.
+After auto-selecting tenant 100, opening the dropdown filtered the 8 available tenants by
+"100", so only tenant 100 was visible.
+
+Fix
+---
+- Selected value is now display text only, not a filter term.
+- Opening Tenant/Business/Location/Store dropdowns after a selection shows all options.
+- Typing still immediately filters the options because the selected hidden id is cleared on input.
+- Purchase Audit asset version updated to 1.0.20 to prevent an older browser-cached JS file.
+
+No SQL or database changes.

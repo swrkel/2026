@@ -1,0 +1,21 @@
+{
+    "name": "modules/sales-agent",
+    "description": "Standalone Sales Agent module",
+    "authors": [
+        {
+            "name": "Nivasa ERP",
+            "email": "support@example.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\SalesAgent\\": ""
+        }
+    }
+}

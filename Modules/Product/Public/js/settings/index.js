@@ -1,0 +1,1 @@
+(function($){'use strict';$(function(){$('.product-settings-tabs a[data-toggle="tab"]').on('shown.bs.tab',function(){localStorage.setItem('product_settings_active_tab',$(this).attr('href'));});var t=localStorage.getItem('product_settings_active_tab');if(t&&$('.product-settings-tabs a[href="'+t+'"]').length){$('.product-settings-tabs a[href="'+t+'"]').tab('show');}});})(jQuery);

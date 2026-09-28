@@ -1,0 +1,2 @@
+-- RestaurantNew Stage 043 ALTER notes
+-- Include Modules/RestaurantNew/Routes/corporate.php from the RestaurantNew route service provider if not already auto-loaded.

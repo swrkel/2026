@@ -1,0 +1,23 @@
+POS Standalone S353 - Reports & Analytics
+
+Changed / added:
+1. Rebuilt POS Reports page with Communication Hub style cards, KPI blocks, filters and professional tables.
+2. Added real standalone report calculations from POS-owned tables only:
+   - Daily Sales
+   - Payment Summary
+   - Item Sales
+   - Category Sales
+   - Cashier Sales
+   - Stock Valuation
+   - Low Stock
+   - Summary KPI cards
+3. Added CSV export endpoints for each report.
+4. Kept /pos/reports working. Existing /pos-module/reports redirects through S352 route compatibility.
+5. Added schema-safe report service to support both earlier S346/S347 columns and newer S348/S351 columns.
+6. No main ERP models/controllers/views/helpers are used.
+
+Test URLs:
+- /pos-module/reports
+- /pos/reports
+
+No required SQL for this stage. Reports use existing POS tables created in S346-S351.

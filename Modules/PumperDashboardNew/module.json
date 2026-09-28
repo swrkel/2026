@@ -1,0 +1,19 @@
+{
+  "name": "PumperDashboardNew",
+  "alias": "pumperdashboardnew",
+  "description": "Standalone Pumper Dashboard-New module paired exclusively with Petro PD-New. Authoritative application bootstrap and runtime route registration hardened for cached module deployments.",
+  "keywords": [
+    "pumper dashboard",
+    "petro pd new",
+    "pump operator",
+    "standalone",
+    "multi-tenant"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\PumperDashboardNew\\Providers\\PumperDashboardNewServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

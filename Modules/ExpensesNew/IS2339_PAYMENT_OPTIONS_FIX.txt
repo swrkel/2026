@@ -1,0 +1,5 @@
+IS2339 - Payment Options - 25 Sep 2026
+
+Expenses Add/Edit read active + Expenses-enabled methods directly from business_locations.default_payment_accounts, including newly added custom methods. The Superadmin operational-save correction in this release ensures those methods reach this module's actual tenant/location data source.
+
+No SQL/migration required.

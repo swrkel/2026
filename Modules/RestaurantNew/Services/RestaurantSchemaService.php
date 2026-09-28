@@ -1,0 +1,12 @@
+<?php
+namespace Modules\RestaurantNew\Services;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Modules\RestaurantNew\Database\Seeders\RestaurantNewPermissionSeeder;
+class RestaurantSchemaService
+{
+ private ?bool $installed=null;
+ private const TABLES=['restnew_settings','restnew_number_sequences','restnew_floors','restnew_tables','restnew_kitchen_stations','restnew_printers','restnew_user_screen_assignments','restnew_categories','restnew_menu_items','restnew_modifier_groups','restnew_modifiers','restnew_menu_item_modifier_groups','restnew_ingredients','restnew_recipes','restnew_recipe_lines','restnew_inventory_balances','restnew_stock_movements','restnew_shifts','restnew_orders','restnew_order_items','restnew_order_item_modifiers','restnew_kitchen_tickets','restnew_kitchen_ticket_items','restnew_order_status_logs','restnew_collection_tokens','restnew_reservations','restnew_print_jobs','restnew_payments','restnew_daily_closures','restnew_audit_logs','restnew_suppliers','restnew_goods_receipts','restnew_goods_receipt_lines','restnew_stock_transfers','restnew_stock_transfer_lines','restnew_stocktakes','restnew_stocktake_lines','restnew_wastages','restnew_wastage_lines','restnew_delivery_zones','restnew_delivery_dispatches','restnew_discount_rules','restnew_discount_usages','restnew_order_adjustments','restnew_manager_approvals'];
+ public function isInstalled():bool{if($this->installed!==null)return $this->installed;try{foreach(self::TABLES as $table)if(!Schema::hasTable($table))return $this->installed=false;if(!Schema::hasTable('permissions'))return $this->installed=false;$permissions=array_keys(require module_path('RestaurantNew','Permissions/permissions.php'));$count=DB::table('permissions')->where('guard_name','web')->whereIn('name',$permissions)->distinct()->count('name');return $this->installed=$count===count($permissions);}catch(\Throwable){return $this->installed=false;}}
+ public function install():void{foreach(['2026_07_29_000001_create_restnew_setup_tables.php','2026_07_29_000002_create_restnew_menu_stock_tables.php','2026_07_29_000003_create_restnew_order_kitchen_tables.php','2026_07_29_000004_create_restnew_payment_audit_tables.php','2026_07_29_000006_create_restnew_advanced_operations_tables.php','2026_07_29_000007_alter_restnew_stage2_columns.php'] as $file){$migration=require module_path('RestaurantNew','Database/Migrations/'.$file);$migration->up();}(new RestaurantNewPermissionSeeder())->run();$this->installed=null;}
+}

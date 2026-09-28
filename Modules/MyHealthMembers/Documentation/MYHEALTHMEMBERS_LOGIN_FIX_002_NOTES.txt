@@ -1,0 +1,21 @@
+MYHEALTHMEMBERS_LOGIN_FIX_002
+
+Issue fixed:
+- Login/portal crashed with: Target class [myhealth.member.portal] does not exist.
+
+Cause:
+- Active MyHealthMembers Routes/public.php used the string middleware alias myhealth.member.portal.
+- In this installation Laravel could not resolve that alias at request time.
+
+Fix:
+- Replaced the string middleware alias with the direct middleware class MyHealthMemberPortalAuth::class in the active Routes/public.php.
+- Mirrored the same fix in lowercase routes/public.php for installations that load lowercase routes.
+- Also changed API mobile middleware alias to MyHealthMobileAuth::class to avoid the same alias-resolution issue later.
+
+Files to replace:
+- Modules/MyHealthMembers/Routes/public.php
+- Modules/MyHealthMembers/routes/public.php
+- Modules/MyHealthMembers/Routes/api.php
+- Modules/MyHealthMembers/routes/api.php
+
+After replacing, clear Laravel cached routes/config if your server uses cache.

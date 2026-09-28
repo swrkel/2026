@@ -1,0 +1,10 @@
+{
+    "name": "syzygy/stock-taking-new",
+    "description": "Standalone Stock Taking - New module",
+    "type": "laravel-module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\StockTakingNew\\": ""
+        }
+    }
+}

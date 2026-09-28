@@ -1,0 +1,150 @@
+<?php
+
+namespace Modules\SW\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Modules\SW\Entities\Shift;
+use Modules\SW\Services\CashStatusService;
+use Modules\SW\Services\LogService;
+
+/**
+ * Daily Cash Status - tab 10 of SW Operators.
+ *
+ * Balance In Hand for ONE shift at a time, chosen from those still open. Once
+ * a shift is closed here it no longer appears - its figures have been agreed.
+ */
+class CashStatusController extends Controller
+{
+    public function __construct(
+        protected CashStatusService $status,
+        protected LogService $logs
+    ) {
+    }
+
+    protected function businessId(): int
+    {
+        return (int) (session('business.id') ?: session('user.business_id') ?: 0);
+    }
+
+    /** Open shifts at a location, for the selector. */
+    public function shifts(Request $request)
+    {
+        $businessId = $this->businessId();
+        $locationId = (int) $request->input('location_id');
+
+        if ($businessId <= 0 || $locationId <= 0) {
+            return response()->json([]);
+        }
+
+        $rows = Shift::where('business_id', $businessId)
+            ->where('location_id', $locationId)
+            ->where('status', Shift::STATUS_OPEN)
+            ->orderByDesc('shift_date')
+            ->orderByDesc('id')
+            ->limit(100)
+            ->get(['id', 'sw_shift_no', 'shift_date', 'shift_name']);
+
+        return response()->json($rows->map(function ($r) {
+            $label = $r->sw_shift_no;
+            if ($r->shift_date) {
+                $label .= '  ·  ' . \Carbon\Carbon::parse($r->shift_date)->format('d/m/Y');
+            }
+            if (! empty($r->shift_name)) {
+                $label .= '  ·  ' . $r->shift_name;
+            }
+
+            return ['id' => $r->id, 'label' => $label];
+        }));
+    }
+
+    /** The figures for one shift, rendered as the status panel. */
+    public function show(Request $request)
+    {
+        $businessId = $this->businessId();
+        $shiftId = (int) $request->input('sw_shift_id');
+
+        $shift = Shift::where('business_id', $businessId)->find($shiftId);
+
+        if (! $shift) {
+            return response('<div class="alert alert-warning">'
+                . __('sw::lang.choose_a_shift') . '</div>');
+        }
+
+        $operators = DB::table('sw_shift_operators as so')
+            ->join('pump_operators as po', 'po.id', '=', 'so.pump_operator_id')
+            ->where('so.sw_shift_id', $shift->id)
+            ->pluck('po.name');
+
+        return view('sw::operators.partials.cash_status_panel', [
+            'shift' => $shift,
+            'operators' => $operators,
+            'figures' => $this->status->figures($businessId, $shift->sw_shift_no, $shift->id),
+        ]);
+    }
+
+    /**
+     * Close the shift from here.
+     *
+     * The same check as the Daily Shift tab: a shift with nobody assigned has
+     * nothing to reconcile. Deliberately the same rule in both places rather
+     * than a laxer one here.
+     */
+    public function close(Request $request)
+    {
+        $businessId = $this->businessId();
+        $shift = Shift::where('business_id', $businessId)
+            ->findOrFail((int) $request->input('sw_shift_id'));
+
+        abort_unless($shift->isOpen(), 422, __('sw::lang.shift_not_open'));
+
+        $assigned = DB::table('sw_shift_operators')->where('sw_shift_id', $shift->id)->count();
+        abort_if($assigned === 0, 422, __('sw::lang.no_operators_to_close'));
+
+        /*
+         | The balance is recorded in the log at the moment of closing.
+         |
+         | Not stored on the shift - it is computed from the entries, and a
+         | figure written down once disagrees with its own workings as soon as
+         | anything is corrected. But WHAT IT WAS when someone agreed it is
+         | worth keeping, and the log is where that belongs.
+        */
+        $figures = $this->status->figures($businessId, $shift->sw_shift_no, $shift->id);
+
+        DB::transaction(function () use ($shift, $figures) {
+            DB::table('sw_shifts')->where('id', $shift->id)->update([
+                'status' => Shift::STATUS_CLOSED,
+                'closed_at' => now(),
+                'closed_by' => auth()->id(),
+                'updated_at' => now(),
+            ]);
+
+            $this->logs->record(
+                'shift', (int) $shift->id, $shift->sw_shift_no, 'closed',
+                ['status' => 'Open'],
+                [
+                    'status' => 'Closed',
+                    'balance_in_hand' => number_format($figures['balance'], 2),
+                    'cash_collection' => number_format($figures['collection']['total'], 2),
+                    'customer_payments' => number_format($figures['customer_payments']['total'], 2),
+                    'cash_expenses' => number_format($figures['expenses']['total'], 2),
+                    'cash_purchases' => number_format($figures['purchases']['total'], 2),
+                    'cash_deposits' => number_format($figures['deposits']['total'], 2),
+                ],
+                [
+                    'business_id' => (int) $shift->business_id,
+                    'location_id' => (int) $shift->location_id,
+                    'document_status' => 'Closed',
+                ]
+            );
+        });
+
+        return redirect()->route('sw.operators.index')
+            ->with('status', ['success' => 1, 'msg' => __('sw::lang.shift_closed_with_balance', [
+                'number' => $shift->sw_shift_no,
+                'balance' => number_format($figures['balance'], 2),
+            ])])
+            ->with('status.tab', 'sw_daily_cash_status');
+    }
+}

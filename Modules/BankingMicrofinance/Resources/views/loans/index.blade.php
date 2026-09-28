@@ -1,0 +1,5 @@
+@extends('bankingmicrofinance::layouts.app')
+@section('page-title','Microfinance Loans')
+@section('module-content')
+<div class="box"><div class="box-header"><a href="{{ route('banking.microfinance.loans.create') }}" class="btn btn-primary">Add Loan</a></div><div class="box-body table-responsive"><table class="table table-bordered table-striped"><tr><th>Loan No</th><th>Member</th><th>Application Date</th><th>Principal</th><th>Interest</th><th>Total Payable</th><th>Installment</th><th>Status</th><th>Action</th></tr>@foreach($loans as $loan)<tr><td>{{ $loan->loan_no }}</td><td>{{ $loan->member_id }}</td><td>{{ $loan->application_date }}</td><td>{{ number_format($loan->principal_amount,4) }}</td><td>{{ number_format($loan->interest_amount,4) }}</td><td>{{ number_format($loan->total_payable,4) }}</td><td>{{ number_format($loan->installment_amount,4) }}</td><td>{{ ucfirst($loan->status) }}</td><td><a class="btn btn-xs btn-info" href="{{ route('banking.microfinance.loans.show',$loan) }}">View</a></td></tr>@endforeach</table>{{ $loans->links() }}</div></div>
+@endsection

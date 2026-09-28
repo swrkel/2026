@@ -1,0 +1,20 @@
+{
+  "name": "DealerManagement",
+  "alias": "dealer-management",
+  "description": "Standalone dealer portal, dealer stock, reorder planning, notifications, staff users and Distribution New integration.",
+  "keywords": [
+    "dealer",
+    "portal",
+    "stock",
+    "reorder",
+    "distribution"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\DealerManagement\\Providers\\DealerManagementServiceProvider",
+    "Modules\\DealerManagement\\Providers\\RouteServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

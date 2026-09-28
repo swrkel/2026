@@ -1,0 +1,94 @@
+/*
+ * erp-global-table-action-menu.css
+ *
+ * Styling for a table action menu that has been moved to <body> by
+ * erp-global-table-action-menu.js.
+ *
+ * The menu leaves its .btn-group behind, and with it every theme rule scoped to
+ * a dropdown inside a table - so it has to carry its own appearance. These rules
+ * apply ONLY to a menu that is a direct child of <body> and carries the class,
+ * so nothing else in the application is affected.
+ *
+ * Position is set from JavaScript against the button's screen coordinates;
+ * everything here is appearance and the fixed positioning that makes the
+ * clipping impossible.
+ */
+body > .erp-lifted-action-menu {
+    position: fixed !important;
+    /* Above the theme's modals and toasts, below nothing that matters. */
+    z-index: 2147483000 !important;
+    display: block !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 6px !important;
+
+    /* A long menu scrolls rather than running off the screen. */
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    min-width: 190px !important;
+    list-style: none !important;
+    background: #ffffff !important;
+    border: 1px solid #dfe6e9 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .22) !important;
+}
+
+body > .erp-lifted-action-menu > li {
+    display: block !important;
+    float: none !important;
+    width: auto !important;
+}
+
+body > .erp-lifted-action-menu > li > a {
+    display: block !important;
+    padding: 8px 14px !important;
+    border-radius: 8px !important;
+    color: #34495e !important;
+    font-weight: 400 !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    line-height: 1.4 !important;
+}
+
+body > .erp-lifted-action-menu > li > a:hover,
+body > .erp-lifted-action-menu > li > a:focus {
+    background: #f4f7fb !important;
+    color: #17233b !important;
+}
+
+/* Icons keep their own colour, which several screens rely on to distinguish
+   Delete from the rest. */
+body > .erp-lifted-action-menu > li > a > i {
+    margin-right: 8px !important;
+}
+
+body > .erp-lifted-action-menu > li.divider,
+body > .erp-lifted-action-menu > li.dropdown-divider {
+    height: 1px !important;
+    margin: 6px 4px !important;
+    padding: 0 !important;
+    background: #edf2f7 !important;
+    overflow: hidden !important;
+}
+
+/* A disabled entry - for example Edit on a prefix that already has
+   transactions - must look unavailable rather than merely inert. */
+body > .erp-lifted-action-menu > li.disabled > a,
+body > .erp-lifted-action-menu > li > a.disabled {
+    color: #94a3b8 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+
+body > .erp-lifted-action-menu > li.disabled > a:hover,
+body > .erp-lifted-action-menu > li > a.disabled:hover {
+    background: transparent !important;
+}
+
+/* A form wrapping a delete link must not add spacing of its own. */
+body > .erp-lifted-action-menu form {
+    margin: 0 !important;
+    padding: 0 !important;
+}

@@ -1,0 +1,13 @@
+{
+    "name": "ClosingBalanceReport",
+    "alias": "closingbalancereport",
+    "description": "Standalone Closing Balance reporting module",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ClosingBalanceReport\\Providers\\ClosingBalanceReportServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

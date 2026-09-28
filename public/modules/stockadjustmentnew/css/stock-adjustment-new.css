@@ -1,0 +1,536 @@
+.san-page {
+    padding: 18px;
+}
+
+.san-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+}
+
+.san-header h1 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.san-actions,
+.san-toolbar,
+.san-actions-inline,
+.san-form-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.san-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.san-card {
+    border-radius: 12px;
+    padding: 18px;
+    color: #fff;
+    background: linear-gradient(135deg, #1554a2, #1b8ccf);
+    min-height: 96px;
+}
+
+.san-card span {
+    display: block;
+    font-size: 13px;
+}
+
+.san-card strong {
+    display: block;
+    font-size: 25px;
+    margin-top: 8px;
+}
+
+.san-panel {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+}
+
+.san-toolbar {
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.san-toolbar .form-control {
+    max-width: 260px;
+}
+
+.san-status {
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 8px;
+    background: #f2f6ff;
+    border-radius: 8px;
+}
+
+.san-validation-summary ul {
+    margin: 8px 0 0;
+    padding-left: 20px;
+}
+
+.san-lines-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.san-lines-heading h4 {
+    margin: 0 0 3px;
+    font-weight: 700;
+}
+
+.san-lines-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.san-lines-table-wrap {
+    position: relative;
+    overflow: visible;
+    margin-bottom: 12px;
+}
+
+.san-lines-table {
+    min-width: 1120px;
+    margin-bottom: 0;
+}
+
+.san-lines-table th {
+    background: #f5f8fc;
+    color: #42526b;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle !important;
+}
+
+.san-lines-table td {
+    position: relative;
+    vertical-align: top !important;
+    overflow: visible;
+}
+
+.san-lines-table th:nth-child(1),
+.san-lines-table td:nth-child(1) {
+    width: 210px;
+    min-width: 210px;
+}
+
+.san-lines-table th:nth-child(2),
+.san-lines-table td:nth-child(2) {
+    width: 300px;
+    min-width: 300px;
+}
+
+.san-lines-table th:nth-child(3),
+.san-lines-table td:nth-child(3),
+.san-lines-table th:nth-child(4),
+.san-lines-table td:nth-child(4),
+.san-lines-table th:nth-child(5),
+.san-lines-table td:nth-child(5) {
+    width: 135px;
+    min-width: 135px;
+}
+
+.san-lines-table th:nth-child(6),
+.san-lines-table td:nth-child(6) {
+    width: 160px;
+    min-width: 160px;
+}
+
+.san-line-action-column {
+    width: 74px;
+    min-width: 74px;
+    text-align: center;
+}
+
+.san-product-lookup {
+    position: relative;
+}
+
+.san-product-results {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 1085;
+    max-height: 310px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccd6e4;
+    border-radius: 8px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .18);
+}
+
+.san-product-results.is-open {
+    display: block;
+}
+
+.san-product-result {
+    display: block;
+    width: 100%;
+    padding: 9px 11px;
+    border: 0;
+    border-bottom: 1px solid #edf1f6;
+    background: #fff;
+    color: #172033;
+    text-align: left;
+    cursor: pointer;
+}
+
+.san-product-result:last-child {
+    border-bottom: 0;
+}
+
+.san-product-result:hover,
+.san-product-result.is-active {
+    background: #edf5ff;
+}
+
+.san-product-result-code,
+.san-product-result-name,
+.san-product-result-meta {
+    display: block;
+}
+
+.san-product-result-code {
+    color: #0f5fbf;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.san-product-result-name {
+    margin-top: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: normal;
+}
+
+.san-product-result-meta {
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.san-product-result-empty {
+    padding: 11px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.san-product-not-selected {
+    border-color: #d9534f !important;
+    box-shadow: 0 0 0 2px rgba(217, 83, 79, .08) !important;
+}
+
+.san-remove-line {
+    min-width: 34px;
+    min-height: 34px;
+    padding: 4px 10px;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.san-form-actions {
+    align-items: center;
+}
+
+@media (max-width: 1200px) {
+    .san-lines-table-wrap {
+        overflow-x: auto;
+        overflow-y: visible;
+    }
+}
+
+@media (max-width: 900px) {
+    .san-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .san-header {
+        display: block;
+    }
+
+    .san-actions {
+        margin-top: 10px;
+    }
+}
+
+/* LA-1098 batch selector and adjustments table corrections */
+.san-lines-table {
+    min-width: 1260px;
+}
+
+.san-lines-table th:nth-child(3),
+.san-lines-table td:nth-child(3) {
+    width: 260px;
+    min-width: 260px;
+}
+
+.san-lines-table th:nth-child(4),
+.san-lines-table td:nth-child(4),
+.san-lines-table th:nth-child(5),
+.san-lines-table td:nth-child(5) {
+    width: 130px;
+    min-width: 130px;
+}
+
+.san-lines-table th:nth-child(6),
+.san-lines-table td:nth-child(6) {
+    width: 145px;
+    min-width: 145px;
+}
+
+.san-batch-cell .form-control {
+    min-width: 235px;
+}
+
+.san-batch-help {
+    display: block;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.san-adjustments-toolbar {
+    align-items: center;
+}
+
+.san-adjustments-panel {
+    padding-bottom: 10px;
+}
+
+.san-table-empty {
+    padding: 18px 10px 8px;
+    color: #64748b;
+    text-align: center;
+}
+
+/*
+ * Product lookup overlay fix (LA-1098 follow-up).
+ * While open, JavaScript moves the suggestion list to document.body so no
+ * table, responsive wrapper, row, panel or action bar can clip or cover it.
+ */
+.san-product-results.san-product-results-portal {
+    position: fixed !important;
+    right: auto !important;
+    margin: 0 !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 2147483000 !important;
+    isolation: isolate;
+}
+
+.san-product-results.san-product-results-portal.opens-up {
+    transform-origin: bottom center;
+}
+
+
+/* S 577 - Stock Adjustment Settings */
+.san-settings-button {
+    background: #7c3aed;
+    border-color: #6d28d9;
+    color: #fff;
+}
+
+.san-settings-button:hover,
+.san-settings-button:focus {
+    background: #6d28d9;
+    border-color: #5b21b6;
+    color: #fff;
+}
+
+.san-settings-panel .row {
+    margin-bottom: 14px;
+}
+
+.san-settings-panel label {
+    color: #25324a;
+    font-weight: 600;
+}
+
+.san-settings-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.san-settings-section-heading h3 {
+    margin: 0 0 4px;
+    color: #172033;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.san-settings-section-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.san-settings-subheading {
+    margin-bottom: 12px;
+}
+
+.san-setting-switch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.san-setting-switch {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    min-height: 78px;
+    margin: 0;
+    padding: 13px;
+    border: 1px solid #dbe4f0;
+    border-radius: 10px;
+    background: #f8fbff;
+    cursor: pointer;
+}
+
+.san-setting-switch input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    flex: 0 0 auto;
+}
+
+.san-setting-switch-body {
+    display: block;
+}
+
+.san-setting-switch-body strong,
+.san-setting-switch-body small {
+    display: block;
+}
+
+.san-setting-switch-body strong {
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.san-setting-switch-body small {
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.35;
+}
+
+.san-setting-switch-compact {
+    min-height: 58px;
+    padding: 9px 12px;
+}
+
+.san-active-setting {
+    padding-top: 24px;
+}
+
+.san-settings-table {
+    min-width: 1320px;
+}
+
+.san-settings-table th {
+    background: #f5f8fc;
+    color: #42526b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.san-settings-table td {
+    vertical-align: middle !important;
+}
+
+.san-settings-actions-cell {
+    min-width: 125px;
+    white-space: nowrap;
+}
+
+.san-inline-form {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.san-reference-warning {
+    margin-top: 4px;
+}
+
+@media (max-width: 1200px) {
+    .san-setting-switch-grid {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .san-settings-section-heading {
+        display: block;
+    }
+
+    .san-settings-section-heading .btn {
+        margin-top: 10px;
+    }
+
+    .san-setting-switch-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .san-active-setting {
+        padding-top: 0;
+    }
+}
+
+
+/* S578: Product category filters on Create Stock Adjustment */
+.san-product-filter-row {
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+.san-product-filter-row .select2-container {
+    width: 100% !important;
+}
+
+.san-product-filter-row .select2-selection--single {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+}
+
+.san-product-filter-row .select2-selection__rendered {
+    line-height: 40px !important;
+}
+
+.san-product-filter-row .select2-selection__arrow {
+    min-height: 40px;
+}

@@ -1,0 +1,66 @@
+# RC17 Dependency Scan Output
+
+Wed Jul  1 13:11:57 UTC 2026
+
+## Customers module file count
+354
+
+## Runtime high-risk pattern scan (documentation and SQL excluded)
+Modules/Customers/Services/CustomerStandaloneAuditService.php:28:        'ContactsController',
+Modules/Customers/Services/CustomerStandaloneAuditService.php:30:        'contact.customer',
+Modules/Customers/Services/CustomerStandaloneAuditService.php:33:        "route('contacts",
+Modules/Customers/Services/CustomerStandaloneAuditService.php:34:        'route("contacts',
+Modules/Customers/Services/CustomerStandaloneAuditService.php:35:        "view('contact",
+Modules/Customers/Services/CustomerStandaloneAuditService.php:36:        'view("contact',
+
+## Route compatibility scan summary
+routes/web.php:10:use Modules\Customers\Http\Controllers\CustomerCompatibilityController;
+routes/web.php:466:    Route::get('/customer/search', [CustomerCompatibilityController::class, 'search'])->name('customers.legacy.search');
+routes/web.php:499:    Route::get('/contacts/balance-details/{id}', [CustomerCompatibilityController::class, 'balanceDetails'])->name('contacts.customer.balance_details.compat');
+routes/web.php:505:    Route::get('/contacts/ledger', [CustomerCompatibilityController::class, 'ledger'])->name('contacts.customer.ledger.compat');
+routes/web.php:511:    Route::get('/contacts/payments', [CustomerCompatibilityController::class, 'payments'])->name('contacts.customer.payments.compat');
+routes/web.php:513:    Route::get('/contacts/import', [CustomerCompatibilityController::class, 'import'])->name('contacts.import');
+routes/web.php:515:    Route::post('/contacts/import', function () { return redirect()->route('customers.import'); });
+routes/web.php:517:    Route::post('/contacts/check-contact-id', [CustomerCompatibilityController::class, 'checkContactId'])->name('contacts.check_contact_id.compat');
+routes/web.php:519:    Route::get('/contacts/customers', [CustomerCompatibilityController::class, 'register'])->name('contacts.customers.compat');
+routes/web.php:523:    Route::get('/contacts/create_customer', [CustomerCompatibilityController::class, 'create'])->name('contacts.create_customer.compat');
+routes/web.php:531:    Route::get('/contacts/customer_loan', [CustomerCompatibilityController::class, 'customerLoans'])->name('contacts.customer_loan.compat');
+routes/web.php:533:    Route::get('/contacts/customer_loans_list', [CustomerCompatibilityController::class, 'customerLoansList'])->name('contacts.customer_loans_list.compat');
+routes/web.php:535:    Route::get('/contacts/customer_loan_view', [CustomerCompatibilityController::class, 'customerLoanView'])->name('contacts.customer_loan_view.compat');
+routes/web.php:626:    Route::get('contacts/toggle-activate/{contact_id}', [CustomerCompatibilityController::class, 'toggleActivate'])->name('contacts.customer.toggle_activate.compat');
+routes/web.php:628:    Route::get('/contacts/list-security-deposit/{contact_id}', [CustomerCompatibilityController::class, 'listSecurityDeposit'])->name('contacts.customer.security_deposit.compat');
+routes/web.php:632:    Route::post('contacts/quick-add-sub-customer', [CustomerCompatibilityController::class, 'quickAddSubCustomer'])->name('contacts.quick-add-sub-customer');
+routes/web.php:633:    Route::get('contacts/get-sub-customers', [CustomerCompatibilityController::class, 'getSubCustomers'])->name('contacts.get-sub-customers');
+routes/web.php:637:    Route::get('contacts/export-customers', function () { return redirect()->route('customers.export'); })->name('contacts.export_customers.compat');
+routes/web.php:641:    Route::get('get-outstanding-filters', [CustomerCompatibilityController::class, 'getOutstandingFilters'])->name('contacts.outstanding_filters.compat');
+routes/web.php:643:    Route::get('issued-payment-details', [CustomerCompatibilityController::class, 'issuedPaymentDetails'])->name('contacts.issued_payment_details.compat');
+routes/web.php:645:    Route::get('returned-cheque-details', [CustomerCompatibilityController::class, 'returnedCheques'])->name('contacts.returned_cheque_details.compat');
+routes/web.php:666:    Route::get('get-contacts', [CustomerCompatibilityController::class, 'getContacts'])->name('customers.legacy.get_contacts');
+routes/web.php:668:    Route::post('check-mobile', [CustomerCompatibilityController::class, 'checkMobile'])->name('customers.legacy.check_mobile');
+routes/web.php:1916:    Route::post('customers', [CustomerCompatibilityController::class, 'postCustomersApi'])->name('customers.legacy.post_api');
+routes/tenant.php:20:use Modules\Customers\Http\Controllers\CustomerCompatibilityController;
+routes/tenant.php:457:        Route::get('/customer/search', [CustomerCompatibilityController::class, 'search'])->name('customers.legacy.search');
+routes/tenant.php:490:        Route::get('/contacts/balance-details/{id}', [CustomerCompatibilityController::class, 'balanceDetails'])->name('contacts.customer.balance_details.compat');
+routes/tenant.php:500:        Route::get('/contacts/ledger', [CustomerCompatibilityController::class, 'ledger'])->name('contacts.customer.ledger.compat');
+routes/tenant.php:502:        Route::get('/contacts/payments', [CustomerCompatibilityController::class, 'payments'])->name('contacts.customer.payments.compat');
+routes/tenant.php:504:        Route::get('/contacts/import', [CustomerCompatibilityController::class, 'import'])->name('contacts.import');
+routes/tenant.php:506:        Route::get('/contacts/import-balance', [CustomerCompatibilityController::class, 'importBalance'])->name('contacts.import_balance.compat');
+routes/tenant.php:508:        Route::post('/contacts/import-balance', [CustomerCompatibilityController::class, 'postImportBalance'])->name('contacts.import_balance.post.compat');
+routes/tenant.php:510:        Route::post('/contacts/import', function () { return redirect()->route('customers.import'); });
+routes/tenant.php:512:        Route::post('/contacts/check-contact-id', [CustomerCompatibilityController::class, 'checkContactId'])->name('contacts.check_contact_id.compat');
+routes/tenant.php:514:        Route::get('/contacts/customers', [CustomerCompatibilityController::class, 'register'])->name('contacts.customers.compat');
+routes/tenant.php:518:        Route::get('/contacts/create_customer', [CustomerCompatibilityController::class, 'create'])->name('contacts.create_customer.compat');
+routes/tenant.php:519:        Route::get('/contacts/customer_loan', [CustomerCompatibilityController::class, 'customerLoans'])->name('contacts.customer_loan.compat');
+routes/tenant.php:521:        Route::get('/contacts/customer_loan_view', [CustomerCompatibilityController::class, 'customerLoanView'])->name('contacts.customer_loan_view.compat');
+routes/tenant.php:523:        Route::get('/contacts/customer_loans_list', [CustomerCompatibilityController::class, 'customerLoansList'])->name('contacts.customer_loans_list.compat');
+routes/tenant.php:614:        Route::get('contacts/toggle-activate/{contact_id}', [CustomerCompatibilityController::class, 'toggleActivate'])->name('contacts.customer.toggle_activate.compat');
+routes/tenant.php:616:        Route::get('/contacts/list-security-deposit/{contact_id}', [CustomerCompatibilityController::class, 'listSecurityDeposit'])->name('contacts.customer.security_deposit.compat');
+routes/tenant.php:620:        Route::post('contacts/quick-add-sub-customer', [CustomerCompatibilityController::class, 'quickAddSubCustomer'])->name('contacts.quick-add-sub-customer');
+routes/tenant.php:621:        Route::get('contacts/get-sub-customers', [CustomerCompatibilityController::class, 'getSubCustomers'])->name('contacts.get-sub-customers');
+routes/tenant.php:625:        Route::get('contacts/export-customers', function () { return redirect()->route('customers.export'); })->name('contacts.export_customers.compat');
+routes/tenant.php:629:        Route::get('get-outstanding-filters', [CustomerCompatibilityController::class, 'getOutstandingFilters'])->name('contacts.outstanding_filters.compat');
+routes/tenant.php:631:        Route::get('issued-payment-details', [CustomerCompatibilityController::class, 'issuedPaymentDetails'])->name('contacts.issued_payment_details.compat');
+routes/tenant.php:633:        Route::get('returned-cheque-details', [CustomerCompatibilityController::class, 'returnedCheques'])->name('contacts.returned_cheque_details.compat');
+routes/tenant.php:648:        Route::get('get-contacts', [CustomerCompatibilityController::class, 'getContacts'])->name('customers.legacy.get_contacts');
+routes/tenant.php:650:        Route::post('check-mobile', [CustomerCompatibilityController::class, 'checkMobile'])->name('customers.legacy.check_mobile');
+routes/tenant.php:1903:        Route::post('customers', [CustomerCompatibilityController::class, 'postCustomersApi'])->name('customers.legacy.post_api');

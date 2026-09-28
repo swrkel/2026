@@ -1,0 +1,27 @@
+POS S372 Server Deployment Checklist
+
+1. Replace the complete Modules/POS folder from this package.
+2. If your package includes a routes folder, replace/add it exactly as supplied.
+3. Run:
+   php artisan optimize:clear
+   php artisan route:clear
+   php artisan view:clear
+4. Open these URLs:
+   /pos-module
+   /pos-module/sales/workspace
+   /pos-module/products
+   /pos-module/purchases
+   /pos-module/registers
+   /pos-module/shifts
+   /pos-module/returns
+   /pos-module/reports
+   /pos-module/settings
+   /pos-module/standalone-audit
+5. Confirm the page layout matches the Communication Hub/ERP standard.
+6. Confirm there are no untranslated labels like pos::messages.xxx.
+7. Confirm no page shows 404.
+8. Confirm sales, stock, returns, register, reports, and settings pages open from sidebar/menu.
+9. If any page still shows an old design, clear browser cache and run Ctrl + F5.
+10. If server still shows old files, confirm the replacement was uploaded to the correct Modules/POS path.
+
+No new SQL is required for this S372 hardening package.

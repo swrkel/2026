@@ -1,0 +1,21 @@
+{
+  "name": "Ran",
+  "alias": "ran",
+  "description": "Standalone jewellery production, storage, purchasing, sales, document and communication module.",
+  "keywords": [
+    "jewellery",
+    "production",
+    "inventory",
+    "sales",
+    "gold"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\Ran\\Providers\\RanServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": [],
+  "active": true,
+  "order": 115
+}

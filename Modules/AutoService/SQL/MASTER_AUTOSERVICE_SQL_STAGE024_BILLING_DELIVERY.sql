@@ -1,0 +1,3 @@
+-- MASTER SQL - AutoService Stage 024 Billing, Payment and Delivery Handover
+-- Execute the below SQL file on each tenant database.
+-- 25_AUTOSERVICE_STAGE024_BILLING_PAYMENT_DELIVERY_HANDOVER.sql

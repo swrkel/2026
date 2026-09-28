@@ -1,0 +1,20 @@
+EGG MANAGEMENT - INSTALLATION CHECKLIST
+
+[ ] 1. Backup application + tenant database.
+[ ] 2. Upload folder to Modules/EggManagement.
+[ ] 3. Enable EggManagement using the application's existing module mechanism.
+[ ] 4. Run tenant migrations OR import Database/SQL/EGG_MASTER_TENANT_SCHEMA.sql in each tenant DB.
+[ ] 5. Publish assets: php artisan vendor:publish --tag=egg-assets --force
+[ ] 6. Run: php artisan optimize:clear
+[ ] 7. Confirm /egg-management opens.
+[ ] 8. Add default egg grades.
+[ ] 9. Assign Egg permissions through User Management / Manage Page, or use the access-grant template.
+[ ] 10. Check active Business / Location / Store session values.
+[ ] 11. Test collection -> grading -> stock.
+[ ] 12. Test purchase -> stock.
+[ ] 13. Test sale -> stock reduction + Finance outbox event.
+[ ] 14. Test transfer between locations/stores.
+[ ] 15. Test adjustment/wastage.
+[ ] 16. Test Print / CSV / Excel and secure share link.
+[ ] 17. Configure SMS endpoint before SMS testing.
+[ ] 18. Connect Finance bridge after verifying actual Finance posting schema in this deployment.

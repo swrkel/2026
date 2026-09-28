@@ -1,0 +1,8 @@
+@extends('chequer::layouts.app')
+@section('title','Chequer Settings')
+@section('chequer_content')
+<div class="cheq-top"><div><div class="cheq-title">Settings</div><div class="cheq-sub">Default bank account, template, currency and print font.</div></div></div>
+<form class="cheq-card" method="post" action="{{ url('/chequer-module/settings') }}">@csrf
+<div class="cheq-form-grid"><div class="cheq-field"><label>Default Bank Account</label><select class="cheq-select" name="default_bank_account_id"><option value="">Please Select</option>@foreach($accounts as $id=>$name)<option value="{{ $id }}" {{ ($row->default_bank_account_id ?? '')==$id?'selected':'' }}>{{ $name }}</option>@endforeach</select></div><div class="cheq-field"><label>Default Template</label><select class="cheq-select" name="default_template_id"><option value="">Please Select</option>@foreach($templates as $id=>$name)<option value="{{ $id }}" {{ ($row->default_template_id ?? '')==$id?'selected':'' }}>{{ $name }}</option>@endforeach</select></div><div class="cheq-field"><label>Default Currency</label><input class="cheq-input" name="default_currency" value="{{ old('default_currency',$row->default_currency ?? 'LKR') }}"></div><div class="cheq-field"><label>Default Font</label><input class="cheq-input" name="default_font" value="{{ old('default_font',$row->default_font ?? 'Arial') }}"></div><div class="cheq-field"><label>Font Size</label><input class="cheq-input" type="number" step="0.1" name="default_font_size" value="{{ old('default_font_size',$row->default_font_size ?? '12') }}"></div></div><br><button class="cheq-btn green" type="submit">Save Settings</button>
+</form>
+@endsection

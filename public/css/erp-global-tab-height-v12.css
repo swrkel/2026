@@ -1,0 +1,126 @@
+/* ERP Global Design System V12 - Safe compact one-row tabs
+   Purpose: reduce only tab button height and horizontal padding so pages like
+   Accounting > List Accounts can keep all main tabs in one row where screen width allows.
+   This file must be loaded AFTER the existing ERP global tab colour engine CSS. */
+
+:root {
+    --erp-tab-v12-padding-y: 5px;
+    --erp-tab-v12-padding-x: 11px;
+    --erp-tab-v12-min-height: 34px;
+    --erp-tab-v12-font-size: 13px;
+    --erp-tab-v12-icon-size: 13px;
+    --erp-tab-v12-icon-gap: 5px;
+    --erp-tab-v12-radius: 0px;
+}
+
+/* Keep tab container compact and prevent unnecessary wrapping gaps */
+.nav-tabs-custom > .nav-tabs,
+ul.nav.nav-tabs,
+.nav-tabs,
+.nav-pills,
+.erp-tabs,
+.erp-global-tabs,
+.account-tabs,
+.customer-tabs,
+.petro-tabs,
+.petro-pd-tabs {
+    gap: 5px !important;
+    row-gap: 5px !important;
+    align-items: center !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li,
+ul.nav.nav-tabs > li,
+.nav-tabs > li,
+.nav-pills > li {
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
+}
+
+/* Bootstrap/custom/accounting/customer/petro tab selectors only */
+.nav-tabs-custom > .nav-tabs > li > a,
+ul.nav.nav-tabs > li > a[data-toggle="tab"],
+ul.nav.nav-tabs > li > a[data-bs-toggle="tab"],
+.nav-tabs > li > a,
+.nav-pills > li > a,
+.erp-tabs .erp-tab,
+.erp-tab,
+.erp-global-tabs .erp-global-tab,
+.account-tabs a,
+.customer-tabs a,
+.petro-tabs a,
+.petro-pd-tabs a {
+    min-height: var(--erp-tab-v12-min-height) !important;
+    height: auto !important;
+    padding-top: var(--erp-tab-v12-padding-y) !important;
+    padding-bottom: var(--erp-tab-v12-padding-y) !important;
+    padding-left: var(--erp-tab-v12-padding-x) !important;
+    padding-right: var(--erp-tab-v12-padding-x) !important;
+    font-size: var(--erp-tab-v12-font-size) !important;
+    line-height: 1.15 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--erp-tab-v12-icon-gap) !important;
+    border-radius: var(--erp-tab-v12-radius) !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+    width: auto !important;
+    max-width: none !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a i,
+ul.nav.nav-tabs > li > a[data-toggle="tab"] i,
+ul.nav.nav-tabs > li > a[data-bs-toggle="tab"] i,
+.nav-tabs > li > a i,
+.nav-pills > li > a i,
+.erp-tabs .erp-tab i,
+.erp-tab i,
+.erp-global-tabs .erp-global-tab i,
+.account-tabs a i,
+.customer-tabs a i,
+.petro-tabs a i,
+.petro-pd-tabs a i {
+    font-size: var(--erp-tab-v12-icon-size) !important;
+    line-height: 1 !important;
+    margin-right: 0 !important;
+}
+
+/* Preserve approved active tab behaviour */
+.nav-tabs-custom > .nav-tabs > li.active > a,
+.nav-tabs-custom > .nav-tabs > li > a.active,
+ul.nav.nav-tabs > li.active > a[data-toggle="tab"],
+ul.nav.nav-tabs > li > a[data-toggle="tab"].active,
+ul.nav.nav-tabs > li.active > a[data-bs-toggle="tab"],
+ul.nav.nav-tabs > li > a[data-bs-toggle="tab"].active,
+.nav-tabs > li.active > a,
+.nav-tabs > li > a.active,
+.nav-pills > li.active > a,
+.nav-pills > li > a.active,
+.erp-tabs .erp-tab.active,
+.erp-tab.active,
+.erp-global-tabs .erp-global-tab.active {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Keep inactive tab text readable after height/width reduction */
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a,
+ul.nav.nav-tabs > li:not(.active) > a[data-toggle="tab"],
+ul.nav.nav-tabs > li:not(.active) > a[data-bs-toggle="tab"],
+.nav-tabs > li:not(.active) > a,
+.nav-pills > li:not(.active) > a,
+.erp-tabs .erp-tab:not(.active),
+.erp-global-tabs .erp-global-tab:not(.active) {
+    font-weight: 600 !important;
+}
+
+/* Optional: allow one-row preference when enough screen width exists. Does not force overflow. */
+@media (min-width: 1200px) {
+    .nav-tabs-custom > .nav-tabs,
+    ul.nav.nav-tabs.erp-one-row,
+    .erp-tabs.erp-one-row,
+    .erp-global-tabs.erp-one-row {
+        flex-wrap: wrap !important;
+    }
+}

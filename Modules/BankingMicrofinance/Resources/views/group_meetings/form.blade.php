@@ -1,0 +1,5 @@
+@extends('bankingmicrofinance::layouts.app')
+@section('content')
+<div class="container-fluid bkg-mfi-page"><h3>{{ $title ?? 'Banking Microfinance' }}</h3>@if(session('status'))<div class="alert alert-success">{{ session('status') }}</div>@endif
+<form method="post" action="{{ url()->current() }}">@csrf @if($item->exists) @method('PUT') @endif<div class="row"><div class="col-md-3"><label>Group ID</label><input name="group_id" class="form-control" value="{{ old('group_id',$item->group_id) }}"></div><div class="col-md-3"><label>Date</label><input type="date" name="meeting_date" class="form-control" value="{{ old('meeting_date',$item->meeting_date) }}"></div><div class="col-md-3"><label>Time</label><input type="time" name="meeting_time" class="form-control" value="{{ old('meeting_time',$item->meeting_time) }}"></div><div class="col-md-3"><label>Venue</label><input name="venue" class="form-control" value="{{ old('venue',$item->venue) }}"></div></div><div class="mt-2"><label>Notes</label><textarea name="notes" class="form-control">{{ old('notes',$item->notes) }}</textarea></div><button class="btn btn-success mt-3">Save</button></form>
+</div>@endsection

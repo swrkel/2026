@@ -1,0 +1,57 @@
+SW MODULE - S752 SAVE SETTLEMENT FIX
+Date: 16 September 2026
+
+ISSUES FIXED
+1. Save Settlement and Cancel were rendered at the bottom of the page instead
+   of the marked, easily visible position beside the Payment totals.
+2. Clicking Save Settlement did not submit the settlement.
+
+ROOT CAUSE
+The previous S739 implementation placed the action-bar CSS and Save click
+handler inside Blade @push stacks. The installed host layout does not render
+those stacks on this page. Therefore the controls were displayed as ordinary
+page content at the bottom, and the type="button" Save control had no active
+click handler.
+
+CHANGES
+1. Resources/views/settlements/partials/payments.blade.php
+   - Moved Save Settlement and Cancel into the Payment totals row.
+   - Kept one authoritative Balance display and one set of action controls.
+   - Save remains visible but disabled until shift data has loaded and Balance
+     is zero.
+
+2. Resources/views/settlements/partials/section_styles.blade.php
+   - Added the directly rendered sticky action-bar styling.
+   - Added ready, disabled, responsive and print states.
+   - No longer depends on a host-layout CSS stack.
+
+3. Resources/views/settlements/create.blade.php
+   - Removed the old duplicate bottom action dock.
+   - Emitted the settlement page script directly with the form instead of an
+     unrendered layout stack.
+   - Retained complete client-side checks and the server-side POST save path.
+   - The Save action now submits immediately after the selected-shift data is
+     ready, required fields are valid, and Balance is zero.
+
+VALIDATION COMPLETED
+- JavaScript syntax check after resolving Blade placeholders: PASS
+- CSS structural/braces check: PASS
+- Unique action-control ID check: PASS
+- Action controls confirmed inside the settlement form: PASS
+- Native form submission path confirmed: PASS
+
+DATABASE / SQL
+No database change, migration or SQL import is required.
+
+DEPLOYMENT
+Option A - Full parcel:
+Replace the existing Modules/SW folder with the SW folder from the full ZIP.
+
+Option B - Changed-files-only parcel:
+Extract the SW folder over the existing Modules/SW folder and allow these
+three view files and this manifest to be replaced/added.
+
+Then run from the Laravel project root:
+php artisan view:clear
+php artisan cache:clear
+

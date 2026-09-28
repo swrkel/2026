@@ -1,0 +1,12 @@
+{
+    "name": "ProductsNew",
+    "alias": "productsnew",
+    "description": "Standalone Products New module",
+    "priority": 0,
+    "providers": [
+        "Modules\\ProductsNew\\Providers\\ProductsNewServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

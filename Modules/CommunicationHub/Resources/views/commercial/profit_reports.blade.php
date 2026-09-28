@@ -1,0 +1,6 @@
+@extends('communicationhub::layout')
+@section('communicationhub_title', 'SMS Profit Reports')
+@section('communicationhub_content')
+<div class="row"><div class="col-md-6"><div class="small-box bg-green"><div class="inner"><h3>{{ number_format($revenue ?? 0, 2) }}</h3><p>Total Revenue</p></div><div class="icon"><i class="fa fa-money"></i></div></div></div><div class="col-md-6"><div class="small-box bg-aqua"><div class="inner"><h3>{{ number_format($profit ?? 0, 2) }}</h3><p>Total Profit</p></div><div class="icon"><i class="fa fa-line-chart"></i></div></div></div></div>
+<div class="box"><div class="box-header"><h3 class="box-title">Profit Transactions</h3></div><div class="box-body table-responsive"><table class="table table-bordered table-striped"><tr><th>ID</th><th>Client</th><th>Type</th><th>Credits</th><th>Amount</th><th>Profit</th><th>Date</th></tr>@forelse($transactions as $row)<tr><td>{{ $row->id }}</td><td>{{ $row->client_id }}</td><td>{{ $row->type }}</td><td>{{ $row->credits }}</td><td>{{ number_format((float)$row->amount,2) }}</td><td>{{ number_format((float)$row->profit_amount,2) }}</td><td>{{ $row->created_at }}</td></tr>@empty<tr><td colspan="7">No transactions yet</td></tr>@endforelse</table></div></div>
+@endsection

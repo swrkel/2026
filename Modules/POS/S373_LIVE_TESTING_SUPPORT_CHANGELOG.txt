@@ -1,0 +1,25 @@
+POS Standalone S373 - Live Testing Support
+=========================================
+
+Purpose
+-------
+This package is intended for post-deployment user testing after S372 hardening.
+It does not change database structure.
+
+Added / confirmed
+-----------------
+1. Live testing checklist for the POS team.
+2. Server troubleshooting checklist for cache/routes/views/assets.
+3. Page-by-page verification matrix for /pos-module URLs.
+4. Clear note that Customers master data remains sourced from the standalone Customers module.
+
+Deployment
+----------
+Replace the Modules/POS folder with this package, then run:
+
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+php artisan config:clear
+
+No SQL required.

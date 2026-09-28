@@ -1,0 +1,4 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+class CreateAuditExclusionsTable extends Migration
+{public function up(){if(!Schema::hasTable('audit_exclusions')) Schema::create('audit_exclusions',function(Blueprint $t){$t->bigIncrements('id');$t->unsignedBigInteger('business_id')->nullable()->index();$t->unsignedBigInteger('location_id')->nullable()->index();$t->string('rule_code',100)->index();$t->string('source_table',120)->nullable();$t->string('source_id',120)->nullable();$t->text('reason')->nullable();$t->boolean('is_active')->default(1);$t->dateTime('expires_at')->nullable();$t->unsignedBigInteger('created_by')->nullable();$t->timestamps();});}public function down(){Schema::dropIfExists('audit_exclusions');}}

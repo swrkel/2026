@@ -1,0 +1,11 @@
+/* Product reports styles kept inside the Product module. */
+.product-report-filter {
+    margin-bottom: 12px;
+}
+
+.product-report-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}

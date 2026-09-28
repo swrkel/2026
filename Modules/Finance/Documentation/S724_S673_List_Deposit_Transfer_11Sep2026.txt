@@ -1,0 +1,87 @@
+S724 / S673 - Finance Module - 11 Sep 2026
+===========================================
+
+Scope
+-----
+This parcel is cumulative and is based on the latest corrected Finance module.
+It keeps the recent List Accounts / Transfer / Add Account / Account Book fixes.
+
+1) List Deposits & Transfers - Date & Time
+-----------------------------------------
+Problem:
+Deposits entered from List Accounts could show a blank Date & Time.
+
+Fix:
+- The List Deposits & Transfers DataTable now calls the unique Finance-owned
+  endpoint /finance/account/list-deposit-transfer instead of relying on the
+  ambiguous legacy path.
+- operation_date is displayed with BOTH the business date and business time.
+- Legacy rows whose operation_date is null/zero fall back to created_at.
+- Date filtering uses the same fallback, so legacy deposits are not hidden.
+- The response exposes both amount and amount_formatted for compatibility with
+  current and cached page JavaScript.
+- The legacy Finance list route was also hardened with the same date/time
+  fallback so old cached calls continue to work.
+
+2) List Accounts > Account Settings - stuck on Processing
+---------------------------------------------------------
+Problem:
+Opening Account Settings could remain on Processing and never display rows.
+
+Root cause fixed:
+The DataTable GET endpoint was doing a historical maintenance pass before
+listing: it loaded every account setting, repeatedly queried account/account
+-type/group data and UPDATED account_transactions row-by-row. This made a read
+request very slow and could also fail when an account type did not match the
+hard-coded branches.
+
+Fix:
+- Account Settings listing is now read-only.
+- Removed the per-row update/query loop from the DataTable GET request.
+- Uses a single server-side joined query with filters.
+- Main Account Type filter now includes both the selected main type and its
+  child types.
+- Added controlled exception logging and valid DataTables JSON so the browser
+  cannot stay silently stuck on Processing after a handled server error.
+- Added client-side AJAX failure feedback for transport/session failures.
+
+3) List Accounts > Add - HTTP 500 when opening form
+---------------------------------------------------
+Problem:
+Clicking Add could invoke a conflicting legacy/core Add handler and surface
+"Unable to open the form. Server returned 500."
+
+Fix:
+- Replaced the generic #add_button id with #finance_add_account_button.
+- Removed the obsolete generic Add modal click handler; the Finance-specific
+  .finance-add-account-trigger is now the single owner of this button.
+- /finance/accounts/create compatibility route now uses the canonical Finance
+  AccountController/create method rather than the older bridge controller/view.
+- Added a Finance-owned account-group-by-type endpoint used by the Add form.
+  It no longer depends on the root /get-account-groups route or route load order.
+- Child account types can use groups configured for their parent type, while
+  explicitly configured child groups are also included.
+- Initial Add form account-group loading no longer explicitly selects the
+  optional reg_cheque column, keeping older tenant schemas compatible.
+
+Database
+--------
+No SQL or migration is required for these fixes.
+
+Deployment
+----------
+1. Replace the Finance module with the full parcel (recommended), or copy the
+   changed-files parcel preserving the Finance/... paths.
+2. From the Laravel root run:
+     php artisan optimize:clear
+3. Hard refresh the browser (Ctrl+F5).
+
+Suggested checks
+----------------
+A. Finance > List Accounts > Cash/Card/Cheque Deposit: save a deposit with a
+   known date/time. Open List Deposits & Transfers and confirm Date & Time.
+B. Open Account Settings and confirm rows load instead of staying Processing.
+C. Click List Accounts > Add and confirm the modal opens without any HTTP 500.
+D. In Add, select Account Type and verify Account Group and Account Number load.
+E. Confirm the recent Transfer button and existing List Accounts functionality
+   continue to work.

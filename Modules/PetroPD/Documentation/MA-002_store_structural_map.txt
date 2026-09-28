@@ -1,0 +1,163 @@
+MA-002 - PetroPD settlement store() : STRUCTURAL MAP
+=====================================================================
+Written 5 Aug 2026, against Modules/PetroPD/Http/Controllers/Settlement/
+Concerns/CreatesPdSettlements.php after the file split.
+
+PURPOSE
+  store() is 3,271 lines. Before anyone tries to break it up, this is
+  what it actually does and in what order. No code was changed to
+  produce this document.
+
+  I am deliberately NOT refactoring it yet. The point of writing this
+  first is that a refactor of a method that posts money should start
+  from a map, not from a guess about what the method is for.
+
+
+=====================================================================
+THE THREE PHASES
+=====================================================================
+    lines    1 -  393      393 lines   validation and preparation
+    lines  394 - 2769     2375 lines   inside DB::beginTransaction()
+    lines 2770 - 3271      502 lines   AFTER DB::commit()
+
+  DB::beginTransaction()  at line 394
+  DB::commit()            at line 2769
+  DB::rollBack()          at line 3206, in the catch
+
+
+PHASE 1 - lines 1-393, before the transaction
+  Validation and shape-checking, with SIX early exits returning
+  response()->json(). Also several small closures computing line
+  subtotals and discounts, which is why the line count is high for what
+  is conceptually just "check the request".
+
+  Nothing is written here. Safe to extract - this is the least risky part
+  of the whole method and the obvious first target.
+
+
+PHASE 2 - lines 394-2769, the transaction
+  In order of first appearance:
+
+    711   createTransaction                     the settlement transaction
+    740   createSellTransactions                sell transactions per line
+    897   createStockAccountTransactions        stock movements
+   1054   createSettlementCardPaymentsFromPumpPayments
+   1061   ensurePdSettlementCashMatchesPumperDashboard
+   1068   ensurePdSettlementCashMatchesSubmittedFinalizeTotal
+   1172   TransactionPayment                    payment rows
+   1260   la1062EnsureWalkInLedgerPair          walk-in customer ledger
+   1302   createAccountTransaction              the ledger entries
+   1584   createTansactionPayment               (sic - spelling is core's)
+   1726   ensureSettlementCardAccounting        card accounting
+   1823   is1771CreditSaleRequiresFinalPosting
+   1832   is1771CreditSaleHasValidTransaction
+   1837   createCreditSellTransactions
+   1869   is1771EnsureCreditSaleReceivablePosting
+   2013   resolvePdShortageReceivableAccountId
+   2036   removePdShortageCashAccountFallback
+   2066   resolvePdExcessTransaction
+   2082   resolvePdExcessPayableAccountId
+   2085   ensurePdExcessAccountsPayableEntry
+
+  Reading that list, the phase has five natural stages:
+
+     A  the settlement and its sell transactions      711 -  897
+     B  stock movements                               897 - 1054
+     C  payments, cash reconciliation, ledger        1054 - 1726
+     D  credit sales and receivable posting          1726 - 2013
+     E  shortage and excess accounts                 2013 - 2085
+
+  Those are candidate extraction boundaries. They are NOT proven safe -
+  see the caution at the end.
+
+
+=====================================================================
+PHASE 3 - AFTER THE COMMIT. THIS IS THE FINDING THAT MATTERS.
+=====================================================================
+Two operations that WRITE TO THE DATABASE run after DB::commit():
+
+   2796   is1497CleanupDuplicateSettlementPostings   105 lines
+              performs DELETE and UPDATE
+
+   2820   ensureSettlementCardAccounting             165 lines
+              performs CREATE and UPDATE
+
+  Everything else after the commit is read-only or presentational -
+  notifyPetroPdSettlementSaved, getFilteredCreditSalePayments,
+  hydrateSettlementPdMeterSalesForDisplay, buildSettlementViewLookups,
+  the WhatsApp redirect at 3037 and the print view at 3192.
+
+WHY IT MATTERS
+  Those two writes are outside the transaction, so they are not covered
+  by the rollBack at line 3206. If either fails - a lock timeout, a
+  constraint, a PHP error - the settlement is ALREADY COMMITTED and:
+
+    - duplicate settlement postings that the cleanup was meant to remove
+      stay in the ledger, or
+    - card accounting rows are missing or half-written
+
+  and nothing reverses the settlement. The user sees an error, the
+  settlement exists, and the books are inconsistent in a way no retry
+  fixes, because a retry hits the duplicate guard.
+
+  Note also that ensureSettlementCardAccounting is called TWICE - once
+  inside the transaction at 1726 and again after the commit at 2820.
+  Whether the second call is a deliberate safety net or a leftover is
+  worth establishing; if it is a safety net, it is one that runs where a
+  failure cannot be undone.
+
+WHAT I HAVE NOT DONE
+  I have not moved those two calls inside the transaction. It looks like
+  the right change, but "looks like" is not enough here:
+
+    - the cleanup may deliberately run after commit because it needs to
+      see committed rows, in which case moving it changes what it finds
+    - moving writes into a transaction lengthens it, and this transaction
+      is already 2,375 lines of work; on a busy tenant that is more lock
+      contention
+
+  Both are answerable, but by reading those two methods properly and
+  testing on a real settlement - not by me assuming from a call-site map.
+
+
+=====================================================================
+SUGGESTED ORDER OF WORK, LOWEST RISK FIRST
+=====================================================================
+  1. Extract PHASE 1 (validation, 393 lines) into its own method or a
+     form-request class. Nothing is written there, so behaviour cannot
+     change. Immediate 393-line reduction.
+
+  2. Establish the truth about the two post-commit writes. Read both
+     methods, decide whether they belong inside the transaction, and test
+     on a real settlement. This is a correctness question, not a tidying
+     one, and it is the most valuable item on this list.
+
+  3. Extract PHASE 3's read-only and presentational tail (the response
+     building, print view, WhatsApp redirect) - roughly 400 lines once
+     the two writes are resolved. Low risk, purely output.
+
+  4. Only then consider splitting PHASE 2 along the A-E boundaries
+     above, one stage per change, each with a before/after comparison of
+     the rows written for the same settlement input.
+
+  Steps 1 and 3 together take store() below 2,500 lines without touching
+  anything that writes. Step 4 is where the real risk lives and it should
+  be last, with the map above as the starting point rather than a fresh
+  reading each time.
+
+
+=====================================================================
+HOW TO CHECK ANY CHANGE TO THIS METHOD
+=====================================================================
+  Post one settlement on a test tenant, then capture every row it wrote:
+
+    SELECT * FROM transactions          WHERE petro_settlement_id = ?;
+    SELECT * FROM account_transactions  WHERE transaction_id IN (...);
+    SELECT * FROM contact_ledgers       WHERE ...;
+    SELECT * FROM transaction_payments  WHERE ...;
+
+  Make the change, post an identical settlement, and diff the two sets
+  ignoring ids and timestamps. Same rows, same amounts, same accounts, or
+  the change is wrong. That comparison is the only thing that makes a
+  refactor of this method safe, and it is worth automating before step 4
+  rather than during it.

@@ -1,0 +1,12 @@
+@extends('petropdnew::layouts.app')
+@section('title','Petro PD-New Day End')
+@section('page_title','Petro PD-New Day End')
+@section('pdnew_content')
+<div class="pdn-page-head"><div><h2>Day End</h2><p>Location-wise closure of finalized Petro PD-New settlements.</p></div>
+@can('petro_pd_new.day_end.manage')<a class="pdn-btn primary" href="{{ route('petro-pd-new.day-ends.create') }}">Prepare Day End</a>@endcan</div>
+<form method="get" class="pdn-toolbar"><div class="pdn-field"><label>Status</label><select class="pdn-select" name="status"><option value="">All</option>@foreach(['draft','finalized'] as $status)<option value="{{ $status }}" @selected(request('status')===$status)>{{ ucfirst($status) }}</option>@endforeach</select></div>
+<div class="pdn-field"><label>From</label><input class="pdn-input" type="date" name="date_from" value="{{ request('date_from') }}"></div><div class="pdn-field"><label>To</label><input class="pdn-input" type="date" name="date_to" value="{{ request('date_to') }}"></div><button class="pdn-btn primary">Apply</button><a class="pdn-btn light" href="{{ route('petro-pd-new.day-ends.index') }}">Reset</a></form>
+<div class="pdn-card"><div class="pdn-table-wrap"><table class="pdn-table"><thead><tr><th>Day End No</th><th>Date</th><th>Location</th><th>Status</th><th class="amount">Settlements</th><th class="amount">Settlement Total</th><th class="amount">Payments</th><th class="amount">Variance</th><th>Action</th></tr></thead><tbody>
+@forelse($dayEnds as $row)<tr><td><strong>{{ $row->day_end_number }}</strong></td><td>{{ optional($row->day_end_date)->format('d M Y') }}</td><td>{{ $row->location_id ?: 'All' }}</td><td><span class="pdn-badge {{ $row->status }}">{{ $row->status }}</span></td><td class="amount">{{ $row->settlement_count }}</td><td class="amount">{{ number_format((float)$row->settlements_total,4) }}</td><td class="amount">{{ number_format((float)$row->payments_total,4) }}</td><td class="amount">{{ number_format((float)$row->variance_total,4) }}</td><td><div class="pdn-inline"><a class="pdn-btn small primary" href="{{ route('petro-pd-new.day-ends.show',$row->id) }}">View</a><a class="pdn-btn small light" target="_blank" href="{{ route('petro-pd-new.day-ends.print',$row->id) }}">Print</a></div></td></tr>
+@empty<tr><td colspan="9" class="pdn-empty">No Day End records.</td></tr>@endforelse</tbody></table></div><div class="pdn-pagination">{{ $dayEnds->links() }}</div></div>
+@endsection

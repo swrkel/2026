@@ -1,0 +1,41 @@
+CH1 IS2124 – Cheque Deposit – Reworked – 30 Aug 2026
+
+Scope
+-----
+Finance module only. No Customers/core code changes. No SQL.
+
+Root causes corrected
+---------------------
+1. The cheque list only accepted one account named exactly "Cheques in Hand".
+   Current customer payment pages can legitimately post cheque receipts to an
+   operational account linked to the "Cheques in Hand (Customer's)" account
+   group. Those saved cheques therefore existed but were filtered out by Finance.
+
+2. Parent/child payment records were tested through a COALESCE method expression.
+   A non-cheque parent/direct method could hide a cheque-bearing child payment.
+   Each linked payment level is now tested independently.
+
+3. The Cheque No and Amount dropdowns were still calling two legacy
+   /customer-payment-information endpoints. Earlier Finance load/crash work had
+   intentionally moved Cheque Deposit to one bounded Finance list request, but
+   this view had regressed and left the dropdowns dependent on another module.
+
+4. The generic modal shown handler and the inline Cheque Deposit initializer could
+   both request the list, creating an unnecessary race. The Cheque Deposit form now
+   owns the initial load after its date controls are ready.
+
+Correction
+----------
+- Finance resolves all active cheque-in-hand accounts for the business from the
+  legacy parent name, the Cheques in Hand account group, and its child accounts.
+- Saved cheque rows remain business-scoped, debit-only and is_deposited=0.
+- The table and both filter dropdowns are populated from the same bounded Finance
+  cheque-list response. No extra filter AJAX endpoints are used.
+- Changing a date range reloads the unfiltered list and rebuilds both dropdowns.
+- Selecting Cheque No or Amount filters the table through the existing Finance list
+  endpoint without rebuilding/losing the dropdown options.
+- Existing deposit posting logic is unchanged.
+
+Database
+--------
+No migration or raw SQL required.

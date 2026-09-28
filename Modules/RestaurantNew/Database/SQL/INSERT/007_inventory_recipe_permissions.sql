@@ -1,0 +1,5 @@
+INSERT INTO `permissions` (`name`, `guard_name`, `created_at`, `updated_at`) SELECT 'restaurantnew.inventory.view', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM `permissions` WHERE `name`='restaurantnew.inventory.view');
+INSERT INTO `permissions` (`name`, `guard_name`, `created_at`, `updated_at`) SELECT 'restaurantnew.inventory.create', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM `permissions` WHERE `name`='restaurantnew.inventory.create');
+INSERT INTO `permissions` (`name`, `guard_name`, `created_at`, `updated_at`) SELECT 'restaurantnew.recipes.view', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM `permissions` WHERE `name`='restaurantnew.recipes.view');
+INSERT INTO `permissions` (`name`, `guard_name`, `created_at`, `updated_at`) SELECT 'restaurantnew.recipes.create', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM `permissions` WHERE `name`='restaurantnew.recipes.create');
+INSERT INTO `permissions` (`name`, `guard_name`, `created_at`, `updated_at`) SELECT 'restaurantnew.wastage.manage', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM `permissions` WHERE `name`='restaurantnew.wastage.manage');

@@ -1,0 +1,1 @@
+-- Stage 009 is standalone and does not require ALTER statements on existing tables.

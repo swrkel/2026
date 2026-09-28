@@ -1,0 +1,1 @@
+(function(){'use strict'; window.BkgMfiCollections={init:function(){console.log('BKG-MFI-007 Collections loaded');}}; document.addEventListener('DOMContentLoaded',function(){window.BkgMfiCollections.init();});})();

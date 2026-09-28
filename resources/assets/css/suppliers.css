@@ -1,0 +1,879 @@
+.supplier-tabs-wrapper { overflow-x: auto; margin-bottom: 15px; }
+.supplier-tabs { white-space: nowrap; }
+.supplier-standard-table th:first-child,
+.supplier-standard-table td:first-child { min-width: 100px; }
+@media (max-width: 767px) { .supplier-standard-table { min-width: 850px; } }
+
+.supplier-form-tabs {
+    margin-bottom: 15px;
+}
+
+.supplier-form-tab-content {
+    border: 1px solid #ddd;
+    border-top: 0;
+    padding: 15px;
+    background: #fff;
+}
+
+.supplier-form-actions {
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
+@media (max-width: 767px) {
+    .supplier-form-tabs > li {
+        width: 100%;
+        margin-bottom: 3px;
+    }
+
+    .supplier-form-actions {
+        text-align: left;
+    }
+
+    .supplier-form-actions .btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}
+
+/* SUP-004 Supplier Global ERP Toolbar */
+.supplier-erp-toolbar {
+    margin-bottom: 12px;
+}
+
+.supplier-toolbar-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 0;
+}
+
+.supplier-toolbar-item {
+    margin-bottom: 6px;
+}
+
+.supplier-export-group {
+    margin-right: 6px;
+}
+
+.supplier-column-menu {
+    min-width: 210px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 3px 8px rgba(0,0,0,.12);
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.supplier-column-menu label {
+    display: block;
+    font-weight: normal;
+    padding: 4px 6px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.supplier-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.supplier-standard-table th,
+.supplier-standard-table td {
+    vertical-align: middle !important;
+    white-space: nowrap;
+}
+
+.supplier-actions-col {
+    width: 95px;
+    min-width: 95px;
+}
+
+.supplier-pagination-wrap {
+    margin-top: 10px;
+}
+
+@media (max-width: 767px) {
+    .supplier-toolbar-row {
+        display: block;
+    }
+
+    .supplier-toolbar-item,
+    .supplier-toolbar-item.text-right {
+        text-align: left !important;
+        width: 100%;
+    }
+
+    .supplier-export-group,
+    .supplier-add-btn {
+        display: block;
+        width: 100%;
+        margin: 4px 0;
+    }
+
+    .supplier-export-group .btn {
+        width: 20%;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+}
+
+/* SUPPLIERS-SEP-005: module local layout shell */
+.suppliers-module { background: #f5f6fa; margin: 0; font-family: Arial, sans-serif; }
+.suppliers-page-wrapper { padding: 15px; }
+.suppliers-module-header { display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid #e5e5e5; padding: 12px 15px; margin-bottom: 15px; }
+.suppliers-module-title { font-size: 18px; font-weight: 600; }
+.suppliers-module-nav a { margin-left: 12px; text-decoration: none; }
+.suppliers-module-content { background: #ffffff; border: 1px solid #e5e5e5; padding: 15px; }
+.suppliers-alert { margin-bottom: 15px; padding: 10px 12px; }
+.suppliers-alert.alert-success { border: 1px solid #c3e6cb; background: #d4edda; }
+.suppliers-alert.alert-danger { border: 1px solid #ebccd1; background: #f2dede; }
+
+/* S529: Supplier list Total Due and complete row action dropdown */
+.supplier-total-due {
+    display: inline-block;
+    min-width: 110px;
+    font-weight: 600;
+    text-align: right;
+}
+
+.supplier-action-menu {
+    width: 280px;
+    min-width: 280px;
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 5px 0;
+    box-sizing: border-box;
+    column-width: auto !important;
+    column-count: 1 !important;
+}
+
+.supplier-action-menu > li > a,
+.supplier-dropdown-action {
+    display: block;
+    width: 100%;
+    padding: 7px 18px;
+    clear: both;
+    color: #333;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.35;
+    text-align: left;
+    white-space: nowrap;
+    background: transparent;
+    border: 0;
+}
+
+.supplier-action-menu > li > a:hover,
+.supplier-action-menu > li > a:focus,
+.supplier-dropdown-action:hover,
+.supplier-dropdown-action:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+    outline: 0;
+}
+
+.supplier-action-menu i,
+.supplier-dropdown-action i {
+    width: 18px;
+    margin-right: 4px;
+    text-align: center;
+}
+
+.supplier-dropdown-form {
+    margin: 0;
+}
+
+.supplier-delete-action {
+    color: #a94442;
+}
+
+.supplier-action-menu-detached {
+    z-index: 1065;
+}
+
+@media print {
+    .supplier-actions-col,
+    .supplier-erp-toolbar,
+    .supplier-pagination-wrap {
+        display: none !important;
+    }
+}
+
+
+/* IS1777: Keep every detached Supplier action row on a solid white surface. */
+.supplier-action-menu,
+.supplier-action-menu-detached {
+    background-color: #fff !important;
+    border: 1px solid rgba(0, 0, 0, .15) !important;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.supplier-action-menu > li,
+.supplier-action-menu > li > a,
+.supplier-action-menu > li > form,
+.supplier-action-menu .supplier-dropdown-action {
+    width: 100%;
+    float: none !important;
+    box-sizing: border-box;
+    background-color: #fff !important;
+    break-inside: avoid;
+}
+
+.supplier-action-menu > li > a:hover,
+.supplier-action-menu > li > a:focus,
+.supplier-action-menu .supplier-dropdown-action:hover,
+.supplier-action-menu .supplier-dropdown-action:focus {
+    background-color: #f5f5f5 !important;
+}
+
+.supplier-action-menu > li.divider {
+    background-color: #e5e5e5 !important;
+}
+
+/* M27-PERF: Instant supplier tab shells and asynchronous heavy tables. */
+.supplier-tab-supplier-name {
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+}
+
+.supplier-stock-report-heading h1 {
+    align-items: baseline;
+    column-gap: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    row-gap: 4px;
+}
+
+.suppliers-module .dataTables_wrapper .dataTables_processing {
+    background: rgba(255, 255, 255, .96);
+    border: 1px solid #dbe6f1;
+    border-radius: 8px;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, .12);
+    color: #1f2937;
+    font-weight: 600;
+    min-width: 180px;
+    padding: 12px 18px;
+    z-index: 20;
+}
+
+.suppliers-module .select2-container {
+    width: 100% !important;
+}
+
+@media (max-width: 767px) {
+    .supplier-stock-report-heading h1 {
+        column-gap: 10px;
+    }
+}
+
+/* S543: Supplier list standard toolbar and compact Supplier No column. */
+.supplier-toolbar-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.supplier-standard-export-group {
+    align-items: center;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.supplier-standard-action-btn {
+    align-items: center;
+    border: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .12);
+    color: #fff !important;
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 700;
+    gap: 7px;
+    height: 44px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0 14px;
+    text-shadow: none;
+    transition: box-shadow .18s ease, filter .18s ease, transform .18s ease;
+    white-space: nowrap;
+}
+
+.supplier-standard-action-btn:hover,
+.supplier-standard-action-btn:focus,
+.supplier-standard-action-btn:active,
+.supplier-column-visibility-group.open > .supplier-standard-action-btn {
+    box-shadow: 0 10px 22px rgba(15, 23, 42, .18);
+    color: #fff !important;
+    filter: brightness(.96);
+    outline: 0 !important;
+    transform: translateY(-1px);
+}
+
+.supplier-standard-action-btn .fa {
+    font-size: 16px;
+}
+
+.supplier-export-csv {
+    background: #10b3c7 !important;
+}
+
+.supplier-export-excel {
+    background: #18b95f !important;
+}
+
+.supplier-column-visibility-btn {
+    background: linear-gradient(135deg, #6547ed 0%, #2f62e9 100%) !important;
+}
+
+.supplier-export-pdf {
+    background: #ff5a1f !important;
+}
+
+.supplier-print-standard {
+    background: #14213d !important;
+}
+
+.supplier-column-visibility-group {
+    display: inline-flex;
+}
+
+.supplier-column-visibility-group .caret {
+    border-top-color: #fff;
+    margin-left: 1px;
+}
+
+.supplier-add-btn {
+    align-items: center;
+    border-radius: 12px !important;
+    display: inline-flex;
+    font-weight: 700;
+    height: 44px;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    white-space: nowrap;
+}
+
+.supplier-standard-table .supplier-number-col {
+    max-width: 150px !important;
+    min-width: 150px !important;
+    width: 150px !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+@media (max-width: 1399px) {
+    .supplier-toolbar-actions,
+    .supplier-standard-export-group {
+        justify-content: flex-start;
+    }
+
+    .supplier-standard-action-btn {
+        font-size: 12px;
+        height: 42px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+    .supplier-toolbar-actions,
+    .supplier-standard-export-group {
+        align-items: stretch;
+        display: flex;
+        justify-content: stretch;
+        width: 100%;
+    }
+
+    .supplier-standard-export-group > .supplier-standard-action-btn,
+    .supplier-standard-export-group > .supplier-column-visibility-group,
+    .supplier-column-visibility-group > .supplier-standard-action-btn,
+    .supplier-add-btn {
+        width: 100%;
+    }
+
+    .supplier-column-menu {
+        left: 0;
+        right: auto;
+        width: 100%;
+    }
+}
+
+/* S544: Supplier Records working filters, current-date range and one-row toolbar. */
+.supplier-list-box .supplier-filter-form {
+    width: 100%;
+}
+
+.supplier-list-box .supplier-toolbar-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}
+
+.supplier-list-box .supplier-toolbar-item {
+    float: none;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.supplier-list-box .supplier-toolbar-search {
+    flex: 0 1 220px;
+    min-width: 180px;
+}
+
+.supplier-list-box .supplier-toolbar-date {
+    flex: 0 1 245px;
+    min-width: 225px;
+}
+
+.supplier-list-box .supplier-toolbar-per-page {
+    flex: 0 0 155px;
+    min-width: 155px;
+}
+
+.supplier-list-box .supplier-toolbar-search .form-control,
+.supplier-list-box .supplier-toolbar-date .form-control,
+.supplier-list-box .supplier-toolbar-per-page .form-control {
+    height: 44px;
+    width: 100%;
+}
+
+.supplier-list-box .supplier-toolbar-actions {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.supplier-list-box .supplier-standard-export-group {
+    align-items: center;
+    display: flex;
+    flex: 0 1 auto;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.supplier-list-box .supplier-standard-action-btn {
+    flex: 0 1 auto;
+    font-size: 12px;
+    height: 44px;
+    padding-left: 11px;
+    padding-right: 11px;
+}
+
+.supplier-list-box .supplier-add-btn {
+    flex: 0 0 auto;
+    height: 44px;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+
+@media (min-width: 1400px) {
+    .supplier-list-box .supplier-toolbar-row,
+    .supplier-list-box .supplier-toolbar-actions,
+    .supplier-list-box .supplier-standard-export-group {
+        flex-wrap: nowrap !important;
+    }
+}
+
+@media (max-width: 1399px) {
+    .supplier-list-box .supplier-toolbar-row {
+        align-items: stretch;
+        flex-wrap: wrap;
+    }
+
+    .supplier-list-box .supplier-toolbar-search,
+    .supplier-list-box .supplier-toolbar-date,
+    .supplier-list-box .supplier-toolbar-per-page {
+        flex: 1 1 210px;
+        min-width: 180px;
+    }
+
+    .supplier-list-box .supplier-toolbar-actions {
+        flex: 1 0 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 767px) {
+    .supplier-list-box .supplier-toolbar-row,
+    .supplier-list-box .supplier-toolbar-actions,
+    .supplier-list-box .supplier-standard-export-group {
+        align-items: stretch;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    .supplier-list-box .supplier-toolbar-search,
+    .supplier-list-box .supplier-toolbar-date,
+    .supplier-list-box .supplier-toolbar-per-page,
+    .supplier-list-box .supplier-toolbar-actions,
+    .supplier-list-box .supplier-standard-export-group,
+    .supplier-list-box .supplier-standard-export-group > .supplier-standard-action-btn,
+    .supplier-list-box .supplier-standard-export-group > .supplier-column-visibility-group,
+    .supplier-list-box .supplier-column-visibility-group > .supplier-standard-action-btn,
+    .supplier-list-box .supplier-add-btn {
+        flex: 0 0 auto;
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+/* S545: Supplier total across all paginator pages. */
+.supplier-list-box .supplier-toolbar-total {
+    align-items: center;
+    background: linear-gradient(135deg, #f7fbff 0%, #edf4ff 100%);
+    border: 1px solid #cfe0f5;
+    border-radius: 14px;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .08);
+    display: inline-flex;
+    flex: 0 0 190px;
+    gap: 11px;
+    height: 58px;
+    justify-content: flex-start;
+    margin-left: auto;
+    min-width: 190px;
+    padding: 8px 14px;
+}
+
+.supplier-list-box .supplier-toolbar-total-icon {
+    align-items: center;
+    background: linear-gradient(135deg, #2f62e9 0%, #38bdf8 100%);
+    border-radius: 11px;
+    color: #fff;
+    display: inline-flex;
+    flex: 0 0 38px;
+    font-size: 17px;
+    height: 38px;
+    justify-content: center;
+    width: 38px;
+}
+
+.supplier-list-box .supplier-toolbar-total-copy {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    min-width: 0;
+}
+
+.supplier-list-box .supplier-toolbar-total-label {
+    color: #5c6f86;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    white-space: nowrap;
+}
+
+.supplier-list-box .supplier-toolbar-total-value {
+    color: #0f172a;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    white-space: nowrap;
+}
+
+@media (max-width: 1399px) {
+    .supplier-list-box .supplier-toolbar-total {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 991px) {
+    .supplier-list-box .supplier-toolbar-total {
+        flex: 1 1 190px;
+        margin-left: 0;
+        max-width: 240px;
+    }
+}
+
+@media (max-width: 767px) {
+    .supplier-list-box .supplier-toolbar-total {
+        flex: 0 0 auto;
+        margin-left: 0;
+        max-width: none;
+        width: 100%;
+    }
+}
+
+@media print {
+    .supplier-list-box .supplier-toolbar-total {
+        display: none !important;
+    }
+}
+
+/* S546: Supplier count, positive Total Due, and negative-balance Total Overpaid across all pages. */
+.supplier-list-box .supplier-toolbar-summary {
+    align-items: stretch;
+    flex: 0 0 255px;
+    height: auto;
+    min-height: 112px;
+    min-width: 255px;
+    padding: 10px 13px;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.supplier-list-box .supplier-toolbar-summary-head {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.supplier-list-box .supplier-toolbar-summary .supplier-toolbar-total-icon {
+    flex-basis: 36px;
+    height: 36px;
+    width: 36px;
+}
+
+.supplier-list-box .supplier-toolbar-summary .supplier-toolbar-total-value {
+    font-size: 18px;
+}
+
+.supplier-list-box .supplier-toolbar-money-summary {
+    border-top: 1px solid #dbe7f4;
+    display: grid;
+    gap: 5px;
+    padding-top: 7px;
+}
+
+.supplier-list-box .supplier-toolbar-money-row {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    line-height: 1.2;
+    min-width: 0;
+}
+
+.supplier-list-box .supplier-toolbar-money-label {
+    color: #5c6f86;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.supplier-list-box .supplier-toolbar-money-value {
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 800;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.supplier-list-box .supplier-toolbar-money-due .supplier-toolbar-money-value {
+    color: #b42318;
+}
+
+.supplier-list-box .supplier-toolbar-money-overpaid .supplier-toolbar-money-value {
+    color: #027a48;
+}
+
+@media (max-width: 991px) {
+    .supplier-list-box .supplier-toolbar-summary {
+        flex: 1 1 255px;
+        max-width: 310px;
+    }
+}
+
+@media (max-width: 767px) {
+    .supplier-list-box .supplier-toolbar-summary {
+        max-width: none;
+        width: 100%;
+    }
+}
+
+/* IS2070 - Supplier Pay Due Amount calendar interaction fix.
+ * The Supplier row Action menu is detached with z-index 1065 and the shared
+ * payment datetimepicker can otherwise sit in a competing stacking context.
+ * Keep the calendar above the modal and make every navigation/date target
+ * explicitly interactive while the Suppliers module stylesheet is active. */
+.pay_contact_due_modal .bootstrap-datetimepicker-widget,
+body > .bootstrap-datetimepicker-widget {
+    z-index: 2000 !important;
+    pointer-events: auto !important;
+}
+
+.pay_contact_due_modal .bootstrap-datetimepicker-widget *,
+body > .bootstrap-datetimepicker-widget * {
+    pointer-events: auto !important;
+}
+
+.pay_contact_due_modal .bootstrap-datetimepicker-widget table th,
+.pay_contact_due_modal .bootstrap-datetimepicker-widget table td,
+.pay_contact_due_modal .bootstrap-datetimepicker-widget a,
+body > .bootstrap-datetimepicker-widget table th,
+body > .bootstrap-datetimepicker-widget table td,
+body > .bootstrap-datetimepicker-widget a {
+    cursor: pointer;
+}
+
+
+/* 2026-08-21 - Add Supplier date picker interaction fix.
+ * Host/global date widgets may be appended to body or placed in a competing
+ * stacking context. Keep them above the Suppliers form and make their date /
+ * navigation targets clickable. This is intentionally limited to picker UI;
+ * it does not alter any field values or validation. */
+#supplier-create-form input[type="date"],
+#supplier-create-form input[type="datetime-local"],
+#supplier-create-form input.datepicker,
+#supplier-create-form input.date-picker,
+#supplier-create-form input.datetimepicker,
+#supplier-create-form input[data-datepicker],
+#supplier-create-form input[data-supplier-date] {
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+
+#supplier-create-form .bootstrap-datetimepicker-widget,
+#supplier-create-form .datepicker,
+#supplier-create-form .datepicker-dropdown,
+body > .bootstrap-datetimepicker-widget,
+body > .datepicker,
+body > .datepicker-dropdown {
+    z-index: 2100 !important;
+    pointer-events: auto !important;
+}
+
+#supplier-create-form .bootstrap-datetimepicker-widget *,
+#supplier-create-form .datepicker *,
+#supplier-create-form .datepicker-dropdown *,
+body > .bootstrap-datetimepicker-widget *,
+body > .datepicker *,
+body > .datepicker-dropdown * {
+    pointer-events: auto !important;
+}
+
+
+/* 2026-09-04: System-standard DataTables functionality bar for Supplier reports/pages.
+ * Shared by Supplier Payments, Supplier Ledger and Supplier Stock Report.
+ * Presentation only: existing DataTables endpoints/business scoping remain unchanged. */
+.suppliers-module .supplier-dt-toolbar-host {
+    width: 100%;
+    margin: 10px 0 12px;
+}
+
+.suppliers-module .supplier-dt-toolbar {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.suppliers-module .supplier-dt-buttons,
+.suppliers-module .supplier-dt-controls {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.suppliers-module .supplier-dt-controls {
+    margin-left: auto;
+    justify-content: flex-end;
+}
+
+.suppliers-module .supplier-dt-toolbar .dt-buttons {
+    align-items: center;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.suppliers-module .supplier-dt-toolbar .dt-button.supplier-standard-action-btn,
+.suppliers-module .supplier-dt-toolbar button.dt-button.supplier-standard-action-btn,
+.suppliers-module .supplier-dt-toolbar a.dt-button.supplier-standard-action-btn {
+    margin: 0 !important;
+}
+
+.suppliers-module .supplier-dt-toolbar .dataTables_length,
+.suppliers-module .supplier-dt-toolbar .dataTables_filter {
+    align-items: center;
+    display: inline-flex;
+    margin: 0 !important;
+}
+
+.suppliers-module .supplier-dt-toolbar .dataTables_length label,
+.suppliers-module .supplier-dt-toolbar .dataTables_filter label {
+    align-items: center;
+    display: inline-flex;
+    gap: 7px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.suppliers-module .supplier-dt-toolbar .dataTables_length select {
+    min-width: 78px;
+    width: auto !important;
+}
+
+.suppliers-module .supplier-dt-toolbar .dataTables_filter input {
+    min-width: 210px;
+    width: 250px !important;
+}
+
+.suppliers-module .supplier-dt-footer {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 10px;
+}
+
+.suppliers-module .supplier-dt-footer .dataTables_info,
+.suppliers-module .supplier-dt-footer .dataTables_paginate {
+    margin: 0 !important;
+    padding-top: 0 !important;
+}
+
+@media (max-width: 991px) {
+    .suppliers-module .supplier-dt-toolbar,
+    .suppliers-module .supplier-dt-controls {
+        justify-content: flex-start;
+    }
+
+    .suppliers-module .supplier-dt-controls {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .suppliers-module .supplier-dt-toolbar .dataTables_filter,
+    .suppliers-module .supplier-dt-toolbar .dataTables_filter label,
+    .suppliers-module .supplier-dt-toolbar .dataTables_filter input {
+        width: 100% !important;
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "name": "Suppliers",
+    "alias": "suppliers",
+    "description": "Standalone Supplier Module for ERP supplier management.",
+    "keywords": [
+        "supplier",
+        "vendor",
+        "standalone",
+        "erp"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\Suppliers\\Providers\\SuppliersServiceProvider",
+        "Modules\\Suppliers\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

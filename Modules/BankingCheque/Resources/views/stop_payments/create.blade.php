@@ -1,0 +1,2 @@
+@extends('bankingcheque::layout')
+@section('banking_cheque_content')<form method="post" action="{{ route('banking.cheques.stop-payments.store') }}">@csrf <input name="account_no" class="form-control mb-2" placeholder="Account No"><input name="leaf_no" class="form-control mb-2" placeholder="Leaf No"><input name="reason" class="form-control mb-2" placeholder="Reason"><button class="btn btn-success">Save</button></form>@endsection

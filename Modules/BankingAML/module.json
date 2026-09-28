@@ -1,0 +1,17 @@
+{
+    "name": "BankingAML",
+    "alias": "bankingaml",
+    "description": "KYC review, PEP/sanctions screening, AML cases, compliance alerts and regulatory dashboard.",
+    "keywords": [
+        "banking",
+        "erp",
+        "bankingaml"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\BankingAML\\Providers\\BankingAMLServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

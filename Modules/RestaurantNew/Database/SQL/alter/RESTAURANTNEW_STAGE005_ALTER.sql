@@ -1,0 +1,4 @@
+-- Stage 005 does not alter shared tables. RestaurantNew remains standalone.
+-- Optional safety fields for existing RestaurantNew order lines if not already present:
+-- ALTER TABLE `restaurant_new_order_lines` ADD COLUMN `kitchen_section_id` BIGINT UNSIGNED NULL AFTER `menu_item_id`;
+-- ALTER TABLE `restaurant_new_order_lines` ADD COLUMN `special_instruction` TEXT NULL AFTER `modifiers_text`;

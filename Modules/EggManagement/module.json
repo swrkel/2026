@@ -1,0 +1,11 @@
+{
+  "name": "EggManagement",
+  "alias": "egg-management",
+  "description": "Standalone multi-tenant, multi-business, multi-location and multi-store egg production, stock and trading module.",
+  "keywords": ["egg", "production", "grading", "stock", "sales", "purchases"],
+  "priority": 0,
+  "providers": [
+    "Modules\\EggManagement\\Providers\\EggManagementServiceProvider"
+  ],
+  "files": []
+}

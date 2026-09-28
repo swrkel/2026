@@ -1,0 +1,160 @@
+IS2214 – SW Settlement – Finance / Finance Reports / Customer Ledger Fix
+Date: 08 Sep 2026
+Source baseline: user supplied SW.zip
+Scope: NEW SW settlements only. No historical backfill is included or required.
+
+ISSUES COVERED
+==============
+1. Finance -> List Accounts account books did not show SW settlement sale/payment entries:
+   - payment accounts
+   - Sales Income
+   - Cost of Goods Sold
+   - Finished Goods
+2. Finance financial statements did not show SW settlement entries:
+   - Profit & Loss on Trading
+   - Trial Balance
+   - Income Statement
+   - Balance Sheet
+3. Finance Reports statements did not show SW settlement entries.
+4. Customer Register -> Action -> Ledger did not show SW credit sales.
+
+ROOT CAUSES FOUND
+=================
+1. The SW Finance posting bridge used Laravel Schema metadata checks throughout a dynamic
+   tenant application. During tenant switching, Schema metadata can be attached to a stale
+   connection. The bridge could therefore quietly return from post() while the SW settlement
+   itself still saved successfully. Result: no standard Finance rows were created.
+
+2. Core TransactionUtil account helpers resolve business/category accounts from session
+   business context. SW correctly resolves the business from the authenticated tenant user.
+   If session business context is stale, Sales Income / COGS / Finished Goods can be posted to
+   the wrong business or not resolved.
+
+3. The previous bridge attached Cash/Card/Cheque/Deposit transaction payments to the main
+   sell/settlement transaction. The current Finance account-book code expects established
+   settlement payment transaction shapes. In particular, the main Card account filters for:
+       transactions.type = settlement
+       transactions.sub_type = card_payment
+   so the old bridge rows were filtered out even when an account transaction existed.
+
+4. SW credit sales created a standard sell/credit_sale transaction and Accounts Receivable,
+   but did not create the corresponding contact_ledgers debit entry. Customer Register ->
+   Ledger therefore had nothing to display for that SW credit sale.
+
+5. Trading Profit requires transaction_sell_lines_purchase_lines. The previous bridge logged
+   purchase/sell mapping failures and continued, so a settlement could report success while
+   the Trading Profit source remained incomplete.
+
+CHANGES MADE
+============
+A. Tenant-safe Finance posting
+- Removed Schema facade dependency from SettlementFinancePostingService.
+- Table/column detection now uses the CURRENT database connection (DATABASE(),
+  information_schema, SHOW COLUMNS).
+- Required core Finance tables are checked before posting.
+- A missing required accounting table now stops the settlement transaction instead of silently
+  saving an SW settlement without Finance rows.
+
+B. Correct multi-business accounting context
+- While the established TransactionUtil helpers run, both business.id and user.business_id are
+  temporarily aligned to the already-validated SW settlement business.
+- Previous session values are restored immediately afterwards.
+
+C. Sales Income / COGS / Finished Goods
+- SW sale lines continue to be posted as standard transactions + transaction_sell_lines.
+- Missing product/variation mappings now stop finalization instead of silently omitting a line.
+- Sales Income, COGS and Finished Goods postings are verified after the standard helpers run.
+- Exact semantic duplicate product-accounting rows are collapsed, making deliberate retries safe.
+
+D. Payment account books
+Each SW collection now uses the same core transaction shape recognised by the Finance module:
+- Cash          -> transaction type settlement / sub_type cash_payment
+- Card          -> transaction type settlement / sub_type card_payment
+- Cheque        -> transaction type settlement / sub_type cheque_payment
+- Cash Deposit  -> transaction type settlement / sub_type cash_deposit
+
+Each collection also receives its own transaction_payments row and debit account_transactions
+row linked to the selected/fallback payment account. Cash Deposit keeps account transaction
+sub_type deposit for Finance bank/deposit presentation compatibility.
+
+E. Credit sales and Customer Ledger
+- Each SW credit sale creates/uses its standard sell / credit_sale transaction.
+- Accounts Receivable is debited.
+- A Customer Settlement contact_ledgers DEBIT entry with sub_type sell is now created exactly
+  once for the customer and transaction.
+- credit_sale_id and petro_settlement_id are supplied when the current transactions schema
+  supports them.
+
+F. Finance / Finance Reports
+- No report-specific exception was added. The correction is at the authoritative accounting
+  source layer: transactions, transaction_sell_lines, transaction_payments,
+  account_transactions and contact_ledgers.
+- Finance and Finance Reports therefore consume SW settlement data through their normal sources.
+
+G. Trading Profit integrity
+- transaction_sell_lines_purchase_lines is treated as required core accounting infrastructure.
+- Purchase/sell mapping failure now stops the SW settlement save instead of leaving Trading
+  Profit incomplete.
+
+H. Account configuration integrity
+- A positive payment/allocation with no valid Finance account no longer disappears silently.
+- Missing Accounts Receivable for an SW credit sale now stops finalization with a clear error.
+- Missing Sales Income for an unclassified credit amount also stops finalization.
+
+DATABASE / SQL
+==============
+No new SW database table or column is required for IS2214.
+No SQL import is required for this fix.
+
+CHANGED APPLICATION FILE
+========================
+SW/Services/SettlementFinancePostingService.php
+
+DEPLOYMENT
+==========
+1. Back up the current SW module.
+2. Replace Modules/SW with the supplied corrected full module (recommended), or copy the
+   changed file from the changed-files package.
+3. From Laravel root run:
+       php artisan optimize:clear
+4. Hard refresh the browser (Ctrl+F5).
+5. Test using a NEW SW settlement. This package intentionally does not backfill historical data.
+
+TEST SEQUENCE
+=============
+Create one new finalized SW settlement containing, where available:
+- Meter/Other Sale product line
+- Cash payment
+- Card payment
+- Cheque payment
+- Cash Deposit
+- Credit Sale for a normal customer
+
+Then verify:
+A. Finance -> List Accounts
+- relevant Cash/Bank/Card/Cheque payment account books show the settlement collection
+- Sales Income shows the SW sale
+- Cost of Goods Sold shows stock cost
+- Finished Goods shows stock cost credit
+
+B. Finance
+- Profit & Loss on Trading includes the SW sale/product mapping
+- Trial Balance includes the new account movements
+- Income Statement includes Sales Income / COGS as applicable
+- Balance Sheet includes payment assets, Accounts Receivable and Finished Goods as applicable
+
+C. Finance Reports
+- Trial Balance, Income Statement, Balance Sheet and Profit & Loss include the same standard
+  account movements.
+
+D. Customers
+- Customer Register -> Action -> Ledger for the SW credit-sale customer shows a debit/sale row
+  for the SW settlement and the amount is due until paid.
+
+VALIDATION PERFORMED BEFORE PACKAGING
+=====================================
+- PHP syntax validation run across all active PHP files in the SW module.
+- SettlementFinancePostingService has no Laravel Schema facade metadata dependency.
+- Standard settlement payment subtypes are present for Cash/Card/Cheque/Cash Deposit.
+- Customer credit ledger creation is present and idempotent.
+- Finance posting remains inside the same DB transaction as SW settlement save.

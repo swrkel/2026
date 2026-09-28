@@ -1,0 +1,62 @@
+IS2255 – SW Module – 12 Sep 2026
+=================================
+Source used: user-supplied latest SW.zip
+
+ISSUE FIXED
+-----------
+SW Module / SW Settlement / New Settlement / Payments / Expenses
+- A newly-created Expense Category was not appearing in the Expense Category dropdown.
+
+ROOT CAUSE / FIX
+----------------
+- Previous SW code refreshed categories through an SW-specific JSON endpoint. In some tenant/session/navigation paths, that list could remain different from the list produced by the core Expenses module after a category was created.
+- SW now uses the core Expense Category dropdown endpoint as its PRIMARY live source:
+    /expense-categories/get-drop-down
+  This is the same feed used by the application's normal Expense Category quick-add workflow.
+- The exact option/optgroup HTML produced by the core Expenses module is applied to the SW selector, preserving the same category/sub-category ordering and labels.
+- The existing SW JSON category endpoint remains as a safe fallback if the core endpoint is unavailable.
+- Both requests are cache-busted and protected against stale/out-of-order AJAX responses.
+- The current selected category is preserved if it still exists after refresh.
+- The list refreshes:
+    1. when the SW settlement page loads,
+    2. whenever the Expenses payment type is clicked,
+    3. when the browser/window regains focus,
+    4. when a cached SW page is restored with the browser Back button (pageshow), and
+    5. when the page becomes visible again after switching tabs.
+- Failed/non-select HTML responses (login/error pages) are rejected instead of being injected into the dropdown.
+- The existing Blade-rendered categories remain visible until a valid live response arrives, so a temporary request failure cannot blank the field.
+
+CHANGED FILES
+-------------
+1. Resources/views/settlements/partials/payments_js.blade.php
+2. CHANGE_MANIFEST_IS2255.txt
+
+DATABASE / MIGRATION
+--------------------
+No SQL import, migration, new table, or new column is required.
+
+VALIDATION
+----------
+- PHP syntax check passed for all 128 PHP/Blade-PHP files in the SW module.
+- payments_js.blade.php JavaScript block passed Node syntax validation after neutralising Blade echo expressions.
+- Source-vs-fixed comparison confirmed that the only application code change is payments_js.blade.php; this manifest is the only additional file.
+- Final ZIP archive integrity is checked during packaging.
+
+DEPLOYMENT
+----------
+Replace the SW module with the consolidated parcel, then run:
+
+cd /home/nivasa/public_html
+php artisan optimize:clear
+
+Then use Ctrl + F5 once on the SW Settlement page.
+
+TEST CHECKLIST
+--------------
+A. Open SW Module -> SW Settlement -> New Settlement -> Payments -> Expenses.
+B. Note the current Expense Category list.
+C. Add a NEW Expense Category from the system Expense Categories page.
+D. Return to the SW settlement (same tab with Back, or another tab/window).
+E. Click Expenses if necessary.
+F. Confirm the newly-created category appears immediately in the Expense Category dropdown without reopening/restarting the settlement.
+G. Select the new category and confirm its related account still loads normally.

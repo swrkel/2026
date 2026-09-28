@@ -1,0 +1,15 @@
+POS Standalone S347 - Core Sales Workspace
+
+Scope completed in this parcel:
+1. Communication-Hub inspired POS Sales Workspace UI.
+2. Standalone product search using pos_products only.
+3. Barcode/SKU add-to-cart using pos_products only.
+4. POS cart add/update/remove/clear using pos_carts and pos_cart_lines only.
+5. Customer name assignment inside POS cart only.
+6. Hold sale and resume sale using POS cart status only.
+7. Checkout with Cash/Card/Bank/Wallet/Credit methods.
+8. Standalone receipt page and receipt reprint from POS sales list.
+9. Stock reduction on POS sale from pos_products.stock_quantity only.
+10. Raw SQL included: Database/SQL/pos_standalone_s347_core_sales.sql
+
+No main ERP products/contacts/sell tables are used by this flow.

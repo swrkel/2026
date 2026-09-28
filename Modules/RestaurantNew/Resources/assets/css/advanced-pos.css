@@ -1,0 +1,10 @@
+.restaurant-new-advanced-pos .rn-summary-row { margin-bottom: 15px; }
+.restaurant-new-advanced-pos .rn-card { color: #fff; border-radius: 8px; padding: 18px; min-height: 86px; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.restaurant-new-advanced-pos .rn-card span { display: block; font-size: 13px; opacity: .92; }
+.restaurant-new-advanced-pos .rn-card strong { display: block; font-size: 26px; margin-top: 7px; }
+.restaurant-new-advanced-pos .rn-card-blue { background: #3c8dbc; }
+.restaurant-new-advanced-pos .rn-card-green { background: #00a65a; }
+.restaurant-new-advanced-pos .rn-card-orange { background: #f39c12; }
+.restaurant-new-advanced-pos .rn-card-purple { background: #605ca8; }
+.restaurant-new-advanced-pos .rn-pos-box .btn { margin: 1px; font-weight: 600; }
+.restaurant-new-advanced-pos .table > tbody > tr > td { vertical-align: middle; }

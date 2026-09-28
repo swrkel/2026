@@ -1,0 +1,14 @@
+DISNEW_004 - Vehicles + Super Admin Limit
+
+Added:
+- Business-level vehicle master inside standalone Distribution New module.
+- Super Admin vehicle limit table and manage page hook.
+- Limit validation before creating active/maintenance vehicles.
+- Vehicle selection support columns for loading plans, loading, and vehicle stock.
+- Separate model/controller/service/views/lang/report files.
+- Tenant-safe SQL file and updated DISNEW_MASTER.sql.
+
+Notes:
+- Does not duplicate any existing fleet/transport module.
+- Uses disnew_ table prefix only.
+- Keeps POS-style page card/table/form design.

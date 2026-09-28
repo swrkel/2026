@@ -1,0 +1,21 @@
+{
+    "name": "Pawning",
+    "alias": "pawning",
+    "description": "Standalone Pawning module for pledges, collateral articles, valuation, redemption, renewal, auction and vault/location tracking.",
+    "keywords": [
+        "banking",
+        "pawning",
+        "pledge",
+        "collateral"
+    ],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Pawning\\Providers\\PawningServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -1,0 +1,429 @@
+/* Pump Operator - Enter Meters responsive screen
+ * Scoped to #other_sales so other Pumper Dashboard modals remain unchanged.
+ */
+#other_sales.pumper-enter-meters-modal {
+    padding-right: 0 !important;
+}
+
+#other_sales.pumper-enter-meters-modal .pumper-enter-meters-dialog {
+    width: min(1840px, calc(100vw - 24px));
+    height: calc(100dvh - 24px);
+    max-width: none;
+    margin: 12px auto;
+}
+
+#other_sales.pumper-enter-meters-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    overflow: hidden;
+    border: 0;
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 85% 10%, rgba(219, 237, 255, .78), transparent 38%),
+        linear-gradient(135deg, #ffffff 0%, #f8fbff 54%, #edf6ff 100%);
+    box-shadow: 0 18px 55px rgba(30, 64, 96, .22);
+}
+
+#other_sales.pumper-enter-meters-modal .pumper-enter-meters-header {
+    position: relative;
+    flex: 0 0 auto;
+    min-height: clamp(72px, 10vh, 104px);
+    padding: clamp(18px, 2.6vh, 28px) clamp(22px, 2.2vw, 34px) clamp(10px, 1.6vh, 16px);
+    border-bottom: 1px solid rgba(224, 231, 239, .85);
+    background: rgba(255, 255, 255, .76);
+}
+
+#other_sales.pumper-enter-meters-modal .pumper-enter-meters-title {
+    margin: 0;
+    padding-right: 64px;
+    color: #172536;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: clamp(30px, min(2.7vw, 5.4vh), 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -.4px;
+}
+
+#other_sales.pumper-enter-meters-modal .pumper-enter-meters-close {
+    position: absolute;
+    top: 50%;
+    right: clamp(16px, 1.8vw, 28px);
+    z-index: 3;
+    width: clamp(44px, 4.8vh, 58px);
+    height: clamp(44px, 4.8vh, 58px);
+    margin: 0;
+    padding: 0;
+    transform: translateY(-50%);
+    border: 1px solid #d8e1eb;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .96);
+    color: #334155;
+    font-size: clamp(28px, 3.4vh, 38px);
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    opacity: 1;
+    box-shadow: 0 5px 14px rgba(15, 23, 42, .10);
+}
+
+#other_sales.pumper-enter-meters-modal .pumper-enter-meters-close:hover,
+#other_sales.pumper-enter-meters-modal .pumper-enter-meters-close:focus {
+    background: #ffffff;
+    color: #dc3545;
+    outline: 0;
+}
+
+#other_sales.pumper-enter-meters-modal .pumper-enter-meters-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    padding: clamp(10px, 1.4vh, 16px) clamp(12px, 1.6vw, 26px) clamp(12px, 1.8vh, 20px);
+}
+
+#other_sales .enter-meters-form,
+#other_sales .enter-meters-card {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+}
+
+#other_sales .enter-meters-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: clamp(10px, 1.2vw, 18px);
+    border: 1px solid #e0e7ef;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 8px 24px rgba(30, 64, 96, .10);
+}
+
+#other_sales .enter-meters-table-wrap {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    overflow: auto;
+    border: 1px solid #dfe5ec;
+    border-radius: 10px;
+    background: #ffffff;
+    scrollbar-gutter: stable;
+}
+
+#other_sales #other_sale_table {
+    width: 100%;
+    min-width: 980px;
+    margin: 0;
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    background: #ffffff;
+}
+
+#other_sales #other_sale_table th,
+#other_sales #other_sale_table td {
+    vertical-align: middle;
+    border-top: 0;
+    border-right: 1px solid #e1e5eb;
+    border-bottom: 1px solid #e1e5eb;
+    border-left: 0;
+    text-align: left;
+}
+
+#other_sales #other_sale_table th:last-child,
+#other_sales #other_sale_table td:last-child {
+    border-right: 0;
+}
+
+#other_sales #other_sale_table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    height: clamp(58px, 7.5vh, 74px);
+    padding: clamp(10px, 1.2vh, 15px) clamp(10px, 1vw, 18px);
+    background: #f4f5f7;
+    color: #111827;
+    font-size: clamp(16px, min(1.25vw, 2.5vh), 21px);
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-shadow: 0 1px 0 #e1e5eb;
+}
+
+#other_sales #other_sale_table tbody td {
+    height: clamp(66px, 8.6vh, 90px);
+    padding: clamp(10px, 1.25vh, 15px) clamp(10px, 1vw, 18px);
+    background: #ffffff;
+    color: #243247;
+    font-size: clamp(16px, min(1.25vw, 2.55vh), 21px);
+    font-weight: 400;
+    line-height: 1.25;
+    font-variant-numeric: tabular-nums;
+}
+
+#other_sales #other_sale_table tbody tr:nth-child(even) td {
+    background: #fbfcfe;
+}
+
+/* All meter and money columns are numeric and align to the right. */
+#other_sales #other_sale_table thead th:nth-child(n+2),
+#other_sales #other_sale_table tbody td:nth-child(n+2) {
+    text-align: right;
+}
+
+#other_sales #other_sale_table th:nth-child(1),
+#other_sales #other_sale_table td:nth-child(1) {
+    width: 12%;
+}
+
+#other_sales #other_sale_table th:nth-child(2),
+#other_sales #other_sale_table td:nth-child(2) {
+    width: 16%;
+}
+
+#other_sales #other_sale_table th:nth-child(3),
+#other_sales #other_sale_table td:nth-child(3) {
+    width: 20%;
+}
+
+#other_sales #other_sale_table th:nth-child(4),
+#other_sales #other_sale_table td:nth-child(4) {
+    width: 15%;
+}
+
+#other_sales #other_sale_table th:nth-child(5),
+#other_sales #other_sale_table td:nth-child(5) {
+    width: 10%;
+}
+
+#other_sales #other_sale_table th:nth-child(6),
+#other_sales #other_sale_table td:nth-child(6) {
+    width: 11%;
+}
+
+#other_sales #other_sale_table th:nth-child(7),
+#other_sales #other_sale_table td:nth-child(7) {
+    width: 16%;
+}
+
+#other_sales #other_sale_table .other_sale_new_meter {
+    display: block;
+    width: min(100%, 180px);
+    min-width: 118px;
+    height: clamp(48px, 6.6vh, 60px);
+    margin-left: auto;
+    padding: 8px 14px;
+    border: 1px solid #cbd5df;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #243247;
+    font-size: clamp(16px, min(1.25vw, 2.5vh), 21px) !important;
+    font-weight: 500;
+    line-height: 1;
+    text-align: right !important;
+    font-variant-numeric: tabular-nums;
+    box-shadow: inset 0 1px 2px rgba(15, 23, 42, .03);
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+#other_sales #other_sale_table .other_sale_new_meter:focus {
+    border-color: #4a90c2;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(74, 144, 194, .16);
+}
+
+#other_sales #other_sale_table .valid-input {
+    border-color: #2da44e !important;
+    box-shadow: 0 0 0 3px rgba(45, 164, 78, .12) !important;
+}
+
+#other_sales #other_sale_table .invalid-input {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, .12) !important;
+}
+
+#other_sales #other_sale_table tfoot td {
+    height: clamp(54px, 6.7vh, 70px);
+    padding: 0;
+    background: #ffffff;
+    color: #1f2d3d;
+    font-size: clamp(16px, min(1.2vw, 2.4vh), 20px);
+    font-weight: 500;
+}
+
+#other_sales #other_sale_table tfoot tr:last-child td {
+    border-bottom: 0;
+}
+
+#other_sales #other_sale_table .enter-meters-summary-cell {
+    padding: 0 clamp(14px, 1.4vw, 24px);
+    border-right: 0;
+}
+
+#other_sales .enter-meters-summary-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(130px, 220px);
+    align-items: center;
+    gap: 24px;
+    width: min(560px, 100%);
+}
+
+#other_sales .enter-meters-summary-label {
+    min-width: 0;
+    color: #1f2d3d;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#other_sales .enter-meters-summary-value {
+    min-width: 0;
+    color: #1f2d3d;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+#other_sales .enter-meters-empty-row td {
+    height: 120px !important;
+    color: #6b7280 !important;
+    text-align: center !important;
+}
+
+#other_sales .enter-meters-actions {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: clamp(10px, 1.5vh, 18px);
+}
+
+#other_sales .enter-meters-finalize {
+    min-width: clamp(150px, 11vw, 190px);
+    min-height: clamp(52px, 6.8vh, 64px);
+    margin: 0 !important;
+    padding: 10px 28px;
+    border: 0;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #e76565, #ef6d7b);
+    color: #ffffff;
+    font-size: clamp(17px, min(1.25vw, 2.5vh), 21px);
+    font-weight: 500;
+    line-height: 1.2;
+    box-shadow: 0 7px 16px rgba(220, 53, 69, .20);
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+#other_sales .enter-meters-finalize:hover,
+#other_sales .enter-meters-finalize:focus {
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 9px 20px rgba(220, 53, 69, .26);
+    outline: 0;
+}
+
+#other_sales .enter-meters-finalize[disabled] {
+    cursor: not-allowed;
+    opacity: .58;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Compact-height desktop: preserve readable controls while fitting the modal. */
+@media (min-width: 992px) and (max-height: 760px) {
+    #other_sales.pumper-enter-meters-modal .pumper-enter-meters-dialog {
+        height: calc(100dvh - 12px);
+        margin: 6px auto;
+    }
+
+    #other_sales.pumper-enter-meters-modal .pumper-enter-meters-header {
+        min-height: 66px;
+        padding-top: 12px;
+        padding-bottom: 8px;
+    }
+
+    #other_sales.pumper-enter-meters-modal .pumper-enter-meters-body {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    #other_sales .enter-meters-card {
+        padding: 8px;
+    }
+
+    #other_sales #other_sale_table thead th {
+        height: 52px;
+    }
+
+    #other_sales #other_sale_table tbody td {
+        height: 60px;
+    }
+
+    #other_sales #other_sale_table tfoot td {
+        height: 46px;
+    }
+
+    #other_sales .enter-meters-actions {
+        padding-top: 8px;
+    }
+}
+
+@media (max-width: 991px) {
+    #other_sales.pumper-enter-meters-modal .pumper-enter-meters-dialog {
+        width: calc(100vw - 12px);
+        height: calc(100dvh - 12px);
+        margin: 6px auto;
+    }
+
+    #other_sales.pumper-enter-meters-modal .modal-content {
+        border-radius: 12px;
+    }
+
+    #other_sales.pumper-enter-meters-modal .pumper-enter-meters-header {
+        min-height: 68px;
+        padding: 15px 16px 10px;
+    }
+
+    #other_sales.pumper-enter-meters-modal .pumper-enter-meters-title {
+        padding-right: 50px;
+        font-size: clamp(26px, 6vw, 34px);
+    }
+
+    #other_sales.pumper-enter-meters-modal .pumper-enter-meters-close {
+        right: 12px;
+        width: 42px;
+        height: 42px;
+        font-size: 28px;
+    }
+
+    #other_sales.pumper-enter-meters-modal .pumper-enter-meters-body {
+        padding: 8px;
+    }
+
+    #other_sales .enter-meters-card {
+        padding: 7px;
+    }
+
+    #other_sales #other_sale_table {
+        min-width: 900px;
+    }
+
+    #other_sales .enter-meters-summary-row {
+        grid-template-columns: minmax(180px, 1fr) minmax(120px, 180px);
+        width: min(500px, 100%);
+    }
+}
+
+@media (max-width: 575px) {
+    #other_sales .enter-meters-summary-row {
+        grid-template-columns: minmax(160px, 1fr) minmax(105px, 140px);
+        gap: 12px;
+    }
+
+    #other_sales .enter-meters-finalize {
+        width: 100%;
+    }
+}

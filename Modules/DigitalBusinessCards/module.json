@@ -1,0 +1,11 @@
+{
+    "name": "DigitalBusinessCards",
+    "alias": "digitalbusinesscards",
+    "description": "Shareable digital business cards with QR codes and one-tap vCard download.",
+    "keywords": ["business-cards", "vcard", "qr"],
+    "priority": 0,
+    "providers": [
+        "Modules\\DigitalBusinessCards\\Providers\\DigitalBusinessCardsServiceProvider"
+    ],
+    "files": []
+}

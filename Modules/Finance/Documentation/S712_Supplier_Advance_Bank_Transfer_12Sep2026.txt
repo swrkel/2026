@@ -1,0 +1,46 @@
+S712 - Supplier Payment Advance - 12 Sep 2026
+
+Issue
+-----
+Supplier Module > List Supplier > Action > Advance Payment
+A Bank Transfer advance payment could appear in Finance > Cash Account Book
+because a legacy account-transaction path fell back to the Cash account when the
+payment account was not available at the exact instant the account row was made.
+
+Fix
+---
+1. Finance now watches both Core and Finance AccountTransaction saves.
+2. It only changes the narrowly identified case:
+   - transaction type = advance_payment
+   - contact type = supplier
+   - payment method = bank transfer
+   - current account = Cash / empty
+3. Correct-account resolution order:
+   a) transaction_payments.account_id (the selected payment account)
+   b) transaction_payments.related_account_id (legacy bank-transfer forms)
+   c) Business Location default account for bank_transfer
+4. Finance never guesses between bank accounts. If no safe non-Cash account can
+   be resolved, the row is left unchanged and logged.
+5. A TransactionPayment saved hook re-checks the row so event ordering cannot
+   leave the entry in Cash.
+
+Historical data
+---------------
+Migration 2026_09_12_000003 automatically runs the idempotent historical repair
+when Finance migrations are executed for a tenant database.
+
+Optional verification / manual repair command:
+  php artisan finance:repair-supplier-advance-payment-accounts --dry-run
+  php artisan finance:repair-supplier-advance-payment-accounts
+
+Optional one-business scope:
+  php artisan finance:repair-supplier-advance-payment-accounts --business_id=3 --dry-run
+  php artisan finance:repair-supplier-advance-payment-accounts --business_id=3
+
+Changed files
+-------------
+Finance/Providers/FinanceServiceProvider.php
+Finance/Services/Payments/SupplierAdvancePaymentAccountNormalizer.php
+Finance/Console/Commands/RepairSupplierAdvancePaymentAccounts.php
+Finance/Database/Migrations/2026_09_12_000003_repair_supplier_advance_bank_transfer_accounts.php
+Finance/Documentation/S712_Supplier_Advance_Bank_Transfer_12Sep2026.txt

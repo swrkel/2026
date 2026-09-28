@@ -1,0 +1,3 @@
+Parcel 1: Foundation, configuration, sidebar, permissions, paddy purchasing/receiving/stock.
+Parcel 2: Production/milling, packing, finished stock, sales/dispatch.
+Parcel 3: Reports, integrations, migration, Master SQL, assets, installation and test checklist.

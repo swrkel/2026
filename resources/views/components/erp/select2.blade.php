@@ -1,0 +1,1 @@
+<x-erp.select :name="$name" :label="$label ?? null" :options="$options ?? []" :selected="$selected ?? null" :required="$required ?? false" :help="$help ?? null" :error="$error ?? null" class="exf-select2" data-exf-select2="true" {{ $attributes }} />

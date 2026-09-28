@@ -1,0 +1,27 @@
+S369 - POS Reports & Analytics Completion
+========================================
+
+Completed in this package:
+- Added /pos-module/reports route directly into the active POS route file.
+- Added /pos-module/reports/export/{report} CSV export route.
+- Added /pos-module/reports/{report} detail route placeholder for report drill-down pages.
+- Confirmed reports controller uses POS-owned report service.
+- Reports remain under Modules/POS and do not use main ERP POS/business logic.
+- Reports keep the ERP/Communication Hub layout through pos::layouts.app.
+
+Reports available:
+- Daily sales
+- Payment report
+- Item sales
+- Category sales
+- Cashier sales
+- Stock valuation
+- Low stock
+- CSV export support
+
+Deployment:
+- Replace the Modules/POS folder from this parcel.
+- Run: php artisan optimize:clear
+- Run: php artisan route:clear
+
+No SQL required for S369.

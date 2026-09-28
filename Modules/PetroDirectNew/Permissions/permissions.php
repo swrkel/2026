@@ -1,0 +1,28 @@
+<?php
+
+return [
+    ['name' => 'petro_direct_new.access', 'label' => 'Access Petro Direct-New', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.dashboard.view', 'label' => 'View Dashboard', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.settlements.view', 'label' => 'View Direct Settlements', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.settlements.create', 'label' => 'Create Direct Settlements', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.settlements.edit', 'label' => 'Edit Draft Direct Settlements', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.settlements.delete', 'label' => 'Delete Draft Direct Settlements', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.settlements.finalize', 'label' => 'Finalize Direct Settlements', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.settlements.print', 'label' => 'Print Direct Settlements', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.pumpers.view', 'label' => 'View Pumper Management', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.operators.manage', 'label' => 'Manage Operators', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.pumps.manage', 'label' => 'Manage Pumps', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.tanks.manage', 'label' => 'Manage Fuel Tanks', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.assignments.manage', 'label' => 'Manage Pump Assignments', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.meters.manage', 'label' => 'Manage Meter Readings', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.dips.manage', 'label' => 'Manage Dip Readings', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.transfers.manage', 'label' => 'Manage Tank Transfers', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.collections.manage', 'label' => 'Manage Daily Collections', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.payments.manage', 'label' => 'Manage Pumper Excess and Shortage Payments', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.day_entries.manage', 'label' => 'Manage Pumper Day Entries', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.shifts.close', 'label' => 'Close Pumper Shifts', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.unload_stock.manage', 'label' => 'Manage Unload Stock', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.reports.view', 'label' => 'View Reports', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.reports.export', 'label' => 'Export Reports', 'guard_name' => 'web'],
+    ['name' => 'petro_direct_new.settings.manage', 'label' => 'Manage Settings', 'guard_name' => 'web'],
+];

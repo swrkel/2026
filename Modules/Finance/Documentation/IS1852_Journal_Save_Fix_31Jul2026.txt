@@ -1,0 +1,37 @@
+IS1852 – Finance Journal Save Fix – 31 July 2026
+
+Issue
+-----
+Finance module / List Journal / Add / Save did not save the journal.
+
+Root cause
+----------
+1. The first two visible Journal rows did not have POST field names.
+2. Saving depended on clicking the internal Add button first so that hidden rows were created.
+3. The opposite debit/credit input was disabled. Disabled inputs are omitted from the browser POST, so debit and credit arrays had different row counts and server validation rejected the request.
+4. Dynamically-added rows used a different nested payload format from the original rows.
+
+Fix
+---
+1. Visible rows now submit directly using one consistent column-array payload.
+2. The Save action no longer depends on the internal preview/Add step.
+3. Debit/credit counterparts use readonly instead of disabled so every row is submitted.
+4. Dynamic rows use the same field-name format as the initial rows.
+5. Debit and credit totals are recalculated and validated on the server.
+6. Both legacy row-array and current column-array request formats are accepted.
+7. Opening Balance defaults to No and Show in Ledger defaults to No.
+8. Account, account type, business, location, balanced totals, and row-side validations are enforced.
+9. Optional Journal columns are written only when they exist, improving compatibility across tenant databases.
+10. Save exceptions are logged with Finance journal context and the database transaction is safely rolled back.
+
+Changed files
+-------------
+- Finance/Http/Controllers/Journal/JournalController.php
+- Finance/Resources/views/journal/create.blade.php
+- Finance/Resources/views/journal/get_row.blade.php
+- Finance/Resources/views/journal/index.blade.php
+
+Conflict check
+--------------
+No Purchase module files were changed.
+No database migration or raw SQL is required.

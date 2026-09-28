@@ -1,0 +1,18 @@
+IS1845 – FINANCE MODULE / DEPOSITS FIX
+Date: 31 July 2026
+
+Scope
+-----
+Finance module only. No Purchase module file is changed or included.
+
+Corrections
+-----------
+1. Cheque Deposit list now displays exactly: Name, Cheque Number, Cheque Date, Bank and Amount for customer cheque payments, including Pay Due and Bulk Payment records.
+2. Deposit to Account is resolved from active bank accounts of the logged-in business and the Select2 dropdown is initialized inside the modal.
+3. Cheque Deposit, Cash Deposit, Card Deposit and Fund Transfer now return the exact message “Successfully Saved”. Finance success notices use a green background and white text.
+4. Fund Transfer creates explicit business-scoped paired account rows and Account Books display the counterpart account as From/To details.
+5. Cheque list loading is Finance-owned, bounded, de-duplicated and no longer depends on customer-payment-information endpoints.
+
+Database
+--------
+No migration or raw SQL is required.

@@ -1,0 +1,3 @@
+-- S387 Chequer Template Designer
+-- No database schema change is required.
+-- The enhanced designer stores its additional settings in cheq_templates.field_map JSON.

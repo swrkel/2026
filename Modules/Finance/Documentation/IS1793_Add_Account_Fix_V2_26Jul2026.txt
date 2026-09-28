@@ -1,0 +1,25 @@
+IS1793 V2 - Finance Module / List Accounts / Add
+
+Reason the first package could still fail
+-----------------------------------------
+The first correction still opened the Add form through a newly registered AJAX route.
+That left the button dependent on route-cache state and on the modal GET request completing.
+The page therefore could still show the generic message "Unable to open the Finance form."
+
+V2 correction
+-------------
+1. The Add Account form is prepared by the Finance AccountController while List Accounts loads.
+2. The form is stored in an inert HTML <template> and opened locally when Add is clicked.
+   No AJAX GET request is used to open the form.
+3. The form posts to the long-existing /accounting-module/account endpoint, so it does not
+   depend on a newly named add/store route.
+4. The Blade no longer calls the removed legacy action AccountController@store.
+5. Account Group options are rendered explicitly instead of passing Eloquent models to Form::select.
+6. Account Type, Account Group, Parent Account, Location and related Select2 fields are initialized
+   only after the modal is visible and use the modal content as dropdownParent.
+7. Save failures now display the actual JSON error message returned by the server.
+8. The conventional /accounting-module/account/create endpoint remains functional using the same
+   business-scoped data builder.
+9. The earlier Finance Edit route and modal compatibility changes are preserved.
+
+No SQL or migration is required.

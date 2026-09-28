@@ -1,0 +1,25 @@
+CUSTOMER STATEMENTS S564 RESTART — VALIDATION REPORT
+Date: 29 July 2026
+
+VALIDATED
+- PHP syntax: all non-empty PHP and Blade files in the module.
+- JavaScript syntax: executable scripts extracted from both injected Blade partials.
+- Route-to-controller mappings for statement save/list and numbering settings list.
+- Service-provider registration for the persistence service.
+- Tab target mapping:
+  Customer Statements          -> #customer_statements
+  List Customer Statements     -> #list_customer_statements
+  Statement Settings           -> #logos
+  Customer Statement Settings  -> #settings_customer_statements
+  Statement Print Formats      -> #font_settings
+  Alert Settings               -> #customer_statement_alert_settings
+- Legacy #list_statement_payments pane is hidden from corrected navigation.
+- Bootstrap data-toggle is removed from corrected tabs to prevent dual activation.
+- Customer Statement number and location are explicitly saved after the shared save action.
+- Numbering settings list uses the current business session resolver and newest row per customer.
+- Changed source scope is limited to Modules/CustomerStatements.
+- No SQL/migration required.
+
+LIMITATION
+A live authenticated tenant browser/database test cannot be executed in this offline build environment.
+Perform the deployment test steps in README_S564_RESTART_FIX.txt before rollout to all tenants.

@@ -1,0 +1,1 @@
+(function(){'use strict';window.DisnewOperationalPolish={init:function(){document.querySelectorAll('.disnew-table').forEach(function(table){table.dataset.disnewReady='1';});}};document.addEventListener('DOMContentLoaded',window.DisnewOperationalPolish.init);})();

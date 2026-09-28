@@ -1,0 +1,7 @@
+{
+  "name": "syzygy/ezylaw",
+  "description": "Standalone EzyLaw lawyer management module",
+  "type": "library",
+  "extra": {"laravel": {"providers": ["Modules\\EzyLaw\\Providers\\EzyLawServiceProvider", "Modules\\EzyLaw\\Providers\\RouteServiceProvider"]}},
+  "autoload": {"psr-4": {"Modules\\EzyLaw\\": ""}}
+}

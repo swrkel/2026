@@ -1,0 +1,1 @@
+<table><thead><tr><th>Date</th><th>Channel</th><th>Recipient</th><th>Status</th><th>Cost</th></tr></thead><tbody>@foreach($messages as $message)<tr><td>{{ $message->created_at }}</td><td>{{ $message->channel }}</td><td>{{ $message->recipient }}</td><td>{{ $message->status }}</td><td>{{ $message->cost }}</td></tr>@endforeach</tbody></table>

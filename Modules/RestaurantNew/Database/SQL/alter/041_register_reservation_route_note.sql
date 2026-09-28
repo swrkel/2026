@@ -1,0 +1,2 @@
+-- Include Modules/RestaurantNew/Routes/reservation.php from RestaurantNewRouteServiceProvider or the module route loader.
+-- No shared core file change is included in this patch to keep RestaurantNew standalone.

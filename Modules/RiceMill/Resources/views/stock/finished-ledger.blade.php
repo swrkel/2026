@@ -1,0 +1,7 @@
+@extends('RiceMill::layout') @section('rcm-title','Finished Stock Ledger - '.$p->name)
+@section('rcm-content')
+<div class="rcm-card">
+@include('RiceMill::partials.functionality-bar',['tableId'=>'rcm-finished-ledger-table','exportName'=>'rice-mill-finished-ledger-'.$p->id,'serverPaged'=>true,'paginator'=>$rows,'rowsLabel'=>'movements'])
+<div class="rcm-table-wrap"><table id="rcm-finished-ledger-table" class="rcm-table rcm-managed-table"><thead><tr><th>Date</th><th>Type</th><th class="rcm-num">Qty</th><th class="rcm-num">Signed Qty</th><th>Reference</th><th>Note</th></tr></thead><tbody>@forelse($rows as $r)<tr><td>{{ $r->movement_date }}</td><td>{{ $r->movement_type }}</td><td class="rcm-num">{{ number_format($r->quantity,$rcmQuantityPrecision) }}</td><td class="rcm-num">{{ number_format($r->signed_quantity,$rcmQuantityPrecision) }}</td><td>{{ $r->reference_type }} #{{ $r->reference_id }}</td><td>{{ $r->note }}</td></tr>@empty<tr data-rcm-empty-row><td colspan="6" class="rcm-muted">No finished stock movements found.</td></tr>@endforelse</tbody></table></div>{{ $rows->links() }}</div>
+<div class="rcm-card"><form class="rcm-inline" method="post" action="{{ route('rice-mill.finished-stock.adjust',$p->id) }}">@csrf<select name="direction"><option value="in">Add</option><option value="out">Reduce</option></select><input type="number" step="{{ $rcmQuantityStep }}" name="quantity" placeholder="Qty" required><input name="note" placeholder="Reason" required><button class="rcm-btn">Post Adjustment</button></form></div>
+@endsection

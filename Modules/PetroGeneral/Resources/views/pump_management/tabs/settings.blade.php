@@ -1,0 +1,1 @@
+<div class="tab-pane {{ $active_tab == 'settings' ? 'active' : '' }}" id="pg_pump_settings"><div class="box box-default"><div class="box-header with-border"><h3 class="box-title">@lang('petrogeneral::lang.settings')</h3></div><div class="box-body"><p class="text-muted">@lang('petrogeneral::lang.pg_separate_tab_file_note')</p></div></div></div>

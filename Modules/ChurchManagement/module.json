@@ -1,0 +1,13 @@
+{
+    "name": "ChurchManagement",
+    "alias": "churchmanagement",
+    "description": "Standalone Church Management module",
+    "keywords": ["church", "members", "families", "congregation", "ministry"],
+    "priority": 0,
+    "providers": [
+        "Modules\\ChurchManagement\\Providers\\ChurchManagementServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

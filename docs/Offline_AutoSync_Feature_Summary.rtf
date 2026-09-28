@@ -1,0 +1,76 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Arial;}}
+\fs24
+\b Offline/Auto-Sync Feature Summary \b0\par
+\par
+\b Overview \b0\par
+This document summarizes the implementation to enable users to work offline and auto-synchronize data at frequent intervals, including: adding an offline flag to target pages, applying admin-configurable auto-sync intervals per business location, and automatically allowing overselling during offline-mode sync.\par
+\par
+\b Pages Updated (Offline Flag) \b0\par
+The following pages now include a hidden input field `offline_mode` that signals offline-originated submissions for later sync:\par
+- POS (Sales POS): resources/views/sale_pos/create.blade.php\par
+- Add Sales: resources/views/sell/create.blade.php\par
+- Touch POS: resources/views/tpos_sale/create.blade.php and resources/views/tpos_sale/edit.blade.php\par
+- Purchase (Add/Edit): resources/views/purchase/create.blade.php and resources/views/purchase/edit.blade.php\par
+- Ezy Invoice: Modules/EzyInvoice/Resources/views/invoices/add.blade.php\par
+\par
+\b Admin Interval Setting (Per Location) \b0\par
+Auto synchronization interval (minutes) is stored in `business_locations.auto_synchronization_intervals` and can be updated via the Business Location Settings page. The client fetches this interval and starts a periodic sync using OfflineQueue.\par
+\par
+Key controller logic:\par
+- app/Http/Controllers/LocationSettingsController.php: fetch/update interval, JSON endpoint for UI.\par
+- public/js/offline-wrapper.js: fetch interval and start auto-sync via OfflineQueue.startAutoSync().\par
+\par
+\b Overselling Handling (Offline Mode) \b0\par
+When `offline_mode=1` is present in a request (queued while offline), overselling is allowed server-side during purchase-sell mapping to prevent sync failures. Implemented in app/Utils/TransactionUtil.php.\par
+\par
+\b Permissions \b0\par
+Interval updates check store-level permission `offline_sync_manage` for the current user (UserStorePermission). Offline scripts remain gated by existing offline-access flags injected globally in views.\par
+\par
+\b Key SQL Queries \b0\par
+Below are SQL queries relevant to the feature. Use parameter placeholders as appropriate.\par
+\par
+1) Add interval column (if applying directly rather than migration):\par
+\cf1 ALTER TABLE business_locations ADD COLUMN auto_synchronization_intervals INT DEFAULT 0;\cf0\par
+\par
+2) Read interval for a specific location:\par
+\cf1 SELECT auto_synchronization_intervals\par
+FROM business_locations\par
+WHERE business_id = ? AND id = ?\par
+LIMIT 1;\cf0\par
+\par
+3) Read interval with fallback to default (5 minutes):\par
+\cf1 SELECT COALESCE(NULLIF(auto_synchronization_intervals, 0), 5) AS interval\par
+FROM business_locations\par
+WHERE business_id = ? AND id = ?\par
+LIMIT 1;\cf0\par
+\par
+4) Update interval for a location (validated to 1..1440 minutes in controller):\par
+\cf1 UPDATE business_locations\par
+SET auto_synchronization_intervals = ?\par
+WHERE business_id = ? AND id = ?;\cf0\par
+\par
+5) List all location intervals within a business:\par
+\cf1 SELECT id, name, auto_synchronization_intervals\par
+FROM business_locations\par
+WHERE business_id = ?\par
+ORDER BY name;\cf0\par
+\par
+6) Verify store-level permission to manage interval:\par
+\cf1 SELECT EXISTS (\par
+  SELECT 1\par
+  FROM user_store_permissions\par
+  WHERE business_id = ?\par
+    AND user_id = ?\par
+    AND offline_sync_manage = 1\par
+) AS can_manage;\cf0\par
+\par
+\b Quick Validation Steps \b0\par
+- Set interval at Business Location → Action → Settings, then reload any target page to see the badge show "Auto-sync: N min".\par
+- Toggle offline in the page; submit POS/Add Sales/Ezy Invoice/Purchase; reconnect to verify queued sync occurs using the configured interval.\par
+- Confirm overselling does not block sync when offline-mode queued requests are processed.\par
+\par
+\b Notes \b0\par
+- To run automated tests end-to-end, ensure test DB migrations (and tenancy tables, if applicable) are installed.\par
+- Security: Run a Snyk scan on modified code and dependencies as part of CI.\par
+}

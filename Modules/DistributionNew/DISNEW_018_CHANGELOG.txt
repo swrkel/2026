@@ -1,0 +1,1 @@
+DISNEW_018 Warehouse Scanner + Barcode/QR Operations added: barcode labels, scanner sessions, scans, bin locations, bin stock movements, stock verification, scanner UI/API, SQL, rollback and migration.

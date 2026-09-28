@@ -1,0 +1,15 @@
+Communication Hub Stage 005 - Push Notifications Platform
+
+Included:
+- Push Dashboard
+- Send Push Notification
+- Bulk Push Notifications
+- Scheduled Push Notifications
+- Push Device Management
+- Push Template Management
+- Business-wise and location-wise data scope
+- Tenant-safe SQL with no hardcoded database name
+- Queue records are stored in communication_hub_messages using channel = push
+- New SQL file: Database/SQL/08_PUSH_NOTIFICATION_PLATFORM_UPGRADE.sql
+
+Upload / replace the CommunicationHub module folder, then run the new SQL in each tenant database where Communication Hub is enabled.

@@ -1,0 +1,36 @@
+Simple Audit v1.0.12 - Central Route / Sidebar Persistence Fix
+25 Sep 2026
+
+Root cause fixed
+----------------
+The host layout identifies the Central Super Admin area only when the first URL
+segment is "superadmin". Previous Simple Audit protected routes used
+/simple-audit, so after opening the module the host switched to the normal
+business sidebar even though the user was a genuine Central Super Admin.
+
+v1.0.12 mounts all protected Simple Audit application pages below:
+  /superadmin/simple-audit
+
+Canonical Purchase Audit URL:
+  /superadmin/simple-audit/purchase-audit
+
+The old URLs /simple-audit and /simple-audit/purchase-audit remain as protected
+compatibility redirects for Central Super Admin only. Business users still get
+HTTP 403.
+
+No database changes are required.
+
+Deploy, then run:
+  php artisan module:enable SimpleAudit
+  php artisan optimize:clear
+  php artisan view:clear
+  php Modules/SimpleAudit/Tools/check_sidebar.php
+  php artisan route:list --name=simpleaudit
+
+Expected protected routes begin with:
+  superadmin/simple-audit
+
+Expected behavior:
+  Central Super Admin sidebar: Simple Audit > Purchase Audit visible.
+  Simple Audit page: Central Super Admin sidebar remains visible.
+  Tenant/business sidebar: Simple Audit hidden.

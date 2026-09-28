@@ -1,0 +1,2 @@
+@extends('distributionnew::layouts.app')
+@section('content')<div class="box"><div class="box-header with-border"><h3 class="box-title">Dispatch Monitor</h3></div><div class="box-body"><table class="table table-bordered table-striped" id="disnew_dispatch_monitor_table"><thead><tr><th>Trip</th><th>Vehicle</th><th>Driver</th><th>Route</th><th>Status</th><th>Action</th></tr></thead></table></div></div>@endsection

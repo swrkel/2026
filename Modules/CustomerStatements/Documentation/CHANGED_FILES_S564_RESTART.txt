@@ -1,0 +1,15 @@
+S564 RESTART — CHANGED/NEW FILES
+
+Modules/CustomerStatements/Http/Controllers/DataController.php
+Modules/CustomerStatements/Providers/CustomerStatementsServiceProvider.php
+Modules/CustomerStatements/Resources/views/partials/alert_settings.blade.php
+Modules/CustomerStatements/Resources/views/partials/is1790_fixes.blade.php
+Modules/CustomerStatements/Resources/views/partials/s564_workspace_fixes.blade.php
+Modules/CustomerStatements/Routes/web.php
+Modules/CustomerStatements/Services/CustomerStatementNumberingService.php
+Modules/CustomerStatements/Services/CustomerStatementPersistenceService.php
+Modules/CustomerStatements/Services/CustomerStatementWorkspaceAdapter.php
+Modules/CustomerStatements/Database/sql/README_NO_SQL_S564_RESTART.txt
+Modules/CustomerStatements/Documentation/README_S564_RESTART_FIX.txt
+Modules/CustomerStatements/Documentation/VALIDATION_REPORT_S564_RESTART.txt
+Modules/CustomerStatements/Documentation/CHANGED_FILES_S564_RESTART.txt

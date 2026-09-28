@@ -1,0 +1,24 @@
+S 677 – Direct Settlement Issue – 22 Aug 2026
+
+Implemented fixes:
+1. Finalize Settlement is visible only when Balance is exactly zero in currency minor units.
+   - Removed Direct Settlement override that always showed Finalize.
+   - Re-evaluates visibility after payment deletion and before click.
+   - Added server-side submitted-balance guard.
+2. Reconfirm & Finalize print handoff now navigates the already user-opened print window
+   to the authoritative print route with ?autoprint=1, avoiding a stuck "Preparing print preview..." page.
+3. Direct Settlement Credit Sales now create/update transaction-linked Accounts Receivable
+   accounting immediately, scoped to the current business.
+4. Direct Settlement Credit Sales now create/update the matching transaction-linked Customer Ledger debit.
+   - Existing transaction is reused by credit_sale_id.
+   - Duplicate ledger/A/R rows are cleaned before recreation/update.
+   - Existing deleteCreditSalePayment cleanup removes accounting if the credit sale is deleted.
+
+No database schema changes are required for S677.
+
+Validation performed:
+- php -l AddPaymentController.php: PASS
+- php -l CreatesPdSettlements.php: PASS
+- php -l HandlesModuleSpecifics.php: PASS
+- php -l add_payment.blade.php: PASS
+- node --check petro_payment.js: PASS

@@ -1,0 +1,74 @@
+/*
+ * Poultry module styles.
+ *
+ * Deliberately minimal - the module uses the AdminLTE / Bootstrap 3 classes the
+ * rest of the ERP already ships, so this file only covers what those do not.
+ *
+ * Publish with:  php artisan module:publish Poultry
+ * which copies this to public/modules/poultry/css/poultry.css
+ */
+
+/* Daily entry: one panel per batch, tightened for phone use in a shed. */
+.poultry-daily-row .panel-heading {
+    padding: 8px 12px;
+}
+
+.poultry-daily-row .form-group {
+    margin-bottom: 8px;
+}
+
+.poultry-daily-row label {
+    font-size: 12px;
+    margin-bottom: 2px;
+    color: #666;
+}
+
+/* Withdrawal is a food safety state, so it gets a persistent visual weight
+   rather than a dismissible alert. */
+.poultry-withdrawal-banner {
+    border-left: 4px solid #dd4b39;
+    background: #fdf3f2;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+}
+
+.poultry-kpi {
+    border: 1px solid #f4f4f4;
+    padding: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.poultry-kpi h4 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.poultry-kpi small {
+    color: #999;
+}
+
+/* FCR and mortality read better right aligned and monospaced. */
+.poultry-figure {
+    font-family: Menlo, Consolas, monospace;
+    text-align: right;
+}
+
+.poultry-over-target { color: #dd4b39; }
+.poultry-under-target { color: #00a65a; }
+
+/* Egg entry grid: keep the qty inputs narrow so grades stay on one line. */
+.egg-grade-row input[type="number"] {
+    max-width: 130px;
+}
+
+@media (max-width: 767px) {
+    .poultry-daily-row .col-xs-6 {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .egg-grade-row input[type="number"] {
+        max-width: 100%;
+    }
+}

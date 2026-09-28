@@ -1,0 +1,1036 @@
+.san-page {
+    padding: 18px;
+}
+
+.san-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+}
+
+.san-header h1 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.san-actions,
+.san-toolbar,
+.san-actions-inline,
+.san-form-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.san-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.san-card {
+    border-radius: 12px;
+    padding: 18px;
+    color: #fff;
+    background: linear-gradient(135deg, #1554a2, #1b8ccf);
+    min-height: 96px;
+}
+
+.san-card span {
+    display: block;
+    font-size: 13px;
+}
+
+.san-card strong {
+    display: block;
+    font-size: 25px;
+    margin-top: 8px;
+}
+
+.san-panel {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+}
+
+.san-toolbar {
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.san-toolbar .form-control {
+    max-width: 260px;
+}
+
+.san-status {
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 8px;
+    background: #f2f6ff;
+    border-radius: 8px;
+}
+
+.san-validation-summary ul {
+    margin: 8px 0 0;
+    padding-left: 20px;
+}
+
+.san-lines-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.san-lines-heading h4 {
+    margin: 0 0 3px;
+    font-weight: 700;
+}
+
+.san-lines-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+/*
+ * IS2058 (c): the Create Adjustment lines table scrolls at every width.
+ *
+ * .san-lines-table is min-width 1400px, but this wrapper was overflow: visible
+ * with overflow-x: auto restored only below 1200px. On a normal desktop the
+ * table therefore had no way to scroll and simply overflowed the page - the
+ * Counted and later columns were unreachable, exactly as reported.
+ */
+.san-lines-table-wrap {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 12px;
+}
+
+.san-lines-table {
+    min-width: 1120px;
+    margin-bottom: 0;
+}
+
+.san-lines-table th {
+    background: #f5f8fc;
+    color: #42526b;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle !important;
+}
+
+.san-lines-table td {
+    position: relative;
+    vertical-align: top !important;
+    overflow: visible;
+}
+
+.san-lines-table th:nth-child(1),
+.san-lines-table td:nth-child(1) {
+    width: 210px;
+    min-width: 210px;
+}
+
+.san-lines-table th:nth-child(2),
+.san-lines-table td:nth-child(2) {
+    width: 300px;
+    min-width: 300px;
+}
+
+.san-lines-table th:nth-child(3),
+.san-lines-table td:nth-child(3),
+.san-lines-table th:nth-child(4),
+.san-lines-table td:nth-child(4),
+.san-lines-table th:nth-child(5),
+.san-lines-table td:nth-child(5) {
+    width: 135px;
+    min-width: 135px;
+}
+
+.san-lines-table th:nth-child(6),
+.san-lines-table td:nth-child(6) {
+    width: 160px;
+    min-width: 160px;
+}
+
+.san-line-action-column {
+    width: 74px;
+    min-width: 74px;
+    text-align: center;
+}
+
+.san-product-lookup {
+    position: relative;
+}
+
+.san-product-results {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 1085;
+    max-height: 310px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccd6e4;
+    border-radius: 8px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .18);
+}
+
+.san-product-results.is-open {
+    display: block;
+}
+
+.san-product-result {
+    display: block;
+    width: 100%;
+    padding: 9px 11px;
+    border: 0;
+    border-bottom: 1px solid #edf1f6;
+    background: #fff;
+    color: #172033;
+    text-align: left;
+    cursor: pointer;
+}
+
+.san-product-result:last-child {
+    border-bottom: 0;
+}
+
+.san-product-result:hover,
+.san-product-result.is-active {
+    background: #edf5ff;
+}
+
+.san-product-result-code,
+.san-product-result-name,
+.san-product-result-meta {
+    display: block;
+}
+
+.san-product-result-code {
+    color: #0f5fbf;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.san-product-result-name {
+    margin-top: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: normal;
+}
+
+.san-product-result-meta {
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.san-product-result-empty {
+    padding: 11px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.san-product-not-selected {
+    border-color: #d9534f !important;
+    box-shadow: 0 0 0 2px rgba(217, 83, 79, .08) !important;
+}
+
+.san-remove-line {
+    min-width: 34px;
+    min-height: 34px;
+    padding: 4px 10px;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.san-form-actions {
+    align-items: center;
+}
+
+/*
+ * IS2058: the max-width: 1200px override was removed - the wrapper now scrolls
+ * at every width, and overflow-y: visible alongside overflow-x: auto is not
+ * honoured anyway: the browser promotes visible to auto and clips regardless.
+ */
+
+@media (max-width: 900px) {
+    .san-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .san-header {
+        display: block;
+    }
+
+    .san-actions {
+        margin-top: 10px;
+    }
+}
+
+/* LA-1098 batch selector and adjustments table corrections */
+.san-lines-table {
+    min-width: 1260px;
+}
+
+.san-lines-table th:nth-child(3),
+.san-lines-table td:nth-child(3) {
+    width: 260px;
+    min-width: 260px;
+}
+
+.san-lines-table th:nth-child(4),
+.san-lines-table td:nth-child(4),
+.san-lines-table th:nth-child(5),
+.san-lines-table td:nth-child(5) {
+    width: 130px;
+    min-width: 130px;
+}
+
+.san-lines-table th:nth-child(6),
+.san-lines-table td:nth-child(6) {
+    width: 145px;
+    min-width: 145px;
+}
+
+.san-batch-cell .form-control {
+    min-width: 235px;
+}
+
+.san-batch-help {
+    display: block;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.san-adjustments-toolbar {
+    align-items: center;
+}
+
+.san-adjustments-panel {
+    padding-bottom: 10px;
+}
+
+.san-table-empty {
+    padding: 18px 10px 8px;
+    color: #64748b;
+    text-align: center;
+}
+
+/*
+ * Product lookup overlay fix (LA-1098 follow-up).
+ * While open, JavaScript moves the suggestion list to document.body so no
+ * table, responsive wrapper, row, panel or action bar can clip or cover it.
+ */
+.san-product-results.san-product-results-portal {
+    position: fixed !important;
+    right: auto !important;
+    margin: 0 !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 2147483000 !important;
+    isolation: isolate;
+}
+
+.san-product-results.san-product-results-portal.opens-up {
+    transform-origin: bottom center;
+}
+
+
+/* S 577 - Stock Adjustment Settings */
+.san-settings-button {
+    background: #7c3aed;
+    border-color: #6d28d9;
+    color: #fff;
+}
+
+.san-settings-button:hover,
+.san-settings-button:focus {
+    background: #6d28d9;
+    border-color: #5b21b6;
+    color: #fff;
+}
+
+.san-settings-panel .row {
+    margin-bottom: 14px;
+}
+
+.san-settings-panel label {
+    color: #25324a;
+    font-weight: 600;
+}
+
+.san-settings-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.san-settings-section-heading h3 {
+    margin: 0 0 4px;
+    color: #172033;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.san-settings-section-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.san-settings-subheading {
+    margin-bottom: 12px;
+}
+
+.san-setting-switch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.san-setting-switch {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    min-height: 78px;
+    margin: 0;
+    padding: 13px;
+    border: 1px solid #dbe4f0;
+    border-radius: 10px;
+    background: #f8fbff;
+    cursor: pointer;
+}
+
+.san-setting-switch input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    flex: 0 0 auto;
+}
+
+.san-setting-switch-body {
+    display: block;
+}
+
+.san-setting-switch-body strong,
+.san-setting-switch-body small {
+    display: block;
+}
+
+.san-setting-switch-body strong {
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.san-setting-switch-body small {
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.35;
+}
+
+.san-setting-switch-compact {
+    min-height: 58px;
+    padding: 9px 12px;
+}
+
+.san-active-setting {
+    padding-top: 24px;
+}
+
+.san-settings-table {
+    min-width: 1320px;
+}
+
+.san-settings-table th {
+    background: #f5f8fc;
+    color: #42526b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.san-settings-table td {
+    vertical-align: middle !important;
+}
+
+.san-settings-actions-cell {
+    min-width: 125px;
+    white-space: nowrap;
+}
+
+.san-inline-form {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.san-reference-warning {
+    margin-top: 4px;
+}
+
+@media (max-width: 1200px) {
+    .san-setting-switch-grid {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .san-settings-section-heading {
+        display: block;
+    }
+
+    .san-settings-section-heading .btn {
+        margin-top: 10px;
+    }
+
+    .san-setting-switch-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .san-active-setting {
+        padding-top: 0;
+    }
+}
+
+
+/* S578: Product category filters on Create Stock Adjustment */
+.san-product-filter-row {
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+.san-product-filter-row .select2-container {
+    width: 100% !important;
+}
+
+.san-product-filter-row .select2-selection--single {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+}
+
+.san-product-filter-row .select2-selection__rendered {
+    line-height: 40px !important;
+}
+
+.san-product-filter-row .select2-selection__arrow {
+    min-height: 40px;
+}
+
+/* S592: mapping actions, saved selection summary and create context fields. */
+.san-settings-actions-cell { min-width: 105px; overflow: visible !important; }
+.san-settings-actions-cell .dropdown-menu { min-width: 150px; z-index: 1060; }
+.san-action-delete-form { margin: 0; }
+.san-dropdown-delete {
+    display: block;
+    width: 100%;
+    padding: 7px 20px;
+    border: 0;
+    background: transparent;
+    color: #c9302c;
+    text-align: left;
+}
+.san-dropdown-delete:hover,
+.san-dropdown-delete:focus { background: #f5f5f5; color: #ac2925; }
+.san-saved-mapping-summary { margin-top: 15px; line-height: 1.7; }
+.san-adjustment-direction-help { margin: 15px 0 5px; }
+.san-posting-summary { margin-top: 15px; }
+.san-settings-table .btn-group { position: relative; }
+.san-settings-table .dropdown-menu { position: absolute; }
+/*
+ * IS1966 (a): the Action -> Edit item was not visible.
+ *
+ * The markup is <div class="table-responsive san-settings-table-wrap">, and
+ * Bootstrap's .table-responsive sets overflow-x: auto together with
+ * overflow-y: hidden. A dropdown-menu opening downward out of a table cell is
+ * therefore clipped at the bottom edge of that box - the Edit entry exists in
+ * the DOM but cannot be seen.
+ *
+ * A rule already lifted this at >=992px only, so the item stayed hidden on
+ * narrower screens. The Action column is the FIRST column, so no horizontal
+ * scrolling is needed to reach it, and letting this wrapper overflow costs
+ * nothing.
+ *
+ * Note: a box cannot have overflow-x: auto with overflow-y: visible - the
+ * browser promotes visible to auto, and it clips again. Both axes must be
+ * visible, which is why this sets `overflow` rather than `overflow-y`.
+ */
+/*
+ * IS2058 (a): the settings wrapper SCROLLS again.
+ *
+ * The IS1966 fix above set overflow: visible so the Action dropdown was not
+ * clipped. That worked for the menu but removed horizontal scrolling from a
+ * ten-column table, so Status and Added By ran off the right of the page - which
+ * is the "not displaying fully" half of this ticket. One problem was traded for
+ * another.
+ *
+ * Both are solved by keeping the wrapper scrollable and moving the OPEN menu out
+ * to <body>, where no ancestor overflow can reach it. That is the approach
+ * already proven on the Supplier Payments, Purchase Entries and MPCS F10 lists.
+ * See san-detached-menu below and the script in settings/index.blade.php.
+ */
+.san-settings-table-wrap,
+.table-responsive.san-settings-table-wrap {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+.san-settings-table {
+    min-width: 1250px;
+}
+
+/*
+ * The action menu once it has been lifted to <body>. It is no longer inside the
+ * module's own containers, so the surface and border have to be restated or it
+ * renders as bare list items over the page.
+ */
+.san-detached-menu {
+    position: fixed;
+    z-index: 1065;
+    display: block;
+    margin: 0;
+    padding: 5px 0;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    list-style: none;
+}
+
+.san-detached-menu > li,
+.san-detached-menu > li > a {
+    display: block;
+    float: none !important;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.san-detached-menu > li > a,
+.san-detached-menu .san-dropdown-delete {
+    padding: 6px 16px;
+    clear: both;
+    color: #333;
+    font-weight: 400;
+    line-height: 1.42857143;
+    white-space: nowrap;
+    text-decoration: none;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: 0;
+}
+
+.san-detached-menu > li > a:hover,
+.san-detached-menu > li > a:focus,
+.san-detached-menu .san-dropdown-delete:hover {
+    background-color: #f5f5f5;
+    color: #262626;
+}
+
+.san-detached-menu > li.divider {
+    height: 1px;
+    margin: 6px 0;
+    padding: 0;
+    background-color: #e5e5e5;
+    overflow: hidden;
+}
+
+.san-settings-table .btn-group.open .dropdown-menu {
+    z-index: 1055;
+}
+
+/* S592 - per-product Increase/Decrease selector */
+.san-lines-table {
+    min-width: 1400px;
+}
+
+.san-lines-table th:nth-child(4),
+.san-lines-table td:nth-child(4) {
+    width: 155px;
+    min-width: 155px;
+}
+
+.san-lines-table th:nth-child(5),
+.san-lines-table td:nth-child(5),
+.san-lines-table th:nth-child(6),
+.san-lines-table td:nth-child(6),
+.san-lines-table th:nth-child(7),
+.san-lines-table td:nth-child(7) {
+    width: 135px;
+    min-width: 135px;
+}
+
+.san-line-adjustment-type-cell .form-control {
+    min-width: 135px;
+    font-weight: 600;
+}
+
+
+/* ========================================================================
+ * IS2065 / IS2058 - 20 Aug 2026
+ * Full-screen layout corrections for Settings and Create Adjustment.
+ * ======================================================================== */
+
+/* Keep the standalone module inside the host content width. */
+.san-page,
+.san-page * {
+    box-sizing: border-box;
+}
+
+.san-page,
+.san-panel,
+.san-settings-panel,
+.san-adjustment-form {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.san-page {
+    overflow-x: hidden;
+}
+
+.san-settings-panel .row > [class*="col-"] {
+    min-width: 0;
+}
+
+.san-settings-panel .select2-container,
+.san-adjustment-form .select2-container {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/*
+ * Settings -> Setup Account Details / Accounting Mappings.
+ * Fit all ten columns into the normal desktop content area instead of forcing
+ * a 1250px+ table beyond the right edge.  Long account/category names wrap.
+ */
+.san-settings-table-wrap,
+.table-responsive.san-settings-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+
+.san-settings-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    table-layout: fixed;
+}
+
+.san-settings-table th,
+.san-settings-table td {
+    padding: 6px 5px !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    line-height: 1.25;
+}
+
+/* 8052: the Accounting Mapping list is now a nine-column view. The
+ * previous final override was 10px; reduce the heading size by two points as
+ * requested and give the three account columns enough room for real names. */
+.san-settings-table th {
+    font-size: 8px;
+}
+
+.san-settings-table td {
+    font-size: 11px;
+}
+
+.san-settings-table th:nth-child(1),
+.san-settings-table td:nth-child(1) { width: 8%; }
+.san-settings-table th:nth-child(2),
+.san-settings-table td:nth-child(2) { width: 9%; }
+.san-settings-table th:nth-child(3),
+.san-settings-table td:nth-child(3) { width: 10%; }
+.san-settings-table th:nth-child(4),
+.san-settings-table td:nth-child(4) { width: 10%; }
+.san-settings-table th:nth-child(5),
+.san-settings-table td:nth-child(5) { width: 16%; }
+.san-settings-table th:nth-child(6),
+.san-settings-table td:nth-child(6) { width: 16%; }
+.san-settings-table th:nth-child(7),
+.san-settings-table td:nth-child(7) { width: 16%; }
+.san-settings-table th:nth-child(8),
+.san-settings-table td:nth-child(8) { width: 7%; }
+.san-settings-table th:nth-child(9),
+.san-settings-table td:nth-child(9) { width: 8%; }
+
+.san-settings-actions-cell {
+    min-width: 0 !important;
+    overflow: visible !important;
+    white-space: normal !important;
+}
+
+.san-settings-actions-cell .btn {
+    max-width: 100%;
+    padding: 5px 7px;
+    font-size: 11px;
+}
+
+/* The cloned Action menu lives on <body>, above host sidebars/tables/modals. */
+.san-mapping-action-portal,
+.san-detached-menu.san-mapping-action-portal {
+    z-index: 2147483000 !important;
+}
+
+/*
+ * Adjustment -> Create Adjustment.
+ * Remove the historical 1400px minimum.  The 8-column entry grid now uses the
+ * available panel width, while inputs/selects shrink with their cells.
+ */
+.san-lines-table-wrap,
+.table-responsive.san-lines-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: visible;
+    overflow-y: visible;
+}
+
+.san-lines-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    table-layout: fixed;
+}
+
+.san-lines-table th,
+.san-lines-table td {
+    padding: 6px 5px !important;
+}
+
+.san-lines-table th {
+    white-space: normal;
+    line-height: 1.2;
+    font-size: 10px;
+}
+
+.san-lines-table th:nth-child(1),
+.san-lines-table td:nth-child(1) { width: 15% !important; min-width: 0 !important; }
+.san-lines-table th:nth-child(2),
+.san-lines-table td:nth-child(2) { width: 20% !important; min-width: 0 !important; }
+.san-lines-table th:nth-child(3),
+.san-lines-table td:nth-child(3) { width: 17% !important; min-width: 0 !important; }
+.san-lines-table th:nth-child(4),
+.san-lines-table td:nth-child(4) { width: 12% !important; min-width: 0 !important; }
+.san-lines-table th:nth-child(5),
+.san-lines-table td:nth-child(5) { width: 10% !important; min-width: 0 !important; }
+.san-lines-table th:nth-child(6),
+.san-lines-table td:nth-child(6) { width: 10% !important; min-width: 0 !important; }
+.san-lines-table th:nth-child(7),
+.san-lines-table td:nth-child(7) { width: 10% !important; min-width: 0 !important; }
+.san-lines-table th:nth-child(8),
+.san-lines-table td:nth-child(8) { width: 6% !important; min-width: 0 !important; }
+
+.san-lines-table .form-control,
+.san-batch-cell .form-control,
+.san-line-adjustment-type-cell .form-control {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+.san-product-lookup,
+.san-product-cell,
+.san-product-name-cell,
+.san-batch-cell {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.san-batch-help {
+    overflow-wrap: anywhere;
+}
+
+.san-line-action-column {
+    min-width: 0 !important;
+}
+
+.san-remove-line {
+    min-width: 30px;
+    width: 100%;
+    max-width: 38px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* On genuinely narrow screens keep controls usable with local table scrolling. */
+@media (max-width: 900px) {
+    .san-settings-table-wrap,
+    .table-responsive.san-settings-table-wrap,
+    .san-lines-table-wrap,
+    .table-responsive.san-lines-table-wrap {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    .san-settings-table {
+        min-width: 900px !important;
+    }
+
+    .san-lines-table {
+        min-width: 980px !important;
+    }
+}
+
+/* ========================================================================
+ * 8052 - Accounting Mapping form/list redesign
+ * ======================================================================== */
+.san-mapping-notes-row {
+    align-items: flex-end;
+}
+
+.san-mapping-save-cell {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    min-height: 68px;
+}
+
+.san-mapping-save-cell .btn {
+    min-width: 108px;
+}
+
+/* Standalone View action. It deliberately does not depend on Bootstrap's modal
+ * JavaScript because this module is used inside several host layouts/versions. */
+.san-mapping-view-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, .45);
+    overflow: auto;
+}
+
+.san-mapping-view-dialog {
+    width: min(920px, 100%);
+    max-height: calc(100vh - 40px);
+    overflow: auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+    padding: 20px;
+}
+
+.san-mapping-view-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e7edf4;
+}
+
+.san-mapping-view-header h3 {
+    margin: 0 0 4px;
+    font-size: 20px;
+}
+
+.san-mapping-view-header p {
+    margin: 0;
+    color: #6b7280;
+}
+
+.san-mapping-view-close {
+    flex: 0 0 auto;
+    font-size: 30px;
+    line-height: 1;
+    text-decoration: none !important;
+    color: #4b5563;
+}
+
+.san-mapping-view-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.san-mapping-view-grid > div,
+.san-mapping-view-notes {
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 10px 12px;
+    background: #f9fafb;
+    min-width: 0;
+}
+
+.san-mapping-view-grid span,
+.san-mapping-view-notes span {
+    display: block;
+    margin-bottom: 4px;
+    color: #6b7280;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+}
+
+.san-mapping-view-grid strong,
+.san-mapping-view-notes strong {
+    display: block;
+    color: #111827;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.san-mapping-view-notes {
+    margin-top: 12px;
+}
+
+.san-mapping-view-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #e7edf4;
+}
+
+@media (max-width: 767px) {
+    .san-mapping-save-cell {
+        min-height: 0;
+        margin-top: 10px;
+        justify-content: flex-start;
+    }
+
+    .san-mapping-view-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

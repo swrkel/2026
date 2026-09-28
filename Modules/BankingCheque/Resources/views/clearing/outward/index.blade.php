@@ -1,0 +1,2 @@
+@extends('bankingcheque::layout')
+@section('banking_cheque_content')<h4>Outward Clearing</h4><table class="table table-bordered"><tr><th>Batch</th><th>Date</th><th>Items</th><th>Amount</th><th>Status</th></tr>@foreach($batches as $batch)<tr><td>{{ $batch->batch_no }}</td><td>{{ $batch->clearing_date }}</td><td>{{ $batch->item_count }}</td><td>{{ number_format($batch->total_amount,4) }}</td><td>{{ $batch->status }}</td></tr>@endforeach</table>@endsection

@@ -1,0 +1,1 @@
+(function(){document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.stn-capacity-page table tbody tr').forEach(function(row){if(row.classList.contains('stn-danger-row')){row.title='Capacity used is higher than capacity limit';}});});})();

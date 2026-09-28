@@ -1,0 +1,12 @@
+Finance Reports v1.0 Enterprise Final - Deployment Checklist
+
+1. Copy Modules/FinanceReports into the Laravel Modules directory.
+2. Confirm the existing Finance module files are not replaced.
+3. Register/refresh module autoload if your deployment process requires it.
+4. Run permission seeder if permissions are stored in database.
+5. Clear route, view and config cache after deployment.
+6. Verify sidebar item displays as: Finance Reports.
+7. Test branch/location and consolidated mode on core statements.
+8. Compare Trial Balance, Balance Sheet, Profit & Loss, Income Statement and Cash Flow totals against trusted Finance module reports.
+9. Test export, print, drill-down and financial pack pages.
+10. Keep this module read-only unless a future phase explicitly adds controlled report scheduling delivery.

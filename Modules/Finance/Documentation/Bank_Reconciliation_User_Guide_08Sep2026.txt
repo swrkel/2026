@@ -1,0 +1,66 @@
+Finance Module - Bank Reconciliation User Help Guide
+08 Sep 2026
+
+WHERE TO OPEN
+-------------
+Finance -> List Accounts -> Bank Reconciliation
+Normal URL: /finance/bank-reconciliation
+Compatibility URL: /accounting-module/bank-reconciliation
+
+ONE-TIME SETUP FOR EACH TENANT
+------------------------------
+1. Upload/replace the corrected Finance module.
+2. From Laravel root run: php artisan optimize:clear
+3. Log in to the relevant tenant/business.
+4. Open Finance -> List Accounts -> Bank Reconciliation.
+5. If "One-time Tenant Setup Required" appears, click Initialize Bank Reconciliation once.
+6. The Bank Reconciliation list should then open normally.
+
+PERMISSIONS
+-----------
+finance.bank_reconciliation.view
+finance.bank_reconciliation.create
+finance.bank_reconciliation.update
+finance.bank_reconciliation.finalize
+finance.bank_reconciliation.reopen
+
+NORMAL USER WORKFLOW
+--------------------
+1. Open Bank Reconciliation.
+2. Click New Reconciliation.
+3. Select Bank Account.
+4. Select Bank Statement Date.
+5. Enter Bank Statement Ending Balance.
+6. Tick each transaction that appears on the bank statement.
+7. Review Outstanding Deposits and Outstanding Payments.
+8. Review Difference.
+9. Save Draft if investigation is not complete.
+10. Finalize only when Difference = 0.0000.
+
+CALCULATIONS
+------------
+Adjusted Bank Balance = Statement Ending Balance + Outstanding Deposits - Outstanding Payments
+Difference = Book Ending Balance - Adjusted Bank Balance
+
+IF DIFFERENCE IS NOT ZERO
+-------------------------
+- Check ticked/unticked items.
+- Check bank charges, interest, direct deposits, standing orders, returned cheques, and missing ledger entries.
+- Enter/correct the real accounting transaction through Finance.
+- Reopen/reload the draft and check again.
+- Do not force a false adjustment merely to reach zero.
+
+FINALIZED RECONCILIATION
+------------------------
+Finalization marks the selected transactions reconciled.
+If a correction is required later, reopen the Bank Reconciliation first.
+Use Print from the reconciliation detail page when a hard copy is required.
+
+TROUBLESHOOTING
+---------------
+- Link not visible: check Finance permissions, clear caches, reopen List Accounts.
+- Setup screen appears: click Initialize Bank Reconciliation once.
+- No Initialize button: use a Finance Administrator or grant create permission.
+- No bank account: confirm business, active/open bank account, bank group/name, and permitted location.
+- No transactions: confirm account, statement date, operation dates and unreconciled status.
+- Finalize disabled: Difference must be 0.0000.

@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'title' => 'Carrier / Freight Invoices',
+    'new_invoice' => 'New Carrier Invoice',
+    'invoice_no' => 'Invoice No',
+    'invoice_date' => 'Invoice Date',
+    'transfer' => 'Transfer',
+    'carrier' => 'Carrier',
+    'freight' => 'Freight',
+    'loading' => 'Loading',
+    'unloading' => 'Unloading',
+    'other' => 'Other',
+    'tax' => 'Tax',
+    'discount' => 'Discount',
+    'total' => 'Total',
+    'status' => 'Status',
+    'action' => 'Action',
+    'remarks' => 'Remarks',
+    'save' => 'Save',
+    'approve' => 'Approve',
+    'cancel' => 'Cancel',
+    'no_records' => 'No carrier invoices found.',
+    'invoice_created' => 'Carrier invoice saved successfully.',
+    'invoice_approved' => 'Carrier invoice approved successfully.',
+    'invoice_cancelled' => 'Carrier invoice cancelled successfully.',
+];

@@ -1,0 +1,15 @@
+S738 - Account Settings / Cheque Deposit - 15 Sep 2026
+
+1) Account Settings
+- Super Admin Save remains available for opening-balance entry.
+- Existing server-side/account-specific validation remains authoritative.
+
+2) Cheque Deposit
+- Cheques in Hand ledger is the single source of truth.
+- Every positive DEBIT in a business-owned Cheques in Hand account is considered a held cheque and is shown in the popup.
+- Customer payment method / is_deposited flags no longer decide visibility.
+- transaction_payments rows are used only to enrich Customer / Cheque No / Date / Bank metadata.
+- A cheque disappears only after a matching CREDIT actually leaves the same Cheques in Hand account.
+- Supports Customer Pay Due, Customer Advance, Bulk Payment, legacy/imported rows, parent/child payment shapes, missing/deleted payment rows, and stale/NULL/0 account_transactions.business_id metadata.
+- Deposit posting accepts ledger cheques even when the old transaction-payment row is absent, and copies cheque identity to the outgoing/deposit ledger entries.
+- No SQL or migration required.

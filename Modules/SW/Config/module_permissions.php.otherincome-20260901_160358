@@ -1,0 +1,60 @@
+<?php
+
+/*
+| SW module permissions, one per tab.
+|
+| Per tab rather than per page: the cash screens are handled by different
+| people, and a manager may need Daily Cash Status without being able to record
+| a card payment.
+|
+| The keys are stable - the role screen stores them, so renaming one silently
+| revokes it from every role that had it.
+*/
+
+return [
+    'module' => 'sw',
+    'label' => 'SW Module',
+
+    'pages' => [
+        [
+            'key' => 'sw',
+            'label' => 'SW Module',
+            'permissions' => [
+
+                // --- SW Operators ---------------------------------------
+                ['key' => 'sw.operators.view', 'label' => 'SW Operators: Pump Operators'],
+                ['key' => 'sw.operators.edit', 'label' => 'SW Operators: add and edit operators'],
+                ['key' => 'sw.excess_shortage.view', 'label' => 'SW Operators: Excess / Shortage Payments'],
+                ['key' => 'sw.excess_shortage.edit', 'label' => 'SW Operators: recover shortage, pay excess'],
+
+                // --- SW Payments ----------------------------------------
+                ['key' => 'sw.daily_cash.view', 'label' => 'SW Payments: Daily Cash'],
+                ['key' => 'sw.daily_cash.edit', 'label' => 'SW Payments: record and edit Daily Cash'],
+                ['key' => 'sw.daily_credit_sales.view', 'label' => 'SW Payments: Daily Credit Sales'],
+                ['key' => 'sw.daily_credit_sales.edit', 'label' => 'SW Payments: record and edit Credit Sales'],
+                ['key' => 'sw.daily_cards.view', 'label' => 'SW Payments: Daily Cards'],
+                ['key' => 'sw.daily_cards.edit', 'label' => 'SW Payments: record and edit Daily Cards'],
+                ['key' => 'sw.daily_shortage_excess.view', 'label' => 'SW Payments: Daily Shortage Excess'],
+                ['key' => 'sw.daily_shortage_excess.edit', 'label' => 'SW Payments: record and edit Shortage Excess'],
+                ['key' => 'sw.daily_cheques.view', 'label' => 'SW Payments: Daily Cheques'],
+                ['key' => 'sw.daily_cheques.edit', 'label' => 'SW Payments: record and edit Daily Cheques'],
+
+                // --- SW Daily Shifts ------------------------------------
+                ['key' => 'sw.daily_cash_status.view', 'label' => 'SW Daily Shifts: Daily Cash Status'],
+                ['key' => 'sw.daily_shift.view', 'label' => 'SW Daily Shifts: Daily Shift'],
+                ['key' => 'sw.daily_shift.edit', 'label' => 'SW Daily Shifts: open, assign, close shifts'],
+
+                /*
+                 | Collection Summary appears on BOTH pages - deliberately, so
+                 | someone checking shifts can see the figures without moving to
+                 | SW Payments. One permission covers both places; two would
+                 | mean the same tab could be allowed here and refused there.
+                */
+                ['key' => 'sw.collection_summary.view', 'label' => 'Collection Summary (both pages)'],
+
+                // --- SW Logs --------------------------------------------
+                ['key' => 'sw.logs.view', 'label' => 'SW Logs'],
+            ],
+        ],
+    ],
+];

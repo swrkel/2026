@@ -1,0 +1,9 @@
+{
+    "name": "modules/petro-direct-new",
+    "description": "Clean-room Petro Direct-New module with independent pdirectnew_ data, current-system layout and five primary sidebar pages.",
+    "autoload": {
+        "psr-4": {
+            "Modules\\PetroDirectNew\\": ""
+        }
+    }
+}

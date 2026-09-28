@@ -1,0 +1,6 @@
+{
+  "name": "syzygy/management-report",
+  "description": "Standalone Management Report module",
+  "type": "laravel-module",
+  "autoload": {"psr-4": {"Modules\\ManagementReport\\": ""}}
+}

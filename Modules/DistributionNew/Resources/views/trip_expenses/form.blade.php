@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-md-3"><div class="form-group"><label>Name / Reference</label><input type="text" name="name" value="{{ old('name', $record->name ?? '') }}" class="form-control"></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Vehicle ID</label><input type="number" name="vehicle_id" value="{{ old('vehicle_id', $record->vehicle_id ?? '') }}" class="form-control"></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Driver ID</label><input type="number" name="driver_id" value="{{ old('driver_id', $record->driver_id ?? '') }}" class="form-control"></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Business Location</label><input type="number" name="business_location_id" value="{{ old('business_location_id', $record->business_location_id ?? '') }}" class="form-control"></div></div>
+</div>
+<div class="row">
+    <div class="col-md-3"><div class="form-group"><label>Date</label><input type="date" name="fuel_date" value="{{ old('fuel_date', $record->fuel_date ?? date('Y-m-d')) }}" class="form-control"><input type="hidden" name="reading_date" value="{{ old('reading_date', $record->reading_date ?? date('Y-m-d')) }}"><input type="hidden" name="maintenance_date" value="{{ old('maintenance_date', $record->maintenance_date ?? date('Y-m-d')) }}"><input type="hidden" name="expense_date" value="{{ old('expense_date', $record->expense_date ?? date('Y-m-d')) }}"></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Type / Category</label><input type="text" name="maintenance_type" value="{{ old('maintenance_type', $record->maintenance_type ?? '') }}" class="form-control"><input type="hidden" name="document_type" value="{{ old('document_type', $record->document_type ?? '') }}"><input type="hidden" name="expense_category" value="{{ old('expense_category', $record->expense_category ?? '') }}"></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Qty / Litres</label><input type="number" step="0.001" name="litres" value="{{ old('litres', $record->litres ?? 0) }}" class="form-control"></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Amount / Cost</label><input type="number" step="0.0001" name="amount" value="{{ old('amount', $record->amount ?? $record->cost_amount ?? $record->total_amount ?? 0) }}" class="form-control"><input type="hidden" name="cost_amount" value="{{ old('cost_amount', $record->cost_amount ?? 0) }}"><input type="hidden" name="unit_price" value="{{ old('unit_price', $record->unit_price ?? 0) }}"></div></div>
+</div>
+<div class="row">
+    <div class="col-md-3"><div class="form-group"><label>Mobile / License No</label><input type="text" name="mobile" value="{{ old('mobile', $record->mobile ?? '') }}" class="form-control"><input type="hidden" name="license_no" value="{{ old('license_no', $record->license_no ?? '') }}"></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Expiry Date</label><input type="date" name="expiry_date" value="{{ old('expiry_date', $record->expiry_date ?? $record->license_expiry_date ?? '') }}" class="form-control"><input type="hidden" name="license_expiry_date" value="{{ old('license_expiry_date', $record->license_expiry_date ?? '') }}"></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Status</label><select name="status" class="form-control"><option value="active">Active</option><option value="inactive">Inactive</option><option value="pending">Pending</option><option value="completed">Completed</option></select></div></div>
+    <div class="col-md-3"><div class="form-group"><label>Note</label><input type="text" name="note" value="{{ old('note', $record->note ?? '') }}" class="form-control"></div></div>
+</div>

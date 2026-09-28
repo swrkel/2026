@@ -1,0 +1,6 @@
+@extends('teaestate::layouts.app',['title'=>'Tea Reports','heading'=>'Reports'])
+@section('tea_content')
+<div class="tea-card"><div class="tea-card-b"><form method="get"><div class="tea-form"><div><label>Start Date</label><input type="date" name="start_date" value="{{ $start }}"></div><div><label>End Date</label><input type="date" name="end_date" value="{{ $end }}"></div></div><div class="tea-actions"><button class="tea-btn">Apply</button></div></form></div></div>
+<div class="tea-grid"><div class="tea-kpi"><b>{{ number_format($summary['harvest_kg'],3) }}</b><span>Own harvest kg</span></div><div class="tea-kpi"><b>{{ number_format($summary['purchased_kg'],3) }}</b><span>Purchased green leaf kg</span></div><div class="tea-kpi"><b>{{ number_format($summary['made_tea_kg'],3) }}</b><span>Made tea kg</span></div><div class="tea-kpi"><b>{{ number_format($summary['sales_value'],2) }}</b><span>Sales value</span></div></div>
+<div class="tea-card"><div class="tea-card-h">Financial Summary</div><div class="tea-card-b">Green leaf purchases: <b>{{ number_format($summary['purchase_value'],2) }}</b>. Full double-entry financial reporting is available through the Finance module once account mappings are configured.</div></div>
+@endsection

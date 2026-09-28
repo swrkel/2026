@@ -1,0 +1,1 @@
+FR006 Audit, Compliance & Financial Controls for standalone Finance Reports module. Read-only reports only; no existing Finance files replaced. Copy Modules/FinanceReports over existing Modules/FinanceReports and clear route/view cache if required.

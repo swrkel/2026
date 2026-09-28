@@ -1,0 +1,10 @@
+Modules/CustomerStatements/Http/Controllers/CustomerStatementNumberingController.php
+Modules/CustomerStatements/Resources/views/partials/s564_workspace_fixes.blade.php
+Modules/CustomerStatements/Routes/web.php
+Modules/CustomerStatements/Services/CustomerStatementNumberingService.php
+Modules/CustomerStatements/Services/CustomerStatementPersistenceService.php
+Modules/CustomerStatements/Services/CustomerStatementWorkspaceAdapter.php
+Modules/CustomerStatements/Database/sql/README_NO_SQL_S569.txt
+Modules/CustomerStatements/Documentation/README_S569_FIX.txt
+Modules/CustomerStatements/Documentation/CHANGED_FILES_S569.txt
+Modules/CustomerStatements/Documentation/VALIDATION_REPORT_S569.txt

@@ -1,0 +1,51 @@
+EZYLAW V4 FINAL INSTALL CHECKLIST
+================================
+
+A. BEFORE DEPLOYMENT
+1. Back up application files and the target tenant database.
+2. Confirm which tenant database is active. Do NOT use the central registry database for law_ tables.
+3. Keep EZYLAW_AUTO_LOAD_MIGRATIONS=false unless your tenant migration runner explicitly switches to the correct tenant DB.
+
+B. FILES
+4. Upload/extract the EzyLaw folder to Modules/EzyLaw.
+5. Enable the module through your existing module mechanism (for Nwidart installations: php artisan module:enable EzyLaw).
+6. Publish/copy EzyLaw assets to public/modules/ezylaw. When provider registration is active you can use:
+   php artisan vendor:publish --tag=ezylaw-assets --force
+
+C. DATABASE
+7. Existing V3 tenant: run Database/SQL/EzyLaw_V4_INCREMENTAL_IDEMPOTENT.sql.
+8. Fresh tenant: run Database/SQL/EzyLaw_MASTER_IDEMPOTENT_V4.sql.
+9. Verify 54 law_ tables exist in the tenant DB.
+
+D. CACHE / ROUTES
+10. php artisan optimize:clear
+11. Confirm EzyLaw routes appear in php artisan route:list.
+
+E. BUSINESS / USER RIGHTS
+12. Enable EzyLaw for the required business in Manage Side Bar / business module control.
+13. In User Management New, assign only the required EzyLaw page/action permissions to each role.
+14. Verify a restricted user sees only the assigned EzyLaw pages/actions.
+
+F. SETTINGS
+15. Configure EzyLaw numbering prefixes and next numbers.
+16. If Finance is used, configure A/R, fee income, cash/bank, expense, trust, client advance liability and expense advance asset account IDs.
+17. Test one invoice/payment/advance Finance sync in a test tenant before production use.
+
+G. CLIENT PORTAL
+18. Public portal routes default OFF. Keep them off unless HTTPS and your deployment policy are ready.
+19. To enable: set EZYLAW_PORTAL_PUBLIC_ROUTES=true, then php artisan config:clear.
+20. Create portal access for the client and test that the token shows only that client's matters/invoices/hearings/messages.
+21. Test that submitting another client's matter_id is rejected.
+22. Test e-sign with the same client + portal email and verify other client/contact requests are not exposed.
+
+H. NOTIFICATIONS
+23. Create notification rules and run php artisan ezylaw:notifications manually in a test tenant.
+24. Add it to the existing tenant-aware scheduler/cron only after manual validation.
+
+I. ACCEPTANCE TEST
+25. Create client -> matter -> hearing/deadline/filing -> time/expense -> estimate -> invoice -> payment.
+26. Test trust deposit, reconciliation and trust audit.
+27. Test client advance allocation and invoice balance recalculation.
+28. Test document upload/version -> approval -> e-sign.
+29. Test settlement/mediation and matter close blockers.
+30. Test Management Dashboard, Legal Reports, Court Filing Report and Trust Audit.

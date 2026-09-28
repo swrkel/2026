@@ -1,0 +1,3 @@
+-- Master database optional module registration note.
+-- If your master DB keeps module enable records, enable alias: stocktransfernew / StockTransferNew.
+-- No central stock tables are required; all transactional tables above are tenant DB tables.

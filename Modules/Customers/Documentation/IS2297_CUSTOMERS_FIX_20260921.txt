@@ -1,0 +1,45 @@
+IS2297 – Customers Module – 21 Sep 2026
+
+Scope
+-----
+1. Customer Register > Action > Edit > Credit / Opening Balance > Transaction Date
+   - Ensures Bootstrap datepicker is initialized in the AJAX modal.
+   - Calendar icon now explicitly opens the picker.
+
+2. Customer Register > Action > Ledger > duplicate Opening Balance
+   - Fixes the brought-forward calculation that could count a future Opening Balance
+     in the prior-period balance and then display the real Opening Balance again.
+   - Existing genuine Opening Balance row is authoritative and no synthetic duplicate
+     is added on top of it.
+   - Prefers the actual Opening Balance transaction date when legacy contact and
+     transaction dates are out of sync.
+
+3. Customer Ledger column widths
+   - Description reduced by 15% from its previous width.
+   - Payment Status reduced by 5% from its previous width.
+   - System Created Date increased by 5% from its previous width.
+   - Transaction Date increased by 5% from its previous width.
+   - Remaining columns are proportionally balanced so table width remains 100%.
+
+4. Pay Due Amount > Payment Method
+   - Removes Credit, Credit Sale(s), Own Card(s), and Pre Payment(s) only from
+     the Pay Due action.
+   - Advance Payment and other existing workflows retain their prior method list.
+   - Server-side validation also rejects those methods for Pay Due.
+
+5. Pay Due Amount > Save
+   - Successful AJAX save now instructs Customer Register to perform a full page refresh,
+     ensuring row balance, overall due totals, and action state are current.
+
+Changed runtime files
+---------------------
+Services/CustomerLedgerService.php
+Services/CustomerPaymentActionService.php
+Resources/views/index.blade.php
+Resources/views/ledger/index.blade.php
+Resources/views/customers/partials/form.blade.php
+Resources/views/customers/partials/form_scripts.blade.php
+
+Database
+--------
+No SQL or migration required.

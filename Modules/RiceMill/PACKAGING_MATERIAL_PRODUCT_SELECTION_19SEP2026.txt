@@ -1,0 +1,39 @@
+Rice Mill - Products New Packaging Material Selection - 19 Sep 2026
+
+Scope
+-----
+Rice Mill > Settings > Product Category Mapping now includes a new
+"Select Packaging Material" section.
+
+Behaviour
+---------
+1. Product Category is optional and comes from the live Products New category master.
+2. Product Sub Category is optional. If Category is selected, only its linked Sub Categories are shown.
+3. Product is required and comes from the live Products New product master.
+4. Product list is automatically filtered by the optional Category/Sub Category selections.
+5. All three dropdowns use the module searchable Select2 standard: type-to-filter,
+   scrollable dropdown and keyboard Up/Down navigation.
+6. Saved selections are listed on the same Settings page.
+7. Saving a Product automatically creates/updates its corresponding Rice Mill Packaging Material.
+8. Rice Mill > Packaging Materials auto-syncs saved selections before listing, so saved
+   Products always appear there and are available for Material Usage Mapping.
+9. Existing Packaging Material stock quantity, Active/Inactive status and user note are preserved.
+10. Selected Products New Product ids and internal Packaging Material ids are stored in
+    the existing rcm_settings.settings JSON. No database schema change is required.
+
+Products New source
+-------------------
+Categories/Sub Categories: tenant categories table.
+Products: tenant products table.
+Product ID: exact products.id used by Products New.
+Product Code: products.sku when available.
+Unit: resolved from products.unit_id to units.short_name / actual_name / name when available.
+
+Deployment
+----------
+Replace the RiceMill module with this parcel or upload the changed files.
+Then run:
+  php artisan optimize:clear
+  php artisan view:clear
+
+No SQL import is required.

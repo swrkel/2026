@@ -1,0 +1,209 @@
+
+/* =========================================================
+   ERP GLOBAL TAB COLOUR ENGINE V7
+   Purpose: real global fix for Bootstrap/AdminLTE nav-tabs-custom tabs
+   Reference: POS/PD Settlement compact coloured tabs
+   ========================================================= */
+:root {
+    --erp-tab-height: 42px;
+    --erp-tab-padding-y: 10px;
+    --erp-tab-padding-x: 18px;
+    --erp-tab-font-size: 14px;
+    --erp-tab-radius: 2px;
+    --erp-tab-gap: 8px;
+    --erp-tab-active-bg: #ffffff;
+    --erp-tab-active-text: #111827;
+    --erp-tab-c1: #2f80ed;
+    --erp-tab-c2: #8e008b;
+    --erp-tab-c3: #2f80a8;
+    --erp-tab-c4: #2e6b1e;
+    --erp-tab-c5: #f5a623;
+    --erp-tab-c6: #00a0b8;
+    --erp-tab-c7: #6f42c1;
+    --erp-tab-c8: #16a34a;
+}
+
+/* Convert old Bootstrap/AdminLTE tab rows to compact adaptive POS-standard tabs */
+.nav-tabs-custom > .nav-tabs,
+.nav-tabs-custom .nav.nav-tabs,
+ul.nav.nav-tabs,
+ul.nav.nav-pills,
+.erp-tabs,
+.erp-global-tabs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: var(--erp-tab-gap) !important;
+    border-bottom: 0 !important;
+    margin: 0 0 12px 0 !important;
+    padding: 8px 0 !important;
+    background: transparent !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li,
+.nav-tabs-custom .nav.nav-tabs > li,
+ul.nav.nav-tabs > li,
+ul.nav.nav-pills > li,
+.erp-tabs > li,
+.erp-global-tabs > li {
+    float: none !important;
+    display: inline-flex !important;
+    margin: 0 !important;
+    width: auto !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom .nav.nav-tabs > li > a,
+ul.nav.nav-tabs > li > a[data-toggle="tab"],
+ul.nav.nav-pills > li > a[data-toggle="tab"],
+.erp-tabs > li > a,
+.erp-global-tabs > li > a,
+.nav-tabs-custom > .nav-tabs > li > a > strong,
+.nav-tabs-custom .nav.nav-tabs > li > a > strong,
+ul.nav.nav-tabs > li > a[data-toggle="tab"] > strong,
+ul.nav.nav-pills > li > a[data-toggle="tab"] > strong {
+    font-size: var(--erp-tab-font-size) !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom .nav.nav-tabs > li > a,
+ul.nav.nav-tabs > li > a[data-toggle="tab"],
+ul.nav.nav-pills > li > a[data-toggle="tab"],
+.erp-tabs > li > a,
+.erp-global-tabs > li > a {
+    min-height: var(--erp-tab-height) !important;
+    height: auto !important;
+    padding: var(--erp-tab-padding-y) var(--erp-tab-padding-x) !important;
+    border-radius: var(--erp-tab-radius) !important;
+    border: 1px solid transparent !important;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, .06) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: auto !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    transition: all .18s ease-in-out !important;
+}
+
+/* Strong selector layer for legacy Accounting/Finance tabs and similar pages */
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:not(.active) > a,
+ul.nav.nav-tabs > li:not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:not(.active) > a[data-toggle="tab"] {
+    color: #ffffff !important;
+}
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a > strong,
+.nav-tabs-custom .nav.nav-tabs > li:not(.active) > a > strong,
+ul.nav.nav-tabs > li:not(.active) > a[data-toggle="tab"] > strong,
+ul.nav.nav-pills > li:not(.active) > a[data-toggle="tab"] > strong,
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a i,
+.nav-tabs-custom .nav.nav-tabs > li:not(.active) > a i,
+ul.nav.nav-tabs > li:not(.active) > a[data-toggle="tab"] i,
+ul.nav.nav-pills > li:not(.active) > a[data-toggle="tab"] i {
+    color: #ffffff !important;
+}
+
+/* Automatic colour cycle. This is intentionally strong because older theme files use background:white. */
+.nav-tabs-custom > .nav-tabs > li:nth-child(8n+1):not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:nth-child(8n+1):not(.active) > a,
+ul.nav.nav-tabs > li:nth-child(8n+1):not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:nth-child(8n+1):not(.active) > a[data-toggle="tab"] { background: var(--erp-tab-c1) !important; border-color: var(--erp-tab-c1) !important; }
+
+.nav-tabs-custom > .nav-tabs > li:nth-child(8n+2):not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:nth-child(8n+2):not(.active) > a,
+ul.nav.nav-tabs > li:nth-child(8n+2):not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:nth-child(8n+2):not(.active) > a[data-toggle="tab"] { background: var(--erp-tab-c2) !important; border-color: var(--erp-tab-c2) !important; }
+
+.nav-tabs-custom > .nav-tabs > li:nth-child(8n+3):not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:nth-child(8n+3):not(.active) > a,
+ul.nav.nav-tabs > li:nth-child(8n+3):not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:nth-child(8n+3):not(.active) > a[data-toggle="tab"] { background: var(--erp-tab-c3) !important; border-color: var(--erp-tab-c3) !important; }
+
+.nav-tabs-custom > .nav-tabs > li:nth-child(8n+4):not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:nth-child(8n+4):not(.active) > a,
+ul.nav.nav-tabs > li:nth-child(8n+4):not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:nth-child(8n+4):not(.active) > a[data-toggle="tab"] { background: var(--erp-tab-c4) !important; border-color: var(--erp-tab-c4) !important; }
+
+.nav-tabs-custom > .nav-tabs > li:nth-child(8n+5):not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:nth-child(8n+5):not(.active) > a,
+ul.nav.nav-tabs > li:nth-child(8n+5):not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:nth-child(8n+5):not(.active) > a[data-toggle="tab"] { background: var(--erp-tab-c5) !important; border-color: var(--erp-tab-c5) !important; }
+
+.nav-tabs-custom > .nav-tabs > li:nth-child(8n+6):not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:nth-child(8n+6):not(.active) > a,
+ul.nav.nav-tabs > li:nth-child(8n+6):not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:nth-child(8n+6):not(.active) > a[data-toggle="tab"] { background: var(--erp-tab-c6) !important; border-color: var(--erp-tab-c6) !important; }
+
+.nav-tabs-custom > .nav-tabs > li:nth-child(8n+7):not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:nth-child(8n+7):not(.active) > a,
+ul.nav.nav-tabs > li:nth-child(8n+7):not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:nth-child(8n+7):not(.active) > a[data-toggle="tab"] { background: var(--erp-tab-c7) !important; border-color: var(--erp-tab-c7) !important; }
+
+.nav-tabs-custom > .nav-tabs > li:nth-child(8n+8):not(.active) > a,
+.nav-tabs-custom .nav.nav-tabs > li:nth-child(8n+8):not(.active) > a,
+ul.nav.nav-tabs > li:nth-child(8n+8):not(.active) > a[data-toggle="tab"],
+ul.nav.nav-pills > li:nth-child(8n+8):not(.active) > a[data-toggle="tab"] { background: var(--erp-tab-c8) !important; border-color: var(--erp-tab-c8) !important; }
+
+/* Active / clicked tab */
+.nav-tabs-custom > .nav-tabs > li.active > a,
+.nav-tabs-custom > .nav-tabs > li.active > a:hover,
+.nav-tabs-custom > .nav-tabs > li.active > a:focus,
+.nav-tabs-custom .nav.nav-tabs > li.active > a,
+.nav-tabs-custom .nav.nav-tabs > li.active > a:hover,
+.nav-tabs-custom .nav.nav-tabs > li.active > a:focus,
+ul.nav.nav-tabs > li.active > a[data-toggle="tab"],
+ul.nav.nav-tabs > li.active > a[data-toggle="tab"]:hover,
+ul.nav.nav-tabs > li.active > a[data-toggle="tab"]:focus,
+ul.nav.nav-pills > li.active > a[data-toggle="tab"],
+ul.nav.nav-pills > li.active > a[data-toggle="tab"]:hover,
+ul.nav.nav-pills > li.active > a[data-toggle="tab"]:focus {
+    background: var(--erp-tab-active-bg) !important;
+    color: var(--erp-tab-active-text) !important;
+    border: 1px solid var(--erp-tab-c1) !important;
+    box-shadow: 0 8px 18px rgba(47, 128, 237, .16) !important;
+}
+.nav-tabs-custom > .nav-tabs > li.active > a > strong,
+.nav-tabs-custom .nav.nav-tabs > li.active > a > strong,
+ul.nav.nav-tabs > li.active > a[data-toggle="tab"] > strong,
+ul.nav.nav-pills > li.active > a[data-toggle="tab"] > strong,
+.nav-tabs-custom > .nav-tabs > li.active > a i,
+.nav-tabs-custom .nav.nav-tabs > li.active > a i,
+ul.nav.nav-tabs > li.active > a[data-toggle="tab"] i,
+ul.nav.nav-pills > li.active > a[data-toggle="tab"] i {
+    color: var(--erp-tab-active-text) !important;
+}
+
+/* Hover keeps text readable */
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:hover,
+.nav-tabs-custom .nav.nav-tabs > li:not(.active) > a:hover,
+ul.nav.nav-tabs > li:not(.active) > a[data-toggle="tab"]:hover,
+ul.nav.nav-pills > li:not(.active) > a[data-toggle="tab"]:hover {
+    filter: brightness(1.06) !important;
+    transform: translateY(-1px) !important;
+    color: #ffffff !important;
+}
+
+/* Small screens */
+@media (max-width: 767px) {
+    .nav-tabs-custom > .nav-tabs,
+    .nav-tabs-custom .nav.nav-tabs,
+    ul.nav.nav-tabs,
+    ul.nav.nav-pills {
+        gap: 6px !important;
+    }
+    .nav-tabs-custom > .nav-tabs > li > a,
+    .nav-tabs-custom .nav.nav-tabs > li > a,
+    ul.nav.nav-tabs > li > a[data-toggle="tab"],
+    ul.nav.nav-pills > li > a[data-toggle="tab"] {
+        min-height: 38px !important;
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+        white-space: normal !important;
+    }
+}

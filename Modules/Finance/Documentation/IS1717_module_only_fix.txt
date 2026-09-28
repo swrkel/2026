@@ -1,0 +1,11 @@
+IS1717 Finance Account Book module-only correction
+
+Changed files are restricted to Modules/Finance.
+
+Purpose:
+- Keep List Accounts -> Action -> Account Book inside the Finance module controller and views.
+- Remove the missing finance.account.book-data named-route dependency.
+- Prevent fallback to app/Http/Controllers/AccountController and resources/views/account/show.blade.php.
+- Preserve the defensive realize_date DataTables handling already present in the Finance view.
+
+No SQL or migration is required.

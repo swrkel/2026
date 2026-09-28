@@ -1,0 +1,35 @@
+# File Manifest - Enterprise Framework v1.0
+
+- module.json
+- Config/config.php
+- Config/menu.php
+- Config/permissions.php
+- Contracts/ReportProviderContract.php
+- Contracts/ReportDataProviderContract.php
+- Providers/EnterpriseFrameworkServiceProvider.php
+- Providers/RouteServiceProvider.php
+- Routes/web.php
+- Http/Controllers/EnterpriseFrameworkController.php
+- Services/Report/EnterpriseReportEngine.php
+- Services/Dashboard/DashboardEngine.php
+- Services/Widget/WidgetLibraryService.php
+- Services/Filter/FilterContextService.php
+- Services/Export/ExportEngine.php
+- Services/Print/PrintEngine.php
+- Services/DrillDown/DrillDownEngine.php
+- Services/Notification/NotificationCenterService.php
+- Services/Scheduler/ReportSchedulerService.php
+- Services/Security/PermissionEngine.php
+- Services/Performance/PerformanceEngine.php
+- Services/Registry/ReportRegistryService.php
+- Services/Audit/ReportingAuditService.php
+- Services/UI/UiComponentService.php
+- Resources/views/layout.blade.php
+- Resources/views/components/toolbar.blade.php
+- Resources/views/dashboard/index.blade.php
+- Resources/views/admin/*.blade.php
+- Resources/lang/en/messages.php
+- Resources/js/enterprise-framework.js
+- Resources/css/enterprise-framework.css
+- Database/Seeders/EnterpriseFrameworkPermissionSeeder.php
+- README.md

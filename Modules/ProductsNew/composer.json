@@ -1,0 +1,18 @@
+{
+    "name": "syzygy/productsnew",
+    "description": "Standalone Products New module",
+    "type": "library",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ProductsNew\\Providers\\ProductsNewServiceProvider",
+                "Modules\\ProductsNew\\Providers\\RouteServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ProductsNew\\": ""
+        }
+    }
+}

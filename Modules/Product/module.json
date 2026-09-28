@@ -1,0 +1,18 @@
+{
+    "name": "Product",
+    "alias": "product",
+    "description": "Standalone Product module for ERP product, category, brand, unit, variation and product settings management.",
+    "keywords": [
+        "product",
+        "inventory",
+        "standalone"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\Product\\Providers\\ProductServiceProvider",
+        "Modules\\Product\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,32 @@
+Simple Audit v1.0.13 - Low-memory route/bootstrap adjustment
+Date: 25 Sep 2026
+
+Purpose
+-------
+Keep Simple Audit deployment and route verification within the server's existing
+PHP CLI memory limit. No memory_limit increase is required or recommended.
+
+Changes
+-------
+1. SimpleAuditServiceProvider no longer scans the complete application route
+   collection during boot.
+2. Removed the second booted() route-registration callback.
+3. The Simple Audit route file is loaded once per PHP process using a small
+   process-local guard.
+4. Added: php artisan simple-audit:routes
+   This checks only Simple Audit named routes and intentionally avoids Laravel's
+   global route:list command, which is expensive on this very large ERP.
+5. No database/schema changes.
+6. Central-only behaviour remains unchanged:
+   /superadmin/simple-audit is Central Super Admin only; business sidebars stay hidden.
+
+Deploy
+------
+php artisan module:enable SimpleAudit
+php artisan optimize:clear
+php artisan view:clear
+php Modules/SimpleAudit/Tools/check_sidebar.php
+php artisan simple-audit:routes
+php artisan simple-audit:diagnose --tenant=100
+
+Do NOT use php artisan route:list as a Simple Audit deployment check on this host.

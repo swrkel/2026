@@ -1,0 +1,20 @@
+Simple Audit v1.0.16 - Central Normal Sidebar Bridge
+25 Sep 2026
+
+Reason:
+The Central session can render the host's normal sidebar on Central pages whose
+first URL segment is not /superadmin. Previous releases only inserted Simple Audit
+into sidebar-superadmin.blade.php, so the menu could be absent even though routes,
+database objects and the Central-only module were all healthy.
+
+Fix:
+1. Keeps the dedicated sidebar section:
+   resources/views/layouts/partials/sidebar-sections/sidebar-simple-audit.blade.php
+2. The dedicated section now self-gates using
+   SidebarPermissionUtil::isGenuineSuperAdmin().
+3. The same dedicated section is included by both:
+   - resources/views/layouts/partials/sidebar-superadmin.blade.php
+   - resources/views/layouts/partials/sidebar.blade.php
+4. Login As Business and ordinary tenant/business users remain hidden because
+   isGenuineSuperAdmin() returns false in those contexts.
+5. No SQL/database changes.

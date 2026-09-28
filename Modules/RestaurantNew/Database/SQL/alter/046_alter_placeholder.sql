@@ -1,0 +1,1 @@
+-- Stage 046 has no ALTER statements.

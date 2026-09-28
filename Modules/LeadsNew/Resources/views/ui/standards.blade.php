@@ -1,0 +1,7 @@
+@extends('leadsnew::layouts.app')
+@section('title', 'Leads-New UI Standards')
+@section('leadsnew_subtitle', 'Reference the reusable controls and table styling used throughout this standalone module.')
+@section('leadsnew_content')
+<div class="ln-panel"><div class="ln-panel-header"><div><h3 class="ln-panel-title"><i class="fa fa-paint-brush"></i> Standard Toolbar</h3><div class="ch-card-subtitle">Consistent controls for searching, exporting, printing and column selection.</div></div></div><div class="ln-panel-body">@include('leadsnew::components.toolbar')</div></div>
+<div class="ln-card-grid"><div class="ln-report-card"><span class="report-icon"><i class="fa fa-window-maximize"></i></span><strong>Professional Panels</strong><span>Rounded module-owned panels with clear headers and responsive body spacing.</span></div><div class="ln-report-card"><span class="report-icon"><i class="fa fa-table"></i></span><strong>ERP Tables</strong><span>Readable headers, aligned numeric values, hover feedback and responsive scrolling.</span></div><div class="ln-report-card"><span class="report-icon"><i class="fa fa-mobile"></i></span><strong>Responsive Layout</strong><span>Dashboard cards, forms and operations stack cleanly on smaller screens.</span></div><div class="ln-report-card"><span class="report-icon"><i class="fa fa-universal-access"></i></span><strong>Clear Actions</strong><span>Consistent button hierarchy and visible status badges reduce user effort.</span></div></div>
+@endsection

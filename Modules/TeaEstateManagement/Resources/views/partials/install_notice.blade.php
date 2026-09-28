@@ -1,0 +1,1 @@
+<div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> Tea Estate Management tables are not installed in this tenant database. Run <code>Modules/TeaEstateManagement/Database/SQL/TEA_ESTATE_MANAGEMENT_MASTER_INSTALL.sql</code> in the intended tenant database or run the module migration.</div>

@@ -1,0 +1,6 @@
+@extends('stocktakingnew::layouts.app')
+@section('stk_title','Stock Taking Approvals')
+@section('stk_subtitle','Review submitted variances and post approved reconciliations.')
+@section('stk_content')
+<section class="stk-card"><div class="table-responsive"><table class="stk-table"><thead><tr><th>No</th><th>Date</th><th>Title</th><th>Lines</th><th>Variance Qty</th><th>Variance Value</th><th>Submitted</th><th>Status</th><th>Action</th></tr></thead><tbody>@forelse($sessions as $row)<tr><td><strong>{{ $row->stock_take_no }}</strong></td><td>{{ optional($row->count_date)->format('d M Y') }}</td><td>{{ $row->title }}</td><td class="text-right">{{ $row->line_count }}</td><td class="text-right">{{ number_format((float)$row->variance_qty_total,4) }}</td><td class="text-right">{{ number_format((float)$row->variance_value_total,4) }}</td><td>{{ optional($row->submitted_at)->format('d M Y h:i A') }}</td><td>@include('stocktakingnew::partials.status',['status'=>$row->status])</td><td><a href="{{ route('stock-taking-new.sessions.show',$row) }}" class="stk-btn stk-btn-action">Review</a></td></tr>@empty<tr><td colspan="9" class="stk-empty">No sessions awaiting approval.</td></tr>@endforelse</tbody></table></div>{{ $sessions->links() }}</section>
+@endsection

@@ -1,0 +1,7 @@
+S362 Correct System UI Fix
+- Replaced POS standalone layout with server-safe CSS matching the approved Auto Service / Communication Hub style.
+- Removed dependency on FontAwesome rendering for critical sidebar/dashboard icons by using inline fallback symbols.
+- Reduced dashboard cards to the correct 4-column professional layout.
+- Fixed oversized card/grid design and restored Recent Transactions + Quick Actions + Quick Operations order.
+- Added cache busting v=s362.
+- No SQL required.

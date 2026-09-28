@@ -1,0 +1,41 @@
+IS1769 – Finance Module route 404 correction
+Date: 25 July 2026
+Baseline: 9185 latest code + Login V6 + Manage Side Bar V2 + Petro PD Actions V2
+
+AFFECTED PAGES
+- Finance / List Accounts
+- Finance / Disabled Account
+- Finance / List Journals
+- Finance / Profit & Loss Report on Trading
+- Finance / Balance Sheet
+- Finance / Balance Sheet Comparison
+- Finance / Fixed Assets
+- Finance / Cash Flow
+- Finance / Import Accounts
+
+CONFIRMED ROOT CAUSE
+Finance-owned /accounting-module routes are deliberately registered after the
+legacy application routes so the standalone Finance controllers win. The outer
+route group used both InitializeTenancyByDomain and
+PreventAccessFromCentralDomains. On installations where business users operate
+on the configured central host, the final Finance route matched correctly but
+PreventAccessFromCentralDomains intentionally converted the request into 404.
+Because every affected page shares the same Finance outer middleware, they all
+failed together.
+
+CORRECTION
+- Added a Finance-owned context middleware.
+- Recognized central hosts pass without the central-domain rejection.
+- Actual tenant/custom-domain hosts still use Stancl's canonical domain resolver
+  before auth, SetSessionData and controller/database access.
+- The middleware is stored in the cached route table, so route:cache behaves the
+  same on central and tenant hosts.
+- Finance continues to own and override the existing /accounting-module URLs.
+- No sidebar, Manage Side Bar, login, Super Admin or Petro PD file is changed.
+
+DEPLOYMENT
+Extract at the Laravel project root and overwrite the included files, then run:
+
+php artisan optimize:clear
+
+No SQL or migration is required.

@@ -1,0 +1,1 @@
+<a class="btn btn-xs btn-primary" href="{{ route('expensesnew.payees.edit',$p->id) }}">Edit</a> <button class="btn btn-xs btn-danger expnew-delete" data-url="{{ route('expensesnew.payees.destroy',$p->id) }}">Delete</button>

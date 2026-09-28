@@ -1,0 +1,20 @@
+{
+    "name": "HotelManagement",
+    "alias": "hotelmanagement",
+    "description": "Standalone Hotel Management module",
+    "keywords": [
+        "hotel",
+        "rooms",
+        "reservations",
+        "front-office",
+        "housekeeping",
+        "folio"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\HotelManagement\\Providers\\HotelManagementServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

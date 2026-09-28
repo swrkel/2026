@@ -1,0 +1,4 @@
+.bs013-reception .table-responsive { overflow-x: auto; }
+.bs013-reception .dropdown-menu { z-index: 3000; }
+.bs013-reception .bs-save-btn { min-width: 165px; min-height: 50px; font-size: 18px; font-weight: 700; }
+.bs013-reception-dashboard .info-box-number { font-size: 24px; }

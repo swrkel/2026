@@ -1,0 +1,37 @@
+S 728 - SW Module Settlement - 14 Sep 2026
+==========================================
+
+Issue
+-----
+SW Settlements > New Settlement > Payments:
+Cash / Cards / Credit Sales / Shortage / Excess could not reliably be opened.
+
+Root hardening
+--------------
+1. Payment-type selection is now handled by one delegated, namespaced click
+   handler bound before Select2/AJAX initialisation. It continues to work even
+   if the hidden settlement section is restored or its live DOM changes.
+2. Removed the old direct .sw-pay-btn click binding to prevent double execution.
+3. Cash, Card, Credit Sales, Shortage and Excess are explicitly kept enabled
+   and free of inherited disabled/aria-disabled states.
+4. Credit Sales now explicitly opens its embedded detailed section when chosen,
+   and closes it again when another payment type is chosen.
+5. Core payment buttons are visually presented as available/clickable rather
+   than looking disabled merely because they are inactive.
+6. Payment-summary refresh reasserts the enabled state of the five required
+   payment types.
+
+Files changed
+-------------
+Resources/views/settlements/partials/payments_js.blade.php
+Resources/views/settlements/partials/section_styles.blade.php
+
+Database
+--------
+No SQL / migration required.
+
+Scope protection
+----------------
+No settlement totals, finance posting, shift eligibility, meter sales, other
+sales, other income, credit-sale calculations, customer ledger, stock or tank
+logic was changed.

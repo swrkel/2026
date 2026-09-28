@@ -1,0 +1,16 @@
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Config/config.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Config/menu.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Config/module_permissions.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Http/Controllers/GraphsController.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Http/Middleware/ReorderAlertMiddleware.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Providers/GraphsServiceProvider.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Providers/RouteServiceProvider.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Resources/views/customer_payment.blade.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Resources/views/financial.blade.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Resources/views/index.blade.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Resources/views/operational.blade.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Routes/web.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Services/GraphAnalyticsService.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Services/GraphCustomerPaymentAnalyticsService.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Services/GraphFinancialAnalyticsService.php
+No syntax errors detected in /mnt/data/graphs_customer/Modules/Graphs/Services/GraphOperationalAnalyticsService.php

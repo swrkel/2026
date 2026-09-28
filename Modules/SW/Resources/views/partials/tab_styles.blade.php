@@ -1,0 +1,121 @@
+{{-- Styling for the SW tab partials.
+
+     Included BY THE PARTIALS, not by a layout: the tabs render under two
+     different layouts now - sw::layouts.app on the old pages, layouts.app on
+     SW Payments and SW Daily Shifts - and styling held in one layout never
+     reached the other. That is why the tables looked wrong on the new pages.
+
+     @once, so six tabs on a page emit it a single time. --}}
+
+@once
+<style>
+/* S-697: the Add button, 20% larger. Padding and font size rather than a fixed
+   width, so it still fits its label in any language. */
+.sw-tab-pane .box-tools .btn-primary,
+.box-tools .btn.btn-modal {
+    padding: 9px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+/* S-697: the tables were cut off.
+
+   The DataTables stylesheet puts overflow:hidden on the TABLE element, so
+   rules aimed at the wrapper never reach it - the same fault as the Pump
+   Operators Actions menu. */
+.sw-table-wrap,
+.sw-table-wrap .dataTables_wrapper,
+.sw-table-wrap table.dataTable {
+    overflow: visible !important;
+}
+
+.sw-table-wrap { width: 100%; }
+
+.sw-table-wrap table {
+    width: 100% !important;
+    font-size: 13px;
+}
+
+.sw-table-wrap thead th {
+    white-space: normal;
+    vertical-align: middle;
+    font-size: 12px;
+    line-height: 1.25;
+    background: #f7f9fc;
+}
+
+.sw-table-wrap tbody td {
+    vertical-align: middle;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Figures right, names left - a column of amounts is unreadable ragged. */
+.sw-table-wrap td.text-right,
+.sw-table-wrap th.text-right { text-align: right; }
+
+/* The Actions menu must escape the table, as on Pump Operators. */
+.sw-table-wrap .btn-group { position: relative; }
+.sw-table-wrap .dropdown-menu { position: absolute; z-index: 1051; top: 100%; bottom: auto; }
+
+/* Headings two points smaller - they carry short words and did not need the
+   size the body text uses. */
+.sw-table-wrap thead th { font-size: 9px; letter-spacing: .2px; }
+
+/* Narrow columns hold short codes. They wrap rather than widen, so the table
+   keeps its shape when a value is longer than usual. */
+.sw-table-wrap td.sw-narrow,
+.sw-table-wrap th.sw-dc-form-no,
+.sw-table-wrap th.sw-dc-shift {
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* A user's name takes two or three lines instead of widening the column. */
+.sw-table-wrap td.sw-wrap-name {
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.2;
+    font-size: 12px;
+}
+</style>
+<script>
+$(function () {
+function swInitSelects(scope) {
+  if (!$.fn.select2) { return; }
+  $(scope || document).find("select.form-control:not(.sw-s2):not([multiple])").each(function () {
+    var $s = $(this); if ($s.hasClass("select2-hidden-accessible")) { return; }
+    var $m = $s.closest(".modal");
+    $s.addClass("sw-s2").select2({ width: "100%", dropdownParent: $m.length ? $m : $(document.body) });
+  });
+}
+swInitSelects();
+$(document).on("shown.bs.modal", ".modal", function () { swInitSelects(this); });
+$(document).on("sw:line-added", function (e, $r) { swInitSelects($r); });
+$(document).on("draw.dt", function (e) { swInitSelects(e.target); });
+});
+</script>
+@endonce
+
+@once
+<div class="modal fade" id="sw_note_modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="sw_note_title">Note</h4>
+      </div>
+      <div class="modal-body"><p id="sw_note_body" style="white-space:pre-wrap;margin:0"></p></div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).on('click', '.sw-note-btn', function () {
+    var ref = $(this).data('settlement');
+    $('#sw_note_title').text(ref ? 'Note — ' + ref : 'Note');
+    $('#sw_note_body').text($(this).data('note'));
+    $('#sw_note_modal').modal('show');
+});
+</script>
+@endonce

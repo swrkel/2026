@@ -1,0 +1,7 @@
+<?php
+
+return array (
+  'asset_version' => '676cfb89723ba',
+
+  'font_awesome_id' => env('FONT_AWESOME_ID', 'bb1c887317'),
+);

@@ -1,0 +1,26 @@
+{
+    "name": "modules/digital-business-cards",
+    "description": "Shareable digital business cards with QR codes and one-tap vCard download.",
+    "type": "laravel-module",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1"
+    },
+    "suggest": {
+        "endroid/qr-code": "Enables server-side QR rendering (recommended).",
+        "bacon/bacon-qr-code": "Alternative QR renderer."
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\DigitalBusinessCards\\": "",
+            "Modules\\DigitalBusinessCards\\Database\\Factories\\": "Database/Factories/",
+            "Modules\\DigitalBusinessCards\\Database\\Seeders\\": "Database/Seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    }
+}

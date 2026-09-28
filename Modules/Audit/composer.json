@@ -1,0 +1,10 @@
+{
+    "name": "nivasa/audit-module",
+    "description": "Standalone Audit module for Laravel ERP",
+    "type": "laravel-module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Audit\\": ""
+        }
+    }
+}

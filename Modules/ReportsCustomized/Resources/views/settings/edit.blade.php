@@ -1,0 +1,50 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+
+    {{-- Modified by Engr. Alex -- task 7882: Issue 3 - fix edit form to point to update route --}}
+    {!! Form::open(['url' => action('\Modules\ReportsCustomized\Http\Controllers\ReportsCustomizedSettingsController@update', $report->id), 'method' => 'post', 'id' => 'gramaseva_vasama_form']) !!}
+    @method('PUT')
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">LIOC Statement - Edit Settings</h4>
+    </div>
+
+    {{-- Modified by Engr. Alex -- task 7882: Issue 3 - add Description Constant Details field to edit form --}}
+    <div class="modal-body">
+      <div class="form-group">
+        {!! Form::label('prefix', __( 'Prefix' )) !!}
+        {!! Form::text('prefix', $report->prefix, ['class' => 'form-control', 'required', 'placeholder' => __(
+        'prefix' ), 'id' => 'prefix']);
+        !!}
+      </div>
+
+      <div class="form-group">
+        {!! Form::label('start_number', __( 'Statement Starting Number' )) !!}
+        {!! Form::text('start_number', $report->start_number, ['class' => 'form-control', 'required', 'placeholder' => __(
+        'Start Number' ), 'id' => 'start_number']);
+        !!}
+      </div>
+
+      <div class="form-group">
+        {!! Form::label('constant_value', __( 'Constant Value' )) !!}
+        {!! Form::text('constant_value', $report->constant_value, ['class' => 'form-control', 'required', 'placeholder' => __(
+        'Constant Value' ), 'id' => 'constant_value']);
+        !!}
+      </div>
+
+      <div class="form-group">
+        {!! Form::label('description_constant_details', __('Description Constant Details')) !!}
+        {!! Form::textarea('description_constant_details', $report->description_constant_details, ['class' => 'form-control', 'rows' => 3, 'placeholder' => 'Description Constant Details', 'id' => 'description_constant_details']) !!}
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" id="save_gramaseva_vasama_btn">@lang( 'messages.save' )</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">@lang( 'messages.close' )</button>
+    </div>
+
+    {!! Form::close() !!}
+
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

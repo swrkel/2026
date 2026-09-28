@@ -1,0 +1,22 @@
+/* FIN-006: Standalone Finance module styles. */
+.finance-module .amount,
+.finance-module .text-amount {
+    text-align: right;
+    white-space: nowrap;
+}
+.finance-module .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+.finance-module .finance-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+@media (max-width: 768px) {
+    .finance-module .finance-toolbar > * {
+        width: 100%;
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Tailoring",
+  "alias": "tailoring",
+  "description": "Standalone Tailoring Module for measurements, garment orders, job cards, production workflow, billing, and reports.",
+  "keywords": ["tailoring", "garments", "measurements", "job cards", "production"],
+  "active": 1,
+  "order": 210,
+  "providers": [
+    "Modules\\Tailoring\\Providers\\TailoringServiceProvider",
+    "Modules\\Tailoring\\Providers\\RouteServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

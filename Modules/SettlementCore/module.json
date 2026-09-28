@@ -1,0 +1,12 @@
+{
+    "name": "SettlementCore",
+    "alias": "settlementcore",
+    "description": "Shared settlement payment reconciler engine and write guard. Contains no routes, views, migrations or UI - it exists so Petro and Vat can share one reconciler instead of depending on each other.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SettlementCore\\Providers\\SettlementCoreServiceProvider"
+    ],
+    "files": [],
+    "aliases": {}
+}

@@ -1,0 +1,20 @@
+{
+    "name": "LeadsNew",
+    "alias": "leadsnew",
+    "description": "Standalone Leads-New module for lead management, follow-ups, opportunities, reports, dashboard, settings and CRM operations.",
+    "keywords": [
+        "leads-new",
+        "crm",
+        "lead-management",
+        "followups",
+        "opportunities",
+        "lead-reports"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\LeadsNew\\Providers\\LeadsNewServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

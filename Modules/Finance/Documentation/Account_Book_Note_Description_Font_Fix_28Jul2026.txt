@@ -1,0 +1,28 @@
+FINANCE ACCOUNT BOOK - NOTE BUTTON / COLUMN / FONT FIX
+Date: 28 July 2026
+
+CHANGES
+1. Removed the separate Action column from the Account Book table.
+2. Moved the Note button into the Description column, below the visible description.
+3. Kept the Note button out of CSV, Excel, PDF and Print export data.
+4. Allocated the removed column width to the Description column.
+5. Increased Account Book heading font size from 12px to 13px.
+6. Increased normal Account Book row font size from 12px to 14px.
+7. Increased compact Card Account Book row font size from 11px to 12px.
+8. Corrected DataTables sort-column indexes and footer colspan values after removing the Action column.
+9. Retained an empty action key in the AJAX response for backward compatibility with an old cached Blade view.
+10. Previous reconcile_status, description cleanup and screen-fit corrections remain included.
+
+CHANGED FILES
+Finance/Resources/views/account/show.blade.php
+Finance/Services/Accounts/AccountBookDataService.php
+
+DEPLOYMENT
+Upload and overwrite the Finance folder contents in the same application paths, then run:
+
+php artisan optimize:clear
+
+Refresh the Account Book page with Ctrl+F5.
+
+DATABASE
+No migration or SQL is required.

@@ -1,0 +1,1 @@
+(function(){'use strict';document.addEventListener('DOMContentLoaded',function(){var cards=document.querySelectorAll('.stn-kpi');cards.forEach(function(card){card.setAttribute('tabindex','0');});});})();

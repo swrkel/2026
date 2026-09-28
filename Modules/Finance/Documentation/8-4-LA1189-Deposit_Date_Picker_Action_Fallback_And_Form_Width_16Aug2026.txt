@@ -1,0 +1,154 @@
+Reference No: 8-4-LA1189
+Release ZIP: 8-4-LA1189-Deposit_Date_Picker_Action_Fallback_And_Form_Width_16Aug2026.zip
+
+LA-1189 (2nd pass) - Finance Deposits: Date Picker Controls + Form Width
+Date: 16 August 2026
+
+Supersedes 8-3. Includes everything in 8-3; that ZIP does not need deploying
+separately.
+
+Scope
+-----
+Finance Module > List Accounts > Cash Deposit
+Finance Module > List Accounts > Card Deposit
+Finance Module > List Accounts > Cheque Deposit
+Finance Module > List Accounts > Fund Transfer (shares the same date binding
+and the same compact sizing, so it is covered by both changes)
+
+Tested by the reporter at:
+  https://sonali.nivasa.shop/accounting-module/account
+
+Issues
+------
+1. The calendar's own controls still do nothing - the month arrows and the
+   today / clock / close row - on all of the button forms, after 8-1 and 8-3.
+2. Reduce the form width by 40%.
+
+
+ISSUE 1 - CHANGE OF APPROACH
+----------------------------
+Two attempts have now been made to explain WHY these controls are dead, and
+neither held up:
+
+  8-1 said the misplaced calendar was being covered by the modal header. That
+      was wrong: the widget was the LAST child of .modal-content with
+      z-index 10660, so it was painted ON TOP of the header, not beneath it.
+
+  8-3 corrected that, fixed a regression 8-1 had introduced, and asked for
+      console output to identify the real cause. The fault persists and the
+      diagnostic output has not come back yet.
+
+The fault cannot be reproduced here, and a third guess at the mechanism is not
+worth shipping. This release stops trying to out-argue the library and instead
+makes the controls work whether or not the library responds to them.
+
+WHAT WAS ADDED
+  A fallback that watches each click on a calendar control:
+
+    1. when a control is clicked, it records what the calendar is currently
+       showing - the month on the header, the highlighted day, which panel is
+       open, whether the widget is visible, and the selected date;
+    2. on the next tick it looks again;
+    3. if something changed, bootstrap-datetimepicker handled the click and the
+       fallback does nothing at all;
+    4. if nothing changed, the library did not respond, so the fallback performs
+       the action itself through the library's public API.
+
+  It covers: previous month, next month, today, close, the clock/date panel
+  toggle, and selecting a day. The month/year/decade views and the hour and
+  minute controls are left to the library, which is the only thing that knows
+  its own state for those.
+
+WHY THIS CANNOT DOUBLE-APPLY
+  The fallback only ever runs when the calendar did NOT change. On an
+  installation where the library is healthy it never fires, so a month can never
+  be skipped twice and a date can never be set twice. This was verified against
+  the decision logic directly: 0 fallback activations in 50 simulated clicks
+  with a responding library.
+
+WHAT THIS STILL CANNOT FIX
+  If the clicks never reach the calendar at all - something invisible covering
+  it, or the widget made click-through - then this listener never runs either,
+  because it is a click listener on the same element.
+
+  That is the one remaining possibility, and it is exactly what the diagnostic
+  from 8-3 (carried forward here) identifies. IF THIS RELEASE STILL DOES NOT
+  FIX IT, the console output is the thing that will, and it takes about a
+  minute to collect:
+
+      a. open  https://sonali.nivasa.shop/accounting-module/account?finance_dp_debug=1
+      b. press F12 and select the Console tab
+      c. open the Deposit pop-up and click the date field
+      d. click the previous arrow, the next arrow, the clock, and close
+      e. copy every line beginning "FINANCE-DP" and send it back
+
+  Those lines report, for each control, which element is actually at its centre
+  (naming anything that covers it), whether the click reaches it at all, and
+  whether the library reacts. Any one of them settles this.
+
+
+ISSUE 2 - FORM WIDTH REDUCED BY 40%
+-----------------------------------
+Applied to the shared compact sizing, so all four forms move together:
+
+    Cash / Card Deposit      72%  ->  43.2%
+    Fund Transfer            72%  ->  43.2%
+    Cheque Deposit           51%  ->  30.6%
+
+The Cheque Deposit form also carries a minimum width, because it has to show a
+table of cheques. That floor has been reduced by 40% as well, 680px -> 408px.
+This is deliberate: had it been left at 680px it would have overridden the new
+percentage on any ordinary screen (30.6% of 1920px is 587px, which is under the
+old floor), and the form would not have got narrower at all.
+
+PLEASE CHECK THE CHEQUE DEPOSIT FORM PARTICULARLY. It is the one form here with
+a data table inside it, and 408px is a genuinely narrow box for it. If the
+cheque list becomes hard to read, the right adjustment is to raise
+compactMinWidth in Resources/views/account/cheque_deposit.blade.php - a
+one-line change - rather than to undo the width reduction everywhere.
+
+
+Changed Code Files
+------------------
+Modules/Finance/Resources/views/account/partials/date_picker_bind.blade.php
+Modules/Finance/Resources/views/account/deposit.blade.php
+Modules/Finance/Resources/views/account/transfer.blade.php
+Modules/Finance/Resources/views/account/cheque_deposit.blade.php
+
+Database
+--------
+No migration or SQL required.
+
+Deployment
+----------
+Extract from the Laravel project root, preserving the Modules/Finance path,
+then run:
+
+php artisan optimize:clear
+
+That command matters. Blade views are compiled and cached, and a cached view
+keeps being served after the file on disk has changed. If a previous release
+appeared to have no effect, this is the first thing to rule out.
+
+Validation Performed
+--------------------
+- Structural check of all four changed Blade files: passed.
+- The complete <script> block of the date binding parsed as JavaScript by Node:
+  passed.
+- The fallback's decision logic exercised directly: it takes no action on 50
+  consecutive clicks with a responding library, and takes action when the
+  library is silent.
+- The day-selection maths exercised against five cases, including the grey
+  leading and trailing cells and both year boundaries (Jan back to Dec, Dec
+  forward to Jan): all correct, with the time of day preserved in every case.
+- Diff review against the 8-3 version.
+
+NOT YET PERFORMED
+-----------------
+No PHP runtime or browser was available, so Blade compilation and all click
+testing still have to be done on the tenant server.
+
+A note on the tenant: this ticket names lashini.nivasa.shop but the retest was
+done on sonali.nivasa.shop. Worth confirming both have had 8-1 through 8-4
+deployed and the view cache cleared, since a release applied to only one of them
+would look exactly like a fix that did not work.

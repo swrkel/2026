@@ -1,0 +1,24 @@
+POS Standalone S364 - System UI Framework Realignment
+
+Purpose:
+- Stop rendering the custom POS standalone shell/sidebar.
+- Make POS pages render inside the ERP system layout so the live server uses the same sidebar, header, font, and base styling as the existing modules.
+
+Changed:
+- Modules/POS/Resources/views/layouts/app.blade.php
+  * Now extends layouts.app instead of a custom standalone HTML document.
+  * Removed the POS-owned blue sidebar and custom topbar.
+  * Uses a Communication Hub style hero/page shell inside the normal ERP content area.
+  * Keeps POS JS assets loaded through POS module asset route.
+
+- Modules/POS/Resources/views/partials/erp-standard-styles.blade.php
+  * Includes the actual Communication Hub professional style rules copied into POS.
+  * Adds POS bridge rules for tables, forms, quick actions, boxes, and list pages.
+  * Uses inherit font instead of manually forcing a different POS font.
+
+- Modules/POS/Resources/views/dashboard/index.blade.php
+  * Rebuilt dashboard using Communication Hub KPI/card classes.
+  * Replaced emoji/symbol icons with FontAwesome icons.
+  * Corrected 4-column KPI grid, Recent Transactions, Quick Actions, and Quick Operations.
+
+No SQL required.

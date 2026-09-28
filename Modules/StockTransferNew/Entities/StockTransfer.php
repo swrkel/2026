@@ -1,0 +1,4 @@
+<?php
+namespace Modules\StockTransferNew\Entities;
+use Illuminate\Database\Eloquent\Model;use Illuminate\Database\Eloquent\SoftDeletes;
+class StockTransfer extends Model{use SoftDeletes;protected $table='stnew_stock_transfers';protected $guarded=['id'];protected $casts=['transfer_date'=>'date','submitted_at'=>'datetime','approved_at'=>'datetime','returned_at'=>'datetime','rejected_at'=>'datetime','dispatched_at'=>'datetime','received_at'=>'datetime','cancelled_at'=>'datetime'];public function lines(){return $this->hasMany(StockTransferLine::class,'transfer_id');}public function audits(){return $this->hasMany(StockTransferAudit::class,'transfer_id')->latest();}public function approvalSteps(){return $this->hasMany(StockTransferApprovalStep::class,'transfer_id')->orderBy('step_order');}public function currentApproval(){return $this->hasOne(StockTransferApprovalStep::class,'transfer_id')->where('status','pending')->orderBy('step_order');}}

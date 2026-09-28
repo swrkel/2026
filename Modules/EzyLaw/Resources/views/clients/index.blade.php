@@ -1,0 +1,6 @@
+@extends('ezylaw::layouts.module')
+@section('ezylaw_title','Clients')
+@section('ezylaw_content')
+<div class="law-toolbar"><form method="get"><input name="q" value="{{ request('q') }}" class="form-control" placeholder="Search client no, name, mobile, email"><button class="btn btn-primary">Search</button></form><a class="btn btn-success" href="{{ route('ezylaw.clients.create') }}">Add Client</a></div>
+<div class="box"><div class="box-body table-responsive"><table class="table table-bordered table-striped"><thead><tr><th>Client No</th><th>Name</th><th>Type</th><th>Mobile</th><th>Email</th><th>Status</th><th>Action</th></tr></thead><tbody>@foreach($clients as $c)<tr><td>{{ $c->client_no }}</td><td>{{ $c->name }}</td><td>{{ ucfirst($c->client_type) }}</td><td>{{ $c->mobile }}</td><td>{{ $c->email }}</td><td>{{ ucfirst($c->status) }}</td><td><a href="{{ route('ezylaw.clients.show',$c) }}" class="btn btn-xs btn-info">View</a> <a href="{{ route('ezylaw.clients.edit',$c) }}" class="btn btn-xs btn-primary">Edit</a></td></tr>@endforeach</tbody></table>{{ $clients->links() }}</div></div>
+@endsection

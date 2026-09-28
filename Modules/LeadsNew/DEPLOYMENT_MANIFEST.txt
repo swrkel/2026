@@ -1,0 +1,27 @@
+Leads-New Production Consolidation RC6
+
+Replace:
+- Modules/LeadsNew
+
+Do not replace:
+- routes/web.php
+- routes/tenant.php
+- app core files
+- resources core files
+
+SQL:
+- For an existing tenant already upgraded through RC5, run only RC6 SQL files in order.
+- For a new tenant, use the MASTER SQL folder from the matching RC6 SQL package.
+- Run SQL only on the active tenant database. Do not run on the central database.
+
+Post deployment:
+1. Open /clear.
+2. Test /leads-new/route-ok.
+3. Test /leads-new.
+4. Test /leads-new/leads.
+5. Test /leads-new/leads/create.
+6. Confirm the module still uses the tenant database.
+
+Package standard:
+- Module package: LEADS_NEW_PRODUCTION_CONSOLIDATION_RC6_MODULE_20260705.zip
+- SQL package: LEADS_NEW_PRODUCTION_CONSOLIDATION_RC6_SQL_20260705.zip

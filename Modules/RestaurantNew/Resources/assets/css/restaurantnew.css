@@ -1,0 +1,10 @@
+.restaurant-new-dashboard,.restaurant-new-setup{padding-top:10px}.rn-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#fff;border-radius:8px;padding:10px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.06)}.rn-toolbar-left{min-width:260px}.rn-toolbar .btn{color:#fff;font-weight:600;min-width:70px}.rn-info-box{border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08)}.rn-pos-box{border-radius:12px;border-top:0;box-shadow:0 4px 14px rgba(0,0,0,.08)}.rn-pos-box>.box-header{border-radius:12px 12px 0 0;background:#fff}.rn-page-header h1{font-weight:700}.rn-data-table th{font-size:12px;white-space:nowrap}.rn-data-table td{font-size:12px;vertical-align:middle!important}.rn-form-actions .btn{min-width:120px;margin-right:8px}.rn-card-form label{font-weight:600}.rn-status-chip{display:inline-block;padding:4px 8px;border-radius:20px;background:#f4f4f4}
+
+.restaurant-new-menu .rn-filter-row { margin-bottom: 12px; }
+.rn-inline-form { display: inline-block; margin: 0 2px; }
+.rn-action-cell { white-space: nowrap; min-width: 105px; }
+.rn-checkbox-line label { margin-right: 18px; font-weight: 600; }
+.rn-repeat-card { border: 1px solid #e7ecf1; border-radius: 6px; padding: 12px; margin: 10px 0; background: #fff; }
+.rn-repeat-card h4 { margin-top: 0; font-weight: 700; }
+.rn-repeat-row { border-bottom: 1px dashed #edf0f3; margin-bottom: 8px; padding-bottom: 4px; }
+.rn-repeat-row:last-child { border-bottom: 0; }

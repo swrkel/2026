@@ -1,0 +1,3 @@
+.banking-ui-page .info-box { min-height: 88px; }
+.banking-ui-card { color: inherit; display: block; }
+.banking-ui-card:hover { text-decoration: none; }

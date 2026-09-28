@@ -1,0 +1,1 @@
+<div class="productsnew-integration-grid">@foreach($workspace['integrations'] as $integration)<div><i class="fa fa-check-circle"></i><strong>{{ $integration['module'] }}</strong><span>{{ ucwords(str_replace('_',' ', $integration['status'])) }}</span></div>@endforeach</div>

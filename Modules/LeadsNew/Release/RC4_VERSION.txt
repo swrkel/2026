@@ -1,0 +1,10 @@
+Leads-New Production Consolidation RC4
+Date: 2026-07-05
+Package: LEADS_NEW_PRODUCTION_CONSOLIDATION_RC4_MODULE_20260705.zip
+SQL: LEADS_NEW_PRODUCTION_CONSOLIDATION_RC4_SQL_20260705.zip
+
+Deployment:
+- Replace Modules/LeadsNew only.
+- Run RC4 SQL only for tenants already updated through RC3.
+- Run MASTER SQL for a new tenant database.
+- Open /clear after upload.

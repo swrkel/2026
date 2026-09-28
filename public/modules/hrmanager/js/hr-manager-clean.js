@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',function(){console.log('HR Manager cleanup loaded');});

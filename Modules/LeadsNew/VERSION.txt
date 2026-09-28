@@ -1,0 +1,7 @@
+Leads-New Production Consolidation RC5
+Date: 2026-07-05
+Package: LEADS_NEW_PRODUCTION_CONSOLIDATION_RC5_MODULE_20260705.zip
+SQL: LEADS_NEW_PRODUCTION_CONSOLIDATION_RC5_SQL_20260705.zip
+Replacement target: Modules/LeadsNew
+Main route changes: No
+Tenant SQL: Yes, run only on active tenant databases

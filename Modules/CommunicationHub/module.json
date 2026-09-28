@@ -1,0 +1,14 @@
+{
+  "name": "CommunicationHub",
+  "alias": "communicationhub",
+  "description": "Standalone enterprise communication engine for SMS, Email, WhatsApp, Push, OTP, queues, templates, providers and delivery reports.",
+  "keywords": ["communication", "sms", "email", "whatsapp", "push", "otp", "queue"],
+  "priority": 0,
+  "providers": [
+    "Modules\\CommunicationHub\\Providers\\CommunicationHubServiceProvider",
+    "Modules\\CommunicationHub\\Providers\\RouteServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

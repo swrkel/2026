@@ -1,0 +1,1 @@
+(function(){window.ExpensesNew005={init:function(){document.querySelectorAll('.expnew-table').forEach(function(t){t.dataset.expnewReady='1';});}};document.addEventListener('DOMContentLoaded',window.ExpensesNew005.init);})();

@@ -1,0 +1,33 @@
+IS2319 – Rice Mill – 24 Sep 2026
+
+Scope
+-----
+1. Payment Method -> Payment Account resolver corrected for Purchase Order,
+   Receive Paddy, Milling / Production, and Sales / Dispatch.
+2. Rice Mill financial and stock movements now write to the ERP standard
+   transactions/account_transactions tables so Finance > List Accounts >
+   Account Book shows the related entries.
+
+Payment Account resolver
+------------------------
+- Super Admin / Manage New Account Group mapping remains authoritative.
+- Only open, non-main Account Books in the mapped Account Group are returned.
+- Location-scoped, 'all', blank, and NULL location Account Books are supported.
+- If old location data is stale, fallback is restricted to the SAME mapped
+  Account Group; it never reinterprets the Account Group id as another account.
+
+Finance posting
+---------------
+- Purchase Order: Product stock Account Book debit + selected payment Account
+  credit (standard Purchase flow), or Current Liability credit for Credit Purchase.
+- Receive Paddy: Paddy stock Account Book debit + mapped Current Liability credit;
+  any payment debits the liability and credits the selected Payment Account.
+- Milling / Production: Paddy input stock is credited, Rice/By-product output stock
+  is debited at production cost, with production overhead kept in the mapped
+  liability; payment clears that liability through the selected Payment Account.
+- Sales / Dispatch (on approval): Accounts Receivable / Sales Income and
+  Finished Goods / COGS Account Books are posted. Customer payment debits the
+  selected Payment Account and credits Accounts Receivable.
+
+No new table or column is required for IS2319.
+All code changes are contained inside Modules/RiceMill.

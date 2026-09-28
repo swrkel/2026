@@ -1,0 +1,19 @@
+{
+    "name": "BankingInsurance",
+    "alias": "bankinginsurance",
+    "description": "Standalone Banking Suite Insurance module for policies, premiums, claims, products, and reports.",
+    "keywords": [
+        "banking",
+        "insurance",
+        "erp",
+        "standalone"
+    ],
+    "active": 1,
+    "order": 730,
+    "providers": [
+        "Modules\\BankingInsurance\\Providers\\BankingInsuranceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

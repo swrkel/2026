@@ -1,0 +1,10 @@
+{
+    "name": "syzygy/pricechangenew",
+    "description": "Fresh Price Change New standalone module for ERP baseline 9773",
+    "type": "laravel-module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\PriceChangeNew\\": ""
+        }
+    }
+}

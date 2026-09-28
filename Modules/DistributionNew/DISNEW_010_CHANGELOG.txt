@@ -1,0 +1,18 @@
+DISNEW_010 - Stage 10 Standalone Audit + Production Hardening
+
+This parcel adds the final production-readiness layer for Distribution New.
+
+Included:
+1. Standalone dependency audit service and audit report page.
+2. Installation checklist and tenant/business verification helper.
+3. Permission matrix validator and menu visibility validator.
+4. Data validation service for orders, invoices, loading, unloading, collections and returns.
+5. Health check service for required tables, routes, permissions, assets and SQL status.
+6. Export helpers for reports using the ERP toolbar standard.
+7. Safer customer/SMS bridge contracts without duplicating Customer/SMS module files.
+8. Stage 10 SQL and updated master SQL.
+
+Important:
+- All new database objects continue to use disnew_ prefix.
+- No existing working module file should be replaced by this package except explicit menu/permission registration points if your system requires manual registration.
+- Distribution New remains under its own module folder.

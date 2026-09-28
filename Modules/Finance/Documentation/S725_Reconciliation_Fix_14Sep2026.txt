@@ -1,0 +1,20 @@
+S725 - Account Book Reconciliation Fix - 14 Sep 2026
+
+Scope
+-----
+Finance -> List Accounts -> Account Book -> Reconcile / Reconciled button
+
+Fixes
+-----
+1. Reconciliation writes an explicit target status (1 or 0) instead of toggling blindly.
+2. The Finance button uses a Finance-only CSS/JS class so a global/legacy click handler cannot fire a second toggle request.
+3. The clicked button is disabled while the request is in progress.
+4. The backend uses a row lock and verifies the saved value before reporting success.
+5. A separate Reconcile Status column remains removed; the button is shown below the applicable Debit/Credit amount.
+6. If un-reconciliation is blocked by a finalized Bank Reconciliation, Finance shows the reconciliation number and step-by-step instructions in red.
+7. Missing reconcile_status schema is self-healed automatically where tenant DB permissions allow it.
+8. Legacy/cached Finance readers use the same deterministic endpoint.
+
+Database
+--------
+No manual SQL or migration required.

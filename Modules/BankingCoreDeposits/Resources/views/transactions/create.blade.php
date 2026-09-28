@@ -1,0 +1,5 @@
+@extends('bankingcoredeposits::layouts.app')
+@section('page-title','Post Deposit Transaction')
+@section('module-content')
+<form method="post" action="{{ route('banking.core-deposits.transactions.store') }}">@csrf <div class="row"><div class="col-md-4"><label>Account</label><select name="account_id" class="form-control">@foreach($accounts as $a)<option value="{{ $a->id }}">{{ $a->account_no }} - {{ $a->account_name }}</option>@endforeach</select></div><div class="col-md-4"><label>Type</label><select name="type" class="form-control"><option>deposit</option><option>withdrawal</option><option>transfer_in</option><option>transfer_out</option><option>interest</option><option>charge</option></select></div><div class="col-md-4"><label>Amount</label><input name="amount" class="form-control" required></div></div><label>Date</label><input type="date" name="transaction_date" class="form-control" value="{{ now()->toDateString() }}"><label>Narration</label><textarea name="narration" class="form-control"></textarea><button class="btn btn-success mt-3">Post</button></form>
+@endsection

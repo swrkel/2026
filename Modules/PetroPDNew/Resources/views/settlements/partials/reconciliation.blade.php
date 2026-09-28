@@ -1,0 +1,9 @@
+<div class="pdn-page-head compact"><div><h3>Payment & Source Reconciliation</h3><p>Finalization remains blocked while source integrity or monetary issues are unresolved.</p></div>
+@can('petro_pd_new.reconciliation.manage')<form method="post" action="{{ route('petro-pd-new.reconciliation.evaluate',$settlement->id) }}">@csrf<button class="pdn-btn primary">Recalculate</button></form>@endcan</div>
+<div class="pdn-table-wrap"><table class="pdn-table"><thead><tr><th>Issue</th><th>Type</th><th>Severity</th><th>Description</th><th class="amount">Expected</th><th class="amount">Actual</th><th class="amount">Difference</th><th>Status</th><th>Resolution</th></tr></thead><tbody>
+@forelse($settlement->issues->sortByDesc('id') as $row)<tr><td>{{ $row->issue_key }}</td><td>{{ $row->issue_type }}</td><td><span class="pdn-badge {{ $row->severity==='error' ? 'danger' : 'warning' }}">{{ $row->severity }}</span></td><td>{{ $row->description }}</td><td class="amount">{{ is_null($row->expected_amount) ? '—' : number_format((float)$row->expected_amount,4) }}</td><td class="amount">{{ is_null($row->actual_amount) ? '—' : number_format((float)$row->actual_amount,4) }}</td><td class="amount">{{ is_null($row->difference_amount) ? '—' : number_format((float)$row->difference_amount,4) }}</td><td><span class="pdn-badge {{ $row->status }}">{{ $row->status }}</span></td><td>
+@if($row->status==='open')@can('petro_pd_new.reconciliation.manage')
+<form method="post" action="{{ route('petro-pd-new.reconciliation.resolve',$row->id) }}" class="pdn-inline" data-prevent-double-submit>@csrf<input class="pdn-input" name="note" required placeholder="Resolution note"><button class="pdn-btn small success">Resolve</button></form>
+@endcan @else {{ $row->resolution_note ?: 'Resolved' }} @endif
+</td></tr>@empty<tr><td colspan="9" class="pdn-empty">No reconciliation issues. The settlement source and amounts are balanced.</td></tr>@endforelse
+</tbody></table></div>

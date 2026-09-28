@@ -1,0 +1,76 @@
+SW Module - List SW Shifts load/Ajax error fix
+Date: 14 Sep 2026
+Base: SW_Daily_Shift_DataTables_Fix_14Sep2026.zip
+
+Reported symptom
+----------------
+List SW Shifts opens, but the table remains on "Loading..." and the page shows:
+  Unable to load List SW Shifts. The server-side error has been logged for review.
+
+Root causes addressed
+---------------------
+1. The List SW Shifts DataTable still used an absolute route() URL for its Ajax
+   feed. On tenant domains this can resolve through the configured application
+   host instead of the tenant host, causing the follow-up request to lose the
+   correct tenant/session context.
+2. ListShiftController still used Schema facade metadata in many runtime checks.
+   In this multi-tenant application tenant.context switches the database for the
+   request; cached/default Schema metadata can therefore describe the wrong DB.
+3. Optional enrichment (location/operator/settlement/pump/payment tables), a
+   malformed legacy date, a broken optional action link, or malformed UTF-8
+   could still abort the complete DataTables response.
+
+Fix implemented
+---------------
+1. Resources/views/list_shifts/index.blade.php
+   - Ajax URL is now generated as a RELATIVE same-origin path:
+       route('sw.list-shifts.data', [], false)
+   - Added cache:false so the browser does not reuse a stale tenant response.
+
+2. Http/Controllers/ListShiftController.php
+   - Removed runtime Schema facade metadata checks.
+   - Added live information_schema checks against DATABASE() selected for the
+     current tenant request, with safe SQL-probe fallbacks.
+   - sw_shifts remains REQUIRED and authoritative.
+   - Base shift query no longer joins business_locations; location names are
+     enriched separately so an optional/shared table cannot take down the list.
+   - Added compatibility for sw_shift_id/shift_id and
+     pump_operator_id/operator_id variants in optional companion tables.
+   - Optional operator, settlement and settlement-pump enrichment is isolated;
+     failure in one optional source leaves the shift rows available.
+   - Payment total maps and filter lookups now use live tenant metadata and safe
+     fallbacks.
+   - Invalid/legacy dates no longer abort the entire response.
+   - Optional Action rendering failure no longer hides the row.
+   - JSON_INVALID_UTF8_SUBSTITUTE is used when available.
+   - Data response uses no-store headers.
+   - Unexpected errors still log database/business/user/file/line context and
+     return a valid DataTables JSON contract.
+
+Safety
+------
+- No database schema change.
+- No SQL or migration required.
+- No settlement save/calculation logic changed.
+- No Finance posting, customer ledger, stock/tank or purchase logic changed.
+- Existing List SW Shifts filters, totals, exports, View and Print are retained.
+- All previous consolidated SW fixes are preserved.
+
+Changed operational files
+-------------------------
+SW/Http/Controllers/ListShiftController.php
+SW/Resources/views/list_shifts/index.blade.php
+
+Validation
+----------
+- All 134 PHP/Blade-PHP files passed php -l.
+- List SW Shifts JavaScript passed node --check after Blade-expression masking.
+- ListShiftController contains no Schema facade runtime dependency.
+- Full and changed-files ZIPs pass unzip integrity testing.
+
+After upload
+------------
+cd /home/nivasa/public_html
+php artisan optimize:clear
+
+Then Ctrl+F5 and open SW Module -> List SW Shifts.

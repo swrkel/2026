@@ -1,0 +1,14 @@
+POS S375 Live Testing Checklist
+
+1. Open /pos-module/sales/workspace.
+2. Confirm barcode/search input is focused automatically.
+3. Press F10 and confirm shortcut help opens/closes.
+4. Press F2 from anywhere and confirm product search input is focused.
+5. Press F4 and confirm customer area/customer input is focused or triggered.
+6. Add product to cart and confirm totals still work.
+7. Press F6 and confirm hold sale action is triggered where the existing hold button exists.
+8. Press F8 and confirm payment field/modal is triggered where the existing payment action exists.
+9. Press F9 and confirm checkout action is triggered where the existing checkout button exists.
+10. Confirm all new UI elements match the Communication Hub style.
+
+No database change is required for this parcel.

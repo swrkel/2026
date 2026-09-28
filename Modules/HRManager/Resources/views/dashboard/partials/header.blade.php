@@ -1,0 +1,1 @@
+<div class="hr-titlebar"><div><h1>{{ $title }}</h1><p>{{ $subtitle }}</p><div class="hr-breadcrumb"><span>Home</span><i class="fa fa-angle-right"></i><span>HR Manager</span><i class="fa fa-angle-right"></i><strong>{{ $section ?? '' }}</strong></div></div></div>

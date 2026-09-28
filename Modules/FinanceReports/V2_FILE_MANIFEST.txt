@@ -1,0 +1,13 @@
+New/updated v2 files:
+- Config/menu.php
+- Config/permissions.php
+- Routes/web.php
+- Http/Controllers/FinanceReportsController.php
+- Services/Intelligence/FinancialIntelligenceService.php
+- Resources/views/reports/v2/financial_intelligence.blade.php
+- Resources/views/reports/v2/cfo_dashboard.blade.php
+- Resources/views/reports/v2/financial_health_score.blade.php
+- Resources/views/reports/v2/scenario_analysis.blade.php
+- Resources/views/reports/v2/board_pack.blade.php
+- FINANCE_REPORTS_ENTERPRISE_V2_README.txt
+- V2_FILE_MANIFEST.txt

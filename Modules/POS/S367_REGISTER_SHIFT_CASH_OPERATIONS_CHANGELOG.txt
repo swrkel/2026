@@ -1,0 +1,13 @@
+POS Standalone S367 - Register, Shift and Cash Operations
+
+Included:
+- Register/shift dashboard KPI cards using the aligned ERP UI foundation.
+- Current shift page with cash sales, expected cash, sales count and quick cash operation links.
+- Close shift page now includes opening, cash sales, cash in, cash out, card sales, credit sales, refunds and calculated expected cash.
+- Shift summary page expanded for reconciliation.
+- Cash drawer dashboard cards for cash in, cash out, refunds and net cash.
+- Cash out and variance approval-status foundation.
+- Global SQL script added without database name.
+
+SQL:
+Modules/POS/Database/SQL/pos_standalone_s367_register_shift_cash_operations.sql

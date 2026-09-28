@@ -1,0 +1,2 @@
+@extends('bankingcheque::layout')
+@section('banking_cheque_content')<a href="{{ route('banking.cheques.books.create') }}" class="btn btn-primary">Issue Cheque Book</a><table class="table table-bordered mt-3"><thead><tr><th>Book No</th><th>Account</th><th>Leaves</th><th>Status</th></tr></thead><tbody>@foreach($books as $book)<tr><td>{{ $book->book_no }}</td><td>{{ $book->account_no }}</td><td>{{ $book->start_leaf_no }} - {{ $book->end_leaf_no }}</td><td>{{ $book->status }}</td></tr>@endforeach</tbody></table>{{ $books->links() }}@endsection

@@ -1,0 +1,4 @@
+<?php
+namespace Modules\StockTransferNew\Http\Controllers;
+use Illuminate\Http\Request;use Illuminate\Routing\Controller;use Modules\StockTransferNew\Entities\StockTransfer;use Modules\StockTransferNew\Services\StockTransferWorkflowService;use Modules\StockTransferNew\Utilities\StockTransferTenant;
+class DispatchController extends Controller{public function __construct(protected StockTransferWorkflowService $workflow){}public function index(){$transfers=StockTransfer::where('business_id',StockTransferTenant::businessId())->where('status','approved')->latest()->paginate(25);return view('stocktransfernew::dispatch.index',compact('transfers'));}public function dispatch(Request $request,StockTransfer $transfer){$this->workflow->dispatch($transfer,$request->input('dispatch_qty',[]));return back()->with('status','Transfer dispatched.');}}

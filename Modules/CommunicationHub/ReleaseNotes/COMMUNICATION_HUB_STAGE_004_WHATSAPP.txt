@@ -1,0 +1,17 @@
+Communication Hub Stage 004 - WhatsApp Business Platform
+
+Included:
+- WhatsApp dashboard
+- Send WhatsApp page
+- Bulk WhatsApp page
+- Scheduled WhatsApp page
+- WhatsApp templates page
+- WhatsApp business profile/provider settings page
+- Tenant-safe and business-safe queueing through communication_hub_messages
+- business_location_id support where available
+- Incremental tenant SQL: Database/SQL/07_WHATSAPP_BUSINESS_PLATFORM_UPGRADE.sql
+
+Notes:
+- Run the SQL once in every tenant database before opening WhatsApp pages.
+- Existing SMS/OTP/Email pages are not removed.
+- Provider sending remains abstracted; queued records are ready for actual provider driver integration.

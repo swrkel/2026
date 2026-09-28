@@ -1,0 +1,24 @@
+LA-1105 - Finance Deposits correction - 30 July 2026
+
+Scope
+-----
+Finance module only. No root/core controller, route, view, model, JavaScript or CSS file is included or modified.
+
+Corrections
+-----------
+1. Cheque Deposit modal
+   - Moved Selected Account into the modal header.
+   - Transaction Date, Date Range and Created On now occupy one first row.
+   - Corrected cheque table mapping to Select / Name / Cheque No / Cheque Date / Bank / Amount.
+   - Added responsive modal/table sizing.
+   - Replaced core /customer-payment-information AJAX calls with a Finance-owned filter-options endpoint.
+
+2. Card Deposit
+   - Removed the hard dependency on the exact parent name Cards (Credit Debit) Account.
+   - Added Finance-owned CardDepositAccountResolver using the Card account group and legacy parent/child compatibility.
+   - Card Deposit works with active Card-group accounts even where the legacy parent does not exist.
+   - Post validation uses the same Finance-owned resolver.
+
+Database
+--------
+No migration or raw SQL is required.

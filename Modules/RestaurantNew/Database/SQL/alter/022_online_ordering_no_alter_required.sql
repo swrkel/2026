@@ -1,0 +1,1 @@
+-- Stage 022 creates standalone online ordering tables only. No ALTER required for existing system tables.

@@ -1,0 +1,10 @@
+S357 POS UI Standard + Language Fix
+
+Changed:
+- Replaced dark standalone POS sidebar with ERP-standard light sidebar styling.
+- Updated font, spacing, cards, KPI boxes, tables and buttons to match the approved system style.
+- Kept POS fully standalone; no dependency on main ERP layout files.
+- Added missing POS language keys to stop labels like pos::messages.sales_today appearing on pages.
+- Main URL prefix remains /pos-module.
+
+No SQL required.

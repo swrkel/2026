@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'stock_taking_new.access' => 'Access Stock Taking - New',
+    'stock_taking_new.dashboard.view' => 'View Stock Taking dashboard',
+    'stock_taking_new.sessions.view' => 'View stock taking sessions',
+    'stock_taking_new.sessions.create' => 'Create stock taking sessions',
+    'stock_taking_new.sessions.edit' => 'Edit draft stock taking sessions',
+    'stock_taking_new.sessions.prepare' => 'Prepare product snapshot',
+    'stock_taking_new.sessions.start' => 'Start counting',
+    'stock_taking_new.counts.enter' => 'Enter stock counts',
+    'stock_taking_new.counts.import' => 'Import stock counts',
+    'stock_taking_new.counts.submit' => 'Submit completed counts',
+    'stock_taking_new.recounts.manage' => 'Manage recounts',
+    'stock_taking_new.approvals.view' => 'View stock taking approvals',
+    'stock_taking_new.approvals.approve' => 'Approve stock taking sessions',
+    'stock_taking_new.approvals.reject' => 'Reject stock taking sessions',
+    'stock_taking_new.reconciliation.post' => 'Post stock reconciliation',
+    'stock_taking_new.templates.manage' => 'Manage stock taking templates',
+    'stock_taking_new.schedules.manage' => 'Manage stock taking schedules',
+    'stock_taking_new.reports.view' => 'View stock taking reports',
+    'stock_taking_new.documents.print' => 'Print stock taking documents',
+    'stock_taking_new.documents.share' => 'Share stock taking documents',
+    'stock_taking_new.settings.manage' => 'Manage Stock Taking settings',
+];

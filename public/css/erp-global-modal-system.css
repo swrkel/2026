@@ -1,0 +1,369 @@
+/**
+ * ERP Global Modal System
+ * Presentation only: Bootstrap modal events and existing form behaviour remain unchanged.
+ */
+:root {
+    --erp-modal-accent: #2f6fed;
+    --erp-modal-accent-dark: #1f58c7;
+    --erp-modal-ink: #14223a;
+    --erp-modal-muted: #718096;
+    --erp-modal-border: #dfe7f2;
+    --erp-modal-soft: #f6f9fd;
+    --erp-modal-danger: #dc3545;
+    --erp-modal-radius: 18px;
+}
+
+body.modal-open { padding-right: 0 !important; }
+.modal-backdrop.in { opacity: .48 !important; background: #101b31 !important; }
+
+.modal.erp-modal-system {
+    padding: 18px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+.modal.erp-modal-system .modal-dialog {
+    width: min(680px, calc(100vw - 36px)) !important;
+    max-width: calc(100vw - 36px) !important;
+    margin: 28px auto !important;
+    transform: translateY(10px) scale(.985);
+    transition: transform .22s ease, opacity .22s ease !important;
+}
+.modal.erp-modal-system.in .modal-dialog {
+    transform: translateY(0) scale(1);
+}
+.modal.erp-modal-system.erp-modal-compact .modal-dialog {
+    width: min(480px, calc(100vw - 36px)) !important;
+}
+.modal.erp-modal-system.erp-modal-standard .modal-dialog {
+    width: min(680px, calc(100vw - 36px)) !important;
+}
+.modal.erp-modal-system.erp-modal-large .modal-dialog,
+.modal.erp-modal-system .modal-dialog.modal-lg {
+    width: min(980px, calc(100vw - 36px)) !important;
+}
+.modal.erp-modal-system.erp-modal-wide .modal-dialog,
+.modal.erp-modal-system .modal-dialog.modal-xl {
+    width: min(1280px, calc(100vw - 36px)) !important;
+}
+
+.modal.erp-modal-system .modal-content {
+    position: relative;
+    overflow: visible !important;
+    border: 1px solid rgba(211, 223, 239, .95) !important;
+    border-radius: var(--erp-modal-radius) !important;
+    background: #fff !important;
+    box-shadow: 0 28px 80px rgba(15, 31, 58, .28), 0 4px 16px rgba(15, 31, 58, .10) !important;
+}
+.modal.erp-modal-system .modal-content::before {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    border-radius: var(--erp-modal-radius) var(--erp-modal-radius) 0 0;
+    background: linear-gradient(90deg, #2f6fed 0%, #16a6d9 55%, #29c3a2 100%);
+    content: "";
+    pointer-events: none;
+}
+
+.modal.erp-modal-system .modal-header {
+    position: relative;
+    min-height: 76px;
+    padding: 19px 70px 17px 22px !important;
+    border: 0 !important;
+    border-bottom: 1px solid #e8eef6 !important;
+    border-radius: var(--erp-modal-radius) var(--erp-modal-radius) 0 0 !important;
+    background: linear-gradient(135deg, #fff 0%, #f7faff 64%, #edf4ff 100%) !important;
+    text-align: left !important;
+}
+.modal.erp-modal-system .modal-header .erp-modal-title-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+.modal.erp-modal-system .modal-header .erp-modal-title-icon {
+    display: inline-flex;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2f6fed, #16a6d9);
+    color: #fff;
+    font-size: 17px;
+    box-shadow: 0 7px 17px rgba(47, 111, 237, .24);
+}
+.modal.erp-modal-system .modal-header .erp-modal-title-copy {
+    min-width: 0;
+}
+.modal.erp-modal-system .modal-title {
+    margin: 0 !important;
+    color: var(--erp-modal-ink) !important;
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -.2px;
+}
+.modal.erp-modal-system .erp-modal-subtitle {
+    display: block;
+    margin-top: 3px;
+    color: var(--erp-modal-muted);
+    font-size: 12px;
+    font-weight: 500;
+}
+.modal.erp-modal-system .modal-header .close {
+    position: absolute;
+    z-index: 3;
+    top: 18px;
+    right: 20px;
+    float: none !important;
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid #dce5f2 !important;
+    border-radius: 12px !important;
+    background: #fff !important;
+    color: #52617a !important;
+    font-size: 25px !important;
+    line-height: 1 !important;
+    opacity: 1 !important;
+    box-shadow: 0 4px 12px rgba(35, 53, 82, .09);
+    transition: background .16s, color .16s, transform .16s;
+}
+.modal.erp-modal-system .modal-header .close:hover,
+.modal.erp-modal-system .modal-header .close:focus {
+    background: #fff0f1 !important;
+    color: var(--erp-modal-danger) !important;
+    transform: rotate(4deg);
+}
+
+.modal.erp-modal-system .modal-body {
+    min-height: 90px;
+    padding: 22px !important;
+    overflow: visible !important;
+    background: #fff !important;
+    color: #33425a;
+}
+.modal.erp-modal-system .modal-body::after {
+    display: table;
+    clear: both;
+    content: "";
+}
+.modal.erp-modal-system .modal-body > .row {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+.modal.erp-modal-system .modal-body > .row > [class*="col-"] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+.modal.erp-modal-system .form-group {
+    margin-bottom: 17px;
+}
+.modal.erp-modal-system .form-group > label,
+.modal.erp-modal-system .control-label {
+    margin-bottom: 7px;
+    color: #34435c !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
+    letter-spacing: .1px;
+}
+.modal.erp-modal-system .form-control,
+.modal.erp-modal-system .select2-container .select2-selection--single,
+.modal.erp-modal-system .select2-container .select2-selection--multiple {
+    min-height: 42px !important;
+    border: 1px solid #d5dfec !important;
+    border-radius: 9px !important;
+    background: #fff !important;
+    color: #263750 !important;
+    box-shadow: 0 1px 2px rgba(20, 34, 58, .025) !important;
+    transition: border-color .16s, box-shadow .16s !important;
+}
+.modal.erp-modal-system textarea.form-control {
+    min-height: 88px !important;
+    resize: vertical;
+}
+.modal.erp-modal-system .form-control:focus,
+.modal.erp-modal-system .select2-container--focus .select2-selection,
+.modal.erp-modal-system .select2-container--open .select2-selection {
+    border-color: var(--erp-modal-accent) !important;
+    box-shadow: 0 0 0 3px rgba(47, 111, 237, .13) !important;
+}
+.modal.erp-modal-system .select2-container {
+    width: 100% !important;
+}
+.modal.erp-modal-system .select2-container .select2-selection--single .select2-selection__rendered {
+    line-height: 40px !important;
+    padding-left: 13px !important;
+}
+.modal.erp-modal-system .select2-container .select2-selection--single .select2-selection__arrow {
+    height: 40px !important;
+    right: 7px !important;
+}
+.modal.erp-modal-system .input-group-addon {
+    border-color: #d5dfec !important;
+    background: #f3f7fc !important;
+    color: #526783 !important;
+}
+.modal.erp-modal-system hr {
+    margin: 19px 0;
+    border-color: #e8eef6;
+}
+.modal.erp-modal-system .well,
+.modal.erp-modal-system .panel {
+    border: 1px solid #e0e8f3 !important;
+    border-radius: 11px !important;
+    background: var(--erp-modal-soft) !important;
+    box-shadow: none !important;
+}
+
+.modal.erp-modal-system .table-responsive {
+    border: 1px solid #e1e8f2;
+    border-radius: 10px;
+}
+.modal.erp-modal-system table.table {
+    width: 100%;
+    margin-bottom: 16px;
+    border-color: #e2e9f2 !important;
+}
+.modal.erp-modal-system table.table thead th {
+    padding: 11px 10px !important;
+    border-color: #dfe7f1 !important;
+    background: #f1f6fc !important;
+    color: #34435b !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+}
+.modal.erp-modal-system table.table tbody td {
+    padding: 10px !important;
+    border-color: #e8edf4 !important;
+    vertical-align: middle !important;
+}
+
+.modal.erp-modal-system .modal-footer {
+    display: flex;
+    min-height: 72px;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+    padding: 14px 22px !important;
+    border: 0 !important;
+    border-top: 1px solid #e7edf5 !important;
+    border-radius: 0 0 var(--erp-modal-radius) var(--erp-modal-radius) !important;
+    background: #f8fafd !important;
+    text-align: right !important;
+}
+.modal.erp-modal-system .modal-footer::before,
+.modal.erp-modal-system .modal-footer::after { display: none !important; }
+.modal.erp-modal-system .modal-footer .btn {
+    float: none !important;
+    min-width: 104px;
+    min-height: 41px;
+    margin: 0 !important;
+    padding: 9px 16px !important;
+    border-radius: 9px !important;
+    font-size: 13px !important;
+    font-weight: 750 !important;
+    box-shadow: none !important;
+}
+.modal.erp-modal-system .modal-footer .btn-primary,
+.modal.erp-modal-system .modal-footer .btn-success,
+.modal.erp-modal-system .modal-footer [type="submit"]:not(.btn-danger) {
+    border-color: var(--erp-modal-accent) !important;
+    background: linear-gradient(135deg, var(--erp-modal-accent), #289be2) !important;
+    color: #fff !important;
+    box-shadow: 0 7px 15px rgba(47, 111, 237, .2) !important;
+}
+.modal.erp-modal-system .modal-footer .btn-default,
+.modal.erp-modal-system .modal-footer [data-dismiss="modal"] {
+    border: 1px solid #d5dfeb !important;
+    background: #fff !important;
+    color: #44536b !important;
+}
+.modal.erp-modal-system .modal-footer .btn-danger {
+    border-color: #dc3545 !important;
+    background: linear-gradient(135deg, #dc3545, #ef5c67) !important;
+    color: #fff !important;
+}
+
+.modal.erp-modal-system .erp-modal-loading {
+    padding: 34px;
+    text-align: center;
+    color: var(--erp-modal-muted);
+}
+.modal.erp-modal-system .erp-modal-loading i {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--erp-modal-accent);
+    font-size: 25px;
+}
+
+/* SweetAlert family receives the same visual language. */
+.swal-modal,
+.swal2-popup {
+    border: 1px solid var(--erp-modal-border) !important;
+    border-radius: var(--erp-modal-radius) !important;
+    box-shadow: 0 28px 80px rgba(15, 31, 58, .28) !important;
+}
+.swal-title,
+.swal2-title { color: var(--erp-modal-ink) !important; font-weight: 800 !important; }
+.swal-button--confirm,
+.swal2-confirm {
+    border-radius: 9px !important;
+    background: linear-gradient(135deg, #2f6fed, #289be2) !important;
+    box-shadow: 0 7px 15px rgba(47,111,237,.2) !important;
+}
+.swal-button--cancel,
+.swal2-cancel { border-radius: 9px !important; }
+
+.select2-container--open { z-index: 2147483000 !important; }
+.daterangepicker,
+.datepicker,
+.bootstrap-datetimepicker-widget { z-index: 2147483000 !important; }
+
+@media (max-width: 767px) {
+    .modal.erp-modal-system { padding: 8px !important; }
+    .modal.erp-modal-system .modal-dialog,
+    .modal.erp-modal-system.erp-modal-compact .modal-dialog,
+    .modal.erp-modal-system.erp-modal-standard .modal-dialog,
+    .modal.erp-modal-system.erp-modal-large .modal-dialog,
+    .modal.erp-modal-system.erp-modal-wide .modal-dialog {
+        width: calc(100vw - 16px) !important;
+        max-width: calc(100vw - 16px) !important;
+        margin: 8px auto !important;
+    }
+    .modal.erp-modal-system .modal-header {
+        min-height: 68px;
+        padding: 15px 58px 14px 15px !important;
+    }
+    .modal.erp-modal-system .modal-header .close {
+        top: 14px;
+        right: 14px;
+        width: 36px;
+        height: 36px;
+    }
+    .modal.erp-modal-system .modal-header .erp-modal-title-icon {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+    .modal.erp-modal-system .modal-title { font-size: 17px !important; }
+    .modal.erp-modal-system .modal-body { padding: 16px !important; }
+    .modal.erp-modal-system .modal-footer {
+        flex-wrap: wrap;
+        padding: 12px 15px !important;
+    }
+    .modal.erp-modal-system .modal-footer .btn { flex: 1 1 120px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal.erp-modal-system .modal-dialog { transition: none !important; }
+}

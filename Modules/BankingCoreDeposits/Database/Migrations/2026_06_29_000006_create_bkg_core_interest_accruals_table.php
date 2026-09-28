@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration; use Illuminate\Database\Schema\Blueprint; use Illuminate\Support\Facades\Schema;
+return new class extends Migration { public function up(): void { Schema::create('bkg_core_interest_accruals', function (Blueprint $table) { $table->id(); $table->unsignedBigInteger('business_id')->nullable()->index(); $table->unsignedBigInteger('account_id')->index(); $table->date('accrual_date')->index(); $table->decimal('balance_basis',22,4); $table->decimal('rate',9,4); $table->decimal('interest_amount',22,4); $table->boolean('posted')->default(false); $table->timestamp('posted_at')->nullable(); $table->timestamps(); }); } public function down(): void { Schema::dropIfExists('bkg_core_interest_accruals'); } };

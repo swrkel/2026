@@ -1,0 +1,18 @@
+{
+    "name": "BankingAtmDebitCard",
+    "alias": "banking-atm-debit-card",
+    "description": "BKG-CORE-004 ATM and Debit Card standalone module",
+    "keywords": [
+        "banking",
+        "atm",
+        "debit-card",
+        "cards"
+    ],
+    "priority": 504,
+    "providers": [
+        "Modules\\BankingAtmDebitCard\\Providers\\BankingAtmDebitCardServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

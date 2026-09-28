@@ -1,0 +1,35 @@
+-- DANGER: Pumper Dashboard-New complete rollback.
+-- This permanently removes all Pumper Dashboard-New transactional data.
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `pone_print_logs`;
+DROP TABLE IF EXISTS `pone_operator_notes`;
+DROP TABLE IF EXISTS `pone_operator_documents`;
+DROP TABLE IF EXISTS `pone_operator_ledger_entries`;
+DROP TABLE IF EXISTS `pone_excess_commissions`;
+DROP TABLE IF EXISTS `pone_shortage_recoveries`;
+DROP TABLE IF EXISTS `pone_shift_settlement_references`;
+DROP TABLE IF EXISTS `pone_daily_collections`;
+DROP TABLE IF EXISTS `pone_payment_edit_histories`;
+DROP TABLE IF EXISTS `pone_payment_card_lines`;
+DROP TABLE IF EXISTS `pone_payment_cash_denominations`;
+DROP TABLE IF EXISTS `pone_assignment_events`;
+DROP TABLE IF EXISTS `pone_audit_logs`;
+DROP TABLE IF EXISTS `pone_integration_links`;
+DROP TABLE IF EXISTS `pone_integration_outbox`;
+DROP TABLE IF EXISTS `pone_day_entries`;
+DROP TABLE IF EXISTS `pone_unload_stock_lines`;
+DROP TABLE IF EXISTS `pone_unload_stocks`;
+DROP TABLE IF EXISTS `pone_other_sale_lines`;
+DROP TABLE IF EXISTS `pone_other_sales`;
+DROP TABLE IF EXISTS `pone_credit_sale_lines`;
+DROP TABLE IF EXISTS `pone_credit_sales`;
+DROP TABLE IF EXISTS `pone_payments`;
+DROP TABLE IF EXISTS `pone_meter_readings`;
+DROP TABLE IF EXISTS `pone_pump_assignments`;
+DROP TABLE IF EXISTS `pone_shifts`;
+DROP TABLE IF EXISTS `pone_number_sequences`;
+DROP TABLE IF EXISTS `pone_module_settings`;
+DROP TABLE IF EXISTS `pone_operator_sessions`;
+DROP TABLE IF EXISTS `pone_pd_operators`;
+DROP TABLE IF EXISTS `pone_login_attempts`;
+SET FOREIGN_KEY_CHECKS = 1;

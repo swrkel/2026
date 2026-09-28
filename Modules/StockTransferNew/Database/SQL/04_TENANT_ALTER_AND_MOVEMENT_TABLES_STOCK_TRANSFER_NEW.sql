@@ -1,0 +1,38 @@
+ALTER TABLE `stnew_stock_transfer_lines`
+  ADD COLUMN IF NOT EXISTS `short_qty` DECIMAL(22,4) NOT NULL DEFAULT 0 AFTER `qty_received`,
+  ADD COLUMN IF NOT EXISTS `excess_qty` DECIMAL(22,4) NOT NULL DEFAULT 0 AFTER `short_qty`;
+
+CREATE TABLE IF NOT EXISTS `stnew_stock_movements` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `stock_transfer_id` BIGINT UNSIGNED NOT NULL,
+  `stock_transfer_line_id` BIGINT UNSIGNED NULL,
+  `product_id` BIGINT UNSIGNED NOT NULL,
+  `variation_id` BIGINT UNSIGNED NULL,
+  `from_location_id` BIGINT UNSIGNED NULL,
+  `to_location_id` BIGINT UNSIGNED NULL,
+  `from_store_id` BIGINT UNSIGNED NULL,
+  `to_store_id` BIGINT UNSIGNED NULL,
+  `movement_type` VARCHAR(30) NOT NULL,
+  `quantity` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `unit_cost` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `total_cost` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `reference_no` VARCHAR(191) NULL,
+  `movement_date` TIMESTAMP NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  KEY `stnew_mov_business_idx` (`business_id`),
+  KEY `stnew_mov_transfer_idx` (`stock_transfer_id`),
+  KEY `stnew_mov_line_idx` (`stock_transfer_line_id`),
+  KEY `stnew_mov_product_idx` (`product_id`),
+  KEY `stnew_mov_variation_idx` (`variation_id`),
+  KEY `stnew_mov_from_location_idx` (`from_location_id`),
+  KEY `stnew_mov_to_location_idx` (`to_location_id`),
+  KEY `stnew_mov_from_store_idx` (`from_store_id`),
+  KEY `stnew_mov_to_store_idx` (`to_store_id`),
+  KEY `stnew_mov_type_idx` (`movement_type`),
+  KEY `stnew_mov_ref_idx` (`reference_no`),
+  KEY `stnew_mov_date_idx` (`movement_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -1,0 +1,22 @@
+SW Module - Daily Shifts / List SW Shifts Header Style
+Date: 13 Sep 2026
+Base: SW_SHIFT_CLOSE_PRINT_LIST_FIX_2026-09-13.zip
+
+Requested URL:
+/sw/daily-shifts
+
+Changed file:
+SW/Resources/views/list_shifts/index.blade.php
+
+Changes:
+1. Column-heading font size aligned to the Filter Section field-title size (14px).
+2. Column-heading font family set to Calibri, with Arial/sans-serif fallback.
+3. Shift No heading forced to two rows: Shift / No.
+4. Pump Nos heading forced to two rows: Pump / Nos.
+5. Credit Sales heading forced to two rows: Credit / Sales.
+6. Settlement No heading forced to two rows: Settlement / No.
+7. Existing Total Amount and Settlement Amount two-row headings retained.
+8. No controller, DataTables AJAX, database, settlement, accounting, shift, or print logic changed.
+
+Database:
+No SQL or migration required.

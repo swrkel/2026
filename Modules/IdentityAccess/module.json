@@ -1,0 +1,23 @@
+{
+    "name": "IdentityAccess",
+    "alias": "identityaccess",
+    "description": "Standalone identity, authentication, authorization, sessions, MFA and portal access platform for ERP modules.",
+    "keywords": [
+        "identity",
+        "access",
+        "authentication",
+        "authorization",
+        "otp",
+        "mfa",
+        "sessions",
+        "security"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\IdentityAccess\\Providers\\IdentityAccessServiceProvider",
+        "Modules\\IdentityAccess\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

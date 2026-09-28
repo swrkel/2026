@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "name": "pumper-dashboard-new-assets",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo Assets are served directly by the module AssetController"
+  }
+}

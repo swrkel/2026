@@ -1,0 +1,18 @@
+IS2308 – Rice Mill – Payment Account Mapping Fix – 23 Sep 2026
+
+Scope
+- Purchase Order / Purchase Payment
+- Receive Paddy / Payment
+- Milling & Production / Payment
+- Sales – Dispatch / Payment
+
+Fix
+- Payment Method account mapping is read from business_locations.default_payment_accounts.
+- The stored token from Super Admin / All Businesses / Manage New is treated as an Account Group id when that group exists.
+- Only open, non-main Account Books in the mapped Account Group are returned.
+- Account Books are filtered for the selected Business Location, while business-wide (all/NULL) books remain available.
+- When the mapped Account Group exists but has no linked Account Books, the system returns no accounts instead of incorrectly falling back to an unrelated Accounts.id with the same number.
+- Legacy direct Accounts.id mappings remain supported only when no matching Account Group exists.
+
+Database
+- No database/SQL change required.

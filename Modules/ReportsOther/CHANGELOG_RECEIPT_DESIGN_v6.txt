@@ -1,0 +1,12 @@
+ReportsOther v6 - Receipt Design Visibility Fix
+Date: 20 Sep 2026
+
+Fixes
+- Receipt design is always rendered and visible, even when numbering or Sources are not configured yet.
+- Added a clear LIVE RECEIPT DESIGN badge and framed receipt preview area.
+- Added five visible Source Detail rows and cheque placeholder row so the user can see the full receipt layout before live data loads.
+- Live Source/date data replaces the placeholders without removing the receipt structure.
+- Preview/data errors no longer collapse the receipt layout into a single message row.
+- Added Print Current Design button for checking the receipt layout before saving.
+- Bumped module CSS/JS asset version to v6 to prevent an old cached v5 UI from hiding the correction.
+- No database/SQL change.

@@ -1,0 +1,3 @@
+.bs-notifications .table th { white-space: nowrap; }
+.bs-notifications .badge { font-size: 12px; padding: 6px 9px; }
+.bs-notifications textarea { resize: vertical; }

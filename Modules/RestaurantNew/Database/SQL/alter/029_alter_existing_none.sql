@@ -1,0 +1,2 @@
+-- RestaurantNew Stage 029 ALTER SQL
+-- No existing core ERP tables are altered in this stage.

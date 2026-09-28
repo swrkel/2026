@@ -1,0 +1,43 @@
+IS2216 – Profit and Loss – 8 Sep 2026
+FinanceReports module correction manifest
+
+Source supplied by user: FinanceReports.zip
+Scope: FinanceReports module only
+Database changes: NONE
+
+Corrected requirements
+----------------------
+1. Profit Breakdown COST now reads posted COGS account_transactions rather than recalculating cost from purchase-line prices. The total COST is reconciled to the COGS ledger for the selected period/location. Any valid COGS amount that cannot be attributed to a sell line is shown transparently as "COGS Ledger Adjustment / Unallocated" so the report total still agrees with Accounting instead of silently allocating it to a product.
+2. Added Discount column to all nine Profit Breakdown tabs.
+3. Profit Breakdown formulas:
+   Gross Profit = Revenue - Cost - Discount
+   Margin % = Gross Profit / (Revenue - Discount) * 100
+4. Settlement Other Income is reclassified from Sales / Operating Revenue to Other Income in the Financial Performance Summary without changing Total Income or Net Profit.
+5. Profit & Loss date range applies automatically when a range is selected or cleared.
+6. Profit & Loss toolbar is bound to the active Profit Breakdown table for Search, page length and Column Visibility.
+7. CSV / Excel / PDF exports now export the active Profit Breakdown rows and totals, including Discount.
+8. Print now isolates a cloned report root at body level, preventing the report from being hidden by its parent section during print.
+
+Changed application files
+-------------------------
+FinanceReports/Services/ProfitBreakdownService.php
+FinanceReports/Services/FinanceReportsDataService.php
+FinanceReports/Http/Middleware/ExportFinanceReport.php
+FinanceReports/Resources/views/layouts/filter.blade.php
+FinanceReports/Resources/views/layouts/toolbar.blade.php
+FinanceReports/Resources/views/reports/profit_loss.blade.php
+FinanceReports/Resources/views/reports/partials/profit_breakdown.blade.php
+
+Validation
+----------
+- Full FinanceReports PHP syntax validation performed after changes.
+- Toolbar JavaScript syntax validation performed with Node.js.
+- Date range JavaScript syntax validation performed with the Profit & Loss auto-submit branch enabled.
+- Archive integrity is tested after packaging.
+
+Deployment
+----------
+1. Replace Modules/FinanceReports with the corrected FinanceReports folder.
+2. From Laravel root run: php artisan optimize:clear
+3. Hard refresh the browser (Ctrl+F5).
+4. Test Profit & Loss with the same date range as the COGS Account Book.

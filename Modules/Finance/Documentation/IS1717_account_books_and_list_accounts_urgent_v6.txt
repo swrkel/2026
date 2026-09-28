@@ -1,0 +1,56 @@
+IS1717 Finance – Account Books and List Accounts urgent correction V6
+====================================================================
+
+Scope
+-----
+All changed files are inside Modules/Finance. No root application file is
+included or altered.
+
+Correctness fixes
+-----------------
+1. Registers GET/HEAD/POST fallback handling for:
+   /accounting-module/account-book
+   so an old or incomplete Account Book URL cannot fail with MethodNotAllowed.
+2. All Finance List Accounts/Main Account Book links include a numeric account id.
+3. Account Book account selection is scoped to the logged-in business.
+4. Location scope comes from the selected account. Global/all-location accounts
+   are not incorrectly restricted by the user's currently selected location.
+5. The individual Account Book data endpoint is Finance-owned and returns the
+   complete DataTables schema, including realize_date.
+
+Performance fixes
+-----------------
+1. List Accounts uses server-side paging (25 rows initially) rather than loading
+   all accounts into the browser.
+2. Removed full ledger joins/grouping from the List Accounts base query.
+3. Account balances are calculated only for the returned account page.
+4. Removed page-opening historical maintenance and unused full-history counts.
+5. Hidden tab DataTables do not issue requests until their tab is opened.
+6. Cheque-opening filter DISTINCT scans and customer lists are lazy-loaded.
+7. Account Book uses server-side paging and one joined page query instead of
+   separate per-page transaction/contact/payment/user lookup requests.
+8. Main Account Book no longer calculates child balances with an N+1 loop.
+9. Main Account Book data paints first; its total balance is calculated after
+   the table is visible.
+10. Tenant middleware is applied once, before Finance auth/session queries.
+
+Deployment
+----------
+Overwrite the included Modules/Finance files, then run:
+
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+php artisan config:clear
+
+Verification
+------------
+php artisan route:list --path=accounting-module/account-book
+
+Expected routes include:
+- GET|HEAD|POST accounting-module/account-book
+- GET|HEAD accounting-module/account-book/{id}
+- GET|HEAD accounting-module/account-book/{id}/data
+- GET|HEAD accounting-module/account-book/{id}/main-data
+
+No SQL or migration is required for this patch.

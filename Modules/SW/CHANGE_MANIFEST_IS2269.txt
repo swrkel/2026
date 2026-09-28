@@ -1,0 +1,105 @@
+IS2269 – SW Settlement – 13 Sep 2026
+====================================
+
+BASELINE
+--------
+Built from the latest SW.zip supplied with IS2269. Existing SW fixes and working
+behaviour in that parcel are retained. No Finance core file was replaced.
+
+ISSUE 1 – SW Shifts / Daily Cash Status / Cash Deposit
+------------------------------------------------------
+Problem:
+A Cash Deposit could be saved from Finance with an SW Daily Shift No selected,
+but SW Daily Cash Status still showed Cash Deposit 0 / 0.00.
+
+Root cause:
+The Finance Cash Deposit form posts the selected value as `daily_shift_no`, but
+the Finance AccountController posting path creates its paired
+`account_transactions` without copying that field to `sw_shift_no`. Therefore
+Daily Cash Status had no persisted SW-shift link to read. Earlier work fixed the
+dropdown options only; it did not fix this save-path gap.
+
+Fix:
+1. SWServiceProvider now installs a narrow Finance integration listener for the
+   Finance deposit-store request only.
+2. It validates the selected shift belongs to the active business and is still
+   OPEN when the deposit is saved.
+3. It writes `sw_shift_no` only to the Cash account leg of the Finance deposit.
+   The paired Bank leg is deliberately NOT tagged, preventing double counting.
+4. CashStatusService now reads Cash deposits by `sw_shift_no`, with
+   `shift_number` accepted only as a legacy compatibility source.
+5. The Cash Status query counts only the Cash / deposit / credit leg and ignores
+   deleted rows, so Card/Bank transfer legs do not inflate the total.
+
+Important:
+This fixes deposits saved AFTER this parcel is installed. A historical Finance
+deposit created before the fix cannot be reliably linked to an SW shift if the
+original controller never stored the user's selected shift anywhere.
+
+ISSUE 2 – SW Settlement / New Settlement / Payments / Loan Payments
+-------------------------------------------------------------------
+Problem:
+Loan Payments showed a Customer selector. IS2269 requires the Customer selector
+to be removed and replaced with a searchable Bank selector that contains the
+related loan accounts.
+
+Root cause:
+The current SW payment configuration still declared Loan Payment as a customer
+payment (`customer=true`, `account=false`). This contradicted the established
+legacy settlement Loan Payments flow, where the field is labelled Bank and is
+fed by accounts in the `Loans Given` group.
+
+Fix:
+1. Loan Payment now declares `customer=false` and `account=true`.
+2. The generic account field changes its visible label to `Bank:` only for Loan
+   Payment; other payment types continue to show `Account:`.
+3. The existing SW related-account endpoint is reused. For Loan Payment it
+   returns `Loans Given` accounts, then the existing legacy Loan/Loans/name
+   fallbacks. Unrelated accounts are not exposed.
+4. The selector is Select2 with search enabled (`minimumResultsForSearch: 0`),
+   giving type-and-filter behaviour at all list sizes.
+5. The selected Bank/account is stored in the existing
+   `sw_collections.account_id`; no schema change is required.
+6. Finance posting uses that selected related account. Older saved rows without
+   account_id keep a controlled loan-account fallback.
+7. Loan Payment posting uses the established loan-allocation debit direction,
+   matching the legacy settlement Loan Payments behaviour.
+
+FILES CHANGED
+-------------
+- Providers/SWServiceProvider.php
+- Services/CashStatusService.php
+- Services/SettlementFinancePostingService.php
+- Resources/views/settlements/partials/payments.blade.php
+- Resources/views/settlements/partials/payments_js.blade.php
+- Resources/lang/en/lang.php
+- CHANGE_MANIFEST_IS2269.txt
+
+DATABASE / SQL
+--------------
+No new migration or SQL is required. The existing SW schema already provides
+`account_transactions.sw_shift_no` and `sw_collections.account_id`.
+
+DEPLOYMENT
+----------
+1. Replace the existing Modules/SW folder with this consolidated SW folder.
+2. From the Laravel project root run:
+      php artisan optimize:clear
+3. Hard-refresh the browser once (Ctrl+F5).
+
+VERIFICATION
+------------
+A. Cash Deposit / Daily Cash Status
+1. Open an SW shift.
+2. Finance -> List Accounts -> Cash Deposit.
+3. Select that SW shift and save a cash deposit.
+4. SW -> SW Shifts -> Daily Cash Status: Cash Deposit must show the saved amount.
+5. The deposit must appear once only, not twice from the Finance transfer pair.
+
+B. Loan Payment
+1. SW -> SW Settlements -> New Settlement -> Payments -> Loan Payments.
+2. Customer selector must not be visible.
+3. Bank selector must be visible.
+4. Click/type in Bank: Select2 search must filter the related loan accounts.
+5. Add a Loan Payment and save the settlement; the selected account must remain
+   attached to the collection and be used by Finance posting.

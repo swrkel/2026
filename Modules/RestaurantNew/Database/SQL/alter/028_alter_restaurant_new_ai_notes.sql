@@ -1,0 +1,2 @@
+-- Stage 028 has no mandatory ALTER statements.
+-- Register Modules/RestaurantNew/Routes/ai.php from the RestaurantNew route provider if route fragments are not auto-loaded.

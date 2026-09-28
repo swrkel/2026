@@ -1,0 +1,10 @@
+@extends('communicationhub::layout')
+@section('communicationhub_title', 'Scheduled Push')
+@section('communicationhub_content')
+@include('communicationhub::partials.professional-styles')
+<div class="ch-card"><div class="ch-card-header"><div><h3 class="ch-card-title"><i class="fa fa-clock-o"></i> Scheduled Push Notifications</h3><div class="ch-card-subtitle">Schedule push notifications by business and location.</div></div></div>
+<div class="ch-card-body"><form method="POST" action="{{ route('communicationhub.commercial.scheduled_push.store') }}">@csrf
+<div class="row"><div class="col-md-4"><div class="form-group"><label>Recipient / Group</label><input name="recipient" class="form-control" placeholder="all-active-devices"></div></div><div class="col-md-4"><div class="form-group"><label>Scheduled At</label><input name="scheduled_at" type="datetime-local" class="form-control" required></div></div><div class="col-md-4"><div class="form-group"><label>Priority</label><select name="priority" class="form-control"><option>normal</option><option>high</option><option>urgent</option></select></div></div></div>
+<div class="form-group"><label>Title</label><input name="title" class="form-control" required></div><div class="form-group"><label>Message</label><textarea name="message" class="form-control" rows="4" required></textarea></div><div class="form-group"><label>Action URL</label><input name="url" class="form-control"></div><button class="btn btn-primary">Schedule Push</button></form></div></div>
+<div class="ch-card"><div class="ch-card-header"><div><h3 class="ch-card-title">Scheduled Queue</h3></div></div><div class="table-responsive"><table class="table table-bordered"><thead><tr><th>ID</th><th>Title</th><th>Recipient</th><th>Scheduled</th><th>Status</th></tr></thead><tbody>@forelse($scheduled as $m)<tr><td>{{ $m->id }}</td><td>{{ $m->title ?? $m->subject ?? '' }}</td><td>{{ $m->recipient ?? '' }}</td><td>{{ $m->scheduled_at ?? '' }}</td><td>{{ $m->status ?? '' }}</td></tr>@empty<tr><td colspan="5" class="text-center text-muted">No scheduled push notifications.</td></tr>@endforelse</tbody></table></div></div>
+@endsection

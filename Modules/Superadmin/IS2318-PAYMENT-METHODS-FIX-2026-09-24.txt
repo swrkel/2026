@@ -1,0 +1,57 @@
+IS2318 – Payment methods – 24 Sep 2026
+
+Scope
+-----
+Super Admin -> All Businesses -> Manage New -> Payment Options
+
+Required behaviour
+------------------
+1. A payment method appears only on the transaction pages selected for that location:
+   Purchase, Sales, Expense, Purchase Return, Sales Return.
+2. Main Enable/Not Active state remains stored exactly.
+3. New custom payment methods are saved as custom methods and use the same page flags.
+4. Existing business/location choices must not be overwritten by Super Admin Settings.
+5. Technical keys such as location_id must never appear as payment methods.
+
+Root causes corrected
+---------------------
+1. SuperadminSettingsController previously replaced every location's
+   default_payment_accounts JSON with only is_enabled + account. That destroyed
+   Purchase/Sales/Expense/Return flags and custom methods.
+2. Legacy/custom rows with missing page flags were treated by the Manage New view
+   as enabled for every page.
+3. A newly-added method did not post is_custom=1.
+4. Adding the first custom row could reuse index 0 because the browser only
+   counted rows added during the current session. That could overwrite an existing
+   payment method on submit. The next index now scans every existing method row.
+5. A newly-added custom method could inherit the first method's selected account
+   while cloning dropdown options. New methods now start with Please Select.
+6. Technical/form keys (notably location_id) could survive in payment JSON and
+   render as fake payment methods.
+
+Changed files
+-------------
+- Superadmin/Services/PaymentMethodDefaultsService.php
+- Superadmin/Http/Controllers/SuperadminSettingsController.php
+- Superadmin/Resources/views/business/partials/payment_options.blade.php
+
+Additional hardening
+--------------------
+- System-catalogue methods are always normalised as non-custom, so an old
+  is_custom value cannot accidentally make a built-in/system method removable.
+
+Database / SQL
+--------------
+No SQL or migration is required.
+
+Deployment
+----------
+Replace the Superadmin module with this parcel, then run:
+  php artisan optimize:clear
+
+Recommended verification
+------------------------
+For one location, configure different combinations in Manage New -> Payment Options,
+save, then check Purchase, Sales, Expense, Purchase Return and Sales Return payment
+method dropdowns. Also add a new custom method, enable it for only one transaction
+page, save/reload, and confirm it appears only there.

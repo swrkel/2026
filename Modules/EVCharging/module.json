@@ -1,0 +1,13 @@
+{
+    "name": "EVCharging",
+    "alias": "evcharging",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\EVCharging\\Providers\\EVChargingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

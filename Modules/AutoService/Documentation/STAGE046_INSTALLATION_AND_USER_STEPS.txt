@@ -1,0 +1,54 @@
+AUTO SERVICE STAGE 046 – SERVICE PACKAGE MANAGER
+
+NEW PAGES
+1. Auto Service > Masters > Service Package Categories
+   Quick category creation is available on the Service Packages list page.
+
+2. Auto Service > Masters > Service Packages
+   Create multiple preset packages with:
+   - Stock Items
+   - Non-stock Items
+   - Labour
+   - External Services
+   - Remarks
+   Components can be Mandatory or Optional.
+
+3. Auto Service > Job Cards > Add/Edit Job Card
+   Use “Load Service Package”.
+   Package components are copied into the job card and remain editable.
+
+4. Auto Service > Invoices > Invoice Details
+   Use “Post Invoice & Deduct Stock”.
+   Only stock-item components with a valid product variation reduce location stock.
+   Posting is protected by stock_posted_at and cannot deduct twice.
+
+REPORTS
+- Auto Service > Reports > Service Package Usage
+  Route: /auto-service/reports/service-package-usage
+- Auto Service > Reports > Service Package Profitability
+  Route: /auto-service/reports/service-package-profitability
+- Auto Service > Reports > Package Stock Consumption
+  Route: /auto-service/reports/service-package-stock-consumption
+- Existing Advanced Vehicle History shows the parts used by vehicle.
+- Existing Customer Portal Parts History shows parts/accessories used by customer and vehicle.
+- Existing Inventory Control shows remaining/reorder stock.
+
+SERVER INSTALL STEPS
+1. Back up one test tenant database.
+2. Replace the changed files from this ZIP in Modules/AutoService.
+3. Run SQL/MASTER_AUTOSERVICE_SQL_STAGE046_SERVICE_PACKAGE_MANAGER.sql.
+4. Clear caches:
+   php artisan optimize:clear
+5. Verify routes:
+   php artisan route:list --name=autoservice.packages
+   php artisan route:list --name=autoservice.invoices.post
+   php artisan route:list --name=autoservice.reports.package
+6. Assign the new permissions to suitable roles.
+7. Create package categories and packages.
+8. Test package loading into one job card.
+9. Generate invoice and post it.
+10. Confirm variation_location_details.qty_available decreases only once.
+
+IMPORTANT STOCK RULE
+Stock is reduced at invoice posting, not when the package is created or merely loaded into a job card.
+Non-stock, labour, external service, and remark lines never reduce stock.

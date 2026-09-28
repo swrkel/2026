@@ -1,0 +1,35 @@
+<?php
+
+return [
+    [
+        'title' => 'Banking',
+        'icon' => 'fa fa-university',
+        'route' => 'banking.dashboard',
+        'permission' => 'banking.dashboard.view',
+        'order' => 250,
+        'children' => [
+            ['title' => 'Dashboard', 'route' => 'banking.dashboard', 'permission' => 'banking.dashboard.view'],
+            ['title' => 'Core Deposits', 'route' => 'banking.core-deposits.index', 'permission' => 'banking.core_deposits.view'],
+            ['title' => 'Teller Operations', 'route' => 'banking.teller.index', 'permission' => 'banking.teller.view'],
+            ['title' => 'Cheque Management', 'route' => 'banking.cheques.index', 'permission' => 'banking.cheques.view'],
+            ['title' => 'ATM & Debit Cards', 'route' => 'banking.cards.index', 'permission' => 'banking.cards.view'],
+            ['title' => 'Internet Banking', 'route' => 'banking.internet.index', 'permission' => 'banking.internet.view'],
+            ['title' => 'Mobile Banking', 'route' => 'banking.mobile.index', 'permission' => 'banking.mobile.view'],
+            ['title' => 'Corporate Banking', 'route' => 'banking.corporate.index', 'permission' => 'banking.corporate.view'],
+            ['title' => 'Microfinance', 'route' => 'banking.microfinance.index', 'permission' => 'banking.microfinance.view'],
+            ['title' => 'Insurance', 'route' => 'banking.insurance.index', 'permission' => 'banking.insurance.view'],
+            ['title' => 'Treasury', 'route' => 'banking.treasury.index', 'permission' => 'banking.treasury.view'],
+            ['title' => 'Trade Finance', 'route' => 'banking.trade-finance.index', 'permission' => 'banking.trade_finance.view'],
+            ['title' => 'Payments Hub', 'route' => 'banking.payments.index', 'permission' => 'banking.payments.view'],
+            ['title' => 'CRM', 'route' => 'banking.crm.index', 'permission' => 'banking.crm.view'],
+            ['title' => 'Risk Management', 'route' => 'banking.risk.index', 'permission' => 'banking.risk.view'],
+            ['title' => 'AML & Compliance', 'route' => 'banking.aml.index', 'permission' => 'banking.aml.view'],
+            ['title' => 'Document Management', 'route' => 'banking.documents.index', 'permission' => 'banking.documents.view'],
+            ['title' => 'Business Intelligence', 'route' => 'banking.bi.index', 'permission' => 'banking.bi.view'],
+            ['title' => 'Workflow', 'route' => 'banking.workflow.index', 'permission' => 'banking.workflow.view'],
+            ['title' => 'API Gateway', 'route' => 'banking.api-gateway.index', 'permission' => 'banking.api_gateway.view'],
+            ['title' => 'Reports', 'route' => 'banking.reports.index', 'permission' => 'banking.reports.view'],
+            ['title' => 'Settings', 'route' => 'banking.settings.index', 'permission' => 'banking.settings.view'],
+        ],
+    ],
+];

@@ -1,0 +1,45 @@
+.supplier-profile-page .supplier-profile-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid #ddd;
+}
+
+.supplier-profile-page .supplier-profile-tabs > li {
+    float: none;
+    display: inline-block;
+}
+
+.supplier-profile-tab-content {
+    padding-top: 15px;
+}
+
+.supplier-profile-panel {
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: #fff;
+    margin-bottom: 15px;
+}
+
+.supplier-profile-panel h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.supplier-summary-cards .small-box h3 {
+    font-size: 24px;
+}
+
+@media (max-width: 767px) {
+    .supplier-profile-page .box-header .pull-right {
+        float: none !important;
+        margin-top: 10px;
+    }
+
+    .supplier-profile-panel .col-md-3,
+    .supplier-profile-panel .col-md-4,
+    .supplier-profile-panel .col-md-6 {
+        margin-bottom: 12px;
+    }
+}

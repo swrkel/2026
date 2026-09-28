@@ -1,0 +1,1 @@
+(function(){'use strict';function refreshCommandCenter(){var el=document.querySelector('.restaurant-new-command-center');if(!el){return;}document.querySelectorAll('.restnew-command-table').forEach(function(tbl){tbl.classList.add('table-hover');});}document.addEventListener('DOMContentLoaded',refreshCommandCenter);})();

@@ -1,0 +1,4 @@
+.bs-save-btn { min-width: 170px; min-height: 52px; font-size: 18px; font-weight: 700; }
+.bs-table-scroll { overflow-x: auto; overflow-y: visible; width: 100%; }
+#bs_customers_table { min-width: 1100px; }
+#bs_customers_table .dropdown-menu { z-index: 9999; }

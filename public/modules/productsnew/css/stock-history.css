@@ -1,0 +1,136 @@
+/* Products New - Product Stock History / 8033 */
+.productsnew-shell .pn-stock-history-filter{position:relative;overflow:visible;margin-bottom:18px}
+.productsnew-shell .pn-stock-history-toolbar{display:grid!important;grid-template-columns:minmax(118px,.52fr) minmax(155px,.9fr) minmax(105px,.45fr) minmax(215px,1.28fr) minmax(110px,.50fr) minmax(230px,1.35fr);gap:10px!important;align-items:end!important;width:100%}
+.productsnew-shell .pn-stock-history-toolbar .pn-filter-field{min-width:0;width:100%}.productsnew-shell .pn-stock-history-toolbar label{display:block;margin:0 0 6px;font-size:12px;font-weight:700;color:#334155;white-space:nowrap}.productsnew-shell .pn-stock-history-toolbar .form-control,.productsnew-shell .pn-stock-history-toolbar .select2-container,.productsnew-shell .pn-stock-history-toolbar .select2-selection--single{width:100%!important;min-height:42px!important}.productsnew-shell .pn-stock-history-toolbar .input-group{width:100%;display:table}.productsnew-shell .pn-stock-history-toolbar .input-group-addon{width:38px;text-align:center;background:#f7f9fc;border-color:#d8e2ef}
+.productsnew-shell .pn-history-filter-actions-row{display:flex;width:100%;margin-top:10px;padding-top:10px;border-top:1px solid #edf2f7}.productsnew-shell .pn-history-filter-actions{display:flex!important;flex-wrap:nowrap!important;gap:7px!important;align-items:center!important;justify-content:flex-start!important;min-height:42px;padding:0!important}.productsnew-shell .pn-history-filter-actions .pn-btn{min-height:42px;padding:0 15px;white-space:nowrap}
+.productsnew-shell .pn-history-ledger .pn-table-wrap{width:100%;overflow-x:visible}.productsnew-shell .pn-history-table{width:100%!important;table-layout:fixed!important;min-width:0!important}.productsnew-shell .pn-history-table th,.productsnew-shell .pn-history-table td{white-space:normal!important;overflow-wrap:anywhere;word-break:normal;padding:9px 7px!important;vertical-align:top}.productsnew-shell .pn-history-table .pn-nowrap{white-space:nowrap!important}.productsnew-shell .pn-history-table td small{display:block;margin-top:3px;line-height:1.25;color:#738096}.productsnew-shell .pn-history-col-date{width:10%}.productsnew-shell .pn-history-col-product{width:16%}.productsnew-shell .pn-history-col-sku{width:7%}.productsnew-shell .pn-history-col-store{width:8%}.productsnew-shell .pn-history-col-movement{width:10%}.productsnew-shell .pn-history-col-reference{width:10%}.productsnew-shell .pn-history-col-opening{width:7%}.productsnew-shell .pn-history-col-qty{width:6%}.productsnew-shell .pn-history-col-balance{width:8%}.productsnew-shell .pn-history-col-notes{width:12%}.productsnew-shell .pn-history-table .pn-qty-opening{font-weight:800}
+.productsnew-shell .pn-history-section-heading {
+  display:flex !important; align-items:center !important; justify-content:space-between !important;
+  gap:16px !important; margin:18px 0 12px !important; width:100% !important; min-height:auto !important;
+}
+.productsnew-shell .pn-history-section-heading > div:first-child {
+  display:block !important; width:auto !important; min-width:0 !important; max-width:none !important;
+  height:auto !important; min-height:0 !important; padding:0 !important; margin:0 !important;
+  border:0 !important; border-radius:0 !important; background:transparent !important; box-shadow:none !important;
+}
+.productsnew-shell .pn-history-section-heading h3 { display:block !important; margin:0 !important; color:#17263a; font-size:20px !important; line-height:1.25 !important; font-weight:800; white-space:normal !important; }
+.productsnew-shell .pn-history-section-heading p { display:block !important; margin:4px 0 0 !important; color:#748196; font-size:12px !important; line-height:1.4 !important; white-space:normal !important; }
+.productsnew-shell .pn-summary-note { display:inline-flex !important; flex:0 0 auto; align-items:center; gap:7px; padding:9px 12px; border:1px solid #dbe6f4; border-radius:10px; background:#fff; color:#627089; font-size:12px; white-space:nowrap; }
+
+.productsnew-shell .pn-history-kpi-grid {
+  display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:14px !important; margin:0 0 18px !important; width:100% !important;
+}
+.productsnew-shell .pn-history-kpi {
+  position:relative; display:flex !important; align-items:center !important; gap:14px !important;
+  min-width:0 !important; min-height:96px !important; padding:17px 18px !important;
+  overflow:hidden; background:#fff !important; border:1px solid #dfe8f2 !important;
+  border-radius:14px !important; box-shadow:0 8px 22px rgba(27,49,75,.055) !important;
+}
+.productsnew-shell .pn-history-kpi:after { content:""; position:absolute; right:-30px; bottom:-38px; width:96px; height:96px; border-radius:50%; background:rgba(148,163,184,.08); }
+.productsnew-shell .pn-history-kpi-icon { position:relative; z-index:1; flex:0 0 46px !important; width:46px !important; height:46px !important; display:flex !important; align-items:center !important; justify-content:center !important; border-radius:12px !important; background:#eef3f9 !important; color:#475569 !important; font-size:18px !important; }
+.productsnew-shell .pn-history-kpi-content { position:relative; z-index:1; display:block !important; min-width:0 !important; width:auto !important; height:auto !important; padding:0 !important; margin:0 !important; background:transparent !important; border:0 !important; }
+.productsnew-shell .pn-history-kpi-content span { display:block !important; margin:0 0 5px !important; color:#6f7d91 !important; font-size:12px !important; line-height:1.3 !important; font-weight:700 !important; white-space:normal !important; }
+.productsnew-shell .pn-history-kpi-content strong { display:block !important; margin:0 !important; color:#15243a !important; font-size:24px !important; line-height:1.1 !important; font-weight:800 !important; font-variant-numeric:tabular-nums; white-space:nowrap !important; }
+.productsnew-shell .pn-history-kpi-neutral { border-left:4px solid #6d7d93 !important; }
+.productsnew-shell .pn-history-kpi-in { border-left:4px solid #23a566 !important; }
+.productsnew-shell .pn-history-kpi-in .pn-history-kpi-icon { background:#e9f8f0 !important; color:#16834d !important; }
+.productsnew-shell .pn-history-kpi-out { border-left:4px solid #df5961 !important; }
+.productsnew-shell .pn-history-kpi-out .pn-history-kpi-icon { background:#fff0f1 !important; color:#c43f45 !important; }
+.productsnew-shell .pn-history-kpi-adjust { border-left:4px solid #e2a51d !important; }
+.productsnew-shell .pn-history-kpi-adjust .pn-history-kpi-icon { background:#fff8e6 !important; color:#9c6900 !important; }
+.productsnew-shell .pn-history-kpi-closing { border:1px solid #8fb2ff !important; border-left:4px solid #2563eb !important; background:linear-gradient(135deg,#f8fbff,#eef5ff) !important; }
+.productsnew-shell .pn-history-kpi-closing .pn-history-kpi-icon { background:#2563eb !important; color:#fff !important; }
+.productsnew-shell .pn-history-summary-grid { display:grid !important; grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important; gap:16px !important; margin-bottom:16px !important; }
+
+@media (max-width:1199px){
+ .productsnew-shell .pn-stock-history-toolbar{grid-template-columns:repeat(3,minmax(0,1fr));}
+ .productsnew-shell .pn-history-ledger .pn-table-wrap{overflow-x:auto;}
+ .productsnew-shell .pn-history-table{min-width:1050px!important;table-layout:auto!important;}
+}
+@media (max-width:991px){
+ .productsnew-shell .pn-history-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+ .productsnew-shell .pn-history-summary-grid{grid-template-columns:1fr !important;}
+ .productsnew-shell .pn-history-section-heading{align-items:flex-start !important; flex-direction:column !important;}
+}
+@media (max-width:767px){
+ .productsnew-shell .pn-stock-history-toolbar{grid-template-columns:1fr !important;}
+ .productsnew-shell .pn-history-filter-actions{justify-content:flex-start!important;flex-wrap:wrap!important;}
+ .productsnew-shell .pn-history-kpi-grid{grid-template-columns:1fr !important;}
+ .productsnew-shell .pn-summary-note{white-space:normal;}
+}
+
+/* Compact horizontal stock movement summary header */
+.productsnew-shell .pn-history-summary-header {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:14px !important;
+  width:100% !important;
+  margin:8px 0 10px !important;
+  padding:0 2px !important;
+  min-height:48px !important;
+}
+.productsnew-shell .pn-history-summary-title {
+  display:block !important;
+  min-width:0 !important;
+  width:auto !important;
+  height:auto !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+}
+.productsnew-shell .pn-history-summary-title h3 {
+  display:block !important;
+  margin:0 !important;
+  padding:0 !important;
+  color:#17263a !important;
+  font-size:22px !important;
+  line-height:1.2 !important;
+  font-weight:800 !important;
+  white-space:nowrap !important;
+}
+.productsnew-shell .pn-history-summary-title p {
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  margin:4px 0 0 !important;
+  padding:0 !important;
+  color:#64748b !important;
+  font-size:13px !important;
+  line-height:1.25 !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+}
+.productsnew-shell .pn-history-summary-title p .fa { color:#2563eb; }
+.productsnew-shell .pn-history-date-separator {
+  display:inline-block;
+  color:#94a3b8;
+  font-weight:700;
+  padding:0 2px;
+}
+.productsnew-shell .pn-history-summary-header + .pn-history-kpi-grid {
+  margin-top:0 !important;
+}
+.productsnew-shell .pn-history-kpi-grid {
+  gap:12px !important;
+  margin-bottom:14px !important;
+}
+.productsnew-shell .pn-history-kpi {
+  min-height:88px !important;
+  padding:14px 16px !important;
+}
+@media (max-width:991px){
+  .productsnew-shell .pn-history-summary-header{
+    align-items:flex-start !important;
+    flex-direction:column !important;
+    margin-top:6px !important;
+  }
+}
+@media (max-width:767px){
+  .productsnew-shell .pn-history-summary-title h3,
+  .productsnew-shell .pn-history-summary-title p{
+    white-space:normal !important;
+  }
+}

@@ -1,0 +1,129 @@
+MA-002 - CORE ReportController : RETIREMENT MAP
+=====================================================================
+Written against build 9800. No code was changed to produce this.
+
+WHY THIS EXISTS
+  app/Http/Controllers/ReportController.php is 20,102 lines - the largest
+  file in the system. I was about to split it into readable pieces when
+  you said reporting is moving to a separate module, with each module
+  carrying its own reports.
+
+  Splitting a file that is being retired is wasted effort. So instead,
+  this measures what stands between today and switching it off.
+
+
+=====================================================================
+THE NEW Modules/Reporting IS CLEAN
+=====================================================================
+  route names                : 14
+  route name collisions      : 0
+  entities duplicating core  : 0
+  Blade comments inside @php  : 0
+  references to core ReportController : 0
+  references to core TransactionUtil  : 0
+
+  It stands on its own. Nothing about it needs fixing before it takes
+  over, and it shares no data model with core's reporting.
+
+
+=====================================================================
+WHAT STILL DEPENDS ON THE CORE FILE
+=====================================================================
+  282 references across 63 files:
+
+     routes/                  154 refs   2 files
+     core views                27 refs  22 files
+     AutoRepairServices        26 refs   2 files
+     Petro                     26 refs   2 files
+     Stocktaking                8 refs   8 files
+     HR                         8 refs   5 files
+     PriceChanges               8 refs   8 files
+     Manufacturing              8 refs   2 files
+     Property                   6 refs   5 files
+     MPCS                       4 refs   4 files
+     BankingInsurance           3 refs   1 file
+     Pawning                    2 refs   1 file
+
+  Plus 283 references to the class by name.
+
+  The shape matters: 154 of the 282 are in TWO route files. That is the
+  bulk of the work concentrated in one place, which is good news - it is
+  a smaller job than the raw number suggests.
+
+
+=====================================================================
+HOW MUCH OF THE FILE IS ACTUALLY ALIVE
+=====================================================================
+  public methods defined     128
+  routed                      78
+  defined but NOT routed      54
+
+  Of those 54, THIRTY-FOUR are called from somewhere else - other
+  controllers, views, or within the file itself - so they are live even
+  though no URL points at them.
+
+  TWENTY are referenced NOWHERE in the codebase:
+
+      getAccountBalanceDateBased          getSummaryStockQuery
+      getAccountsBalanceByAccountName     getSummaryStockSellValueQuery
+      getBusinessOpeningStock             getTotalInterestOutstanding
+      getExpenses                         getTotalReceivedOutstandingRa
+      getPreviousDayStock                 getpurchases
+      getPreviousOpeningBalance           pumpOperatorExcessPaidQuery
+      getProductsReport                   pumpOperatorExcessPaidQueryReceived
+      getSaleReturnsPayments              pumpOperatorExcessQuery
+      getSummaryStockPurchaseValueQuery   pumpOperatorShortageQuery
+                                          pumpOperatorShortageRecoveredQuery
+                                          pumpOperatorShortageRecoveredQueryReceived
+
+  I checked for dynamic dispatch before saying that - no $this->$method()
+  calls, no call_user_func, nothing that could reach them by a name built
+  at runtime. On the evidence they are dead.
+
+  I HAVE NOT DELETED THEM. Removing code from the system's largest file
+  is not urgent, it is not what you asked for, and the module is being
+  retired anyway - so the deletion would be thrown away with the file.
+  They are listed here so the eventual retirement does not spend time
+  migrating reports nobody can reach.
+
+
+=====================================================================
+SUGGESTED RETIREMENT ORDER
+=====================================================================
+  1. Decide which of the 78 routed reports the new module will carry.
+     54 of 128 methods are not routed at all, and 20 of those are dead,
+     so the real scope is 78 reports, not 128.
+
+  2. Migrate the module-owned ones first. AutoRepairServices, Petro,
+     Stocktaking, HR, PriceChanges, Manufacturing, Property, MPCS,
+     BankingInsurance and Pawning between them hold 73 references. You
+     said each module will carry its own reports - these are exactly
+     those, and each module can move independently without waiting for
+     the others.
+
+  3. Then the 27 references in core views.
+
+  4. The two route files last. They are the bulk of the count but the
+     simplest change once nothing else points at the controller.
+
+  5. Only then delete the file.
+
+  BEFORE STEP 5, instrument it the way I did /finance/accounts - one log
+  line per call - and leave it a few weeks. 20,102 lines is too much to
+  delete on static analysis alone, and a report someone runs once a
+  quarter will not show up in any code search. Say the word and I will
+  add that.
+
+
+=====================================================================
+WHAT I WILL DO INSTEAD OF SPLITTING IT
+=====================================================================
+  Nothing to this file. It is retiring, so the eight splits already done
+  (89,731 lines across the settlement controllers, Finance's account and
+  expense controllers, and TransactionUtil) are the right stopping point
+  for that piece of work.
+
+  The remaining oversized file is
+      Modules/Superadmin/.../business/manage.blade.php   14,601 lines
+  which is a VIEW. Splitting it means @include rather than traits - a
+  different exercise, and safe to do separately if you want it.

@@ -1,0 +1,34 @@
+CommunicationHub v1.0 Production-Ready Package
+
+Deploy target:
+- Replace/upload only: Modules/CommunicationHub/
+
+Recommended database method:
+- Run Database/SQL/00_RUN_THIS_IN_EACH_TENANT_DATABASE.sql once in each tenant database.
+- Run Database/SQL/01_COMMUNICATION_HUB_PERMISSIONS.sql only if your tenant database uses the standard permissions table.
+
+Important:
+- The SQL file is the recommended install path for tenant databases because it contains the consolidated schema in the correct order.
+- A production hardening Laravel migration is included to add compatibility columns for partially-created tenants.
+- PHP lint was run for all module PHP files.
+
+Main module areas included:
+- Dashboard
+- Providers / gateway framework
+- Templates
+- Queue
+- OTP centre
+- Campaigns
+- API gateway
+- Marketplace
+- Reports
+- Production hardening pages
+- Enterprise certification pages
+- Standalone audit pages
+
+After upload:
+1. Back up database and files.
+2. Upload Modules/CommunicationHub/.
+3. Run the SQL in a test tenant first.
+4. Run php artisan optimize:clear.
+5. Test /communication-hub.

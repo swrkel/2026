@@ -1,0 +1,1 @@
+<?php return ['module'=>'Banking Microfinance Compliance Risk Recovery'];

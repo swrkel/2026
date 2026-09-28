@@ -1,0 +1,9 @@
+Simple Audit v1.0.15 - Actual Central Sidebar Render Fix
+
+1. Uses the dedicated file:
+   resources/views/layouts/partials/sidebar-sections/sidebar-simple-audit.blade.php
+2. The real Central sidebar hard-includes that section immediately after the filter input,
+   before the Superadmin module partial, so it is visible near the top.
+3. Simple Audit stays excluded from tenant/business sidebars and the generic Central catalogue.
+4. Simple Audit protected pages now use layouts.app by default, keeping the Central sidebar visible.
+5. No database changes.

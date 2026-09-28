@@ -1,0 +1,19 @@
+POS Standalone S372 - Production Hardening
+
+Scope:
+- Added final production hardening notes after S371 audit.
+- Added final route verification checklist for /pos-module pages.
+- Added deployment/test checklist for server upload.
+- Confirmed no new structural SQL is required for S372.
+
+Important:
+- POS business logic remains inside Modules/POS.
+- POS uses the ERP shared visual framework for layout/style consistency.
+- Customer master data continues to use the standalone Customers module as agreed.
+
+After upload run:
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+
+Then hard refresh browser with Ctrl + F5.

@@ -1,0 +1,17 @@
+POS Standalone S383 - Background Synchronization Engine
+
+Included:
+- Background Sync Engine dashboard: /pos-module/offline-sync/background-engine
+- Automatic browser online event sync trigger
+- Device heartbeat endpoint
+- Network latency sample endpoint
+- Dependency-aware server batch processing foundation
+- Sync progress endpoint
+- Resume/interruption-safe idempotent batch processing foundation
+- SQL for device heartbeat, network quality and queue dependency metadata
+
+Deployment:
+1. Replace files.
+2. Run Modules/POS/Database/SQL/pos_standalone_s383_background_sync_engine.sql in each tenant DB.
+3. Run php artisan optimize:clear && php artisan route:clear && php artisan view:clear.
+4. Test /pos-module/offline-sync/background-engine.

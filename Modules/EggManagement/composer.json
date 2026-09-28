@@ -1,0 +1,10 @@
+{
+  "name": "syzygy/egg-management",
+  "description": "Standalone Egg Management module for Laravel",
+  "type": "laravel-module",
+  "autoload": {
+    "psr-4": {
+      "Modules\\EggManagement\\": ""
+    }
+  }
+}

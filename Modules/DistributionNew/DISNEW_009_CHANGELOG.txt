@@ -1,0 +1,9 @@
+Distribution New Stage 9 - Large consolidated parcel
+- Added mobile device registration and mobile API route foundation.
+- Added offline sync queue and conflict tracking for sales rep/customer mobile workflows.
+- Added approval rules and approval requests for orders, invoices, returns and high-value operations.
+- Added audit trail service and table for standalone Distribution New actions.
+- Added API token foundation for mobile clients.
+- Added report schedule foundation for recurring operational reports.
+- Added approval UI page following POS-style card/table layout.
+- Added Stage 9 SQL and updated DISNEW_MASTER.sql.

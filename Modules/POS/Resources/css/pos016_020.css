@@ -1,0 +1,3 @@
+.pos-page .amount, .pos-receipt .amount { text-align: right; }
+.pos-advanced-sales { min-height: 500px; }
+.pos-receipt { font-size: 12px; }

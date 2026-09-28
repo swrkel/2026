@@ -1,0 +1,176 @@
+{{--
+    Pumper Excess / Shortage Payments.
+
+    Money settled with an operator against a shortage or an excess found at
+    settlement. Read from pump_operator_payments, which the business already
+    keeps - SW records no second copy.
+--}}
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            @component('components.filters', ['title' => __('report.filters')])
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_es_location_id', __('purchase.business_location') . ':') !!}
+                        {!! Form::select('sw_es_location_id', $business_locations ?? [], $default_location ?? null, [
+                            'class' => 'form-control select2',
+                            'id' => 'sw_es_location_id',
+                            'style' => 'width:100%',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_es_operator', __('sw::lang.pump_operator') . ':') !!}
+                        {!! Form::select('sw_es_operator', $operator_list ?? [], null, [
+                            'class' => 'form-control select2',
+                            'id' => 'sw_es_operator',
+                            'style' => 'width:100%',
+                            'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_es_type', __('sw::lang.type') . ':') !!}
+                        {!! Form::select('sw_es_type', [
+                            'excess' => __('sw::lang.excess'),
+                            'shortage' => __('sw::lang.shortage'),
+                        ], null, [
+                            'class' => 'form-control select2',
+                            'id' => 'sw_es_type',
+                            'style' => 'width:100%',
+                            'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_es_date_range', __('report.date_range') . ':') !!}
+                        {!! Form::text('sw_es_date_range', null, [
+                            'class' => 'form-control',
+                            'id' => 'sw_es_date_range',
+                            'readonly',
+                            'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+            @endcomponent
+        </div>
+    </div>
+
+    @component('components.widget', [
+        'class' => 'box-primary',
+        'title' => __('sw::lang.pumper_excess_shortage_payments'),
+    ])
+
+        <div class="sw-table-wrap table-responsive">
+            <table class="table table-bordered table-striped" id="sw_excess_shortage_table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>@lang('sw::lang.date')</th>
+                        <th>@lang('sw::lang.pump_operator')</th>
+                        <th>@lang('sw::lang.type')</th>
+                        <th>@lang('sw::lang.settlement_no')</th>
+                        <th>@lang('sw::lang.shift_no')</th>
+                        <th class="text-right">@lang('sw::lang.amount')</th>
+                        <th>@lang('sw::lang.note')</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr class="bg-gray font-17 footer-total text-center">
+                        <td colspan="5"><strong>@lang('sale.total'):</strong></td>
+                        <td class="text-right">
+                            <span class="display_currency" id="sw_es_footer_total" data-currency_symbol="true"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    @endcomponent
+
+</section>
+
+@include('sw::operators.partials._dropdown_fix')
+
+@push('css')
+<style>
+#sw_excess_shortage_table { width: 100% !important; }
+</style>
+@endpush
+
+@push('javascript')
+<script>
+$(function () {
+
+    /*
+     | Client-side, as with the operators table. Location and date range still
+     | go to the server - they decide which rows are worth fetching - while
+     | operator and type filter what is already here, instantly.
+    */
+    var swEsTable = $('#sw_excess_shortage_table').DataTable({
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '{{ route('sw.operators.excess-shortage.data') }}',
+            dataSrc: 'data',
+            data: function (d) {
+                d.location_id = $('#sw_es_location_id').val();
+                d.date_range  = $('#sw_es_date_range').val();
+            }
+        },
+        columns: [
+            { data: 'date', name: 'pump_operator_payments.transaction_date' },
+            { data: 'operator', name: 'pump_operators.name' },
+            { data: 'type', name: 'pump_operator_payments.payment_type' },
+            { data: 'settlement_no', name: 'pump_operator_payments.settlement_no' },
+            { data: 'shift_no', name: 'pump_operator_payments.shift_number' },
+            { data: 'amount', name: 'pump_operator_payments.net_amount', className: 'text-right' },
+            { data: 'note', name: 'pump_operator_payments.note', orderable: false }
+        ],
+        // Totals over every FILTERED row across all pages, not the page shown.
+        footerCallback: function () {
+            var total = this.api()
+                .column(5, { search: 'applied' })
+                .data()
+                .reduce(function (a, b) {
+                    var n = parseFloat(String(b).replace(/,/g, ''));
+                    return a + (isNaN(n) ? 0 : n);
+                }, 0);
+
+            $('#sw_es_footer_total').text(total.toFixed(2));
+        }
+    });
+
+    // Location and date range refetch; operator and type filter in place.
+    $('#sw_es_location_id').on('change', function () {
+        swEsTable.ajax.reload();
+    });
+
+    $('#sw_es_operator').on('change', function () {
+        var name = $('#sw_es_operator option:selected').text();
+        swEsTable.column(1).search($(this).val() ? name : '').draw();
+    });
+
+    $('#sw_es_type').on('change', function () {
+        swEsTable.column(2).search($(this).val() || '').draw();
+    });
+
+    // The date range picker is initialised by core on inputs with this id
+    // pattern; reload whenever it applies a range.
+    $('#sw_es_date_range').on('apply.daterangepicker cancel.daterangepicker change', function () {
+        swEsTable.ajax.reload();
+    });
+
+});
+</script>
+@endpush

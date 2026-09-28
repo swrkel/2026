@@ -1,0 +1,5 @@
+@extends('stocktransfernew::layouts.app')
+@section('content')
+@include('stocktransfernew::partials.header', ['title' => 'Transfer Templates', 'subtitle' => 'Reusable transfer patterns for common location/store movements.'])
+<div class="stn-card"><a href="{{ route('stock-transfer-new.templates.create') }}" class="btn btn-primary">New Template</a><hr><table class="table table-bordered"><thead><tr><th>Name</th><th>From</th><th>To</th><th>Active</th><th>Action</th></tr></thead><tbody>@forelse($templates as $template)<tr><td>{{ $template->name }}</td><td>{{ $template->from_location_id }} / {{ $template->from_store_id }}</td><td>{{ $template->to_location_id }} / {{ $template->to_store_id }}</td><td>{{ $template->is_active ? 'Yes' : 'No' }}</td><td><a href="{{ route('stock-transfer-new.templates.edit',$template) }}" class="btn btn-xs btn-info">Edit</a></td></tr>@empty<tr><td colspan="5" class="text-center text-muted">No templates yet.</td></tr>@endforelse</tbody></table>{{ method_exists($templates,'links') ? $templates->links() : '' }}</div>
+@endsection

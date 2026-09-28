@@ -1,0 +1,16 @@
+DISNEW 007 - Returns, Credit Notes, Status Controls and SMS Officer Groups
+
+Added:
+- Distribution returns header and line tables.
+- Credit note header and line tables.
+- SMS officer groups per business/location/event.
+- Status rules foundation for order/invoice/return/credit note controls.
+- Return approval service with stock movement hook.
+- Credit note creation from return.
+- Returns and credit notes summary report.
+- POS-style views for returns, credit notes, SMS officer groups and reports.
+
+Standalone rule:
+- All new tables use disnew_ prefix.
+- All code is under Modules/DistributionNew.
+- Existing SMS module is only reached through DistributionNew SMS event bridge.

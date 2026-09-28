@@ -1,0 +1,20 @@
+DISNEW_005 - Large Parcel: Route, Sales Rep, Customer Ordering and Delivery
+
+Added:
+- Territory master
+- Route master
+- Route customer assignment table/service foundation
+- Sales rep master
+- Customer order access token service
+- Customer order public link workflow foundation
+- Delivery proof and completion workflow
+- Delivery completion SMS event bridge
+- Route coverage report foundation
+- POS-standard pages for territories, routes, sales reps, customer orders and deliveries
+- SQL file DISNEW_005_ROUTES_SALESREP_CUSTOMER_DELIVERY.sql
+- Updated DISNEW_MASTER.sql
+
+Notes:
+- All new tables use disnew_ prefix.
+- Customer data is referenced by customer_id only; Customer module code is not duplicated.
+- SMS is triggered through Distribution New SMS event bridge to connect with the existing SMS module.

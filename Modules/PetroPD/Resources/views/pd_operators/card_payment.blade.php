@@ -1,0 +1,192 @@
+<style>
+    /* IS1759-05: larger card-entry text and a 35% larger numeric keypad. */
+    #card_payment_form label,
+    #card_payment_form .form-control,
+    #card_payment_form .select2-selection__rendered,
+    #card_payment_form #card_payment_table th,
+    #card_payment_form #card_payment_table td {
+        font-size: 21px !important;
+    }
+
+    #card_payment_form .form-control,
+    #card_payment_form .select2-selection,
+    #card_payment_form .select2-selection__rendered {
+        min-height: 46px !important;
+        line-height: 44px !important;
+    }
+
+    #card_payment_form #key_pad.card-payment-keypad button {
+        height: 108px !important;
+        font-size: 34px !important;
+        margin: 3px 2px !important;
+    }
+</style>
+
+{!! Form::open(['url' => action('\Modules\PetroPD\Http\Controllers\PDPumpOperatorPaymentController@saveCardPayment'), 'method' =>'post', 'id' => 'card_payment_form']) !!}
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('card_pmt_type', __('petropd::lang.type')) . ':' !!}
+                    <select id="card_pmt_type" name="card_pmt_type" class="form-control">
+                        <option value="bulk"
+                            {{ old('card_pmt_type', $card_pmt_type ?? '') === 'bulk' || empty(old('card_pmt_type')) ? 'selected' : '' }}>
+                            {{ __('petropd::lang.bulk') }}
+                        </option>
+
+                        <option value="one_by_one"
+                            {{ old('card_pmt_type', $card_pmt_type ?? '') === 'one_by_one' ? 'selected' : '' }}>
+                            {{ __('petropd::lang.one_by_one') }}
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('card_type', __('petropd::lang.card_type') . ':') !!}
+                    {!! Form::select('card_type', $card_types, $default_card_type ?? null, [
+                        'class' => 'form-control select2',
+                        'style' => 'width: 100%;',
+                        'placeholder' => __('messages.please_select'),
+                    ]) !!}
+                </div>
+            </div>
+
+            <div class="col-md-2 card-fields">
+                <div class="form-group">
+                    {!! Form::label('slip_no', __('petropd::lang.slip_no')) !!}
+                    {!! Form::text('slip_no', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+
+            <div class="col-md-3 card-fields">
+                <div class="form-group">
+                    {!! Form::label('card_no', __('petropd::lang.card_number')) !!}
+                    {!! Form::text('card_no', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('card_amount', __('petropd::lang.amount')) !!}
+                    {!! Form::text('card_amount', null, [
+                        'class' => 'form-control card_payment_input',
+                        'placeholder' => __('petropd::lang.amount'),
+                    ]) !!}
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="col-md-2 pull-right">
+                <button type="button" class="btn btn-primary pull-right card_payment_add"
+                    style="margin: 10px;">@lang('messages.add')</button>
+            </div>
+
+
+        </div>
+        <input type="hidden" name="enter_card_numbers" id="enter_card_numbers" value="{{ $enter_card_numbers }}">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped" id="card_payment_table">
+                    <thead>
+                        <tr>
+                            <th>@lang('petropd::lang.card_type')</th>
+                            <th>@lang('petropd::lang.slip_no')</th>
+                            <th>@lang('petropd::lang.card_number')</th>
+                            <th>@lang('petropd::lang.amount')</th>
+                            <th>*</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
+            @php
+                $collection_form_no = '';
+            @endphp
+            @if (session('status'))
+                @php
+                    $output = session('status');
+                    if ($output['success'] && isset($output['collection_form_no'])) {
+                        $collection_form_no = $output['collection_form_no'] ?? '';
+                    }
+                @endphp
+            @endif
+            <input type="hidden" class="collection_form_no" name="collection_form_no"
+                value="{{ $collection_form_no }}">
+
+            <button type="submit" class="btn btn-danger pull-right card-save-btn"
+                style="margin-top: 23px;">@lang('petropd::lang.save')</button>
+
+        </div>
+    </div>
+
+    <div id="key_pad" class="row col-md-4 text-center card-payment-keypad" style="margin-left: 7px;">
+        <div class="row">
+            <button id="7" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">7</button>
+            <button id="8" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">8</button>
+            <button id="9" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">9</button>
+        </div>
+        <div class="row">
+            <button id="4" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">4</button>
+            <button id="5" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">5</button>
+            <button id="6" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">6</button>
+        </div>
+        <div class="row">
+            <button id="1" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">1</button>
+            <button id="2" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">2</button>
+            <button id="3" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">3</button>
+        </div>
+        <div class="row">
+            <button id="backspace" type="button" class="btn btn-danger"
+                onclick="cardPaymentEnterVal(this.id)">⌫</button>
+            <button id="0" type="button" class="btn btn-primary btn-sm"
+                onclick="cardPaymentEnterVal(this.id)">0</button>
+            <button id="precision" type="button" class="btn btn-success"
+                onclick="cardPaymentEnterVal(this.id)">.</button>
+        </div>
+    </div>
+</div>
+{!! Form::close() !!}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const typeSelect = document.getElementById('card_pmt_type');
+        const cardFields = document.querySelectorAll('.card-fields');
+        const enterCardNumbers = document.getElementById('enter_card_numbers')?.value;
+
+        console.log('typeSelect', typeSelect);
+
+        function toggleCardFields() {
+            if (typeSelect.value === 'bulk') {
+                cardFields.forEach(el => el.style.display = 'none');
+            } else {
+                cardFields.forEach(el => {
+                    el.style.display = '';
+                });
+            }
+        }
+
+        // Initial load
+        toggleCardFields();
+
+        // On change
+        typeSelect.addEventListener('change', toggleCardFields);
+    });
+</script>

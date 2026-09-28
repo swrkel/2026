@@ -1,0 +1,8 @@
+@extends('pos::layouts.app', ['title' => __('pos::messages.cash_count')])
+@section('pos_content')
+<div class="box box-primary"><div class="box-body"><form method="POST" action="{{ route('pos.cash_drawer.count') }}">@csrf
+<div class="row"><div class="col-md-4"><label>{{ __('pos::messages.current_shift') }}</label><select name="register_session_id" class="form-control select2" required><option value="">{{ __('pos::messages.please_select') }}</option>@foreach($sessions as $session)<option value="{{ $session->id }}">{{ $session->session_no }} - {{ $session->register_name }}</option>@endforeach</select></div><div class="col-md-4"><label>{{ __('pos::messages.expected_amount') }}</label><input type="number" step="0.0001" name="expected_amount" class="form-control text-right pos-calc-variance" data-expected="0"></div><div class="col-md-4"><label>{{ __('pos::messages.actual_amount') }}</label><input type="number" step="0.0001" name="actual_amount" class="form-control text-right pos-actual-count" required></div></div>
+<div class="row"><div class="col-md-4"><label>{{ __('pos::messages.variance') }}</label><input type="text" class="form-control text-right pos-variance-output" readonly></div><div class="col-md-4"><label>{{ __('pos::messages.date') }}</label><input type="text" name="counted_at" class="form-control pos-datetimepicker" value="{{ now()->format('Y-m-d H:i:s') }}"></div></div>
+<div class="form-group"><label>{{ __('pos::messages.note') }}</label><textarea name="note" rows="3" class="form-control"></textarea></div><div class="text-right"><button class="btn btn-info pos-large-save"><i class="fa fa-calculator"></i> {{ __('pos::messages.save') }}</button></div>
+</form></div></div>
+@endsection

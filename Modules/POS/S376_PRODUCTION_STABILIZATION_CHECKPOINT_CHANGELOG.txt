@@ -1,0 +1,15 @@
+POS Standalone S376 - Production Stabilization Checkpoint
+
+Added:
+- /pos-module/production-stabilization page
+- Production workflow readiness checklist
+- Standalone tenant table counter/readiness panel
+- Receipt/barcode calibration checklist
+- Recommended final live testing sequence
+
+No SQL required for this package.
+
+After upload run:
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear

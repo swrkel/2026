@@ -1,0 +1,77 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                {!! Form::label('shortage_amount', __( 'petrodirect::lang.amount' ) ) !!}
+                {!! Form::text('shortage_amount', null, ['class' => 'form-control shortage_fields input_number
+                shortage_amount', 'required',
+                'placeholder' => __(
+                'petrodirect::lang.amount' ) ]); !!}
+                <div class=" text-center text-red shortage_amount_err hidden">
+                  
+                  <span class="total_amount">Not Allowed. Already Excess amount entered</span>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+                <div class="form-group">
+                  {!! Form::label("shortage_note", __('lang_v1.payment_note') . ':') !!}
+                  {!! Form::textarea("shortage_note", null, ['class' => 'form-control cash_fields', 'rows' => 3]); !!}
+                </div>
+            </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary shortage_add"
+                style="margin-top: 23px;">@lang('messages.add')</button>
+        </div>
+    </div>
+</div>
+<br><br>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped" id="shortage_table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@lang('petrodirect::lang.amount' )</th>
+                    <th>@lang('lang_v1.note') </th>
+                    <th>@lang('petrodirect::lang.action' )</th>
+                </tr>
+            </thead>
+            <tbody id="shortage_table_body">
+                @php
+                $shortage_total = $settlement_shortage_payments->sum('amount');
+                @endphp
+                @foreach ($settlement_shortage_payments as $shortage_payment)
+                <tr>
+                    <td></td>
+                    <td class="shortage_amount">{{number_format($shortage_payment->amount, $currency_precision)}}</td>
+                    <td class="shortage_amount">{{$shortage_payment->note}}</td>
+                    <td><button type="button" class="btn btn-xs btn-danger delete_shortage_payment"
+                            data-href="/petrodirect/settlement/payment/delete-shortage-payment/{{$shortage_payment->id}}"><i
+                                class="fa fa-times"></i></button></td>
+                </tr>
+                @endforeach
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td style="text-align: right; font-weight: bold;">@lang('petrodirect::lang.total') :</td>
+                    <td style="text-align: left; font-weight: bold;" class="shortage_total">
+                        {{number_format($shortage_total, $currency_precision)}}</td>
+                </tr>
+                <input type="hidden" value="{{$shortage_total}}" name="shortage_total" id="shortage_total">
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function(){
+        $("#shortage_customer_id").val($("#shortage_customer_id option:eq(0)").val()).trigger('change');
+        
+    });
+</script>

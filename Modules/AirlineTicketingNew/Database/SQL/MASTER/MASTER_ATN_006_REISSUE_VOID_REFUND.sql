@@ -1,0 +1,184 @@
+-- ATN-006 CREATE SQL
+CREATE TABLE IF NOT EXISTS `atn_ticket_reissues` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `store_id` BIGINT UNSIGNED NULL,
+  `reissue_no` VARCHAR(40) NOT NULL,
+  `original_ticket_id` BIGINT UNSIGNED NOT NULL,
+  `new_ticket_id` BIGINT UNSIGNED NULL,
+  `reservation_id` BIGINT UNSIGNED NULL,
+  `request_date` DATE NOT NULL,
+  `processed_date` DATE NULL,
+  `reason` TEXT NOT NULL,
+  `fare_difference` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `tax_difference` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `service_fee` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `penalty_amount` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `total_collectable` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'pending',
+  `requested_by` BIGINT UNSIGNED NULL,
+  `approved_by` BIGINT UNSIGNED NULL,
+  `processed_by` BIGINT UNSIGNED NULL,
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `atn_reissue_no_unique` (`business_id`,`reissue_no`),
+  KEY `atn_reissue_ticket_idx` (`business_id`,`original_ticket_id`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `atn_ticket_voids` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `store_id` BIGINT UNSIGNED NULL,
+  `void_no` VARCHAR(40) NOT NULL,
+  `ticket_id` BIGINT UNSIGNED NOT NULL,
+  `request_date` DATE NOT NULL,
+  `void_date` DATE NULL,
+  `reason` TEXT NOT NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'pending',
+  `requested_by` BIGINT UNSIGNED NULL,
+  `approved_by` BIGINT UNSIGNED NULL,
+  `processed_by` BIGINT UNSIGNED NULL,
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `atn_void_no_unique` (`business_id`,`void_no`),
+  KEY `atn_void_ticket_idx` (`business_id`,`ticket_id`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `atn_ticket_cancellations` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `store_id` BIGINT UNSIGNED NULL,
+  `cancellation_no` VARCHAR(40) NOT NULL,
+  `ticket_id` BIGINT UNSIGNED NOT NULL,
+  `request_date` DATE NOT NULL,
+  `cancellation_date` DATE NULL,
+  `reason` TEXT NOT NULL,
+  `cancellation_fee` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `refundable_amount` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'pending',
+  `requested_by` BIGINT UNSIGNED NULL,
+  `approved_by` BIGINT UNSIGNED NULL,
+  `processed_by` BIGINT UNSIGNED NULL,
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `atn_cancellation_no_unique` (`business_id`,`cancellation_no`),
+  KEY `atn_cancellation_ticket_idx` (`business_id`,`ticket_id`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `atn_refunds` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `store_id` BIGINT UNSIGNED NULL,
+  `refund_no` VARCHAR(40) NOT NULL,
+  `ticket_id` BIGINT UNSIGNED NOT NULL,
+  `invoice_id` BIGINT UNSIGNED NULL,
+  `payment_id` BIGINT UNSIGNED NULL,
+  `cancellation_id` BIGINT UNSIGNED NULL,
+  `request_date` DATE NOT NULL,
+  `approved_date` DATE NULL,
+  `refund_date` DATE NULL,
+  `currency_code` VARCHAR(3) NOT NULL,
+  `gross_amount` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `cancellation_fee` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `service_fee` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `other_deductions` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `refund_amount` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `refund_method` VARCHAR(30) NULL,
+  `reference_no` VARCHAR(100) NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'pending',
+  `requested_by` BIGINT UNSIGNED NULL,
+  `approved_by` BIGINT UNSIGNED NULL,
+  `processed_by` BIGINT UNSIGNED NULL,
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `atn_refund_no_unique` (`business_id`,`refund_no`),
+  KEY `atn_refund_ticket_idx` (`business_id`,`ticket_id`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `atn_credit_notes` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `store_id` BIGINT UNSIGNED NULL,
+  `credit_note_no` VARCHAR(40) NOT NULL,
+  `credit_note_date` DATE NOT NULL,
+  `invoice_id` BIGINT UNSIGNED NULL,
+  `refund_id` BIGINT UNSIGNED NULL,
+  `customer_type` VARCHAR(30) NOT NULL,
+  `corporate_customer_id` BIGINT UNSIGNED NULL,
+  `passenger_id` BIGINT UNSIGNED NULL,
+  `currency_code` VARCHAR(3) NOT NULL,
+  `amount` DECIMAL(22,4) NOT NULL,
+  `reason` TEXT NOT NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'issued',
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `atn_credit_note_no_unique` (`business_id`,`credit_note_no`),
+  KEY `atn_credit_note_refund_idx` (`business_id`,`refund_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `atn_ticket_action_history` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NOT NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `store_id` BIGINT UNSIGNED NULL,
+  `ticket_id` BIGINT UNSIGNED NOT NULL,
+  `action_type` VARCHAR(50) NOT NULL,
+  `reference_type` VARCHAR(190) NULL,
+  `reference_id` BIGINT UNSIGNED NULL,
+  `from_status` VARCHAR(30) NULL,
+  `to_status` VARCHAR(30) NULL,
+  `reason` TEXT NULL,
+  `amount` DECIMAL(22,4) NOT NULL DEFAULT 0,
+  `action_by` BIGINT UNSIGNED NULL,
+  `action_at` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `atn_ticket_action_history_idx` (`business_id`,`ticket_id`,`action_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- ATN-006 permissions
+INSERT INTO `permissions` (`name`,`guard_name`,`created_at`,`updated_at`)
+SELECT p.name,'web',NOW(),NOW()
+FROM (
+    SELECT 'airline_ticketing_new.reissues.view' AS name
+    UNION ALL SELECT 'airline_ticketing_new.reissues.create' AS name
+    UNION ALL SELECT 'airline_ticketing_new.reissues.approve' AS name
+    UNION ALL SELECT 'airline_ticketing_new.voids.view' AS name
+    UNION ALL SELECT 'airline_ticketing_new.voids.create' AS name
+    UNION ALL SELECT 'airline_ticketing_new.voids.approve' AS name
+    UNION ALL SELECT 'airline_ticketing_new.cancellations.view' AS name
+    UNION ALL SELECT 'airline_ticketing_new.cancellations.create' AS name
+    UNION ALL SELECT 'airline_ticketing_new.cancellations.approve' AS name
+    UNION ALL SELECT 'airline_ticketing_new.refunds.view' AS name
+    UNION ALL SELECT 'airline_ticketing_new.refunds.approve' AS name
+    UNION ALL SELECT 'airline_ticketing_new.refunds.process' AS name
+    UNION ALL SELECT 'airline_ticketing_new.credit_notes.view' AS name
+) p
+WHERE NOT EXISTS (
+    SELECT 1 FROM `permissions` existing
+    WHERE existing.name=p.name AND existing.guard_name='web'
+);

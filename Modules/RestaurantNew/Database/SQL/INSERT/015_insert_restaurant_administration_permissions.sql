@@ -1,0 +1,7 @@
+INSERT INTO permissions (name, guard_name, created_at, updated_at) SELECT 'restaurantnew.promotions.view', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM permissions WHERE name='restaurantnew.promotions.view');
+INSERT INTO permissions (name, guard_name, created_at, updated_at) SELECT 'restaurantnew.promotions.manage', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM permissions WHERE name='restaurantnew.promotions.manage');
+INSERT INTO permissions (name, guard_name, created_at, updated_at) SELECT 'restaurantnew.combo_meals.manage', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM permissions WHERE name='restaurantnew.combo_meals.manage');
+INSERT INTO permissions (name, guard_name, created_at, updated_at) SELECT 'restaurantnew.happy_hours.manage', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM permissions WHERE name='restaurantnew.happy_hours.manage');
+INSERT INTO permissions (name, guard_name, created_at, updated_at) SELECT 'restaurantnew.buffet_packages.manage', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM permissions WHERE name='restaurantnew.buffet_packages.manage');
+INSERT INTO permissions (name, guard_name, created_at, updated_at) SELECT 'restaurantnew.banquets.manage', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM permissions WHERE name='restaurantnew.banquets.manage');
+INSERT INTO permissions (name, guard_name, created_at, updated_at) SELECT 'restaurantnew.catering.manage', 'web', NOW(), NOW() WHERE NOT EXISTS (SELECT 1 FROM permissions WHERE name='restaurantnew.catering.manage');

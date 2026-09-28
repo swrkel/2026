@@ -1,0 +1,17 @@
+Leads-New RC6 Quality Checklist
+
+[ ] Module folder path is exactly Modules/LeadsNew.
+[ ] No main route replacement required.
+[ ] /leads-new/route-ok returns LEADS_NEW_TENANT_ROUTE_OK.
+[ ] /leads-new opens the dashboard.
+[ ] /leads-new/leads opens Lead Register.
+[ ] /leads-new/leads/create opens Add Lead.
+[ ] All sidebar links point to existing routes.
+[ ] All views use the leadsnew namespace correctly.
+[ ] All visible labels resolve to readable English text.
+[ ] Dashboard follows Communication Hub visual standard.
+[ ] List pages use standard toolbar.
+[ ] Forms use professional spacing and responsive layout.
+[ ] SQL is run on tenant database only.
+[ ] No hardcoded database names exist in SQL.
+[ ] Existing ERP modules continue to load normally.

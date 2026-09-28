@@ -1,0 +1,66 @@
+SW Module - Settlement Payment Tab Isolation Fix
+Date: 14 Sep 2026
+
+Issue
+-----
+SW Module / SW Settlements / Payment:
+Payments added under one payment type were visible when the user opened other
+payment-type buttons/tabs. The Payments partial used one shared table and always
+rendered the entire swPayments array, regardless of the active payment type.
+
+Root cause
+----------
+The payment buttons changed the entry fields (Cash, Card, Cheque, Expense,
+Shortage, Excess, etc.) but swRenderPayments() did not filter the visible rows by
+the selected payment_method. Therefore every payment row appeared under every
+payment type.
+
+Fix
+---
+1. The visible Payments table is now filtered by the currently selected payment
+   type (payment_method).
+2. Switching payment type immediately re-renders only that type's rows without
+   changing the underlying payment data.
+3. All payment rows are still submitted when the settlement is saved. Hidden
+   form inputs for the complete swPayments array are maintained separately from
+   the filtered visible table, so changing tabs cannot drop other payment types.
+4. The visible table footer now shows the subtotal for the active payment type.
+   The settlement summary's Total Paid continues to include all payment types.
+5. Credit Sales keeps its dedicated detailed table; the generic payment table is
+   hidden while Credit Sales is active to avoid duplicate/mixed displays.
+6. Deleting a row removes only the selected payment row and then refreshes the
+   active payment type without affecting other payment types.
+
+Changed operational files
+-------------------------
+Resources/views/settlements/partials/payments.blade.php
+Resources/views/settlements/partials/payments_js.blade.php
+
+Database / accounting impact
+----------------------------
+No database schema changes.
+No SQL or migrations required.
+No change to settlement calculations or Finance posting rules.
+No change to Meter Sales, Other Sales, Other Income, Credit Sale calculations,
+stock/tank logic, shift eligibility, or customer ledgers.
+
+Validation completed
+--------------------
+- PHP syntax lint passed for 134 PHP/Blade PHP files in the consolidated module.
+- Revised Payments JavaScript passed Node syntax check after Blade placeholders
+  were neutralised for syntax validation.
+- Confirmed form submission fields contain ALL swPayments rows independently of
+  the active visible payment type.
+- Confirmed visible rows are selected by payment_method === active payment type.
+
+Recommended verification
+------------------------
+1. Open one closed SW shift and go to Settlement -> Payments.
+2. Add a Cash payment, then add a Card payment, Expense and Shortage/Excess as
+   applicable.
+3. Click Cash: only Cash rows should be visible.
+4. Click Cards: only Card rows should be visible.
+5. Repeat for Cheques, Expenses, Shortage, Excess, Loan Payment, Drawings, etc.
+6. Click Credit Sales: only the detailed Credit Sales panel/table should be shown.
+7. Return to Cash/Card and confirm previously entered rows are still present.
+8. Save settlement and confirm all payment types are saved/post as before.

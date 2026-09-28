@@ -1,0 +1,31 @@
+Finance Reports Module - Changed Files
+Prepared: 18 Aug 2026
+Baseline: FinanceReports(3).zip
+Database / migration changes: None
+
+Files changed or added in this corrected release:
+
+01. Docs/CHANGED_FILES_20260818.txt
+02. Docs/FINANCE_REPORTS_CORRECTNESS_AUDIT_20260818.md
+03. Http/Controllers/FinanceReportsController.php
+04. Resources/views/layouts/filter.blade.php
+05. Resources/views/reports/contact_statement.blade.php
+06. Resources/views/reports/dashboard.blade.php
+07. Resources/views/reports/engine/status.blade.php
+08. Resources/views/reports/enterprise_center.blade.php
+09. Resources/views/reports/income_statement.blade.php
+10. Resources/views/reports/performance_center.blade.php
+11. Resources/views/reports/profit_loss.blade.php
+12. Resources/views/reports/rc2/export_center.blade.php
+13. Resources/views/reports/rc2/print_layout_center.blade.php
+14. Resources/views/reports/receivable_payable.blade.php
+15. Resources/views/reports/receivable_payable_summary.blade.php
+16. Resources/views/reports/trial_balance.blade.php
+17. Services/Engine/FinanceReportEngine.php
+18. Services/Finalization/ExecutiveKpiService.php
+19. Services/Finalization/FinancialPackService.php
+20. Services/Finalization/ProductionReadinessService.php
+21. Services/FinanceReportsDataService.php
+22. Services/Intelligence/FinancialIntelligenceService.php
+
+Total changed/added files: 22

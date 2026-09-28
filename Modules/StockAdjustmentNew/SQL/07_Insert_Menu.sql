@@ -1,0 +1,6 @@
+-- Add this module to your existing sidebar/menu registry if your system uses DB-driven menus.
+-- Safe placeholder because different ERP installations keep sidebars in JSON, PHP config, or DB tables.
+-- Module: Stock Adjustment - New
+-- Dashboard route: /stock-adjustment-new/dashboard
+-- Settings route:  /stock-adjustment-new/settings
+-- Permission:      stock_adjustment_new.settings

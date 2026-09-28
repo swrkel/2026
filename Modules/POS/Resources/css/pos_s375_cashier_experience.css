@@ -1,0 +1,23 @@
+/* POS S375 - Enterprise cashier workflow improvements. Uses ERP/Communication Hub visual language. */
+.pos-cashier-hotbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;background:#fff;border:1px solid #dbe7f3;border-radius:16px;box-shadow:0 12px 26px rgba(15,23,42,.065);padding:12px 14px;}
+.pos-cashier-hotbar .hotbar-left,.pos-cashier-hotbar .hotbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.pos-cashier-hotbar .hotkey-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #dbe7f3;background:#f8fafc;color:#334155;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;white-space:nowrap;}
+.pos-cashier-hotbar .hotkey-pill kbd{background:#0f172a;color:#fff;border-radius:6px;border:0;box-shadow:none;font-size:11px;padding:3px 6px;font-weight:900;}
+.pos-cashier-hotbar .hotkey-pill.primary{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe;}
+.pos-cashier-hotbar .hotkey-pill.success{background:#ecfdf5;color:#047857;border-color:#bbf7d0;}
+.pos-cashier-hotbar .hotkey-pill.warning{background:#fffbeb;color:#b45309;border-color:#fde68a;}
+.pos-cashier-focus-ring{box-shadow:0 0 0 3px rgba(37,99,235,.22)!important;border-color:#2563eb!important;}
+.pos-payment-quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0;}
+.pos-payment-quick-grid .btn{min-height:44px;border-radius:12px!important;font-weight:850!important;}
+.pos-shortcut-help{display:none;margin-bottom:16px;}
+.pos-shortcut-help.is-open{display:block;}
+.pos-shortcut-help .shortcut-grid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:10px;}
+.pos-shortcut-help .shortcut-item{border:1px solid #e2e8f0;background:#f8fafc;border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.pos-shortcut-help .shortcut-item kbd{background:#102033;color:#fff;border:0;border-radius:6px;font-weight:900;font-size:11px;padding:4px 7px;}
+.pos-shortcut-help .shortcut-item span{font-size:12px;font-weight:800;color:#334155;}
+.pos-cart-speed-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.pos-cart-speed-row .form-control{max-width:110px;}
+.pos-scan-status{font-size:12px;color:#64748b;font-weight:700;}
+.pos-scan-status strong{color:#2563eb;}
+@media(max-width:1199px){.pos-shortcut-help .shortcut-grid{grid-template-columns:repeat(2,minmax(150px,1fr));}.pos-payment-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:767px){.pos-cashier-hotbar{display:block}.pos-cashier-hotbar .hotbar-right{margin-top:10px}.pos-shortcut-help .shortcut-grid{grid-template-columns:1fr}.pos-payment-quick-grid{grid-template-columns:1fr}}

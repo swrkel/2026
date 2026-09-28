@@ -1,0 +1,42 @@
+Finance Bank Reconciliation - BindingResolutionException Fix
+08 Sep 2026
+
+Issue
+-----
+Opening /finance/bank-reconciliation failed with HTTP 500:
+Target class [Modules\Finance\Services\BankReconciliation\BankReconciliationSchemaService] does not exist.
+
+Root cause
+----------
+BankReconciliationController constructor required BankReconciliationSchemaService.
+Laravel therefore had to resolve that class before the controller/action could run. If a deployment
+contained the Bank Reconciliation controller/routes but omitted that newly-added service file (for
+example, a partial/changed-files deployment or stale server module copy), controller resolution failed
+immediately and even the one-time setup page could not be displayed.
+
+Fix
+---
+1. Removed BankReconciliationSchemaService from constructor dependency injection.
+2. Kept BankReconciliationService as the only controller constructor dependency.
+3. Moved the small first-run schema readiness/missing/initialize logic into private controller methods.
+4. The schema logic uses DB::connection()->getSchemaBuilder() so it acts on the current tenant/default
+   connection after Finance tenant initialization.
+5. Existing BankReconciliationSchemaService.php is left in the full module for compatibility, but the
+   page no longer depends on it being resolvable.
+6. Existing bank reconciliation business logic, views, permissions and tables are unchanged.
+
+Deployment
+----------
+Replace the Finance module (recommended: full package), then run:
+  cd /home/nivasa/public_html
+  php artisan optimize:clear
+
+Then hard refresh and open:
+  /finance/bank-reconciliation
+
+If tenant tables are not initialized yet, the controlled One-time Tenant Setup Required page should
+appear instead of HTTP 500. Use Initialize Bank Reconciliation once for that tenant.
+
+Database
+--------
+No additional SQL change is introduced by this fix. Existing Bank Reconciliation first-run setup remains.

@@ -1,0 +1,56 @@
+S569 VALIDATION REPORT
+======================
+Date: 30 Jul 2026
+Module baseline: CustomerStatements_S564_RESTART_FULL_MODULE_2026-07-29.zip
+
+PHP syntax
+----------
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Http/Controllers/DashboardController.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Http/Controllers/CustomerStatementNumberingController.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Http/Controllers/CustomerStatementController.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Http/Controllers/DataController.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Services/CustomerStatementWorkspaceAdapter.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Services/CustomerStatementPersistenceService.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Services/CustomerStatementNumberingService.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Providers/CustomerStatementsServiceProvider.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Providers/ServiceProvider.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Providers/RouteServiceProvider.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Resources/lang/ta/lang.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Resources/lang/si/lang.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Resources/lang/en/lang.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Resources/views/index.blade.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Resources/views/partials/is1790_fixes.blade.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Resources/views/partials/s564_workspace_fixes.blade.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Resources/views/partials/alert_settings.blade.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Routes/web.php
+No syntax errors detected in /mnt/data/customer_statements_s569/work/Modules/CustomerStatements/Routes/api.php
+
+JavaScript syntax
+-----------------
+PASS: node --check s569_runtime.js
+
+Static integration checks
+-------------------------
+PASS: legacy customer pane exists
+PASS: legacy list pane exists
+PASS: legacy tab root exists
+PASS: legacy save button exists
+PASS: runtime binds exact customer tabs
+PASS: runtime removes only legacy inline save
+PASS: runtime does not remove all click handlers
+PASS: runtime does not remove global IS1638 handler
+PASS: runtime save uses module endpoint
+PASS: runtime list reload uses module endpoint
+PASS: delete route exists
+PASS: server delete guard exists
+PASS: used-code disabled button exists
+PASS: unused-code delete URL exists
+
+Database
+--------
+No migration or SQL change required.
+
+Live-test limitation
+--------------------
+An authenticated tenant browser/database session is not available in this workspace.
+Final verification must be performed after deployment using real tenant data.

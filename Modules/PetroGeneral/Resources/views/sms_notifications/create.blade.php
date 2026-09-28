@@ -1,0 +1,1 @@
+<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title">@lang('petrogeneral::lang.petro_sms_notifications')</h4></div><div class="modal-body"><p>@lang('petrogeneral::lang.select_template')</p></div></div></div>

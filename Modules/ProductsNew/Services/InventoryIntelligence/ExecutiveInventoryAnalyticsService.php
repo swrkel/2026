@@ -1,0 +1,7 @@
+<?php
+namespace Modules\ProductsNew\Services\InventoryIntelligence;
+use Modules\ProductsNew\Entities\ProductCostSnapshot; use Modules\ProductsNew\Entities\ProductClassification; use Modules\ProductsNew\Entities\ReorderProposal; use Modules\ProductsNew\Entities\StockIntelligenceSnapshot; use Modules\ProductsNew\Utilities\ProductsNewTenantGuard;
+class ExecutiveInventoryAnalyticsService
+{
+    public function dashboard(array $filters=[]): array { $businessId=ProductsNewTenantGuard::businessId($filters['business_id']??null); $stock=StockIntelligenceSnapshot::where('business_id',$businessId); $cost=ProductCostSnapshot::where('business_id',$businessId); $class=ProductClassification::where('business_id',$businessId); $proposal=ReorderProposal::where('business_id',$businessId)->where('status','pending'); return ['inventory_value'=>round((float)(clone $cost)->sum('landed_cost'),4),'average_margin'=>round((float)(clone $cost)->avg('margin_percentage'),2),'dead_stock_count'=>(clone $stock)->where('movement_status','dead')->count(),'slow_stock_count'=>(clone $stock)->where('movement_status','slow')->count(),'high_risk_count'=>(clone $stock)->where('risk_level','high')->count(),'reorder_required_count'=>(clone $proposal)->count(),'reorder_required_value'=>round((float)(clone $proposal)->sum('estimated_cost'),4),'a_class_count'=>(clone $class)->where('abc_class','A')->count(),'z_class_count'=>(clone $class)->where('xyz_class','Z')->count()]; }
+}

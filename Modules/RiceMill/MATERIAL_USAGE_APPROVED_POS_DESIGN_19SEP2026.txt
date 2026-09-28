@@ -1,0 +1,15 @@
+Rice Mill - Material Usage Mapping POS Design
+19 Sep 2026
+
+Changes
+- Keeps the approved POS-dashboard four-column layout.
+- Usage per Bag column reduced by approximately 40%.
+- Packaging Material rows remain populated read-only display fields.
+- Usage per Bag accepts decimals to 4 decimal places (database supports DECIMAL(20,4)).
+- Saved mapping list remains outside this Settings design.
+- No database change is required.
+
+Deployment
+1. Replace the RiceMill module/files from this parcel.
+2. Run: php artisan optimize:clear
+3. Run: php artisan view:clear

@@ -1,0 +1,31 @@
+EzyLaw V4.0.0 - Completion Release - 06 Sep 2026
+
+Added
+- Court filings and filing status register
+- Settlements, negotiation/consent records and mediation sessions
+- Legal research / precedent library
+- Fee estimates / quotations with acceptance and invoice conversion
+- Client advances and invoice allocations
+- Expense advances with optional Finance mapping
+- Internal document approval workflow
+- Client e-sign requests
+- Notification rules and ezylaw:notifications command
+- Lawyer targets and labour cost rates
+- Matter closing/reopening with blocker validation and force-close right
+- Management dashboard, matter profitability and lawyer performance
+- Trust audit report
+- Public client portal implementation with audit log
+- 14 new law_ tables (54 total)
+
+Security / integration corrections
+- Public portal matter messages validate business + client + matter ownership.
+- Public e-sign validates business + client + recipient email + request status/expiry.
+- Portal access tokens remain hashed at rest.
+- User Management New permission keys are normalized to the current underscore convention used by the core automatic registry and strict role checks.
+- Finance synchronization reuses a single integration request and writes debit + credit + processed queue state transactionally to avoid one-sided posting on normal DB failures.
+- EzyLaw remains independent when Finance, User Management New or outbound communication adapters are unavailable.
+
+Deployment
+- Existing V3 tenant: run EzyLaw_V4_INCREMENTAL_IDEMPOTENT.sql.
+- Fresh tenant: run EzyLaw_MASTER_IDEMPOTENT_V4.sql.
+- Do not run tenant law_ SQL in the central registry DB.

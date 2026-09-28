@@ -1,0 +1,14 @@
+{
+  "name": "StockTakingNew",
+  "alias": "stock-taking-new",
+  "description": "Standalone Stock Taking - New module for multi-tenant, multi-business, multi-location and multi-store inventory counts.",
+  "keywords": ["stock taking", "cycle count", "inventory", "variance", "standalone"],
+  "priority": 0,
+  "providers": [
+    "Modules\\StockTakingNew\\Providers\\StockTakingNewServiceProvider",
+    "Modules\\StockTakingNew\\Providers\\RouteServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

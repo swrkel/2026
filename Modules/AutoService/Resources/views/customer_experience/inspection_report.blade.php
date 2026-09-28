@@ -1,0 +1,8 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Inspection Report - {{ $job->job_no }}</title>
+<style>body{font-family:Arial,sans-serif;color:#1f2d3d}.wrap{max-width:900px;margin:auto}.header{border-bottom:2px solid #1f6fb2;margin-bottom:15px;padding-bottom:10px}.table{width:100%;border-collapse:collapse}.table th,.table td{border:1px solid #d9e2ec;padding:7px;font-size:12px}@media print{.no-print{display:none}}</style></head><body><div class="wrap">
+<div class="header"><h2>Vehicle Inspection Report</h2><p><strong>Job:</strong> {{ $job->job_no }} | <strong>Vehicle:</strong> {{ $vehicle->registration_no ?? '-' }}</p></div>
+<button class="no-print" onclick="window.print()">Print / Save PDF</button>
+<h3>Inspection Summary</h3><table class="table"><thead><tr><th>Date</th><th>Type</th><th>Status</th><th>Notes</th></tr></thead><tbody>@forelse($inspections as $i)<tr><td>{{ $i->inspection_date ?? $i->created_at }}</td><td>{{ $i->inspection_type ?? '-' }}</td><td>{{ $i->status ?? '-' }}</td><td>{{ $i->notes ?? '-' }}</td></tr>@empty<tr><td colspan="4">No inspection summary found.</td></tr>@endforelse</tbody></table>
+<h3>Checkpoint Details</h3><table class="table"><thead><tr><th>Checkpoint</th><th>Result</th><th>Severity</th><th>Remark</th></tr></thead><tbody>@forelse($inspectionItems as $item)<tr><td>{{ $item->checkpoint ?? $item->item_name ?? '-' }}</td><td>{{ $item->result ?? $item->status ?? '-' }}</td><td>{{ $item->severity ?? '-' }}</td><td>{{ $item->remark ?? $item->notes ?? '-' }}</td></tr>@empty<tr><td colspan="4">No inspection items found.</td></tr>@endforelse</tbody></table>
+</div></body></html>

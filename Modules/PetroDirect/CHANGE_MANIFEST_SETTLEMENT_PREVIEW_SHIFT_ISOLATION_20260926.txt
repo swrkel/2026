@@ -1,0 +1,18 @@
+Petro Direct - Settlement Preview Shift/Ownership Isolation
+Date: 26 Sep 2026
+
+Purpose
+- Keep Direct Meter Sales, Settlement Preview, finalisation, View and Print on one authoritative Direct-owned source.
+- Prevent shared PetroPD/Pumper meter_sales rows from appearing in Petro Direct Settlement Preview.
+- Preserve the DST1/DST1, DST2/DST2... canonical numbering fix from the prior parcel.
+
+Main safeguards
+1. New canonical DST settlements: Meter Sales must belong to this settlement/business and have Direct-style null/0 operational shift_id.
+2. Historical Direct settlements with numeric shift ids: exact shift rows plus legitimate Direct manual rows with blank/0 shift_id.
+3. No fallback through PetroPD PumpOperatorAssignment when Direct has no numeric shift authority.
+4. Meter Sales screen, preview, total calculation, finalisation, View and Print all use DirectSettlementMeterSaleScopeService.
+5. Preview uses the controller-resolved active business rather than re-reading a stale shared session.
+6. Preview lookup labels and cash-deposit fallback are business-scoped.
+
+Database
+- No SQL or migration required.

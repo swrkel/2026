@@ -1,0 +1,32 @@
+Finance / List Accounts dual-context 404 correction
+Date: 15 Sep 2026
+
+Purpose
+-------
+Keep Finance/List Accounts available for both deployment types used by this ERP:
+1. businesses that run in their own Stancl tenant database/domain; and
+2. businesses that continue to run in the master/system database, including
+   business hosts which are not registered as Stancl tenant domains.
+
+Fix
+---
+- Real tenant domains still initialize Stancl tenancy normally.
+- Configured central domains continue on the master/system DB.
+- If a non-central host cannot resolve to a Stancl tenant, Finance now permits
+  the request to continue on the master/system DB only when the current web
+  session contains a valid business_id that exists in the master business table.
+- Finance runtime routes are re-registered from the installed module even when
+  an older Laravel route cache is present. This makes the patch plug-and-play.
+- Historical /accounting-module/account and /accounting-module/accounts URLs
+  are owned by Finance as compatibility aliases so old per-business sidebar
+  records/bookmarks do not 404.
+
+Security
+--------
+The master fallback is not an anonymous fallback. It requires the normal Finance
+web/auth/session middleware and a valid logged-in business context.
+
+Deployment
+----------
+Upload/extract the Finance module and refresh the browser. No SQL, migration,
+route clear, config clear, or optimize command is required.

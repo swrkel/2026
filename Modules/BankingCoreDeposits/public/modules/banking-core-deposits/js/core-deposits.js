@@ -1,0 +1,1 @@
+(function(){ window.BankingCoreDeposits = window.BankingCoreDeposits || {}; window.BankingCoreDeposits.formatMoney = function(v){ return Number(v || 0).toLocaleString(undefined,{minimumFractionDigits:4,maximumFractionDigits:4}); }; })();

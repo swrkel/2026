@@ -1,0 +1,15 @@
+SW Shift Options Route Compatibility Fix - 07 Sep 2026
+
+Issue:
+Route [sw.shift-options] not defined while rendering
+SW/Resources/views/partials/shift_field.blade.php.
+
+Fix:
+1. Kept the primary /sw/shift-options endpoint in Routes/web.php and moved it beside the other shift endpoints.
+2. Added a service-provider compatibility fallback that registers sw.shift-options only when an older/cached route set does not contain it.
+3. Made shift_field.blade.php defensive: it no longer fails page rendering merely because a stale route cache is missing the named route.
+4. Added AJAX failure handling so the host/core form remains usable even if the endpoint is temporarily unavailable.
+5. ShiftOptionController remains the endpoint implementation and is included in the changed-files package for safe deployment to older SW versions.
+
+No database migration or SQL is required.
+After deployment run: php artisan optimize:clear

@@ -1,0 +1,101 @@
+CREATE TABLE IF NOT EXISTS rn_delivery_zones (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  business_location_id BIGINT UNSIGNED NULL,
+  zone_name VARCHAR(191) NOT NULL,
+  base_delivery_charge DECIMAL(22,4) NOT NULL DEFAULT 0,
+  free_delivery_minimum DECIMAL(22,4) NOT NULL DEFAULT 0,
+  estimated_minutes INT UNSIGNED NOT NULL DEFAULT 30,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_by BIGINT UNSIGNED NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  deleted_at TIMESTAMP NULL,
+  INDEX rn_delivery_zones_business_idx (business_id),
+  INDEX rn_delivery_zones_location_idx (business_location_id)
+);
+
+CREATE TABLE IF NOT EXISTS rn_delivery_riders (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  business_location_id BIGINT UNSIGNED NULL,
+  rider_name VARCHAR(191) NOT NULL,
+  mobile VARCHAR(191) NULL,
+  vehicle_no VARCHAR(191) NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  is_available TINYINT(1) NOT NULL DEFAULT 1,
+  last_assigned_at TIMESTAMP NULL,
+  created_by BIGINT UNSIGNED NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  deleted_at TIMESTAMP NULL,
+  INDEX rn_delivery_riders_business_idx (business_id),
+  INDEX rn_delivery_riders_location_idx (business_location_id)
+);
+
+CREATE TABLE IF NOT EXISTS rn_customer_addresses (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  business_location_id BIGINT UNSIGNED NULL,
+  customer_id BIGINT UNSIGNED NULL,
+  contact_name VARCHAR(191) NULL,
+  mobile VARCHAR(191) NULL,
+  address_line_1 VARCHAR(191) NOT NULL,
+  address_line_2 VARCHAR(191) NULL,
+  city VARCHAR(191) NULL,
+  landmark VARCHAR(191) NULL,
+  delivery_zone_id BIGINT UNSIGNED NULL,
+  is_default TINYINT(1) NOT NULL DEFAULT 0,
+  created_by BIGINT UNSIGNED NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  deleted_at TIMESTAMP NULL,
+  INDEX rn_customer_addresses_business_idx (business_id),
+  INDEX rn_customer_addresses_customer_idx (customer_id),
+  INDEX rn_customer_addresses_zone_idx (delivery_zone_id)
+);
+
+CREATE TABLE IF NOT EXISTS rn_delivery_orders (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  business_location_id BIGINT UNSIGNED NULL,
+  restaurant_order_id BIGINT UNSIGNED NULL,
+  customer_id BIGINT UNSIGNED NULL,
+  customer_address_id BIGINT UNSIGNED NULL,
+  delivery_zone_id BIGINT UNSIGNED NULL,
+  delivery_rider_id BIGINT UNSIGNED NULL,
+  delivery_charge DECIMAL(22,4) NOT NULL DEFAULT 0,
+  cod_amount DECIMAL(22,4) NOT NULL DEFAULT 0,
+  card_amount DECIMAL(22,4) NOT NULL DEFAULT 0,
+  delivery_status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  payment_collection_status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  special_instructions TEXT NULL,
+  assigned_at TIMESTAMP NULL,
+  dispatched_at TIMESTAMP NULL,
+  delivered_at TIMESTAMP NULL,
+  cancelled_at TIMESTAMP NULL,
+  created_by BIGINT UNSIGNED NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  deleted_at TIMESTAMP NULL,
+  INDEX rn_delivery_orders_business_idx (business_id),
+  INDEX rn_delivery_orders_order_idx (restaurant_order_id),
+  INDEX rn_delivery_orders_status_idx (delivery_status),
+  INDEX rn_delivery_orders_collection_idx (payment_collection_status)
+);
+
+CREATE TABLE IF NOT EXISTS rn_delivery_status_logs (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  business_location_id BIGINT UNSIGNED NULL,
+  delivery_order_id BIGINT UNSIGNED NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  note TEXT NULL,
+  changed_by BIGINT UNSIGNED NULL,
+  changed_at TIMESTAMP NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  INDEX rn_delivery_status_logs_business_idx (business_id),
+  INDEX rn_delivery_status_logs_order_idx (delivery_order_id),
+  INDEX rn_delivery_status_logs_status_idx (status)
+);

@@ -1,0 +1,13 @@
+{
+    "name": "SW",
+    "alias": "sw",
+    "description": "Shift-wise settlement and operator collection, location scoped.",
+    "keywords": ["settlement", "shift", "pump", "collection"],
+    "priority": 0,
+    "providers": [
+        "Modules\\SW\\Providers\\SWServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

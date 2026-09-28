@@ -1,0 +1,3 @@
+@extends('layouts.app')
+@section('title','Portfolio Quality Report')
+@section('content')<div class="container-fluid"><h3>Portfolio Quality Report</h3><table class="table table-bordered"><tr><th>Total Portfolio</th><td>{{ number_format($summary['portfolio'],4) }}</td></tr><tr><th>PAR 30</th><td>{{ number_format($summary['par30'],4) }}</td></tr><tr><th>PAR 90</th><td>{{ number_format($summary['par90'],4) }}</td></tr><tr><th>NPL</th><td>{{ number_format($summary['npl'],4) }}</td></tr><tr><th>Write-Off</th><td>{{ number_format($summary['write_off'],4) }}</td></tr><tr><th>Recovery</th><td>{{ number_format($summary['recovery'],4) }}</td></tr></table></div>@endsection

@@ -1,0 +1,14 @@
+{
+    "name": "RestaurantNew",
+    "alias": "restaurantnew",
+    "description": "Standalone Restaurant-New module for multi-tenant, multi-business restaurant operations",
+    "keywords": ["restaurant", "kot", "dine-in", "takeaway", "delivery", "billing"],
+    "active": 1,
+    "order": 610,
+    "providers": [
+        "Modules\\RestaurantNew\\Providers\\RestaurantNewServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

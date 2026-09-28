@@ -1,0 +1,9 @@
+{
+    "name": "syseasy/leadsnew",
+    "description": "Standalone Leads-New module",
+    "authors": [
+        {"name": "Syseasy", "email": "support@syseasy.online"}
+    ],
+    "extra": {"laravel": {"providers": ["Modules\\LeadsNew\\Providers\\LeadsNewServiceProvider"]}},
+    "autoload": {"psr-4": {"Modules\\LeadsNew\\": ""}}
+}

@@ -1,0 +1,20 @@
+{
+  "name": "PetroPDNew",
+  "alias": "petro-pd-new",
+  "description": "Petro PD-New settlement module paired exclusively with Pumper Dashboard-New.",
+  "keywords": [
+    "petro pd",
+    "settlement",
+    "pumper dashboard new",
+    "multi-tenant"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\PetroPDNew\\Providers\\PetroPDNewServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": [
+    "PumperDashboardNew"
+  ]
+}

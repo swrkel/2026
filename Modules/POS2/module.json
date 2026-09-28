@@ -1,0 +1,13 @@
+{
+    "name": "POS2",
+    "alias": "POS2",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\POS2\\Providers\\POS2ServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

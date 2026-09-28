@@ -1,0 +1,213 @@
+/* ERP Global Design System V9 - Control Scale Polish
+   Purpose: make ERP tabs, export buttons and toolbar/action buttons share one compact POS-style size scale.
+   Load this file AFTER app.css, erp-communication-standard.css, bootstrap and module CSS.
+*/
+:root{
+    --erp-control-height: 38px;
+    --erp-control-min-height: 38px;
+    --erp-control-padding-y: 7px;
+    --erp-control-padding-x: 18px;
+    --erp-control-font-size: 14px;
+    --erp-control-font-weight: 700;
+    --erp-control-icon-size: 15px;
+    --erp-control-radius: 9px;
+    --erp-control-gap: 12px;
+    --erp-control-line-height: 1.2;
+    --erp-tab-c1:#2563eb;
+    --erp-tab-c2:#97008f;
+    --erp-tab-c3:#2f83a8;
+    --erp-tab-c4:#226b19;
+    --erp-tab-c5:#f6a21a;
+    --erp-tab-c6:#0799ad;
+    --erp-tab-c7:#9f1239;
+    --erp-tab-c8:#4f46e5;
+}
+
+/* Standard control sizing - buttons/toolbars/exports */
+.btn,
+button.btn,
+.dt-button,
+.dataTables_wrapper .dt-buttons .btn,
+.dataTables_wrapper .dt-buttons .dt-button,
+.erp-action-btn,
+.erp-toolbar .btn,
+.export-buttons .btn,
+.table-export-buttons .btn,
+button[class*="export"],
+a[class*="export"]{
+    min-height: var(--erp-control-height) !important;
+    height: var(--erp-control-height) !important;
+    padding: var(--erp-control-padding-y) var(--erp-control-padding-x) !important;
+    font-size: var(--erp-control-font-size) !important;
+    font-weight: var(--erp-control-font-weight) !important;
+    line-height: var(--erp-control-line-height) !important;
+    border-radius: var(--erp-control-radius) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    white-space: nowrap !important;
+}
+.btn i,
+.dt-button i,
+.erp-action-btn i,
+.erp-toolbar .btn i,
+.export-buttons .btn i,
+.table-export-buttons .btn i{
+    font-size: var(--erp-control-icon-size) !important;
+    line-height: 1 !important;
+}
+
+/* Global tab container */
+.nav-tabs,
+.nav-pills,
+.nav-tabs-custom > .nav-tabs,
+.erp-tabs,
+.erp-tab-list,
+ul.nav.nav-tabs{
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: var(--erp-control-gap) !important;
+    border-bottom: 0 !important;
+}
+
+/* Global tab item anchors/buttons - standard bootstrap + legacy Accounting selectors */
+.nav-tabs > li > a,
+.nav-pills > li > a,
+.nav-tabs .nav-link,
+.nav-pills .nav-link,
+.nav-tabs-custom > .nav-tabs > li > a,
+ul.nav.nav-tabs > li > a[data-toggle="tab"],
+ul.nav.nav-tabs > li > a[data-bs-toggle="tab"],
+.erp-tabs .erp-tab,
+.erp-tab-list .erp-tab,
+.erp-tab-btn,
+.tab-button,
+.tab-btn{
+    min-height: var(--erp-control-height) !important;
+    height: var(--erp-control-height) !important;
+    padding: var(--erp-control-padding-y) var(--erp-control-padding-x) !important;
+    font-size: var(--erp-control-font-size) !important;
+    font-weight: var(--erp-control-font-weight) !important;
+    line-height: var(--erp-control-line-height) !important;
+    border-radius: var(--erp-control-radius) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: auto !important;
+    min-width: max-content !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+    border: 1px solid transparent !important;
+    box-shadow: 0 6px 14px rgba(15,23,42,.08) !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    margin: 0 !important;
+}
+.nav-tabs > li > a i,
+.nav-pills > li > a i,
+.nav-tabs .nav-link i,
+.nav-pills .nav-link i,
+.nav-tabs-custom > .nav-tabs > li > a i,
+ul.nav.nav-tabs > li > a[data-toggle="tab"] i,
+ul.nav.nav-tabs > li > a[data-bs-toggle="tab"] i,
+.erp-tabs .erp-tab i,
+.erp-tab-btn i,
+.tab-button i,
+.tab-btn i{
+    font-size: var(--erp-control-icon-size) !important;
+    line-height: 1 !important;
+}
+
+/* Automatic tab colour engine */
+.nav-tabs > li:nth-child(8n+1) > a,
+.nav-pills > li:nth-child(8n+1) > a,
+.nav-tabs .nav-item:nth-child(8n+1) .nav-link,
+.nav-pills .nav-item:nth-child(8n+1) .nav-link,
+.erp-tabs > *:nth-child(8n+1),
+.erp-tab-list > *:nth-child(8n+1){background:var(--erp-tab-c1) !important;}
+.nav-tabs > li:nth-child(8n+2) > a,
+.nav-pills > li:nth-child(8n+2) > a,
+.nav-tabs .nav-item:nth-child(8n+2) .nav-link,
+.nav-pills .nav-item:nth-child(8n+2) .nav-link,
+.erp-tabs > *:nth-child(8n+2),
+.erp-tab-list > *:nth-child(8n+2){background:var(--erp-tab-c2) !important;}
+.nav-tabs > li:nth-child(8n+3) > a,
+.nav-pills > li:nth-child(8n+3) > a,
+.nav-tabs .nav-item:nth-child(8n+3) .nav-link,
+.nav-pills .nav-item:nth-child(8n+3) .nav-link,
+.erp-tabs > *:nth-child(8n+3),
+.erp-tab-list > *:nth-child(8n+3){background:var(--erp-tab-c3) !important;}
+.nav-tabs > li:nth-child(8n+4) > a,
+.nav-pills > li:nth-child(8n+4) > a,
+.nav-tabs .nav-item:nth-child(8n+4) .nav-link,
+.nav-pills .nav-item:nth-child(8n+4) .nav-link,
+.erp-tabs > *:nth-child(8n+4),
+.erp-tab-list > *:nth-child(8n+4){background:var(--erp-tab-c4) !important;}
+.nav-tabs > li:nth-child(8n+5) > a,
+.nav-pills > li:nth-child(8n+5) > a,
+.nav-tabs .nav-item:nth-child(8n+5) .nav-link,
+.nav-pills .nav-item:nth-child(8n+5) .nav-link,
+.erp-tabs > *:nth-child(8n+5),
+.erp-tab-list > *:nth-child(8n+5){background:var(--erp-tab-c5) !important;}
+.nav-tabs > li:nth-child(8n+6) > a,
+.nav-pills > li:nth-child(8n+6) > a,
+.nav-tabs .nav-item:nth-child(8n+6) .nav-link,
+.nav-pills .nav-item:nth-child(8n+6) .nav-link,
+.erp-tabs > *:nth-child(8n+6),
+.erp-tab-list > *:nth-child(8n+6){background:var(--erp-tab-c6) !important;}
+.nav-tabs > li:nth-child(8n+7) > a,
+.nav-pills > li:nth-child(8n+7) > a,
+.nav-tabs .nav-item:nth-child(8n+7) .nav-link,
+.nav-pills .nav-item:nth-child(8n+7) .nav-link,
+.erp-tabs > *:nth-child(8n+7),
+.erp-tab-list > *:nth-child(8n+7){background:var(--erp-tab-c7) !important;}
+.nav-tabs > li:nth-child(8n+8) > a,
+.nav-pills > li:nth-child(8n+8) > a,
+.nav-tabs .nav-item:nth-child(8n+8) .nav-link,
+.nav-pills .nav-item:nth-child(8n+8) .nav-link,
+.erp-tabs > *:nth-child(8n+8),
+.erp-tab-list > *:nth-child(8n+8){background:var(--erp-tab-c8) !important;}
+
+/* Active selected tab */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus,
+.nav-pills > li.active > a,
+.nav-tabs .nav-link.active,
+.nav-pills .nav-link.active,
+.nav-tabs-custom > .nav-tabs > li.active > a,
+ul.nav.nav-tabs > li.active > a[data-toggle="tab"],
+ul.nav.nav-tabs > li.active > a[data-bs-toggle="tab"],
+.erp-tabs .erp-tab.active,
+.erp-tab-list .erp-tab.active,
+.erp-tab-btn.active,
+.tab-button.active,
+.tab-btn.active,
+[aria-selected="true"]{
+    background: #fff !important;
+    color: #111827 !important;
+    border: 1px solid var(--erp-tab-c1) !important;
+    box-shadow: 0 6px 14px rgba(15,23,42,.08) !important;
+}
+
+/* Hover */
+.nav-tabs > li:not(.active) > a:hover,
+.nav-pills > li:not(.active) > a:hover,
+.nav-tabs .nav-link:not(.active):hover,
+.nav-pills .nav-link:not(.active):hover,
+.erp-tab-btn:not(.active):hover,
+.tab-button:not(.active):hover,
+.tab-btn:not(.active):hover{
+    filter: brightness(1.08) !important;
+    color: #fff !important;
+}
+
+/* Page-level override examples: add class to body/container if needed */
+.erp-tabs-large{ --erp-control-height:46px; --erp-control-padding-y:11px; --erp-control-padding-x:22px; }
+.erp-tabs-small{ --erp-control-height:34px; --erp-control-padding-y:5px; --erp-control-padding-x:14px; --erp-control-font-size:13px; }
+.erp-tabs-flat .nav-tabs > li > a,
+.erp-tabs-flat .nav-pills > li > a,
+.erp-tabs-flat .nav-link{ box-shadow:none !important; border-radius:6px !important; }

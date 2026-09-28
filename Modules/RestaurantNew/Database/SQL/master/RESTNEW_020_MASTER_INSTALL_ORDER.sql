@@ -1,0 +1,4 @@
+-- DEPRECATED INSTALL-ORDER FILE
+-- The original supplied file used SOURCE commands and referenced filenames that are not present.
+-- Use this consolidated import instead:
+-- Modules/RestaurantNew/Database/SQL/master/RESTAURANTNEW_CONSOLIDATED_MASTER_2026-09-08.sql

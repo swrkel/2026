@@ -1,0 +1,87 @@
+file,line,reference,code
+Utils/TransactionUtil.php,6,App\Utils\TransactionUtil,* Distribution-owned compatibility utility for App\Utils\TransactionUtil.
+Utils/TransactionUtil.php,9,\App\Utils\TransactionUtil,class TransactionUtil extends \App\Utils\TransactionUtil
+Utils/Util.php,6,App\Utils\Util,* Distribution-owned compatibility utility for App\Utils\Util.
+Utils/Util.php,9,\App\Utils\Util,class Util extends \App\Utils\Util
+Utils/ContactUtil.php,6,App\Utils\ContactUtil,* Distribution-owned compatibility utility for App\Utils\ContactUtil.
+Utils/ContactUtil.php,9,\App\Utils\ContactUtil,class ContactUtil extends \App\Utils\ContactUtil
+Utils/BusinessUtil.php,6,App\Utils\BusinessUtil,* Distribution-owned compatibility utility for App\Utils\BusinessUtil.
+Utils/BusinessUtil.php,10,\App\Utils\BusinessUtil,class BusinessUtil extends \App\Utils\BusinessUtil
+Utils/ProductUtil.php,6,App\Utils\ProductUtil,* Distribution-owned compatibility utility for App\Utils\ProductUtil.
+Utils/ProductUtil.php,9,\App\Utils\ProductUtil,class ProductUtil extends \App\Utils\ProductUtil
+Utils/ModuleUtil.php,6,App\Utils\ModuleUtil,* Distribution-owned compatibility utility for App\Utils\ModuleUtil.
+Utils/ModuleUtil.php,9,\App\Utils\ModuleUtil,class ModuleUtil extends \App\Utils\ModuleUtil
+Support/DistributionStandaloneDependencyScanner.php,12,App\\\\,"'main_app_namespace' => '/\\b(use\\s+App\\\\|extends\\s+\\\\App\\\\|new\\s+\\\\?App\\\\|App\\\\)/',"
+Support/DistributionStandaloneDependencyScanner.php,12,\App\\\\,"'main_app_namespace' => '/\\b(use\\s+App\\\\|extends\\s+\\\\App\\\\|new\\s+\\\\?App\\\\|App\\\\)/',"
+Support/DistributionStandaloneDependencyScanner.php,12,App\\\\,"'main_app_namespace' => '/\\b(use\\s+App\\\\|extends\\s+\\\\App\\\\|new\\s+\\\\?App\\\\|App\\\\)/',"
+Support/DistributionStandaloneDependencyScanner.php,12,App\\\\,"'main_app_namespace' => '/\\b(use\\s+App\\\\|extends\\s+\\\\App\\\\|new\\s+\\\\?App\\\\|App\\\\)/',"
+Support/DistributionStandaloneDependencyScanner.php,15,Modules\\\\,"'other_module_namespace' => '/Modules\\\\(?!Distribution\\\\)/',"
+Entities/DistributionCategory.php,6,App\Category,* Distribution-local wrapper for App\Category.
+Entities/DistributionSalesAgent.php,6,App\SalesAgent,* Distribution-local wrapper for App\SalesAgent.
+Entities/DistributionTransaction.php,6,App\Transaction,* Distribution-local wrapper for App\Transaction.
+Entities/DistributionAccount.php,6,App\Account,* Distribution-local wrapper for App\Account.
+Entities/DistributionAccountType.php,6,App\AccountType,* Distribution-local wrapper for App\AccountType.
+Entities/DistributionUnit.php,6,App\Unit,* Distribution-local wrapper for App\Unit.
+Entities/DistributionTransactionPayment.php,6,App\TransactionPayment,* Distribution-local wrapper for App\TransactionPayment.
+Entities/DistributionBusiness.php,6,App\Business,* Distribution-local wrapper for App\Business.
+Entities/DistributionTaxRate.php,6,App\TaxRate,* Distribution-local wrapper for App\TaxRate.
+Entities/DistributionBusinessLocation.php,6,App\BusinessLocation,* Distribution-local wrapper for App\BusinessLocation.
+Entities/DistributionSystem.php,6,App\System,* Distribution-local wrapper for App\System.
+Entities/DistributionContact.php,6,App\Contact,* Distribution-local wrapper for App\Contact.
+Entities/DistributionUser.php,6,App\User,* Distribution-local wrapper for App\User.
+Entities/DistributionContactLedger.php,6,App\ContactLedger,* Distribution-local wrapper for App\ContactLedger.
+Entities/DistributionProduct.php,6,App\Product,* Distribution-local wrapper for App\Product.
+Entities/DistributionExpenseCategory.php,6,App\ExpenseCategory,* Distribution-local wrapper for App\ExpenseCategory.
+Entities/DistributionOpeningBalance.php,6,App\OpeningBalance,* Distribution-local wrapper for App\OpeningBalance.
+Entities/DistributionCustomer.php,6,App\Customer,* Distribution-local wrapper for App\Customer.
+Entities/DistributionAccountTransaction.php,6,App\AccountTransaction,* Distribution-local wrapper for App\AccountTransaction.
+Entities/DistributionAccountTransaction.php,10,\App\AccountTransaction,class DistributionAccountTransaction extends \App\AccountTransaction
+Entities/DistributionPurchaseLine.php,6,App\PurchaseLine,* Distribution-local wrapper for App\PurchaseLine.
+Entities/DistributionPurchaseLine.php,10,\App\PurchaseLine,class DistributionPurchaseLine extends \App\PurchaseLine
+Entities/Core/TaxRate.php,6,App\TaxRate,* Distribution-owned compatibility model for App\TaxRate.
+Entities/Core/TaxRate.php,9,\App\TaxRate,class TaxRate extends \App\TaxRate
+Entities/Core/Account.php,6,App\Account,* Distribution-owned compatibility model for App\Account.
+Entities/Core/Account.php,9,\App\Account,class Account extends \App\Account
+Entities/Core/ExpenseCategory.php,6,App\ExpenseCategory,* Distribution-owned compatibility model for App\ExpenseCategory.
+Entities/Core/ExpenseCategory.php,9,\App\ExpenseCategory,class ExpenseCategory extends \App\ExpenseCategory
+Entities/Core/SalesAgent.php,6,App\SalesAgent,* Distribution-owned compatibility model for App\SalesAgent.
+Entities/Core/SalesAgent.php,9,\App\SalesAgent,class SalesAgent extends \App\SalesAgent
+Entities/Core/Contact.php,6,App\Contact,* Distribution-owned compatibility model for App\Contact.
+Entities/Core/Contact.php,9,\App\Contact,class Contact extends \App\Contact
+Entities/Core/User.php,6,App\User,* Distribution-owned compatibility model for App\User.
+Entities/Core/User.php,9,\App\User,class User extends \App\User
+Entities/Core/Customer.php,6,App\Customer,* Distribution-owned compatibility model for App\Customer.
+Entities/Core/Customer.php,9,\App\Customer,class Customer extends \App\Customer
+Entities/Core/Product.php,6,App\Product,* Distribution-owned compatibility model for App\Product.
+Entities/Core/Product.php,9,\App\Product,class Product extends \App\Product
+Entities/Core/System.php,6,App\System,* Distribution-owned compatibility model for App\System.
+Entities/Core/System.php,9,\App\System,class System extends \App\System
+Entities/Core/BusinessLocation.php,6,App\BusinessLocation,* Distribution-owned compatibility model for App\BusinessLocation.
+Entities/Core/BusinessLocation.php,9,\App\BusinessLocation,class BusinessLocation extends \App\BusinessLocation
+Entities/Core/Transaction.php,6,App\Transaction,* Distribution-owned compatibility model for App\Transaction.
+Entities/Core/Transaction.php,9,\App\Transaction,class Transaction extends \App\Transaction
+Entities/Core/AccountType.php,6,App\AccountType,* Distribution-owned compatibility model for App\AccountType.
+Entities/Core/AccountType.php,9,\App\AccountType,class AccountType extends \App\AccountType
+Entities/Core/Unit.php,6,App\Unit,* Distribution-owned compatibility model for App\Unit.
+Entities/Core/Unit.php,9,\App\Unit,class Unit extends \App\Unit
+Entities/Core/TransactionPayment.php,6,App\TransactionPayment,* Distribution-owned compatibility model for App\TransactionPayment.
+Entities/Core/TransactionPayment.php,9,\App\TransactionPayment,class TransactionPayment extends \App\TransactionPayment
+Entities/Core/OpeningBalance.php,6,App\OpeningBalance,* Distribution-owned compatibility model for App\OpeningBalance.
+Entities/Core/OpeningBalance.php,9,\App\OpeningBalance,class OpeningBalance extends \App\OpeningBalance
+Entities/Core/Business.php,6,App\Business,* Distribution-owned compatibility model for App\Business.
+Entities/Core/Business.php,9,\App\Business,class Business extends \App\Business
+Entities/Core/Category.php,6,App\Category,* Distribution-owned compatibility model for App\Category.
+Entities/Core/Category.php,9,\App\Category,class Category extends \App\Category
+Support/Dependency/DistributionDependencyClassifier.php,19,Modules\\Distribution\\,"return str_starts_with(ltrim($reference, '\\'), 'Modules\\Distribution\\');"
+Support/Dependency/DistributionDependencyClassifier.php,25,App\\,"return str_starts_with($ref, 'App\\') || (str_starts_with($ref, 'Modules\\') && !self::isDistributionOwned($ref));"
+Support/Dependency/DistributionDependencyClassifier.php,25,Modules\\,"return str_starts_with($ref, 'App\\') || (str_starts_with($ref, 'Modules\\') && !self::isDistributionOwned($ref));"
+Http/Controllers/DistributionDistrictsController.php,15,Modules\Superadmin\Entities\Subscription,use Modules\Superadmin\Entities\Subscription;
+Http/Controllers/DistributionBaseController.php,11,App\Http\Controllers\Controller,* App\Http\Controllers\Controller directly. This keeps Distribution
+Http/Controllers/VatDistributionInvoiceController.php,24,Modules\Vat\Entities\VatInvoice2Prefix,use Modules\Vat\Entities\VatInvoice2Prefix;
+Http/Controllers/VatDistributionInvoiceController.php,25,Modules\Vat\Entities\VatUserInvoicePrefix,use Modules\Vat\Entities\VatUserInvoicePrefix;
+Http/Controllers/VatDistributionInvoiceController.php,26,Modules\Vat\Entities\VatInvoice2,use Modules\Vat\Entities\VatInvoice2;
+Http/Controllers/VatDistributionInvoiceController.php,1040,\App\PurchaseLine,"$lastPurchasePrice = \App\PurchaseLine::where('product_id', $line->product_id)"
+Http/Controllers/DiscountController.php,350,\App\Utils\Util,$util = new \App\Utils\Util();
+Http/Controllers/DistributionInvoiceController.php,251,\Modules\Superadmin\Entities\Subscription,$subscription = \Modules\Superadmin\Entities\Subscription::active_subscription($business_id);
+Http/Controllers/DistributionInvoiceController.php,1421,\App\PurchaseLine,"$lastPurchasePrice = \App\PurchaseLine::where('product_id', $line->product_id)"
+Http/Controllers/Base/DistributionBaseController.php,9,\App\Http\Controllers\Controller,class DistributionBaseController extends \App\Http\Controllers\Controller

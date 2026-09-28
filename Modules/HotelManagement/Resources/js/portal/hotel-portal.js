@@ -1,0 +1,1 @@
+window.HotelGuestPortal = window.HotelGuestPortal || {};

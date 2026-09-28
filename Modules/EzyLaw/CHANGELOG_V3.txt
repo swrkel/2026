@@ -1,0 +1,29 @@
+EZYLAW V3 CHANGELOG - 05 SEP 2026
+=================================
+
+Added:
+- Case stages/workflow templates and matter stage history
+- Limitation/legal deadline register
+- Evidence/exhibit register
+- Document version control
+- Billing rate matrix
+- Matter billing preview
+- Invoice creation from unbilled time and billable expenses
+- Invoice credit/debit adjustments
+- Optional Finance posting for invoice adjustments
+- Trust reconciliation
+- Lawyer workload/capacity report
+- Client portal administration foundation
+- Notification queue
+- Advanced legal reports
+- Dashboard KPIs for deadlines, unreconciled trust and unbilled WIP
+
+Database:
+- 13 new law_ tables
+- V3 total EzyLaw-owned tables: 40
+
+Safety:
+- No new core-table foreign keys
+- No public client-portal routes enabled by default
+- Tenant SQL remains separated from the central registry DB
+- Route permissions remain explicit and EzyLaw-specific

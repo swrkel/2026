@@ -1,0 +1,21 @@
+RESTAURANT-NEW 2.0 STATIC VALIDATION SUMMARY
+============================================
+
+PASS — PHP/Blade syntax: 191 files
+PASS — JavaScript syntax: 4 files
+PASS — PSR-4 namespace/class/path check: 128 class files
+PASS — Named routes: 79; duplicates: 0; missing controller methods: 0
+PASS — Defined permissions: 55; unresolved route/Blade permissions: 0
+PASS — Concrete table models: 45
+PASS — Migration tables: 45
+PASS — Schema-service tables: 45
+PASS — Raw SQL tables: 45
+PASS — Stage 2 tables: 15
+PASS — Referenced controller/service views: 32; missing: 0
+PASS — Distinct Blade route references: 66; missing: 0
+PASS — Source/public asset pairs: 4
+PASS — Supplied module status values changed: 0
+PASS — Added module status: RestaurantNew=true
+PASS — Foreign feature-module namespace dependencies: 0
+PASS — Duplicate literal HTML IDs: 0
+PASS — Zero-byte package files: 0

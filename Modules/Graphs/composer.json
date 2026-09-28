@@ -1,0 +1,5 @@
+{
+  "name": "modules/graphs",
+  "description": "Standalone Graphs module",
+  "autoload": {"psr-4": {"Modules\\Graphs\\": ""}}
+}

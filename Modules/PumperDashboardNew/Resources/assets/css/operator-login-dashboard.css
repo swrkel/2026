@@ -1,0 +1,516 @@
+:root {
+    --pone-legacy-orange: #f57c00;
+    --pone-legacy-gray: #757575;
+    --pone-legacy-light-gray: #9e9e9e;
+    --pone-legacy-green: #388e3c;
+    --pone-legacy-yellow: #fbc02d;
+    --pone-legacy-dark-gray: #424242;
+    --pone-legacy-purple: #7b1fa2;
+    --pone-legacy-blue: #1976d2;
+    --pone-legacy-red: #d32f2f;
+    --pone-legacy-deep-blue: #1565c0;
+    --pone-legacy-deep-orange: #ef6c00;
+    --pone-legacy-ink: #27364d;
+}
+* { box-sizing: border-box; }
+html, body { margin:0; width:100%; min-width:0; }
+.pone-legacy-login-body {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    color: var(--pone-legacy-ink);
+    background: #edf3fa;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.pone-legacy-login-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: 48px minmax(0, 1fr);
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    background: linear-gradient(125deg,#f5f9ff 0%,#eef4fb 48%,#e8f0f9 100%);
+}
+.pone-legacy-selected-business {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: 7px 24px;
+    overflow: hidden;
+    color: #34465e;
+    background: rgba(255,255,255,.62);
+    border-bottom: 1px solid #d7e1ed;
+    font-size: clamp(17px, 1.45vw, 23px);
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.pone-legacy-login-left,
+.pone-legacy-login-right {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+.pone-legacy-login-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(16px, 3vh, 28px) clamp(22px, 4vw, 72px);
+}
+.pone-legacy-welcome,
+.pone-legacy-login-card { width: min(100%, 650px); }
+.pone-legacy-welcome { margin: 0 0 clamp(10px, 1.6vh, 18px); }
+.pone-legacy-welcome h1 {
+    margin: 0;
+    color: #14243b;
+    font-size: clamp(46px, 5vw, 68px);
+    font-weight: 800;
+    line-height: .98;
+    letter-spacing: -.035em;
+}
+.pone-legacy-login-card {
+    padding: clamp(24px, 3.2vh, 38px) clamp(24px, 3.2vw, 42px);
+    background: #fff;
+    border: 1px solid #d7e1ed;
+    border-radius: 18px;
+    box-shadow: 0 18px 42px rgba(35,55,85,.13);
+}
+.pone-legacy-login-card h2 {
+    margin: 0;
+    color: #243650;
+    font-size: clamp(28px, 3vw, 42px);
+    font-weight: 800;
+    line-height: 1.12;
+}
+.pone-legacy-lock-status {
+    margin: 10px 0 clamp(15px, 2vh, 24px);
+    color: #8796a9;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+}
+.pone-legacy-passcode-wrap {
+    display: flex;
+    align-items: stretch;
+    min-height: clamp(58px, 7.5vh, 70px);
+    overflow: hidden;
+    background: #f7f9fc;
+    border: 2px solid #d6e1ed;
+    border-radius: 11px;
+}
+.pone-legacy-passcode-wrap:focus-within { background:#fff; border-color:#1976d2; box-shadow:0 0 0 4px rgba(25,118,210,.12); }
+.pone-legacy-passcode-icon { display:flex; align-items:center; justify-content:center; width:70px; background:#e8f0f8; color:#1976d2; font-size:22px; }
+.pone-legacy-passcode-wrap input { width:100%; min-width:0; padding:14px 18px; border:0; outline:0; background:transparent; color:#17263b; font-size:24px; font-weight:800; letter-spacing:.2em; }
+.pone-legacy-passcode-wrap input::placeholder { color:#96a4b7; font-size:17px; font-weight:700; letter-spacing:normal; }
+.pone-legacy-enter-button {
+    width: 100%;
+    min-height: clamp(56px, 7vh, 66px);
+    margin-top: clamp(12px, 1.8vh, 18px);
+    padding: 12px 22px;
+    border: 0;
+    border-radius: 10px;
+    color: #fff;
+    background: linear-gradient(135deg,#1976d2,#0d47a1);
+    box-shadow: 0 10px 22px rgba(25,118,210,.24);
+    font-size: clamp(18px, 1.7vw, 23px);
+    font-weight: 800;
+    cursor: pointer;
+}
+.pone-legacy-enter-button:hover,.pone-legacy-enter-button:focus{filter:brightness(1.08)}
+.pone-legacy-enter-button:disabled{opacity:.72;cursor:wait}
+.pone-legacy-button-spinner{display:none;width:18px;height:18px;margin-left:9px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;vertical-align:-3px;animation:poneLegacySpin .7s linear infinite}
+.pone-legacy-enter-button.is-loading .pone-legacy-button-spinner{display:inline-block}
+.pone-legacy-alert{margin:0 0 12px;padding:10px 12px;border:1px solid transparent;border-radius:8px;font-size:13px;font-weight:700;line-height:1.35}
+.pone-legacy-alert-danger{background:#fff0f1;border-color:#f6c7ca;color:#a3202a}.pone-legacy-alert-success{background:#effaf2;border-color:#bfe6c8;color:#236b35}.pone-legacy-alert-warning{background:#fff8e8;border-color:#f4d89d;color:#805b09}
+.pone-legacy-login-right {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: center;
+    justify-items: center;
+    gap: clamp(10px, 1.8vh, 18px);
+    padding: clamp(15px, 2.5vh, 24px) clamp(24px, 5vw, 86px) clamp(18px, 3vh, 30px);
+    background: linear-gradient(145deg,#f8fbff 0%,#e8f0f9 100%);
+    border-left: 1px solid #d7e1ed;
+}
+.pone-legacy-login-clock {
+    width: min(100%, 520px);
+    color: #50627a;
+    text-align: right;
+    font-size: clamp(15px, 1.35vw, 20px);
+    line-height: 1.55;
+}
+.pone-legacy-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    gap: clamp(9px, 1.5vh, 16px);
+    width: min(100%, 520px);
+    height: min(100%, 560px);
+    min-height: 0;
+}
+.pone-legacy-key {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    border: 1px solid #d1dce8;
+    border-radius: 14px;
+    background: #fff;
+    color: #263950;
+    box-shadow: 0 8px 20px rgba(41,59,84,.10);
+    font-size: clamp(28px, 4.4vh, 46px);
+    font-weight: 800;
+    cursor: pointer;
+}
+.pone-legacy-key:hover,.pone-legacy-key:focus{border-color:#87b0e2;background:#f8fbff;outline:0}.pone-legacy-key:active{transform:scale(.96)}
+.pone-legacy-key-delete{color:#d32f2f}.pone-legacy-key-enter{color:#fff;background:#1976d2;border-color:#1976d2}
+@media(max-height:720px) and (min-width:861px){
+    .pone-legacy-login-page{grid-template-rows:42px minmax(0,1fr)}
+    .pone-legacy-selected-business{font-size:17px;padding-block:5px}
+    .pone-legacy-welcome{margin-bottom:8px}.pone-legacy-welcome h1{font-size:46px}
+    .pone-legacy-login-card{padding:20px 28px}.pone-legacy-login-card h2{font-size:30px}.pone-legacy-lock-status{margin:7px 0 12px}
+    .pone-legacy-passcode-wrap{min-height:54px}.pone-legacy-enter-button{min-height:52px;margin-top:10px}
+    .pone-legacy-login-right{padding-top:10px;padding-bottom:12px;gap:7px}.pone-legacy-login-clock{font-size:14px;line-height:1.35}
+    .pone-legacy-keypad{width:min(100%,470px);height:min(100%,465px);gap:8px}.pone-legacy-key{border-radius:10px}
+}
+@media(max-width:860px){
+    .pone-legacy-login-body{height:auto;min-height:100vh;overflow:auto}
+    .pone-legacy-login-page{display:block;height:auto;min-height:100vh;overflow:auto}
+    .pone-legacy-selected-business{position:sticky;top:0;z-index:20;height:46px}
+    .pone-legacy-login-left,.pone-legacy-login-right{overflow:visible;padding:24px 16px}
+    .pone-legacy-login-right{border-left:0;border-top:1px solid #d7e1ed}
+    .pone-legacy-login-clock{text-align:center}.pone-legacy-keypad{height:420px;width:min(100%,440px)}
+}
+@media(max-width:520px){.pone-legacy-welcome h1{font-size:40px}.pone-legacy-login-card{padding:22px 18px}.pone-legacy-login-card h2{font-size:27px}.pone-legacy-keypad{height:360px;gap:9px}.pone-legacy-key{font-size:28px}}
+@keyframes poneLegacySpin{to{transform:rotate(360deg)}}
+
+/* Legacy-parity operator dashboard. */
+.pone-legacy-dashboard-body,
+.pone-shell-dashboard,
+.pone-main-dashboard {
+    min-height: 100vh;
+    background: #f3f5f8;
+}
+
+.pone-main-dashboard {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pone-main-dashboard > .pone-alert {
+    max-width: 1440px;
+    margin: 10px auto;
+}
+
+.pone-legacy-dashboard,
+.pone-legacy-dashboard * {
+    box-sizing: border-box;
+}
+
+.pone-legacy-dashboard {
+    --pone-dashboard-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: var(--pone-dashboard-height);
+    height: var(--pone-dashboard-height);
+    overflow: hidden;
+    color: #333;
+    font-family: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.pone-legacy-dashboard-header {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    flex: 0 0 auto;
+    padding: clamp(12px, 1.7vh, 20px) clamp(22px, 3vw, 42px);
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 5px 16px rgba(15, 23, 42, .08);
+}
+
+.pone-legacy-dashboard-heading {
+    min-width: 250px;
+}
+
+.pone-legacy-dashboard-heading h1 {
+    margin: 0;
+    color: #333;
+    font-size: clamp(20px, 2.1vw, 27px);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.pone-legacy-dashboard-heading h2 {
+    margin: 4px 0 0;
+    color: #d32f2f;
+    font-size: clamp(14px, 1.35vw, 17px);
+    font-weight: 800;
+}
+
+.pone-legacy-dashboard-heading p {
+    margin: 7px 0 0;
+    color: #455a64;
+    font-size: 15px;
+    font-weight: 650;
+}
+
+.pone-legacy-dashboard-heading p span {
+    margin-right: 7px;
+    color: #f57c00;
+    font-size: 19px;
+}
+
+.pone-legacy-dashboard-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 9px;
+}
+
+.pone-legacy-dashboard-clock {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 19px;
+    color: #455a64;
+    font-size: 14px;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.pone-legacy-dashboard-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.pone-legacy-dashboard-actions form {
+    margin: 0;
+}
+
+.pone-legacy-top-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 9px 15px;
+    border: 0;
+    border-radius: 6px;
+    color: #fff !important;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none !important;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(15, 23, 42, .14);
+    transition: filter .18s ease, transform .1s ease, box-shadow .18s ease;
+}
+
+.pone-legacy-top-button:hover,
+.pone-legacy-top-button:focus {
+    color: #fff !important;
+    filter: brightness(1.1);
+    box-shadow: 0 4px 9px rgba(15, 23, 42, .2);
+    outline: none;
+}
+
+.pone-legacy-top-button:active { transform: scale(.97); }
+.pone-legacy-top-fullscreen { width: 42px; padding-inline: 0; background: #7b1fa2; }
+.pone-legacy-top-main { background: #795548; }
+.pone-legacy-top-passcode { background: #1976d2; }
+.pone-legacy-top-logout { background: #f57c00; }
+
+.pone-legacy-dashboard-notice {
+    flex: 0 0 auto;
+    max-width: 1440px;
+    width: calc(100% - 48px);
+    margin: 10px auto 0;
+    padding: 10px 16px;
+    background: #e8f2ff;
+    border: 1px solid #b9d5f5;
+    border-radius: 8px;
+    color: #275c91;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.pone-legacy-dashboard-notice-warning {
+    background: #fff7e6;
+    border-color: #f0d08c;
+    color: #805a0a;
+}
+
+.pone-legacy-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: clamp(10px, 1.5vh, 18px);
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(11px, 1.8vh, 23px) clamp(22px, 3vw, 42px);
+}
+
+.pone-legacy-dashboard-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    padding: clamp(12px, 2vh, 22px);
+    overflow: hidden;
+    border: 0;
+    border-radius: 9px;
+    color: #fff !important;
+    text-align: center;
+    text-decoration: none !important;
+    box-shadow: 0 5px 13px rgba(0, 0, 0, .17);
+    cursor: pointer;
+    transition: transform .12s ease, filter .18s ease, box-shadow .18s ease;
+}
+
+.pone-legacy-dashboard-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(145deg, rgba(255,255,255,.13), transparent 52%, rgba(0,0,0,.08));
+}
+
+.pone-legacy-dashboard-card:hover,
+.pone-legacy-dashboard-card:focus {
+    color: #fff !important;
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .23);
+    outline: none;
+}
+
+.pone-legacy-dashboard-card:active { transform: scale(.98); }
+
+.pone-legacy-dashboard-card.is-disabled {
+    filter: grayscale(.25);
+    opacity: .53;
+    cursor: not-allowed;
+}
+
+.pone-legacy-dashboard-card.is-disabled:hover,
+.pone-legacy-dashboard-card.is-disabled:focus {
+    transform: none;
+    filter: grayscale(.25);
+    box-shadow: 0 5px 13px rgba(0,0,0,.17);
+}
+
+.pone-legacy-card-icon,
+.pone-legacy-card-label,
+.pone-legacy-dashboard-card small {
+    position: relative;
+    z-index: 1;
+}
+
+.pone-legacy-card-icon {
+    display: block;
+    margin-bottom: clamp(5px, .9vh, 10px);
+    font-size: clamp(27px, 3vw, 45px);
+    font-weight: 800;
+    line-height: 1;
+}
+
+.pone-legacy-card-label {
+    font-size: clamp(15px, 1.55vw, 21px);
+    font-weight: 800;
+    line-height: 1.17;
+}
+
+.pone-legacy-dashboard-card small {
+    margin-top: 5px;
+    font-size: 11px;
+    font-weight: 650;
+    opacity: .87;
+}
+
+.pone-card-orange { background: var(--pone-legacy-orange); }
+.pone-card-gray { background: var(--pone-legacy-gray); }
+.pone-card-light-gray { background: var(--pone-legacy-light-gray); }
+.pone-card-green { background: var(--pone-legacy-green); }
+.pone-card-yellow { background: var(--pone-legacy-yellow); color: #352800 !important; }
+.pone-card-yellow:hover, .pone-card-yellow:focus { color: #352800 !important; }
+.pone-card-dark-gray { background: var(--pone-legacy-dark-gray); }
+.pone-card-purple { background: var(--pone-legacy-purple); }
+.pone-card-blue { background: var(--pone-legacy-blue); }
+.pone-card-red { background: var(--pone-legacy-red); }
+.pone-card-deep-blue { background: var(--pone-legacy-deep-blue); }
+.pone-card-deep-orange { background: var(--pone-legacy-deep-orange); }
+
+.pone-legacy-dashboard-footer {
+    flex: 0 0 auto;
+    padding: 7px 20px 9px;
+    color: #6a7889;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+@keyframes poneLegacySpin { to { transform: rotate(360deg); } }
+
+@media (max-width: 1120px) {
+    .pone-legacy-login-page { grid-template-columns: 1fr 1fr; }
+    .pone-legacy-login-left, .pone-legacy-login-right { padding: 42px; }
+    .pone-legacy-keypad { grid-template-columns: repeat(3, minmax(76px, 110px)); }
+    .pone-legacy-dashboard-header { align-items: flex-start; }
+    .pone-legacy-dashboard-clock { flex-wrap: wrap; gap: 7px 15px; }
+}
+
+@media (max-width: 860px) {
+    .pone-legacy-login-page { display: block; min-height: 100vh; overflow: auto; }
+    .pone-legacy-login-left { min-height: 52vh; padding: 72px 24px 28px; }
+    .pone-legacy-login-right { min-height: 48vh; padding: 26px 20px 40px; border: 0; border-top: 1px solid #dbe4ef; }
+    .pone-legacy-login-card { margin-inline: auto; }
+    .pone-legacy-welcome { width: min(100%, 610px); margin-inline: auto; }
+    .pone-legacy-login-back { left: 24px; top: 22px; }
+    .pone-legacy-login-clock { text-align: center; }
+
+    .pone-legacy-dashboard { height: auto; min-height: 100vh; overflow: visible; }
+    .pone-legacy-dashboard-header { flex-direction: column; padding: 15px 18px; }
+    .pone-legacy-dashboard-header-right { width: 100%; align-items: flex-start; }
+    .pone-legacy-dashboard-clock, .pone-legacy-dashboard-actions { justify-content: flex-start; }
+    .pone-legacy-dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: minmax(135px, auto); padding: 16px 18px 28px; }
+}
+
+@media (max-width: 520px) {
+    .pone-legacy-login-left { padding-inline: 14px; }
+    .pone-legacy-login-card { padding: 24px 18px; }
+    .pone-legacy-keypad { width: 100%; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .pone-legacy-key { min-height: 70px; }
+    .pone-legacy-dashboard-actions { gap: 7px; }
+    .pone-legacy-top-button { padding: 9px 11px; font-size: 12px; }
+    .pone-legacy-dashboard-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(120px, auto); }
+    .pone-legacy-dashboard-notice { width: calc(100% - 28px); }
+}
+
+@media print {
+    .pone-legacy-dashboard-actions,
+    .pone-legacy-dashboard-footer { display: none !important; }
+    .pone-legacy-dashboard { height: auto; overflow: visible; }
+}
+

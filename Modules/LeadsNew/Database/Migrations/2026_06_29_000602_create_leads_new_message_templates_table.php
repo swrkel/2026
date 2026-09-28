@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration; use Illuminate\Database\Schema\Blueprint; use Illuminate\Support\Facades\Schema;
+return new class extends Migration { public function up(){ Schema::create('leads_new_message_templates', function(Blueprint $t){ $t->id(); $t->unsignedBigInteger('business_id')->index(); $t->string('type')->index(); $t->string('name'); $t->string('subject')->nullable(); $t->longText('body'); $t->boolean('is_default')->default(false); $t->boolean('is_active')->default(true); $t->timestamps(); $t->softDeletes(); }); } public function down(){ Schema::dropIfExists('leads_new_message_templates'); } };

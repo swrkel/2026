@@ -1,0 +1,13 @@
+{
+    "name": "RealTimeEntries",
+    "alias": "realtimeentries",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RealTimeEntries\\Providers\\RealTimeEntriesServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,25 @@
+{
+  "name": "ReportsOther",
+  "alias": "reportsother",
+  "description": "Standalone Reports - Other module",
+  "keywords": [
+    "reports",
+    "cash receipt",
+    "source mapping"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\ReportsOther\\Providers\\ReportsOtherServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": [],
+  "display_name": "Reports - Other",
+  "sidebar": {
+    "key": "reports_other",
+    "label": "Reports - Other",
+    "icon": "fa fa-file-text-o",
+    "route": "reports-other.cash-receipt.index",
+    "permission": "reports_other.view"
+  }
+}

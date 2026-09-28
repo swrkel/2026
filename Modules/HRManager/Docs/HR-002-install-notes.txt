@@ -1,0 +1,21 @@
+HR-002 Employee Management
+
+Replace/copy the Modules/HRManager folder into your Laravel project.
+Publish/copy assets:
+- Modules/HRManager/Resources/assets/css/hr-manager.css to public/modules/hrmanager/css/hr-manager.css
+- Modules/HRManager/Resources/assets/js/hr-employees.js to public/modules/hrmanager/js/hr-employees.js
+
+Run the raw SQL file in each tenant database:
+- Modules/HRManager/Docs/raw-sql-HR-002.sql
+
+Page completed in this parcel:
+- HR > Employees list
+- Add Employee
+- Edit Employee
+- View Employee
+- Delete Employee
+- CSV export
+- Emergency contact save/update
+- Document table foundation
+
+All new tables use hr_ prefix only.

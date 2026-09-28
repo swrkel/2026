@@ -1,0 +1,12 @@
+Communication Hub Stage 006 - In-App Notification Centre
+
+Included:
+- In-App Dashboard
+- Send In-App Alert
+- In-App Inbox
+- Mark Read / Archive actions
+- In-App Templates
+- Business-wise and location-wise notification scope
+- Tenant database SQL only: 09_IN_APP_NOTIFICATION_CENTRE_UPGRADE.sql
+
+Run SQL in every tenant database before testing the new pages.

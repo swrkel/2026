@@ -1,0 +1,65 @@
+@extends('sw::layouts.app', [
+    'title' => 'List SW Settlements',
+    'heading' => 'List SW Settlements',
+    'subheading' => 'A settlement is made against a closed SW Shift. Shifts still open are accepting entries and cannot be settled yet.',
+])
+
+@section('sw_content')
+
+{{-- Reachable at last. The create screen existed but nothing linked to it, so
+     it could only be found by typing the URL. --}}
+<div style="margin-bottom:14px">
+    <a href="{{ route('sw.settlements.create') }}" class="btn btn-primary">
+        <i class="fa fa-plus"></i> New Settlement
+    </a>
+</div>
+
+
+@if($awaiting->count())
+    <div class="sw-card">
+        <h3>Closed shifts awaiting settlement</h3>
+        <table class="sw-table">
+            <thead><tr><th>SW Shift No</th><th>Date</th><th>Closed</th><th style="width:1%"></th></tr></thead>
+            <tbody>
+            @foreach($awaiting as $s)
+                <tr>
+                    <td><strong>{{ $s->sw_shift_no }}</strong></td>
+                    <td>{{ $s->shift_date->format('d/m/Y') }}</td>
+                    <td class="sw-note">{{ $s->closed_at?->format('d/m/Y H:i') }}</td>
+                    <td><a href="{{ route('sw.settlements.create') }}?shift_id={{ $s->id }}" class="btn btn-xs btn-primary">Settle</a></td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+@endif
+
+<div class="sw-card">
+    <h3>Settlements</h3>
+    <table class="sw-table">
+        <thead>
+            <tr><th>Settlement No</th><th>SW Shift</th><th>Date</th>
+                <th class="num">Sales</th><th class="num">Collected</th>
+                <th class="num">Variance</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+        @forelse($settlements as $st)
+            <tr>
+                <td><strong>{{ $st->settlement_no }}</strong></td>
+                <td>{{ $st->shift->sw_shift_no ?? '—' }}</td>
+                <td>{{ $st->transaction_date?->format('d/m/Y') }}</td>
+                <td class="num">{{ number_format((float) $st->total_sales, 2) }}</td>
+                <td class="num">{{ number_format((float) $st->total_collected, 2) }}</td>
+                <td class="num">{{ number_format((float) $st->variance, 2) }}</td>
+                <td><span class="sw-badge {{ strtolower($st->statusLabel()) }}">{{ $st->statusLabel() }}</span></td>
+            </tr>
+        @empty
+            <tr><td colspan="7" class="sw-empty">No settlements yet.</td></tr>
+        @endforelse
+        </tbody>
+    </table>
+
+    {{ $settlements->withQueryString()->links() }}
+</div>
+
+@endsection

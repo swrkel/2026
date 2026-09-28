@@ -1,0 +1,2 @@
+-- RESTAURANTNEW_STAGE004_INSERT.sql
+-- Stage 004 has no mandatory data inserts. Optional sample tables/menu items will be delivered separately if required.

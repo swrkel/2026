@@ -1,0 +1,206 @@
+Reference No: 8-6-S666
+Release ZIP: 8-6-S666-Journal_Ledger_Holder_Submit_Gate_List_Format_Account_Book_17Aug2026.zip
+
+S-666 - Finance: Add Journal, List Journal Entry, Account Book Description
+Date: 17 August 2026
+
+IMPORTANT - THIS SUPERSEDES 8-2 (IS2034), WHICH WAS NEVER DEPLOYED
+------------------------------------------------------------------
+8-2 was checked against the server and is NOT present:
+Modules/Finance/Documentation/ holds 8-1, 8-4 and 8-5 but no 8-2. The Ledger
+Holder fix and the Actions menu work were delivered on 16 August and never
+reached the site, which is why the same faults are being reported again.
+
+This ZIP contains all of the 8-2 work PLUS everything new in S-666. Deploy this
+one; 8-2 does not need to be deployed separately.
+
+Scope
+-----
+Finance Module > Add Journal > Show In Ledger > Ledger Holder
+Finance Module > Add Journal > Submit button
+Finance Module > List Journal Entry
+Finance Module > List Account > Action > Account Book > Description
+
+
+1. LEDGER HOLDER DROPDOWN NOT SHOWING
+-------------------------------------
+Cause: the "Show In Ledger" handler un-hid the Ledger Holder wrapper but never
+put a single <option> into the select, so it opened empty - which is what the
+screenshot shows as "No results found". JournalController::create() already
+passed $customers, $suppliers and $pump_operators to the view; nothing read
+them. The Edit form had its own private copy of the populating code, which is
+why the fault only ever appeared on Add.
+
+Fix: both forms publish their lists onto their own modal, and one shared
+function fills the select. Edit's private copy is gone, so the two cannot drift
+apart again. A holder chosen earlier is preserved when it still exists in the
+newly built list.
+
+IF THE DROPDOWN IS STILL EMPTY AFTER THIS RELEASE, the cause is the database,
+not the code. The ledger columns on `journals` are optional and were confirmed
+missing on at least two tenants - see
+Database/SQL/IS1992_Journals_Add_Ledger_Columns.sql, which has to be run once
+per tenant database. That script is unchanged by this release. The screenshot in
+this ticket was taken with Supplier Ledger selected, so please also confirm the
+business actually has suppliers - an empty supplier list produces the same
+"No results found" for a reason that is not a bug.
+
+
+2. SUBMIT BUTTON SHOWING TOO EARLY
+----------------------------------
+"After selecting the Account, the Submit button should not be displayed
+immediately. The Submit button should appear only after clicking the Add
+button."
+
+Submit is now hidden when the form opens and appears once Add has placed rows
+into the entry table; it hides again if those rows are cleared. A short hint
+sits where the button will be, so the form does not look broken while it is
+absent.
+
+This is VISIBILITY only. Whether Submit is ENABLED is still governed by the
+existing checks - debit and credit totals matching, note, location and date -
+so nothing about validation has been loosened.
+
+The Edit form is deliberately unchanged: it opens with rows already present, so
+hiding Submit there would only get in the way.
+
+
+3. LIST JOURNAL ENTRY - FORMAT
+------------------------------
+The list now follows the reference layout:
+
+  COLUMNS  #, Journal No, Date, Account, Ledger Holder, Debit, Credit, Note,
+           Added By, Action.
+           The row number is rendered in the browser and counts from 1 on the
+           current page. Ledger Holder is new and resolves the customer,
+           supplier or pump operator the entry is linked to.
+
+  FILTERS  Ledger Holder and Status added alongside the existing Date Range,
+           Account, Location and Entry Type.
+
+  EXPORT   An Export button beside Add. It drives the CSV export the table
+           already builds, so the file honours the filters and columns actually
+           on screen rather than being a second export that has to be kept in
+           step.
+
+  ACTION   An "Actions" button opening View / Edit / Delete, using the same
+           markup and Font Awesome icons as CustomerPaymentController and
+           DisabledAccountController so it matches the rest of the system. View
+           was previously missing altogether - show() was an empty stub - and is
+           implemented here, returning a read-only view of the whole entry
+           (every row sharing a journal_id, since a journal is only meaningful
+           as a balanced set).
+
+PERFORMANCE: ledger holder names are looked up ONCE per request and handed to
+the row renderer. Resolving them per row would have added one query per row on
+every draw of the list.
+
+TWO POINTS THAT NEED YOUR CONFIRMATION
+  a. STATUS. A journal has no posting status in this system - there is no
+     draft/posted workflow and no status column on `journals`. The only state an
+     entry carries is whether it is linked to a ledger, so the filter offers
+     "Shown in Ledger" and "Not shown in Ledger". If Status was meant to mean
+     something else, tell me what the values should be and it is a small change.
+
+  b. FROM DATE / TO DATE. The reference image shows two separate date boxes. The
+     page already has a working date-range picker that does the same job, and it
+     has been kept rather than replaced. Say the word if the two-box layout is
+     required.
+
+  c. The reference image shows three plain icons in the Action column, while the
+     ticket text asks for an "Actions" button with View/Edit/Delete inside. The
+     text has been followed, since it is the more specific instruction and it
+     matches the rest of the system.
+
+
+4. ACCOUNT BOOK - DESCRIPTION
+-----------------------------
+Now produced in exactly the format the ticket gives:
+
+    Transaction No: INV-000125 | Note: Fuel sales payment
+
+One line, both halves labelled, separated by a pipe. IS2034 put them on separate
+lines with no label on the note, which was not what was asked for.
+
+Either half can be absent - a journal with no source document, a transaction
+with no note - so the pipe only appears when there is something on both sides,
+and a row with neither still shows "-".
+
+Where the number comes from, most specific first: invoice_no, then ref_no, then
+payment_ref_no. Journal rows reach the Account Book through
+account_transactions.journal_entry with no parent transaction at all, so they
+fall back to their journal number. slip_no is deliberately NOT used: it has its
+own column and identifies a paying-in slip, so labelling it "Transaction No"
+would put a wrong answer on screen rather than none.
+
+The display expression is kept SEPARATE from the one used for filtering and
+ordering, so no row can move into or out of the Account Book as a result of
+this change.
+
+
+Changed Code Files
+------------------
+Modules/Finance/Http/Controllers/Journal/JournalController.php
+Modules/Finance/Services/Accounts/AccountBookDataService.php
+Modules/Finance/Resources/views/journal/index.blade.php
+Modules/Finance/Resources/views/journal/create.blade.php
+Modules/Finance/Resources/views/journal/edit.blade.php
+Modules/Finance/Resources/views/journal/show.blade.php   (NEW)
+Modules/Finance/Resources/lang/en/account.php
+
+Database
+--------
+No migration required by this release.
+
+Note however that items 1 and 3 both depend on the optional ledger columns on
+`journals`. Where they are absent the code degrades cleanly - the Ledger Holder
+column shows "-" and the two new filters are skipped rather than erroring - but
+the FEATURE cannot work without them. Run
+Database/SQL/IS1992_Journals_Add_Ledger_Columns.sql once per tenant database if
+it has not been run. Check first with:  SHOW COLUMNS FROM `journals`;
+
+Deployment
+----------
+Extract from the Laravel project root preserving the Modules/Finance path, then:
+
+php artisan optimize:clear
+
+Please confirm afterwards that
+Modules/Finance/Documentation/8-6-S666-...txt exists on the server. That is the
+quickest way to be sure the release landed - it is how 8-2 was found to be
+missing.
+
+Validation Performed
+--------------------
+- Structural check (brackets, strings, comments) of all changed PHP and Blade
+  files: passed.
+- Every newly written JavaScript block parsed standalone by Node: passed.
+- The DataTables columns definition parsed as JavaScript: passed.
+- Column alignment verified programmatically: 10 table headers, 10 DataTables
+  column definitions, and the non-orderable Action target confirmed at index 9.
+  A mismatch here is the usual cause of "Cannot read property of undefined" in
+  DataTables and is worth checking mechanically rather than by eye.
+- Blade directive balance (@php/@endphp, @if/@endif, @foreach/@endforeach,
+  @component/@endcomponent, @slot/@endslot) on all changed views: passed.
+- Every @lang key used by the new markup checked against the module's own lang
+  files; the seven that did not exist have been added to
+  Resources/lang/en/account.php, and the Export label uses lang_v1.export which
+  does exist rather than a core key that may not.
+- Whole-file script parse compared against the unmodified baseline: no new
+  failures introduced.
+
+NOT YET PERFORMED
+-----------------
+No PHP runtime or browser was available here, so the following remain:
+
+- php -l on JournalController.php, AccountBookDataService.php and account.php,
+  and Blade compilation of the four journal views.
+- Add Journal: choose each of Customer, Supplier and Pump Operator ledger and
+  confirm the Ledger Holder list fills; confirm Submit is hidden until Add is
+  pressed and that the entry still saves.
+- List Journal Entry: confirm the ten columns render, the Ledger Holder and
+  Status filters narrow the list, Export produces a file, and Actions shows
+  View / Edit / Delete in full on both the first and last row of a page.
+- Account Book: confirm the description reads
+  "Transaction No: ... | Note: ..." and that the row count for a given filter is
+  unchanged from before this release.

@@ -1,0 +1,22 @@
+Simple Audit v1.0.5 - CENTRAL ONLY FIX
+
+Purpose
+-------
+Simple Audit is a Central Super Admin module only. It must not be shown or assigned to tenant businesses.
+
+Changes
+-------
+1. module.json now declares central_only=true.
+2. Business automatic sidebar, Manage Side Bar and Manage Page exclude central-only modules.
+3. Central Super Admin sidebar contains Simple Audit > Purchase Audit.
+4. Authenticated Simple Audit routes are protected by a module-owned Central Super Admin middleware.
+5. Tenant/business direct access to /simple-audit is blocked with HTTP 403.
+6. Public shared-report links and module-owned CSS/JS asset routes remain available.
+7. No SQL/database change is required.
+
+After deployment
+----------------
+php artisan module:enable SimpleAudit
+php artisan optimize:clear
+php Modules/SimpleAudit/Tools/check_sidebar.php
+php artisan route:list | grep simple-audit

@@ -1,0 +1,60 @@
+Finance Module - List Account / Add Fix
+Date: 10 Sep 2026
+
+SCOPE
+1. Finance -> List Account -> Add -> Main A/C / Sub A/C checkbox behavior.
+2. Finance -> List Account -> Add -> Account Number automatic prefix/number.
+
+FIX 1 - MAIN A/C / SUB A/C
+- Add now uses the iCheck check/uncheck API rather than only changing the hidden native checkbox property.
+- Main A/C and Sub A/C stay mutually exclusive visually and in the submitted value.
+- Sub A/C shows Parent Account and Opening Balance and requires Parent Account.
+- Leaving Sub A/C clears the Parent Account selection.
+- Native checkbox fallback remains available if iCheck is not active.
+- Existing Edit form behavior was not changed.
+
+FIX 2 - AUTOMATIC ACCOUNT NUMBER
+- Selecting Account Type now requests a fresh, non-cached Account Number every time.
+- Finance resolves Super Admin -> Super Admin Settings -> Default Accounts -> Account Numbers using:
+  1) account_types.default_account_type_id (preferred),
+  2) matching default account type name (legacy-safe fallback),
+  3) tenant account type id (oldest compatibility fallback).
+- The lookup is business-scoped.
+- Child/sub account types walk to their parent account type when necessary.
+- Both tenant-current DB configuration and the existing Superadmin AccountNumber model connection are supported.
+- Existing account numbers are scanned by configured prefix within the current business only.
+- PREFIX-123 and legacy PREFIX123 formats are both recognized when calculating the next number.
+- Soft-deleted accounts are included when calculating the next sequence so a previous number is not accidentally reused.
+- If manual account numbering is enabled, the suggested configured number still auto-loads but remains editable.
+- If manual numbering is not enabled, the auto-loaded number is read-only.
+- Store retains the server-side fallback, so the configured number is generated again on save if browser-side population is unavailable.
+- Account-number endpoint responses are explicitly no-cache.
+
+CHANGED FILES
+1. Finance/Resources/views/account/index.blade.php
+2. Finance/Http/Controllers/Account/Concerns/ManagesAccounts.php
+3. Finance/Documentation/IS_FINANCE_ADD_ACCOUNT_CHECKBOX_NUMBER_FIX_10Sep2026.txt
+
+DATABASE
+No SQL or migration is required.
+
+DEPLOYMENT
+1. Replace the Finance module with the supplied full corrected Finance folder/ZIP.
+2. From Laravel root run:
+   php artisan optimize:clear
+3. Hard refresh the browser (Ctrl+F5).
+
+TEST
+A. Main/Sub checkbox
+- Open Finance -> List Account -> Add.
+- Tick Main A/C: Sub A/C must be unticked immediately.
+- Tick Sub A/C: Main A/C must be unticked immediately.
+- For Sub A/C, Parent Account and Opening Balance must appear.
+- Untick Sub A/C: Parent Account must clear/hide.
+
+B. Account Number
+- Confirm a prefix/start number exists in Super Admin -> Super Admin Settings -> Default Accounts -> Account Numbers.
+- Open Finance -> List Account -> Add.
+- Select the corresponding Account Type.
+- Account Number must immediately show PREFIX-NUMBER.
+- Save one account, reopen Add, select the same Account Type, and verify the number advances correctly.

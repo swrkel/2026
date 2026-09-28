@@ -1,0 +1,16 @@
+IS1827 - Expenses New - Changed files
+
+Http/Controllers/CategoryController.php
+Http/Controllers/ExpenseController.php
+Http/Controllers/ReportController.php
+Http/Requests/ExpenseRequest.php
+Services/AccountingModuleService.php
+Services/ModuleAvailabilityService.php
+Services/OptionService.php
+Resources/views/reports/expense_summary.blade.php
+Resources/views/categories/index.blade.php
+Resources/views/categories/form.blade.php
+Resources/views/expenses/form.blade.php
+Documentation/IS1827_EXPENSES_NEW_FIXES.md
+
+No migration or raw SQL change is required. The accounting_module column from IS1824 is reused.

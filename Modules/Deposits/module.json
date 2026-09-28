@@ -1,0 +1,20 @@
+{
+    "name": "Deposits",
+    "alias": "deposits",
+    "description": "Standalone Banking Deposits module for fixed deposits and deposit accounts.",
+    "keywords": [
+        "banking",
+        "deposits",
+        "fixed deposits"
+    ],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Deposits\\Providers\\DepositsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -1,0 +1,6 @@
+<?php
+namespace Modules\BankingMicrofinanceTreasury\Services;
+use Modules\BankingMicrofinanceTreasury\Entities\TreasuryVault;use Modules\BankingMicrofinanceTreasury\Entities\TreasuryFundingLine;use Modules\BankingMicrofinanceTreasury\Entities\TreasuryLiquiditySnapshot;
+class TreasuryLiquidityService{
+ public function position(?int $businessId=null): array{$vault=TreasuryVault::when($businessId,fn($q)=>$q->where('business_id',$businessId))->sum('current_balance');$funding=TreasuryFundingLine::when($businessId,fn($q)=>$q->where('business_id',$businessId))->sum('available_limit');$net=$vault+$funding;return ['cash_on_hand'=>(float)$vault,'available_funding'=>(float)$funding,'net_liquidity'=>(float)$net,'liquidity_ratio'=>$net>0?100:0];}
+ public function snapshot(?int $businessId=null): TreasuryLiquiditySnapshot{$p=$this->position($businessId);return TreasuryLiquiditySnapshot::updateOrCreate(['business_id'=>$businessId,'snapshot_date'=>date('Y-m-d')],['cash_on_hand'=>$p['cash_on_hand'],'bank_balance'=>0,'expected_collections'=>0,'expected_disbursements'=>0,'net_liquidity'=>$p['net_liquidity'],'liquidity_ratio'=>$p['liquidity_ratio'],'bucket_summary'=>['0_7_days'=>0,'8_30_days'=>0,'31_90_days'=>0]]);} }

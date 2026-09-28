@@ -1,0 +1,2 @@
+-- Register Modules/RestaurantNew/Routes/gift_voucher.php from the RestaurantNew route service provider if dynamic route discovery is not enabled.
+-- No shared table ALTER is required for Stage 042.

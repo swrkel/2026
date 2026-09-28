@@ -1,0 +1,105 @@
+IS2207 - Cheque Deposit - 08 Sep 2026
+======================================
+
+Scope
+-----
+Finance module -> List Accounts
+1. Cheque Deposit: newly saved cheque payments must appear in the form.
+2. Cheque Deposit: Cheque Number and Amount filters must work.
+3. Cash Deposit / Card Deposit / Cheque Deposit: successful save message is
+   "Deposit Successful" with green background and white text.
+4. Cheques to Realize: Cheque Date must be selectable.
+5. Cheque Deposit: Date Range and Created On picker must close automatically
+   after the user makes a selection.
+
+Root causes found in the supplied latest module
+-----------------------------------------------
+1. The current cheque_deposit.blade.php had reintroduced forced current-month
+   defaults for BOTH Date Range and Created On. That silently excluded saved
+   post-dated/back-dated cheques. This contradicted the earlier IS2184 fix note
+   already shipped inside the Finance module, which explicitly required both
+   filters to open blank.
+
+2. The Cheque Deposit modal depended on get_cheques_list() in account/index.
+   The form is inserted by AJAX into a modal that is first displayed with a
+   loading spinner. This split ownership allowed list requests to race the
+   modal's own date-picker/filter initialization and left Cheque Number/Amount
+   options empty or stale.
+
+3. Cheques to Realize had date-picker initialization in multiple places. The
+   modal's first shown.bs.modal event can occur for the loading spinner before
+   #realize_cheque_date exists, so an initializer tied only to that event can
+   miss the actual form.
+
+Fixes applied
+-------------
+- Cheque Deposit Date Range and Created On now start EMPTY. Empty means no date
+  filter, so all outstanding cheques are shown on initial open (still bounded
+  by the existing Finance service limit).
+- The Cheque Deposit view now owns one local, abortable AJAX list loader using
+  the Finance-owned finance.account.cheque-list route.
+- Cheque Number and Amount dropdowns are populated from the successfully loaded
+  Finance cheque rows and filter through the same local loader.
+- Both Cheque Deposit date pickers hide immediately after selection/apply.
+- Cheques to Realize now has one idempotent form initializer which runs after
+  AJAX HTML insertion, so the Cheque Date picker is attached to the real field
+  and is clickable inside the modal.
+- The List Accounts Realize button, list AJAX and form submit now use unique,
+  named Finance-owned routes. Legacy aliases remain unchanged for compatibility.
+- Existing successful deposit response text "Deposit Successful" is retained.
+  List Accounts success styling is explicitly green with white text and full
+  opacity.
+
+Files changed
+-------------
+Modules/Finance/Resources/views/account/cheque_deposit.blade.php
+Modules/Finance/Resources/views/account/realize_cheque_deposit.blade.php
+Modules/Finance/Resources/views/account/index.blade.php
+Modules/Finance/Routes/accounting_module.php
+Modules/Finance/Documentation/IS2207_Cheque_Deposit_Fix_08Sep2026.txt
+
+Database changes
+----------------
+None.
+
+Deployment
+----------
+1. Replace the Finance module with the supplied fixed Finance folder/ZIP.
+2. From the Laravel application root run:
+
+   php artisan optimize:clear
+
+3. Hard-refresh the browser (Ctrl+F5).
+
+Recommended test sequence
+-------------------------
+A. Saved cheque visibility
+- Save a cheque payment dated today.
+- Save a post-dated cheque for next month.
+- Save/backfill a cheque dated last month if available.
+- Open Finance -> List Accounts -> Cheque Deposit.
+- Confirm both date filters are blank and all undeposited cheques appear.
+
+B. Cheque Deposit filters
+- Open Cheque Number and select a value; verify the rows filter.
+- Reset to All.
+- Open Amount and select a value; verify the rows filter.
+- Reset to All.
+
+C. Date filters
+- Pick Date Range; confirm the picker closes automatically and rows refresh.
+- Pick Created On; confirm the picker closes automatically and rows refresh.
+- Clear either filter; confirm the unfiltered outstanding list returns for that
+  date dimension.
+
+D. Deposits
+- Save one Cheque Deposit; confirm message: Deposit Successful.
+- Save one Cash Deposit; confirm message: Deposit Successful.
+- Save one Card Deposit; confirm message: Deposit Successful.
+- Confirm success message background is green and text is white.
+
+E. Cheques to Realize
+- Open Cheques to Realize.
+- Click the Cheque Date field/calendar icon.
+- Select another range/date and confirm the picker accepts the selection,
+  closes, and the list refreshes.

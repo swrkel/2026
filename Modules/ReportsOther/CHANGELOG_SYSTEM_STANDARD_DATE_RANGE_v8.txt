@@ -1,0 +1,12 @@
+Reports - Other v8 - List Receipt system-standard date range selector
+Date: 20 Sep 2026
+
+Changes
+- Replaced the List Receipt separate Date Range preset + From + To fields with the standard single calendar-style date range control.
+- Standard presets: This Year, Last Year, This FY, Last FY, Custom Date Range.
+- Presets apply immediately and reload only the List Receipt fragment.
+- Custom Date Range opens the system-style Date / Month / Year typing dialog.
+- Each date digit auto-advances to the next field; Backspace can move to the previous digit.
+- Custom date validation prevents impossible dates and From > To ranges.
+- Uses module-local Blade/CSS/JS only; no new SQL and no dependency on another module.
+- Existing report search, page-size, CSV, Excel, PDF, Print, Column Visibility, Email, SMS and WhatsApp controls remain unchanged.

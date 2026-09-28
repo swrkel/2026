@@ -1,0 +1,1 @@
+window.HotelManagementDashboards = window.HotelManagementDashboards || {};

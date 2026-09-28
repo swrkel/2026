@@ -1,0 +1,45 @@
+S739 - SW Save Settlement - 15 Sep 2026
+========================================
+
+Requested
+---------
+1. Keep Save Settlement visible without scrolling.
+2. When Balance is zero, clicking Save Settlement must submit immediately.
+
+Root causes corrected
+---------------------
+- Save/Cancel lived in the normal document flow below the settlement content and
+  the Save button itself was hidden until the balance gate opened, so users had
+  to scroll to find the action.
+- The form and success redirect used absolute named-route URLs. In the
+  multi-tenant host setup an absolute URL can follow APP_URL instead of the
+  current tenant host, making a Save appear to do nothing or leave the current
+  tenant context.
+- Save depended on the normal/global submit event chain. A host-page/global
+  delegated handler can interfere with that click even after the SW balance
+  check has passed.
+
+Changes
+-------
+- Added one fixed, responsive Save Settlement action dock that stays visible on
+  screen. The button is visible at all times and is disabled until selected
+  shift data is fully loaded and Balance is 0.00.
+- The dock shows the current Balance and a clear Ready/Saving status.
+- Added a dedicated SW-owned Save click handler. It performs required-field,
+  pending-shift and zero-balance checks, locks against double clicks, changes
+  the button to "Saving...", and then posts the form directly.
+- Kept a validated fallback submit path for keyboard/other form submissions.
+- Changed the settlement POST form action and successful redirect to relative
+  same-origin routes so Save remains on the active tenant host.
+- Existing server-side shift, balance, Finance and transaction validation is
+  unchanged and remains authoritative.
+
+Files changed
+-------------
+- Http/Controllers/SettlementCreateController.php
+- Resources/views/settlements/create.blade.php
+- Resources/lang/en/lang.php
+
+Database
+--------
+No SQL or migration required.

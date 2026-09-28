@@ -1,0 +1,17 @@
+{
+    "name": "BankingCRM",
+    "alias": "bankingcrm",
+    "description": "Customer 360, relationship management, service requests, complaints, campaigns and cross-selling.",
+    "keywords": [
+        "banking",
+        "erp",
+        "bankingcrm"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\BankingCRM\\Providers\\BankingCRMServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

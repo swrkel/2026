@@ -1,0 +1,5 @@
+@extends('bankingmicrofinance::layouts.app')
+@section('page-title','Loan Products')
+@section('module-content')
+<div class="box"><div class="box-header"><a href="{{ route('banking.microfinance.products.create') }}" class="btn btn-primary">Add Product</a></div><div class="box-body"><table class="table table-bordered"><tr><th>Code</th><th>Name</th><th>Min</th><th>Max</th><th>Rate</th><th>Term</th><th>Method</th><th>Active</th><th>Action</th></tr>@foreach($products as $product)<tr><td>{{ $product->code }}</td><td>{{ $product->name }}</td><td>{{ number_format($product->min_amount,4) }}</td><td>{{ number_format($product->max_amount,4) }}</td><td>{{ number_format($product->annual_interest_rate,4) }}</td><td>{{ $product->default_term_weeks }}</td><td>{{ $product->interest_method }}</td><td>{{ $product->is_active ? 'Yes':'No' }}</td><td><a class="btn btn-xs btn-primary" href="{{ route('banking.microfinance.products.edit',$product) }}">Edit</a></td></tr>@endforeach</table>{{ $products->links() }}</div></div>
+@endsection

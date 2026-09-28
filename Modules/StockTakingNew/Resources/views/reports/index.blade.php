@@ -1,0 +1,6 @@
+@extends('stocktakingnew::layouts.app')
+@section('stk_title','Stock Taking Reports')
+@section('stk_subtitle','Variance, progress, accuracy and audit reports for every location and store.')
+@section('stk_content')
+<div class="stk-report-grid"><a href="{{ route('stock-taking-new.reports.variance') }}" class="stk-report-card blue"><i class="fa fa-balance-scale"></i><div><strong>Variance Report</strong><span>Product-level shortages, excesses and values.</span></div><i class="fa fa-angle-right"></i></a><a href="{{ route('stock-taking-new.reports.progress') }}" class="stk-report-card cyan"><i class="fa fa-tasks"></i><div><strong>Progress Report</strong><span>Count completion by session and scope.</span></div><i class="fa fa-angle-right"></i></a><a href="{{ route('stock-taking-new.reports.accuracy') }}" class="stk-report-card green"><i class="fa fa-bullseye"></i><div><strong>Stock Accuracy</strong><span>Accuracy percentages and variance trends.</span></div><i class="fa fa-angle-right"></i></a><a href="{{ route('stock-taking-new.reports.audit') }}" class="stk-report-card purple"><i class="fa fa-history"></i><div><strong>Audit Trail</strong><span>Who changed, approved, shared and posted.</span></div><i class="fa fa-angle-right"></i></a></div>
+@endsection

@@ -1,0 +1,9 @@
+{
+  "name": "MembershipNew",
+  "alias": "membership-new",
+  "description": "Standalone Membership-New module",
+  "providers": [
+    "Modules\\MembershipNew\\app\\Providers\\MembershipNewServiceProvider",
+    "Modules\\MembershipNew\\app\\Providers\\RouteServiceProvider"
+  ]
+}

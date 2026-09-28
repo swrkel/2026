@@ -1,0 +1,207 @@
+=== Customers file counts ===
+358
+
+=== Remaining high-risk Contact module references in Modules/Customers ===
+Modules/Customers/Services/CustomerStandaloneAuditService.php:29:        'contacts::',
+
+=== Data-table/storage contact table references (expected legacy DB schema compatibility) ===
+Modules/Customers/Http/Middleware/CustomerPortalMiddleware.php:23:        if (! $request->session()->has('customer_portal.contact_id')) {
+Modules/Customers/Http/Middleware/EnsureDealerApiToken.php:53:            ->find((int) $row->contact_id);
+Modules/Customers/Http/Middleware/EnsureDealerApiToken.php:71:        $request->attributes->set('dealer_customer_id', (int) $row->contact_id);
+Modules/Customers/Http/Controllers/CustomerController.php:224:                            $customer->contact_id,
+Modules/Customers/Http/Controllers/Api/LoyaltyController.php:19:                ->where('contact_id', $this->customerId($request))
+Modules/Customers/Http/Controllers/Api/ProfileController.php:15:            'contact_id' => $customer->contact_id,
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:19:            ->where('contact_id', $this->customerId($request));
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:41:            ->where('contact_id', $this->customerId($request))
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:121:                ->where('contact_id', $this->customerId($request));
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:125:                ->where('contact_id', $this->customerId($request))
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:147:            if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:148:                $query->where('contact_id', $this->customerId($request));
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:177:            if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:178:                $query->where('contact_id', $this->customerId($request));
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:205:            if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Http/Controllers/Api/DeliveryController.php:206:                $query->where('contact_id', $this->customerId($request));
+Modules/Customers/Http/Controllers/Api/OrderController.php:19:            ->where('contact_id', $this->customerId($request));
+Modules/Customers/Http/Controllers/Api/OrderController.php:50:            ->where('contact_id', $this->customerId($request))
+Modules/Customers/Http/Controllers/Api/OrderController.php:126:                'contact_id' => $customerId,
+Modules/Customers/Http/Controllers/Api/DashboardController.php:21:                'contact_id' => optional($this->customer($request))->contact_id,
+Modules/Customers/Http/Controllers/Api/DashboardController.php:57:        if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Http/Controllers/Api/DashboardController.php:58:            $query->where('contact_id', $customerId);
+Modules/Customers/Http/Controllers/Api/DashboardController.php:74:            ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/Api/NotificationController.php:29:            ->where('contact_id', $this->customerId($request))
+Modules/Customers/Http/Controllers/Api/NotificationController.php:47:            ->where('contact_id', $this->customerId($request));
+Modules/Customers/Http/Controllers/Api/InvoiceController.php:19:            ->where('contact_id', $this->customerId($request))
+Modules/Customers/Http/Controllers/Api/InvoiceController.php:55:            ->where('contact_id', $this->customerId($request))
+Modules/Customers/Http/Controllers/Api/PaymentController.php:28:                            ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/Api/BaseDealerApiController.php:64:                ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/Api/BaseDealerApiController.php:82:                                ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/Api/BaseDealerApiController.php:95:                ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/Api/AuthController.php:45:            'contact_id' => (int) $customer->id,
+Modules/Customers/Http/Controllers/Api/AuthController.php:109:            'contact_id' => $customer->contact_id,
+Modules/Customers/Http/Controllers/CustomerStatusController.php:24:            'contact_id' => 'required|integer',
+Modules/Customers/Http/Controllers/CustomerStatusController.php:29:        $workflowService->changeStatus((int) $request->contact_id, $request->status, $request->remarks);
+Modules/Customers/Http/Controllers/CustomerPortalController.php:138:        $filename = 'customer_statement_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $customer->contact_id ?: $customer->id) . '_' . date('Ymd_His') . '.csv';
+Modules/Customers/Http/Controllers/CustomerPortalOrderController.php:152:                'contact_id' => (int) $customer->id,
+Modules/Customers/Http/Controllers/CustomerPortalOrderController.php:300:            'contact_id' => (int) $customer->id,
+Modules/Customers/Http/Controllers/CustomerPortalOrderController.php:375:                'contact_id' => (int) $customer->id,
+Modules/Customers/Http/Controllers/CustomerPortalOrderController.php:386:                    ->where('contact_id', (int) $customer->id)
+Modules/Customers/Http/Controllers/CustomerPortalOrderController.php:445:            ->where('contact_id', (int) $customer->id)
+Modules/Customers/Http/Controllers/CustomerPortalOrderController.php:452:                'contact_id' => (int) $customer->id,
+Modules/Customers/Http/Controllers/CustomerPortalOrderController.php:477:                ->where('contact_id', (int) $customer->id)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:61:                ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:82:            ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:102:                    ->orWhere('transactions.contact_id', $customerId);
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:115:            ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:145:            ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:163:                ->where('transactions.contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:200:                    ->orWhere('transactions.contact_id', $customerId);
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:233:            ->where('transactions.contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:272:            ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:319:            ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerPortalAnalyticsController.php:337:                    ->orWhere('transactions.contact_id', $customerId);
+Modules/Customers/Http/Controllers/CustomerApprovalController.php:42:            'contact_id' => 'required|integer',
+Modules/Customers/Http/Controllers/CustomerApprovalController.php:47:        $this->workflowService->createApproval($request->only(['contact_id', 'workflow_type', 'current_value', 'requested_value', 'reason']));
+Modules/Customers/Http/Controllers/CustomerPortalDeliveryController.php:128:                if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Http/Controllers/CustomerPortalDeliveryController.php:129:                    $query->where('contact_id', $customerId);
+Modules/Customers/Http/Controllers/CustomerPortalDeliveryController.php:184:            if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Http/Controllers/CustomerPortalDeliveryController.php:185:                $query->where('contact_id', $customerId);
+Modules/Customers/Http/Controllers/CustomerPortalDeliveryController.php:215:                ->where('contact_id', $customerId);
+Modules/Customers/Http/Controllers/CustomerPortalDeliveryController.php:230:                ->where('contact_id', $customerId);
+Modules/Customers/Http/Controllers/CustomerPortalDeliveryController.php:246:                ->where('contact_id', $customerId)
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:49:        $id = $request->get('contact_id') ?: $request->get('customer_id') ?: $request->get('id');
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:92:        $parentId = (int) ($request->get('parent_id') ?: $request->get('contact_id') ?: 0);
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:103:            ->get(['id', 'name', 'contact_id', 'mobile']);
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:141:                'contact_id' => $customer->contact_id,
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:162:        $id = $request->get('contact_id') ?: $request->get('customer_id') ?: $request->get('id');
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:178:        $id = $request->get('contact_id') ?: $request->get('customer_id') ?: $request->get('id');
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:195:            ->get(['id', 'name', 'contact_id', 'mobile']);
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:218:        $contactId = trim((string) ($request->get('contact_id') ?: $request->get('customer_code') ?: ''));
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:226:            ->where('contact_id', $contactId)
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:249:                        ->orWhere('contact_id', 'like', "%{$term}%")
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:256:            ->get(['id', 'name', 'contact_id', 'mobile', 'email']);
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:259:            $label = trim(($customer->contact_id ? $customer->contact_id . ' - ' : '') . $customer->name . ($customer->mobile ? ' (' . $customer->mobile . ')' : ''));
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:265:                'contact_id' => $customer->contact_id,
+Modules/Customers/Http/Controllers/CustomerCompatibilityController.php:330:                'contact_id' => $customer->contact_id,
+Modules/Customers/Services/CustomerWorkflowService.php:28:            ->leftJoin('contacts as c', 'c.id', '=', 'cwa.contact_id')
+Modules/Customers/Services/CustomerWorkflowService.php:35:                'c.contact_id as customer_code',
+Modules/Customers/Services/CustomerWorkflowService.php:59:            'contact_id' => (int) $data['contact_id'],
+Modules/Customers/Services/CustomerWorkflowService.php:70:        $this->addHistory((int) $data['contact_id'], $data['workflow_type'], 'created', null, 'pending', $data['reason'] ?? null);
+Modules/Customers/Services/CustomerWorkflowService.php:94:        $this->addHistory($approval->contact_id, $approval->workflow_type, 'approved', 'pending', 'approved', $remarks);
+Modules/Customers/Services/CustomerWorkflowService.php:115:        $this->addHistory($approval->contact_id, $approval->workflow_type, 'rejected', 'pending', 'rejected', $remarks);
+Modules/Customers/Services/CustomerWorkflowService.php:133:            ->leftJoin('contacts as c', 'c.id', '=', 'cwh.contact_id')
+Modules/Customers/Services/CustomerWorkflowService.php:139:                'c.contact_id as customer_code',
+Modules/Customers/Services/CustomerWorkflowService.php:144:            $query->where('cwh.contact_id', $customerId);
+Modules/Customers/Services/CustomerWorkflowService.php:154:            'contact_id' => $customerId,
+Modules/Customers/Services/CustomerWorkflowService.php:171:                ->where('id', $approval->contact_id)
+Modules/Customers/Services/CustomerWorkflowService.php:178:                ->where('id', $approval->contact_id)
+Modules/Customers/Services/CustomerAuditService.php:197:                'contact_id' => $customer->contact_id ?? null,
+Modules/Customers/Services/CustomerPaymentReportService.php:19:                $join->on('transaction_payments.payment_for', '=', 'contacts.id')
+Modules/Customers/Services/CustomerPaymentReportService.php:20:                    ->orOn('transactions.contact_id', '=', 'contacts.id');
+Modules/Customers/Services/CustomerPaymentReportService.php:33:                'contacts.name as customer_name',
+Modules/Customers/Services/CustomerPaymentReportService.php:34:                'contacts.contact_id as customer_code',
+Modules/Customers/Services/CustomerDealerAIService.php:259:            if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Services/CustomerDealerAIService.php:260:                $query->where('contact_id', $customerId);
+Modules/Customers/Services/CustomerDealerAIService.php:292:            if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Services/CustomerDealerAIService.php:293:                $query->where('contact_id', $customerId);
+Modules/Customers/Services/CustomerTransactionReportService.php:17:            ->leftJoin('contacts', 'transactions.contact_id', '=', 'contacts.id')
+Modules/Customers/Services/CustomerTransactionReportService.php:30:                'contacts.name as customer_name',
+Modules/Customers/Services/CustomerTransactionReportService.php:31:                'contacts.contact_id as customer_code',
+Modules/Customers/Services/CustomerBalanceService.php:13:            ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerPermissionService.php:48:        'access'    => ['customer.view', 'contact.view'],
+Modules/Customers/Services/CustomerPermissionService.php:49:        'dashboard' => ['customer.view', 'contact.view'],
+Modules/Customers/Services/CustomerPermissionService.php:50:        'view'      => ['customer.view', 'contact.view'],
+Modules/Customers/Services/CustomerPermissionService.php:51:        'create'    => ['customer.create', 'contact.create'],
+Modules/Customers/Services/CustomerPermissionService.php:52:        'edit'      => ['customer.update', 'contact.update'],
+Modules/Customers/Services/CustomerPermissionService.php:53:        'delete'    => ['customer.delete', 'contact.delete'],
+Modules/Customers/Services/CustomerPermissionService.php:54:        'reports'   => ['customer.view', 'contact.view'],
+Modules/Customers/Services/CustomerPermissionService.php:55:        'export'    => ['customer.view', 'contact.view'],
+Modules/Customers/Services/CustomerLedgerService.php:16:            ->select(['id', 'contact_id', 'name', 'mobile', 'email', 'credit_limit', 'active', 'created_at'])
+Modules/Customers/Services/CustomerLedgerService.php:28:            ->select(['id', 'contact_id', 'name', 'mobile', 'email', 'credit_limit', 'active', 'created_at'])
+Modules/Customers/Services/CustomerLedgerService.php:75:            ->leftJoin('contacts', 'transactions.contact_id', '=', 'contacts.id')
+Modules/Customers/Services/CustomerLedgerService.php:87:                'transactions.contact_id',
+Modules/Customers/Services/CustomerLedgerService.php:88:                'contacts.name as customer_name',
+Modules/Customers/Services/CustomerLedgerService.php:89:                'contacts.contact_id as customer_code',
+Modules/Customers/Services/CustomerLedgerService.php:96:            $query->where('transactions.contact_id', $customerId);
+Modules/Customers/Services/CustomerLedgerService.php:123:                ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerLedgerService.php:141:                                ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerLedgerService.php:154:                ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerLedgerService.php:176:                ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerLedgerService.php:261:            ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerLedgerService.php:283:                    ->orWhere('transactions.contact_id', $customerId);
+Modules/Customers/Services/CustomerLedgerService.php:331:            ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerLedgerService.php:583:            if (Schema::hasColumn($table, 'contact_id')) {
+Modules/Customers/Services/CustomerLedgerService.php:584:                $query->where('contact_id', $customerId);
+Modules/Customers/Services/CustomerService.php:28:            ->selectRaw("contact_id, SUM(CASE WHEN type = 'debit' THEN amount ELSE -amount END) as ledger_balance")
+Modules/Customers/Services/CustomerService.php:29:            ->groupBy('contact_id');
+Modules/Customers/Services/CustomerService.php:33:                $join->on('contacts.id', '=', 'customer_ledger_balance.contact_id');
+Modules/Customers/Services/CustomerService.php:36:                'contacts.id',
+Modules/Customers/Services/CustomerService.php:37:                'contacts.contact_id',
+Modules/Customers/Services/CustomerService.php:38:                'contacts.name',
+Modules/Customers/Services/CustomerService.php:39:                'contacts.mobile',
+Modules/Customers/Services/CustomerService.php:40:                'contacts.email',
+Modules/Customers/Services/CustomerService.php:41:                'contacts.credit_limit',
+Modules/Customers/Services/CustomerService.php:42:                'contacts.active',
+Modules/Customers/Services/CustomerService.php:43:                'contacts.customer_passcode',
+Modules/Customers/Services/CustomerService.php:44:                'contacts.created_at',
+Modules/Customers/Services/CustomerService.php:72:            if (empty($customer->contact_id)) {
+Modules/Customers/Services/CustomerService.php:73:                $customer->contact_id = 'CUS-' . str_pad($customer->id, 5, '0', STR_PAD_LEFT);
+Modules/Customers/Services/CustomerPortalOrderService.php:17:                ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerPortalOrderService.php:152:            ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerPortalOrderService.php:189:            ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerPortalOrderService.php:200:                ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerPortalOrderService.php:233:            'contact_id' => $customerId,
+Modules/Customers/Services/CustomerBalanceReportService.php:16:            ->select(['id', 'contact_id', 'name', 'mobile', 'credit_limit', 'active'])
+Modules/Customers/Services/CustomerBalanceReportService.php:29:                'customer_code' => $customer->contact_id,
+Modules/Customers/Services/CustomerBalanceReportService.php:59:                ->whereIn('contact_id', $customerIds)
+Modules/Customers/Services/CustomerBalanceReportService.php:61:                ->selectRaw("contact_id, SUM(CASE WHEN type = 'debit' THEN amount ELSE -amount END) as balance")
+Modules/Customers/Services/CustomerBalanceReportService.php:62:                ->groupBy('contact_id')
+Modules/Customers/Services/CustomerBalanceReportService.php:63:                ->pluck('balance', 'contact_id')
+Modules/Customers/Services/CustomerDashboardService.php:44:            ->select(['id', 'contact_id', 'name', 'mobile', 'email', 'credit_limit', 'active', 'created_at'])
+Modules/Customers/Services/CustomerDashboardService.php:58:            ->leftJoin('contacts', 'transactions.contact_id', '=', 'contacts.id')
+Modules/Customers/Services/CustomerDashboardService.php:70:                'contacts.name as customer_name',
+Modules/Customers/Services/CustomerHealthScoreService.php:54:                ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerHealthScoreService.php:75:            ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerHealthScoreService.php:93:                  ->orWhere('transactions.contact_id', $customerId);
+Modules/Customers/Services/CustomerHealthScoreService.php:111:            ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerHealthScoreService.php:126:            ->where('contact_id', $customerId)
+Modules/Customers/Services/CustomerStandaloneAuditService.php:19:     * contact_id is excluded because the existing tenant database still stores
+Modules/Customers/Services/CustomerStandaloneAuditService.php:31:        'contact.view',
+Modules/Customers/Services/CustomerStandaloneAuditService.php:32:        'contact.create',
+Modules/Customers/Database/sql/CUS_024_customer_portal_orders.sql:7:  `contact_id` INT UNSIGNED NOT NULL,
+Modules/Customers/Database/sql/CUS_024_customer_portal_orders.sql:21:  KEY `customer_portal_orders_business_contact_index` (`business_id`, `contact_id`),
+Modules/Customers/Database/sql/CUS_OPT_001_optional_indexes.sql:6:ALTER TABLE contacts ADD INDEX idx_contacts_business_contact_id (business_id, contact_id);
+Modules/Customers/Database/sql/CUS_OPT_001_optional_indexes.sql:9:ALTER TABLE transactions ADD INDEX idx_transactions_business_contact_date_type_deleted (business_id, contact_id, transaction_date, type, deleted_at);
+Modules/Customers/Database/sql/CUS_OPT_001_optional_indexes.sql:11:ALTER TABLE transactions ADD INDEX idx_transactions_contact_payment_status (contact_id, payment_status);
+Modules/Customers/Database/sql/CUS_OPT_001_optional_indexes.sql:17:ALTER TABLE contact_ledgers ADD INDEX idx_contact_ledgers_business_contact_date_deleted (business_id, contact_id, transaction_date, deleted_at);
+Modules/Customers/Database/sql/CUS_032_delivery_tracking_tables.sql:7:  `contact_id` INT UNSIGNED NOT NULL,
+Modules/Customers/Database/sql/CUS_032_delivery_tracking_tables.sql:17:  KEY `cus32_delivery_tracking_business_contact` (`business_id`, `contact_id`),
+Modules/Customers/Database/sql/CUS_032_delivery_tracking_tables.sql:26:  `contact_id` INT UNSIGNED NULL,
+Modules/Customers/Database/sql/CUS_032_delivery_tracking_tables.sql:39:  KEY `cus32_vehicle_locations_business_contact` (`business_id`, `contact_id`),
+Modules/Customers/Database/sql/CUS_031_customer_dealer_api_tokens.sql:4:  `contact_id` INT UNSIGNED NOT NULL,
+Modules/Customers/Database/sql/CUS_031_customer_dealer_api_tokens.sql:15:  KEY `customer_portal_api_tokens_business_contact_index` (`business_id`, `contact_id`),
+Modules/Customers/Database/sql/CUS_SEP_006_customer_workflow_approval_tables.sql:7:  `contact_id` INT UNSIGNED NOT NULL,
+Modules/Customers/Database/sql/CUS_SEP_006_customer_workflow_approval_tables.sql:22:  KEY `customer_workflow_approvals_contact_id_index` (`contact_id`),
+Modules/Customers/Database/sql/CUS_SEP_006_customer_workflow_approval_tables.sql:29:  `contact_id` INT UNSIGNED NOT NULL,
+Modules/Customers/Database/sql/CUS_SEP_006_customer_workflow_approval_tables.sql:40:  KEY `customer_workflow_histories_contact_id_index` (`contact_id`),
+Modules/Customers/Exports/CustomerExport.php:12:                $this->value($customer, 'contact_id'),
+Modules/Customers/Exports/CustomerExport.php:31:                $this->value($customer, 'contact_id'),
+Modules/Customers/Resources/views/layouts/action.blade.php:51:                <small class="text-muted" style="display:block; margin-top:6px;">{{ $customer->contact_id ?? '' }} {{ !empty($customer->name) ? ' - '.$customer->name : '' }}</small>
+Modules/Customers/Resources/views/portal/partials_summary.blade.php:8:        <div class="dd-summary-value">{{ $customer->contact_id ?: '-' }}</div>
+Modules/Customers/Resources/views/portal/invoice_print.blade.php:8:            <p><strong>Customer:</strong> {{ $customer->name }} ({{ $customer->contact_id }})</p>
+Modules/Customers/Resources/views/portal/profile.blade.php:12:                <div class="col-md-6"><p><strong>Customer Code:</strong> {{ $customer->contact_id }}</p></div>
+Modules/Customers/Resources/views/portal/analytics.blade.php:11:            <p style="margin:0;color:#64748b;font-weight:700;">{{ $customer->name }} @if(!empty($customer->contact_id)) | {{ $customer->contact_id }} @endif</p>
+Modules/Customers/Resources/views/portal/payment_print.blade.php:8:            <p><strong>Customer:</strong> {{ $customer->name }} ({{ $customer->contact_id }})</p>
+Modules/Customers/Resources/views/portal/statement_print.blade.php:7:        <p>{{ $customer->name }} | {{ $customer->contact_id }}</p>
+Modules/Customers/Resources/views/profile/show.blade.php:34:                            {{ $customer->contact_id ?? '-' }}
+Modules/Customers/Resources/views/audit/standalone.blade.php:39:                        <small>Note: database column names such as contact_id are intentionally not counted in RC12 because existing ERP tenant transaction tables still use them.</small>
+Modules/Customers/Resources/views/index.blade.php:284:            { data: 'contact_id', name: 'contact_id' },
+Modules/Customers/Resources/views/customers/partials/form.blade.php:28:                {!! Form::label('contact_id', __('customers::lang.customer_code') . ':') !!}
+Modules/Customers/Resources/views/customers/partials/form.blade.php:29:                {!! Form::text('contact_id', old('contact_id', data_get($customer, 'contact_id')), ['class' => 'form-control', 'placeholder' => __('customers::lang.customer_code')]) !!}
+Modules/Customers/Resources/views/customers/index.blade.php:120:            { data: 'contact_id', name: 'contact_id' },
+Modules/Customers/Resources/views/customers/print_profile.blade.php:44:        <div class="badge">{{ data_get($customer, 'contact_id', '-') ?: '-' }}</div>
+Modules/Customers/Resources/views/customers/print_profile.blade.php:63:        <tr><th>{{ __('customers::lang.customer_code') }}</th><td>{{ data_get($customer, 'contact_id', '-') ?: '-' }}</td></tr>
+Modules/Customers/Resources/views/customers/show.blade.php:21:                        @if(!empty($customer->contact_id))
+Modules/Customers/Resources/views/customers/show.blade.php:22:                            <small>({{ $customer->contact_id }})</small>
+Modules/Customers/Resources/views/customers/show.blade.php:50:                            {{ $customer->contact_id ?? '-' }}
+Modules/Customers/Resources/views/show.blade.php:55:            Customer Code: {{ $customer->contact_id ?? '-' }}
+Modules/Customers/Resources/views/show.blade.php:63:                <tr><th>Customer Code</th><td>{{ $customer->contact_id ?? '-' }}</td></tr>

@@ -1,0 +1,35 @@
+Communication Hub Tenant Database Fix
+====================================
+
+Issue fixed:
+- Communication Hub dashboard/reports/queue could query the central database (example: nivasa_base.communication_hub_messages) instead of the current tenant database.
+
+Root cause:
+- Communication Hub UI routes were registered with normal web/auth middleware only, so tenant initialization was not guaranteed before module controllers executed.
+
+Fix included:
+1. CommunicationHub RouteServiceProvider now initializes tenancy for Communication Hub web and API routes:
+   - InitializeTenancyByDomain
+   - PreventAccessFromCentralDomains
+   - ScopeSessions
+2. Added CommunicationHubTenant support guard to:
+   - read current business_id safely
+   - scope tenant/business queries by business_id where table supports it
+   - avoid fatal errors if tenant SQL has not yet been run
+   - log guarded schema/query issues instead of crashing the page
+3. Hardened dashboard, queue, report and monitoring services to use tenant/business-safe queries.
+4. Dashboard now shows current database and a warning if Communication Hub tenant tables are missing.
+5. Fixed incorrect internal checks that referenced communicationhub_* table names; schema uses communication_hub_*.
+
+Deployment:
+- Replace only Modules/CommunicationHub/
+- Ensure modules_statuses.json contains "CommunicationHub": true
+- Run tenant SQL in the related tenant database if not already done:
+  Modules/CommunicationHub/Database/SQL/00_RUN_THIS_IN_EACH_TENANT_DATABASE.sql
+- Run: php artisan optimize:clear
+
+Testing:
+- Login to a tenant domain.
+- Open Communication Hub dashboard.
+- It should display current tenant database name, not nivasa_base.
+- If tables are missing, it should show a warning instead of HTTP 500.

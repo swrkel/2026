@@ -1,0 +1,306 @@
+<?php
+
+namespace Modules\SW\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Modules\SW\Entities\Shift;
+use Modules\SW\Entities\ShiftOperator;
+use Modules\SW\Services\NumberService;
+
+/**
+ * SW Shifts.
+ *
+ * A shift is created for a location and a date, and operators are assigned to
+ * it. Operators are assigned to the SHIFT, not to particular pumps - pumps are
+ * handled at settlement.
+ */
+class ShiftController extends Controller
+{
+    public function __construct(protected NumberService $numbers)
+    {
+    }
+
+    protected function businessId(): int
+    {
+        return (int) (session('business.id') ?: session('user.business_id') ?: 0);
+    }
+
+    /**
+     * /sw/shifts now sends people to the Daily Shift tab.
+     *
+     * That tab does everything this page did - list, open, assign, close,
+     * reopen - and does it against the current views. This page was written
+     * earlier, has its own layout nothing else uses, and links to create and
+     * edit views that are now MODALS: opening one as a full page renders the
+     * bare markup, which is what "Edit does not show the original page" was.
+     *
+     * Redirected rather than deleted. The route is in the sidebar and may be
+     * bookmarked, and a redirect keeps both working while there is only one
+     * screen to maintain.
+     */
+    public function index(Request $request)
+    {
+        /*
+         | To SW Daily Shifts now.
+         |
+         | The menu entry is gone, but the route stays and redirects: it may be
+         | bookmarked, and a dead link is worse than a redundant one.
+        */
+        return redirect()
+            ->route('sw.daily-shifts.index', $request->only('location_id'))
+            ->with('status.tab', 'sw_daily_shift');
+    }
+
+    public function create(Request $request)
+    {
+        $businessId = $this->businessId();
+
+        $locations = $this->locations($businessId)->pluck('name', 'id');
+        $locationId = (int) ($request->input('location_id') ?: $locations->keys()->first());
+
+        return view('sw::shifts.create', [
+            'business_locations' => $locations,
+            'locationId' => $locationId,
+            // Operators for the location the form opens on. Changing the
+            // location fetches a fresh list rather than reloading the page,
+            // which would close the modal and lose anything typed.
+            'operators' => $locationId ? $this->operators($businessId, $locationId) : collect(),
+        ]);
+    }
+
+    /**
+     * Operators at one location, for the create form.
+     *
+     * Its own endpoint so the location dropdown can refresh the list without
+     * reloading - a modal that reloads is a modal that closes.
+     */
+    public function locationOperators(Request $request)
+    {
+        $locationId = (int) $request->input('location_id');
+
+        if ($locationId <= 0) {
+            return response()->json([]);
+        }
+
+        return response()->json(
+            $this->operators($this->businessId(), $locationId)
+                ->map(fn ($o) => ['id' => $o->id, 'name' => $o->name])
+                ->values()
+        );
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'location_id' => 'required|integer',
+            'shift_date' => 'required|date',
+            'shift_name' => 'nullable|string|max:100',
+            'start_time' => 'nullable',
+            'end_time' => 'nullable',
+            'note' => 'nullable|string',
+            /*
+             | Operators are OPTIONAL here.
+             |
+             | The Daily Shift tab has its own Assign Operators action, and
+             | asking in two places is how the two lists end up disagreeing. A
+             | shift is opened first and staffed after - which is also the order
+             | it happens in on a forecourt.
+             |
+             | Closing still requires at least one, because a shift with nobody
+             | assigned has nothing to reconcile.
+            */
+            'operators' => 'nullable|array',
+            'operators.*' => 'integer',
+        ]);
+
+        $businessId = $this->businessId();
+
+        DB::transaction(function () use ($data, $businessId, &$shift) {
+            /*
+             | The number is taken here, at save - not when the form opened.
+             | Allocating on load leaves a gap whenever a shift is abandoned,
+             | and gives two people who open the form together the same number.
+            */
+            $shift = Shift::create([
+                'business_id' => $businessId,
+                'location_id' => $data['location_id'],
+                'sw_shift_no' => $this->numbers->next($businessId, (int) $data['location_id'], 'shift'),
+                'shift_date' => $data['shift_date'],
+                'shift_name' => $data['shift_name'] ?? null,
+                'start_time' => $data['start_time'] ?? null,
+                'end_time' => $data['end_time'] ?? null,
+                'note' => $data['note'] ?? null,
+                'status' => Shift::STATUS_OPEN,
+                'created_by' => auth()->id(),
+            ]);
+
+            foreach (array_unique($data['operators'] ?? []) as $operatorId) {
+                ShiftOperator::create([
+                    'sw_shift_id' => $shift->id,
+                    'pump_operator_id' => $operatorId,
+                ]);
+            }
+        });
+
+        /*
+         | Back to the Daily Shift tab, where the button was pressed.
+         |
+         | The status is an ARRAY - ['success' => 1, 'msg' => ...] - because that
+         | is what the layout reads. A plain string is silently ignored, which is
+         | why no success message appeared.
+        */
+        return redirect()->route('sw.operators.index')
+            ->with('status', [
+                'success' => 1,
+                'msg' => __('sw::lang.shift_created', ['number' => $shift->sw_shift_no]),
+            ])
+            ->with('status.tab', 'sw_daily_shift');
+    }
+
+    public function edit($id)
+    {
+        $businessId = $this->businessId();
+        $shift = Shift::where('business_id', $businessId)->findOrFail($id);
+
+        return view('sw::shifts.edit', [
+            'shift' => $shift,
+            'business_locations' => $this->locations($businessId)->pluck('name', 'id'),
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $businessId = $this->businessId();
+        $shift = Shift::where('business_id', $businessId)->findOrFail($id);
+
+        /*
+         | A CLOSED shift may be edited - with a reason, which goes to SW Logs.
+         |
+         | This used to refuse outright. Correcting a genuine mistake is
+         | legitimate; changing an agreed figure unnoticed is not, and the log is
+         | what tells those two apart.
+         |
+         | A SETTLED shift is still refused: its figures are inside a settlement
+         | that may already have posted to the ledger.
+        */
+        abort_if($shift->isSettled(), 422, __('sw::lang.settled_cannot_edit'));
+
+        $data = $request->validate([
+            'shift_date' => 'required|date',
+            'shift_name' => 'nullable|string|max:100',
+            'start_time' => 'nullable',
+            'end_time' => 'nullable',
+            'note' => 'nullable|string',
+            // Operators are assigned from their own action, not here.
+            'operators' => 'nullable|array',
+            'operators.*' => 'integer',
+            // Required only when the shift is already closed.
+            'reason' => ($shift->isOpen() ? 'nullable' : 'required') . '|string|max:500',
+        ], [
+            'reason.required' => __('sw::lang.reason_required_closed'),
+        ]);
+
+        DB::transaction(function () use ($shift, $data) {
+            $shift->update([
+                'shift_date' => $data['shift_date'],
+                'shift_name' => $data['shift_name'] ?? null,
+                'start_time' => $data['start_time'] ?? null,
+                'end_time' => $data['end_time'] ?? null,
+                'note' => $data['note'] ?? null,
+                'updated_by' => auth()->id(),
+            ]);
+
+            // Only touch the assignment when this form actually sent one.
+            // The edit modal does not, so a save here must not silently
+            // unassign everybody.
+            if (! array_key_exists('operators', $data)) {
+                return;
+            }
+
+            $wanted = array_unique(array_map('intval', $data['operators'] ?? []));
+            $existing = $shift->operators()->pluck('pump_operator_id')->map('intval')->all();
+
+            // Remove only those actually dropped, add only those actually new -
+            // a delete-all-and-reinsert would churn ids and timestamps for rows
+            // that have not changed.
+            foreach (array_diff($existing, $wanted) as $gone) {
+                $shift->operators()->where('pump_operator_id', $gone)->delete();
+            }
+            foreach (array_diff($wanted, $existing) as $added) {
+                ShiftOperator::create(['sw_shift_id' => $shift->id, 'pump_operator_id' => $added]);
+            }
+        });
+
+        return redirect()->route('sw.operators.index')
+            ->with('status', [
+                'success' => 1,
+                'msg' => __('sw::lang.shift_updated', ['number' => $shift->sw_shift_no]),
+            ])
+            ->with('status.tab', 'sw_daily_shift');
+    }
+
+    /**
+     * Open shifts for a location.
+     *
+     * This feeds the SW Shift No dropdown on the expense, customer payment and
+     * cash deposit screens. Only OPEN shifts: once closed, nothing further can
+     * be attributed to a shift, which is what makes Balance In Hand a figure at
+     * a moment rather than a moving total.
+     */
+    public function openShifts($locationId)
+    {
+        $shifts = Shift::openAt($this->businessId(), (int) $locationId)->get();
+
+        return response()->json($shifts->map(fn ($s) => [
+            'id' => $s->id,
+            'sw_shift_no' => $s->sw_shift_no,
+            'label' => $s->sw_shift_no . ' — ' . $s->shift_date->format('d/m/Y')
+                       . ($s->shift_name ? ' (' . $s->shift_name . ')' : ''),
+        ])->values());
+    }
+
+    /** Closed shifts - the SW Settlement dropdown. */
+    public function closedShifts($locationId)
+    {
+        $shifts = Shift::closedAt($this->businessId(), (int) $locationId)->get();
+
+        return response()->json($shifts->map(fn ($s) => [
+            'id' => $s->id,
+            'sw_shift_no' => $s->sw_shift_no,
+            'label' => $s->sw_shift_no . ' — ' . $s->shift_date->format('d/m/Y')
+                       . ($s->shift_name ? ' (' . $s->shift_name . ')' : ''),
+        ])->values());
+    }
+
+    /*
+     | Locations and operators are the BUSINESS's records, read straight from
+     | its tables. This module does not keep copies of them.
+    */
+    protected function locations(int $businessId)
+    {
+        return DB::table('business_locations')
+            ->where('business_id', $businessId)
+            ->when(
+                \Illuminate\Support\Facades\Schema::hasColumn('business_locations', 'is_active'),
+                fn ($q) => $q->where('is_active', 1)
+            )
+            ->orderBy('name')
+            ->get(['id', 'name']);
+    }
+
+    protected function operators(int $businessId, int $locationId)
+    {
+        if (! \Illuminate\Support\Facades\Schema::hasTable('pump_operators')) {
+            return collect();
+        }
+
+        return DB::table('pump_operators')
+            ->where('business_id', $businessId)
+            ->when($locationId > 0 && \Illuminate\Support\Facades\Schema::hasColumn('pump_operators', 'location_id'),
+                fn ($q) => $q->where('location_id', $locationId))
+            ->orderBy('name')
+            ->get();
+    }
+}

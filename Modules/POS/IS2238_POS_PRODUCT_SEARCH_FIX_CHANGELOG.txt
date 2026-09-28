@@ -1,0 +1,19 @@
+IS2238 – POS Product Search Fix – 10 Sep 2026
+
+Issue
+- POS / Sales: entering a product and clicking Search displayed "Unable to load products. Please retry." instead of the matching product.
+
+Root causes corrected
+1. Sales JavaScript used absolute Laravel route URLs. In the multi-tenant ERP an absolute route can be forced to APP_URL/the central host, causing the AJAX request to lose the active tenant session/connection. All Sales AJAX URLs are now relative to the current tenant host.
+2. The product query mixed connection-specific schema inspection with DB::table(). Product search now executes on the exact active tenant connection used for schema inspection.
+3. Search-condition construction is now safe for either historical pos_products schema and never starts an OR group without a valid first searchable column.
+4. POS fetch() now requests JSON explicitly, keeps same-origin credentials, disables stale search caching, and handles non-JSON/HTTP errors predictably.
+5. POS asset version bumped to is2238-20260910 so browsers do not reuse the previous JS.
+6. Both Sales screens (/sales and /sales/workspace) now use current-tenant relative AJAX URLs and the exact selected tenant DB connection.
+7. Server-side product-search failures are logged as "POS product search failed" with business/user/term context for diagnosis without exposing database details to the browser.
+
+Database
+- No SQL/database change required.
+
+Validation cleanup
+- Fixed a pre-existing invalid newline string literal in the S385 reliability-audit JavaScript found during full-module syntax validation. This is separate from IS2238 but prevents shipping a package with a known JS syntax error.

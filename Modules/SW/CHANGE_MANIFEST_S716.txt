@@ -1,0 +1,45 @@
+S 716 - SW Module - 12 Sep 2026 - REVISED REQUIRED SW SHIFTS TABLE
+
+Correction after review
+- sw_shifts is a REQUIRED SW module table.
+- Removed the runtime EnsureSwSchema middleware/bootstrap approach from S716.
+- No controller/page bypass or fallback is used for a missing sw_shifts table.
+- The real required schema must exist in each tenant database.
+
+Issues retained/fixed from S716
+1. SW Operators
+   - Removed Assigned Pump column.
+   - Removed Settlement No column and its filter.
+   - Added Date Range filter.
+   - Selected range controls period Excess / Short Amounts.
+   - Operators with no activity in the selected range show 0.00.
+   - Older payment rows with NULL transaction_date can use date_and_time.
+   - Existing current balance behavior remains when no range is selected.
+   - DataTable indexes/footer totals updated after removing columns.
+   - Fixed width:100%% CSS typo.
+
+2. List SW Shifts
+   - The page continues to use Modules\\SW\\Entities\\Shift and the real sw_shifts table.
+   - Added a proper non-destructive repair migration:
+     2026_09_12_000009_ensure_sw_core_shift_tables.php
+   - It creates sw_shifts only if missing, with the same schema as the original SW module migration.
+   - It also creates the required sw_shift_operators and sw_number_sequences tables if missing.
+   - It does NOT run automatically on page requests and does NOT bypass database errors.
+
+3. Open New Shift -> Save
+   - Continues to insert the new shift into sw_shifts.
+   - Continues to use sw_number_sequences for shift numbering.
+   - No fallback is used in place of the required sw_shifts table.
+
+Database files
+- SW/Database/Migrations/2026_09_12_000009_ensure_sw_core_shift_tables.php
+- SW/Database/SQL/SW_S716_REQUIRED_CORE_SHIFT_TABLES.sql
+
+Deployment
+A. Preferred: run the SW migration against each affected tenant database using your tenant migration process.
+B. Or import SW/Database/SQL/SW_S716_REQUIRED_CORE_SHIFT_TABLES.sql into the affected tenant database in phpMyAdmin.
+C. Then run: php artisan optimize:clear
+
+Validation
+- All PHP/Blade-PHP files syntax checked.
+- Final ZIP integrity checked.

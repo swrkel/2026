@@ -1,0 +1,5 @@
+@extends('bankingmicrofinance::layouts.app')
+@section('page-title','Microfinance Collections')
+@section('module-content')
+<div class="box"><div class="box-header"><a href="{{ route('banking.microfinance.collections.create') }}" class="btn btn-primary">Add Collection</a></div><div class="box-body table-responsive"><table class="table table-bordered"><tr><th>Receipt</th><th>Date</th><th>Loan</th><th>Principal</th><th>Interest</th><th>Fee</th><th>Savings</th><th>Total</th><th>Action</th></tr>@foreach($collections as $collection)<tr><td>{{ $collection->receipt_no }}</td><td>{{ $collection->collection_date }}</td><td>{{ $collection->loan_id }}</td><td>{{ number_format($collection->principal_paid,4) }}</td><td>{{ number_format($collection->interest_paid,4) }}</td><td>{{ number_format($collection->fee_paid,4) }}</td><td>{{ number_format($collection->saving_paid,4) }}</td><td>{{ number_format($collection->total_paid,4) }}</td><td><a class="btn btn-xs btn-info" href="{{ route('banking.microfinance.collections.receipt',$collection) }}">Receipt</a></td></tr>@endforeach</table>{{ $collections->links() }}</div></div>
+@endsection

@@ -1,0 +1,10 @@
+IS1755 Finance Module fixes - 23 July 2026
+
+Module-only changed files. No root application file is included.
+
+1. Disabled Accounts: fully qualified aggregate columns and DataTables aliases; business/location scope; error-safe JSON.
+2. List Journals: exact legacy URL now resolves to the Finance controller/view; Cash account lookup remains null-safe; module routes used by AJAX/actions.
+3. Profit & Loss Report on Trading: replaced broken duplicated JavaScript and legacy Ajax URLs with a Finance-owned server-side endpoint and lazy tab loading.
+4. Balance Sheet: Finance-owned legacy route; safe date parser prevents malformed fiscal-month values such as 2026--1.
+5. Balance Sheet Comparison: new Finance-owned controller/view with three safe comparison dates.
+6. Fixed Assets: Finance-owned server-side table and CRUD; business-scoped query; 25-row first page; explicit Ajax error handling; no indefinite Processing state.

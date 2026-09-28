@@ -1,0 +1,24 @@
+Simple Audit v1.0.9 - Central Sidebar + Older Tenant Schema Compatibility
+25 Sep 2026
+
+Fixes
+1. Central Super Admin sidebar now uses the same AccessService decision as the Simple Audit route middleware.
+   This prevents the page from being accessible while the Simple Audit menu is hidden.
+2. Simple Audit remains CENTRAL ONLY. It stays excluded from tenant/business sidebars and business Manage Side Bar.
+3. Tenant installer is schema-aware. Older tenant databases that do not have
+   account_transactions.location_id (or newer optional audit columns) are supported.
+   Business/location are derived from linked purchase/payment transactions when needed.
+4. Re-running simple-audit:install is safe after a previous partial failure. Existing sau_ tables are retained and triggers are replaced.
+
+After deployment
+php artisan module:enable SimpleAudit
+php artisan optimize:clear
+php Modules/SimpleAudit/Tools/check_sidebar.php
+php artisan simple-audit:install --tenant=100
+php artisan simple-audit:diagnose --tenant=100
+php artisan route:list | grep simple-audit
+
+Expected
+- Central Super Admin: Simple Audit > Purchase Audit visible.
+- Business/tenant sidebar: Simple Audit not visible.
+- Tenant 100: 5 sau_ tables present and Simple Audit triggers installed.

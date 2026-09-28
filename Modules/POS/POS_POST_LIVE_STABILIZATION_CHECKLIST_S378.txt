@@ -1,0 +1,6 @@
+POS POST-LIVE STABILIZATION CHECKLIST S378
+
+1. Open /pos-module/post-live-stabilization.
+2. Complete route, UI, sales, customers, inventory, register, receipts, reports, permissions and performance checks.
+3. Report any issue with URL, role, steps, expected result, actual result, screenshot/log and priority.
+4. Continue fixes as consolidated replacement parcels only.

@@ -1,0 +1,17 @@
+Finance List Accounts AJAX live-endpoint correction - 15 Sep 2026
+
+Problem
+-------
+The collision-proof /finance/list-accounts-live page loaded successfully, but some
+installations still returned DataTables Ajax errors for Account Groups and Account
+Settings because those tabs continued calling older shared URLs such as
+/finance/account-groups/data and /finance/settings.
+
+Fix
+---
+The Account Groups and Account Settings workflows used by List Accounts now use
+unique Finance-owned URLs below /finance/list-accounts-live/.  This avoids old route
+cache/core route collisions while preserving the normal auth/session/tenant/master
+database middleware.
+
+No SQL, migration or artisan command is required.

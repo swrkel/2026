@@ -1,0 +1,2 @@
+-- Stage 027 has no mandatory ALTER statements.
+-- Register Modules/RestaurantNew/Routes/analytics.php from the RestaurantNew route provider if your deployment does not auto-load route fragments.

@@ -1,0 +1,13 @@
+AutoService Stage 004 - Invoices, Labour & Service Package Foundation
+
+Added:
+- Auto Service Invoices module with index, create, edit, view and print pages.
+- Generate Invoice action from Job Card.
+- Invoice number series ASINV-YYYYMM-00001.
+- Invoice totals, paid amount and balance tracking.
+- Job status update when invoice is generated/paid/partially paid.
+- Vehicle timeline entry when invoice is saved.
+- Database foundation for Service Packages and Labour Items.
+- Standalone models, controller, service, routes and views for invoice flow.
+
+Files added/changed are contained under Modules/AutoService only.

@@ -1,0 +1,21 @@
+{
+    "name": "modules/petro-direct",
+    "description": "Standalone Petro Direct operations and direct-settlement module.",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\PetroDirect\\": ""
+        }
+    }
+}

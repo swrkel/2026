@@ -1,0 +1,15 @@
+IS1793 - Finance Module / List Accounts / Add
+
+Root causes corrected:
+1. The Add Account Blade called the removed legacy action AccountController@store while rendering.
+2. The Account Group field passed a collection of Eloquent models to Form::select, which can fail during modal rendering.
+3. The Add modal used the duplicate legacy resource URL and a root-level account-group AJAX endpoint.
+
+Corrections:
+- Dedicated Finance-owned add/store endpoints.
+- Named Finance route used by the Add button and form.
+- Finance-owned account-group options endpoint, business-scoped.
+- Explicit account-group options with cheque metadata.
+- Modal-scoped Select2 and safer AJAX initialization.
+
+No database migration or SQL is required.

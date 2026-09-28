@@ -1,0 +1,30 @@
+Rice Mill - Product Category Mapping / Out Put Type update - 19 Sep 2026
+
+1) Product Category Mapping page sections are collapsible.
+   - Paddy & Rice Product Category Mapping
+   - Added Product Category Mapping
+   - Select Packaging Material
+   - Out Put Type
+   - All are collapsed by default. Validation errors automatically reopen the affected section.
+
+2) New Out Put Type Settings section.
+   - Uses live Products New categories/products.
+   - Product Category filter is optional/searchable.
+   - Product Sub Category filter is optional/searchable and follows selected Category.
+   - Products are searchable multi-select and can be saved in one operation.
+   - Saved Products are listed in the same section.
+   - Stored in existing rcm_settings.settings JSON under output_type_product_selections.
+   - No new SQL/database table/column is required.
+
+3) Mill Production / Output Type.
+   - Shows only Products explicitly mapped in Settings > Product Category Mapping > Out Put Type.
+   - Fixed Other output row removed.
+   - Mapped Rice Products continue to post to Finished Rice Stock.
+   - Other mapped Products post as dynamic by-products with stable internal type pn_{ProductsNewProductId}.
+   - Common mapped Products named Broken Rice / Bran / Husk continue to use Paddy Variety yield auto-calculation where applicable.
+   - Server-side validation rejects unmapped/tampered Output Products.
+
+4) Compatibility.
+   - Historical fixed output types remain readable.
+   - Existing Rice Product / Paddy Variety mapping validation is retained.
+   - Existing packaging-material mappings and Product Category mappings are unchanged.

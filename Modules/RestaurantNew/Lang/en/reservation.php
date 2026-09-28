@@ -1,0 +1,21 @@
+<?php
+return [
+    'reservation_dashboard' => 'Reservation & Floor Dashboard',
+    'available_tables' => 'Available Tables',
+    'occupied_tables' => 'Occupied Tables',
+    'today_reservations' => 'Today Reservations',
+    'waitlist_count' => 'Waitlist',
+    'deposit_due' => 'Deposit Due',
+    'live_floor_status' => 'Live Floor Status',
+    'floor_board_hint' => 'Floor plan and live table cards will be loaded here.',
+    'floor_plans' => 'Floor Plans',
+    'reservations' => 'Reservations',
+    'waitlist' => 'Waitlist',
+    'search' => 'Search',
+    'add_new' => 'Add New',
+    'date' => 'Date',
+    'name' => 'Name',
+    'status' => 'Status',
+    'action' => 'Action',
+    'no_records_loaded' => 'No records loaded',
+];

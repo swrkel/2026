@@ -1,0 +1,11 @@
+RICE MILL DASHBOARD - SHARED USER PASSCODE
+19 Sep 2026
+
+1. Rice Mill Dashboard no longer stores or manages a separate passcode.
+2. Dashboard login uses users.pump_operator_passcode, the existing user passcode.
+3. The historical database column name is retained for compatibility, but the
+   passcode is now treated as the common user passcode for module dashboards.
+4. Rice Mill Dashboard still enforces Rice Mill/User Management New permissions
+   after identifying the user by passcode.
+5. The obsolete rcm_dashboard_user_access table is removed by the cleanup migration.
+6. No Core Controller changes are required.

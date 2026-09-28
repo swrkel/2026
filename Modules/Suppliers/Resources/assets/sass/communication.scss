@@ -1,0 +1,17 @@
+.supplier-communication-nav .btn-group {
+    gap: 6px;
+}
+
+.supplier-communication-table th,
+.supplier-communication-table td {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+@media (max-width: 767px) {
+    .supplier-communication-nav .btn {
+        margin-bottom: 6px;
+        width: 100%;
+        text-align: left;
+    }
+}

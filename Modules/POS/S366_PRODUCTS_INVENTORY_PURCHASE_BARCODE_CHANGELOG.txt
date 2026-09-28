@@ -1,0 +1,17 @@
+POS Standalone S366 - Products & Inventory continuation
+
+Included:
+1. Purchase Stock page under /pos-module/purchases
+2. Add Purchase Stock with multiple product lines
+3. Purchase details page
+4. Void purchase with stock reversal
+5. Stock movement entries for purchase and purchase void
+6. Inventory Setup page for POS categories, brands, units
+7. Barcode label print page under /pos-module/barcodes
+8. Product Register action links updated
+9. Global SQL included for pos_purchase_headers and pos_purchase_lines
+
+Architecture notes:
+- POS product/stock logic stays inside Modules/POS.
+- Purchase Stock is POS-owned and does not use main ERP purchase/product files.
+- Customers integration remains only for POS sales customer selection/ledger as agreed.

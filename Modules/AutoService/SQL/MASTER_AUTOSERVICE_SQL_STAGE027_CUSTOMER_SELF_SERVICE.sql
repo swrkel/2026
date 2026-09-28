@@ -1,0 +1,2 @@
+-- MASTER SQL - AutoService Stage 027 Customer Self Service Actions
+SOURCE 28_AUTOSERVICE_STAGE027_CUSTOMER_SELF_SERVICE_ACTIONS.sql;

@@ -1,0 +1,1 @@
+window.ExpensesNewBudgetForecast=window.ExpensesNewBudgetForecast||{};

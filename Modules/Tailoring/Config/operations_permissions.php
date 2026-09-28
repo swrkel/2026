@@ -1,0 +1,2 @@
+<?php
+return ['tailoring.production_centre.view','tailoring.production_centre.assign','tailoring.workshop.view','tailoring.workshop.update_stage','tailoring.material_centre.view','tailoring.material_centre.issue','tailoring.material_centre.return','tailoring.material_centre.wastage','tailoring.trial_centre.view','tailoring.trial_centre.schedule','tailoring.alteration_centre.view','tailoring.alteration_centre.create','tailoring.delivery_centre.view','tailoring.delivery_centre.confirm','tailoring.operations_reports.view','tailoring.operations_reports.export'];

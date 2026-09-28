@@ -1,0 +1,17 @@
+Simple Audit v1.0.17 - Purchase Audit submenu fix
+25 Sep 2026
+
+Purpose
+-------
+The Central sidebar was showing only the parent module name "Simple Audit".
+This release keeps the dedicated host sidebar-section file and restores a
+visible child page underneath it:
+
+Simple Audit
+  Purchase Audit
+
+The submenu is expanded by default on Central Super Admin pages so the child
+page is immediately visible. It can still be collapsed by clicking the parent.
+
+No database changes.
+No tenant/business sidebar exposure.

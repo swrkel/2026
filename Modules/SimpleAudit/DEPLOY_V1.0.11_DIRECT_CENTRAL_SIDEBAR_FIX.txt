@@ -1,0 +1,11 @@
+Simple Audit v1.0.11 - Direct Central Sidebar Fix
+
+Cause fixed:
+The central sidebar entry depended on AutomaticModuleRegistry + AccessService at render time.
+The host already chooses resources/views/layouts/partials/sidebar-superadmin.blade.php only for authenticated Super Admin requests whose first URL segment is /superadmin.
+
+v1.0.11 therefore renders Simple Audit directly from that central-only sidebar file when Modules/SimpleAudit exists and modules_statuses.json marks SimpleAudit=true.
+It does not use business Manage Side Bar, Manage Page, Role, AutomaticModuleRegistry or route discovery to decide menu visibility.
+
+Tenant/business sidebar remains unchanged and does not receive Simple Audit.
+No SQL changes.

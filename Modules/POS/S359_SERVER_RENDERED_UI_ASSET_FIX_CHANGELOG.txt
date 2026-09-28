@@ -1,0 +1,18 @@
+S359 - Server Rendered UI + Asset Cache Fix
+
+Problem fixed:
+- Server was showing POS HTML without the final Communication Hub style, because the browser/server could keep the older /pos-module/assets/css/pos.css cached.
+- Dashboard cards appeared as normal blue links and the POS page looked unstyled.
+
+Fix included:
+- Added cache-busting version `v=s359` to POS CSS/JS asset URLs.
+- Added critical Communication Hub/SYZYGY dashboard CSS directly inside the standalone POS layout, so the page renders correctly even if external CSS cache is stale.
+- Preserved standalone routing and POS-owned assets.
+- No SQL required.
+
+After replacing:
+php artisan optimize:clear
+php artisan route:clear
+
+Recommended browser step:
+Hard refresh the POS page once: Ctrl + F5.

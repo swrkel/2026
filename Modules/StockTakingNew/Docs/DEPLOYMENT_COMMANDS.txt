@@ -1,0 +1,10 @@
+# Run from the Laravel project root after uploading the parcel
+composer dump-autoload
+php artisan module:enable StockTakingNew
+php artisan optimize:clear
+
+# Optional if using migrations instead of the supplied Master SQL
+php artisan migrate --force
+
+# Current-tenant schedule processor
+php artisan stock-taking-new:run-schedules

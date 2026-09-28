@@ -1,0 +1,12 @@
+DISNEW_014 - Smart Sales Distribution Large Parcel
+
+Added standalone sales distribution commercial controls:
+- Customer credit control rules and validation service
+- Customer / route / territory price lists
+- Discount rules, promotions, bundle/free issue foundations
+- Sales targets for sales reps, territories and routes
+- Sales commission engine foundation
+- KPI service and POS-style dashboards/reports
+- SQL, rollback SQL, migration, menu/routes/lang updates
+
+All new database objects use the disnew_ prefix and remain inside DistributionNew.

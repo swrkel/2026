@@ -1,0 +1,14 @@
+Rice Mill - Products New Live Master Integration Correction
+18 Sep 2026
+
+Verified against the current Products New module code:
+1. Products New Category screens read/write the tenant `categories` table.
+2. Products New Product screens read/write the tenant `products` table.
+3. Rice Mill Product Category Mapping therefore reads `categories` for the active business.
+4. Paddy Variety Name reads Products New products from `products`, filtered by the mapped Paddy category/subcategory.
+5. rcm_paddy_varieties.paddy_product_id stores the exact Product ID used by Products New: products.id.
+6. Rice Product Name reads Products New products from `products`, filtered by the mapped Rice category/subcategory.
+7. rcm_products.products_new_product_id is retained for compatibility but stores the exact live Products New Product ID: products.id.
+8. Product selectors follow Products New active-product rules: not_for_selling, is_inactive, products_new_status, deleted_at where those columns exist.
+9. No reads from products_new_categories/products_new_products are used for current Product/Category selection.
+10. The correction SQL repairs links written by the previous interim build by exact Business + Name + SKU matching.

@@ -1,0 +1,18 @@
+{
+  "name": "ExpensesNew",
+  "alias": "expenses-new",
+  "description": "Standalone Expenses New module with tenant-safe routing and automatic idempotent core schema readiness",
+  "keywords": [
+    "expenses",
+    "standalone",
+    "multi-tenant"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\ExpensesNew\\Providers\\ExpensesNewServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": [],
+  "version": "EXPNEW_015_IS1824_20260730"
+}

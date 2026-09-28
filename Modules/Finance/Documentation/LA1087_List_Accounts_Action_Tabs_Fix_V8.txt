@@ -1,0 +1,36 @@
+LA-1087 Finance Module - List Accounts Action and Tabs Fix V8
+Date: 22 July 2026
+
+Scope
+-----
+1. List Accounts Action dropdown showed only Edit after DataTables search or filters.
+2. List Accounts coloured tabs did not open when clicked.
+
+Corrections
+-----------
+- The Action dropdown is rendered in a body-level floating portal outside the
+  DataTables scroll containers. A short filtered result can no longer clip the
+  Account Book, Fund Transfer, Deposit, Close, Notes, or Enabled options.
+- The full server-returned action set is preserved when each dropdown is rebuilt.
+- List Account actions use Finance-owned named routes and Finance-owned modal loading.
+- Close Account reads its account name from the action payload, so it still works
+  after the menu is moved outside the table row.
+- Added a scoped native tab controller for List Accounts, List Deposits & Transfers,
+  Account Types, Account Groups, Account Settings, and Cheques in Hand Opening Details.
+  It works independently of the global tab-colour/Bootstrap click handlers.
+- Hidden DataTables continue to load only when their tab is opened.
+- Account Type, Account Group, and Account Settings tabs now use Finance-owned routes,
+  controllers, views, AJAX endpoints, and forms.
+- The Account Group Add button has been restored with a Finance-owned modal endpoint.
+- Account Group create/edit/delete no longer posts to root application URLs.
+
+Deployment
+----------
+Apply over the current Finance V7 installation, overwrite included files, and run:
+  php artisan optimize:clear
+  php artisan route:clear
+  php artisan view:clear
+  php artisan config:clear
+
+All application files in this package are under Modules/Finance.
+No root application file, SQL query, or migration is included.

@@ -1,0 +1,9 @@
+POS Standalone S378 - Post Live Stabilization Tracker
+
+Added:
+- /pos-module/post-live-stabilization page
+- Post-live priority testing checklist
+- Issue reporting template
+- Deployment/cache clear reminder
+
+No SQL required.

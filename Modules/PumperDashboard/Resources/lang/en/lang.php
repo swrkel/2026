@@ -1,0 +1,1750 @@
+<?php
+
+
+
+return [
+
+
+
+    /*
+
+    |--------------------------------------------------------------------------
+
+    | Petro Language Lines
+
+    |--------------------------------------------------------------------------
+
+    |
+
+    | The following language lines are used for Petro Moudle related operations.
+
+    |
+
+    */
+
+    
+
+    'daily_other_payments' => 'Daily Other Payments',
+
+     'enter_card_numbers' => 'Enter Card Numbers',
+
+    'shift_number'  => 'Shift No',
+
+    'daily_cheques' => 'Daily Cheques',
+
+    'daily_shift_closed' => 'Shift closed',
+
+    'no_of_closed_pumps' => 'No of Closed Pumps',
+
+    'total_sale_closed_pumps' => 'Total Sale of All Closed Pumps',
+
+    'shift_closed' => 'Shift Closed',
+
+    'shift_open' => 'Shift Open',
+
+    'total_other_sales' => 'Total Other Sales',
+
+    /*
+     * MA-002: renamed. The SETTING KEY is unchanged - only the label the
+     * person sees. Renaming the key would have orphaned every business's
+     * saved value, and the field would have silently reverted to its
+     * default everywhere.
+     */
+    'enter_cash_denominations' => 'Allow Bulk Cash Amount',
+    'bulk_cash_enable' => 'Enable',
+    'bulk_cash_disable' => 'Disable',
+
+    'correct' => 'Correct',
+
+    'card_amount_to_enter' => 'Card Amount To Enter',
+
+    'pump_should_not_show_if_shift_is_open' => 'Pump Should not show if Shift is Open',
+
+    'bulk' => 'Bulk',
+
+    'one_by_one' => 'One By One', 
+
+    'close_pump' => 'Close Pump',
+
+    'enter_meters' => 'Enter Meters',
+
+    'petro_settlement'  => 'Settlement',
+
+    
+
+    'dip_chart' => 'Dip Chart',
+
+    'tank_manufacturer_contact' => 'Tank Manufacturer Contact',
+
+    'dip_reading_lts' => 'Dip Reading in Ltrs',
+
+    'tank_dip_chart' => 'Dip Chart',
+
+    'add_dip_chart' => 'Add Dip Chart',
+
+    'edit_dip_chart' => 'Edit Dip Chart',
+
+    'edit_no_change' => 'Edit No Change',
+
+    'amount_correct_click_here' => 'Amount Correct? Click Here.',
+    /*
+     * MA-002: the same wording split across two lines for the button.
+     *
+     * The single key above is KEPT and unchanged - other screens may still
+     * use it, and removing a language key to tidy up is how a raw key ends up
+     * printed on someone's screen.
+     */
+    'amount_correct_line1' => 'Amount Correct?',
+    'amount_correct_line2' => 'Click Here',
+
+    'current_balance_to_operator' => 'Current Balance to Operator',
+
+    'other' => 'Other',
+
+    'enter_meters' => 'Enter Meters',
+
+    'received_meter' => 'Received Meter',
+
+    'new_meter' => 'New Meter',
+
+    'today_deposited' => 'Today Deposited',
+
+    'balance_to_deposit' => 'Balance To Deposit',
+
+    'you_must_first_enter_meter_reading' => 'You must first enter the meter reading!',
+
+    'not_subscribed_to_pumper_dashboard' => 'You have not subscribed to the Pumper dashboard yet',
+
+    'pumper_meter_readings' => 'Pumper Dashboard Meter Readings',
+
+    
+
+    'meter_sales_compulsory' => 'Compulsory to enter meter reading in Payment page',
+
+    
+
+    'settlement_pumps' => 'Settlement Pumps',
+
+    'total_cash' => 'Total Cash',
+
+    'total_cards' => 'Total Cards',
+
+    'total_credit_sales' => 'Total Credit Sales',
+
+    'total_short' => 'Total Shortage', 
+
+    'total_loans' => 'Total Loans',
+
+    'total_cheques' => 'Total Cheques',
+
+    'changed_from' => ' changed from ',
+
+    'to' => ' to ',
+
+    'shift_closed' => 'Shift Closed',
+
+    'customer' => 'Customer',
+
+    'vehicle_no' => 'Vehicle No',
+
+    'order_no' => 'Order No',
+
+
+
+    'pumper_dashboard_cash_deposit' => 'Pumper Dashboard – Cash Deposit',
+
+    'pumper_dashboard_credit_sales' => 'Pumper Dashboard – Credit Sales',
+
+    'pumper_dashboard_credit_sales_customer' => 'Pumper Dashboard – Credit Sales for Customers',
+
+    
+
+    
+
+    
+
+    'no_operation_pumps' => 'No Operation Pumps',
+
+    'pumps_in_settlement' => 'Pump in Settlement',
+
+    'please_fill_all_details' => 'Please fill all details',
+
+    'collection_summary' => 'Collection Summary',
+
+    'last_collection_form_no' => 'Last Collection From No',
+
+    'daily_collection_type' => 'Daily Collection Type',
+
+    'settings' => 'Settings',
+
+    'select_day'=>'Select Day',
+
+    'day_counted_from'=>'Day to be Counted from',
+
+    'select_a_date' => 'Select a Date',
+
+    'cash_collection' => 'Cash Collection',
+
+    'other_income_cash' => 'Other Income - Cash',
+
+    'customer_payment_cash' => 'Customer Payment - Cash',
+
+    'cash_expense' => 'Cash Expenses',
+
+    'cash_deposit' => 'Cash Deposit',
+
+    'balance_in_hand' => 'Balance In Hand',
+'cash_total_given' => 'Cash Total Given',
+    
+  'cash_to_settle' => 'Cash to Settle',
+    'start_time'=>'Start Time',
+
+    'time_till'=>'Time Till',
+
+    'ending_date_type'=>'Ending Date Type',
+
+    'ending_date'=>'Ending Date',
+
+    'shift'=>'Shift',
+
+    'enter_shift' => 'Enter Shift',
+
+    'daily_cash_status'=> 'Daily Cash Status',
+
+    'user_entered' => 'User Entered',
+
+    
+
+    
+
+    'petro_sms_notifications' => 'Petro SMS Notifications',
+
+    'stock_and_dip_details' => 'Stock & Dip Details',
+
+    'load_received' => 'Load Received',
+
+    'import_tanks' => 'Import Tanks',
+
+    'ezy_products' => 'Ezy Products',
+
+    'allow_duplicate_order_numbers_in_settlement_credit_sales' => 'Allow Duplicate order numbers in the Settlement Credit Sales',
+
+
+
+    
+
+    'daily_shortage.edit' => 'Edit Daily Shortage',
+
+    'daily_card.edit' => 'Edit Daily Cards',
+
+    'daily_collection.edit' => 'Edit Daily Collection',
+
+    'edit' => 'Edit',
+
+    'remove' => 'Remove',
+
+    'petro_settings'  => 'Petro Settings',
+
+    'day_end_settlement' => 'Day End – Settlements',
+
+    'edit_day_end_settlement' => 'Edit Day End – Settlements',
+
+    'time_and_date' => 'Date & Time',
+
+    'day_end_date' => 'Day End Date',
+
+    'no_operation' => 'No Operation',
+
+    'user_editted' => 'User Editted',
+
+    'pending_pumps' => 'Pending Pumps',
+
+    'date_greater_than_day_end' => 'Selected Date should not be older or equal than the previous Day End',
+
+    
+
+    
+
+    
+
+    'assign_pumps' => 'Assign Pumps',
+
+    'petro_sms_whatsapp' => 'petro sms whatsapp',
+
+    'pump_dashboard_settings' => 'Pump Dashboard Settings',
+
+    'petro_activity_report' => 'User Activity – Petro',
+
+    
+
+    'import_success' => 'Import Successful',
+
+    'dip_reset' => 'Dip Reset',
+
+    'no_change_performed' => 'There was no edit to save!',
+
+    'paid_customer_loan' => 'Loan to customer is already settled by the customer',
+
+    'deposited_cheque' => 'One or more Cheques have already been deposited.',
+
+    'edit_disabled' => 'Edit is Disabled!',
+
+    'edit_disabled_exp' => 'This settlement can\'t be editted because of the following reasons:',
+
+    'can_fullscreen' => 'Can Minimize Full Screen',
+
+    'can_fullscreen_text' => 'Full screen will be activated upon closing this modal!',
+
+    'ok_proceed' => 'Ok, Proceed',
+
+    'delete_settlement' => 'Delete Settlement',
+
+    'edit_pumper_opening_balance' => 'Edit Pumper Opening balances',
+
+    'daily_shortage_excess' => 'Daily Shortage Excess',
+
+    
+
+
+
+    'finalize' => 'Finalize',
+
+    'is_default' => 'Use for Admmin\'s Operator Dashboard Login',
+
+    'finish_editting' => 'Finish Editting',
+
+    'total_quantity_sold' => 'Total Qty Sold',
+
+    'total_sold_amount' => 'Total Sold Amount',
+
+    'total_opening_stock_value_on_cost' => 'Total Opening Stock Value on Cost',
+
+    'stock_value_on_cost' => 'Stock Value on Cost (Opening)',
+
+    'daily_sales_and_stock_report' => 'Daily Sales & Stock Report',
+
+    'cumulative_sales_amount_for_the_month' => 'Cummulative Sales Amount for the Month',
+
+    'open_new_shift' => 'Open New Shift',
+
+    'all_your_credit_sales' => 'All your credit sales',
+
+    'daily_cash' => 'Daily Cash',
+
+    'daily_shift' => 'Daily Shift',
+
+    'all_your_daily_cash' => 'All your Daily Cash',
+
+    'daily_credit_sales' => 'Daily Credit Sales',
+
+    'select_customer_vehicle_no' => "Select Customer Vehicle No",
+
+    'enter_customer_vehicle_no' => 'Enter Customer Vehicle No',
+
+    'dashboard_settings' => 'Dashboard Settings',
+
+    'add_settings' => 'Add Settings',
+
+    'pumper_dashboard_settings' => 'Pumper Dashboard Settings',
+
+    'credit_sales_direct_to_customer' => 'Credit Sales Details Direct to Customer Ledger',
+
+    'show_bulk_pumps' => 'Show Bulk Pumps',
+
+    'card_type' => 'Card Type',
+
+    'no_settings_added' => 'No settings added',
+
+    'date_time' => 'Date & Time',
+
+    'need_longer_pass' => 'Please enter a password with atleast 4 digits',
+
+    'need_new_password' => 'Please enter a different password from the existing one',
+
+    'update_passcode' => 'Update Passcode',
+
+    'current_pass' => 'Passcode',
+
+    'changed_by_user' => 'Changed by User',
+
+
+
+    'unit_discount' => 'Unit Discount',
+
+    'customer_loans' => 'Loan to Customer',
+
+    'settlement_customer_loans_total' => 'Customer Loans Total',
+
+    'transfer_no' => 'Transfer No:',
+
+    'new_outstanding' => 'New Outstanding',
+
+    'credit_discount_amount' => 'Discount Amount',
+
+    'credit_total_amount' => 'Total Amount',
+
+    'sale_amount' => 'Sale Amount',
+
+    'user_added' => 'User Added',
+
+    'discount_total' => 'Discount Total',
+
+    'pump_attendant' => 'Pump Attendant',
+
+
+
+
+
+    'before_discount_cr' => ' (Before Discount)',
+
+    'after_discount_cr' => ' (After Discount)',
+
+
+
+
+
+    'from_qty' => 'From Qty',
+
+    'to_qty' => 'To Qty',
+
+    'transfer_qty' => 'Transfer Qty',
+
+
+
+
+
+    'prefix_and_starting_nos' => 'Prefix & Starting Nos',
+
+    'prefix' => 'Prefix',
+
+    'starting_no' => 'Starting No',
+
+    'add_prefix' => 'Add Prefix',
+
+    'limit_balance' => 'Limit Balance',
+
+    'vat' => 'VAT',
+
+
+
+
+
+    'transferred_in' => 'Transferred In',
+
+    'testing_in' => 'Testing In',
+
+    'transferred_out' => 'Transferred Out',
+
+    'tank_transfer' => 'Tank Transfer',
+
+
+
+
+
+    'from_tank' => 'From Tank',
+
+    'to_tank' => 'To Tank',
+
+    'quantity' => 'Quantity',
+
+    'product_id' => 'Product',
+
+    'list_tank_transfer' => 'List Tank Transfer',
+
+    'add_tank_transfer' => 'Add Tank Transfer',
+
+
+
+    'accounting_module' => 'Accounting Module',
+
+    'none' => 'None',
+
+    'fixed' => 'Fixed',
+
+    'percentage' => 'Percentage',
+
+
+
+    'drawing_payments' => 'Owners Drawings',
+
+    'account' => 'Account',
+
+    'settlement_drawing_payments_total' => 'Owner Drawings Total',
+
+
+
+    'daily_cards' => 'Daily Cards',
+
+    'all_your_daily_cards' => 'All Daily Cards',
+
+    'daily_card_add_success' =>    'Daily Card added successfully',
+
+    'daily_card_delete_success' => 'Daily Card deleted successfully',
+
+    'daily_card_update_success' => 'Daily Card updated successfully',
+
+
+
+    'discount_value' => 'Discount Value',
+
+    'before_discount' => 'Before Discount',
+
+    'after_discount' => 'After Discount',
+
+
+
+    'receipt_no' => 'Receipt No',
+
+
+
+    'subtotal_greater_than_balance' => 'Sub Total exceeds the Balance Amount to Use',
+
+    'voucher_order_date' => 'Voucher Order Date',
+
+    'balance_to_use' => 'Balance Amount to Use',
+
+    'balance_amount' => 'Balance Amount',
+
+
+
+    'max_tanks_reached' => 'Maximum Tanks Reached',
+
+
+
+    'allowed_tanks' => 'Allowed Tanks',
+
+    'added' => 'Added',
+
+    'can_add' => 'Can Add',
+
+
+
+    'loan_payments' => 'Loan Payments',
+
+    'loan_account' => 'Loan Account',
+
+    'settlement_loan_payments_total' => 'Loan Payment Total',
+
+
+
+
+
+    'added_user' => 'Added User',
+
+    'settlement_cash_deposit_total' => 'Settlement Cash Deposit Total',
+
+    'cash_deposit' => 'Cash Deposit',
+
+    'bank' => 'Bank',
+
+    'account_no' => 'Account Number',
+
+    'image' => 'Image',
+
+    'payment_to_finalize' => 'Payment to Finalize',
+
+    'shift_number_required' => 'Please select a shift number before opening the payment section.',
+
+    'edit_sale_quantity'=> 'Edit Sale Quantity',
+
+    'current_quantity' => 'Current Quantity',
+
+    'new_quantity' => 'New Quantity',
+
+    'daily_report_date' => 'Daily Report Date',
+
+    'slip_no' => "Slip No",
+    'cheque_no' => "Cheque No",
+
+    'petro' => 'Petro',
+
+    'dashboard' => 'Dashboard',
+
+    'enable_petro' => 'Enable Petro',
+
+    'customer_reference' => 'Vehicle No',
+
+    'list_tanks' => 'List Tanks',
+
+    'fuel_tanks' => 'Fuel Tanks',
+
+    'all_your_fuel_tanks' => 'All your Fuel Tanks',
+
+    'mange_fuel_tanks' => 'Manage your fuel tanks',
+
+    'tank_transaction_details' => 'Tanks Transaction Details',
+
+    'all_your_tank_transaction_details' => 'All your Tanks Transaction Details',
+
+    'mange_tank_transaction_details' => 'Manage your Tanks Transaction Details',
+
+    'tank_transaction_summary' => 'Tanks Transaction Summary',
+
+    'all_your_tank_transaction_summary' => 'All your Tanks Transaction Summary',
+
+    'mange_tank_transaction_summary' => 'Manage your Tanks Transaction Summary',
+
+    'transaction_date' => 'Transaction Date',
+
+    'fuel_tank_number' => 'Fuel Tank Number',
+
+    'product_name' => 'Product Name',
+
+    'product' => 'Product',
+
+    'storage_volume' => 'Storage Volume',
+
+    'current_balance' => 'Current Balance',
+
+    'add_fuel_tank' => 'Add Fuel Tank',
+
+    'branch' => 'Business Location',
+
+    'please_select' => 'Please Select',
+
+    'location_name' => 'Location',
+
+    'date' => 'Date',
+
+    'fuel_tank_add_success' => 'Fuel Tank added successfully',
+
+    'fuel_tank_update_success' => 'Fuel Tank updated successfully',
+
+    'fuel_tank_delete_success' => 'Fuel Tank deleted successfully',
+
+    'fuel_tank_reading' => 'Tanks Transaction Details',
+
+
+
+    'date_and_time' => 'Dip Date & Time',
+
+    'transaction_date' => 'Transaction Date',
+
+    'settlement_purchase_invoice_no' => 'Settlement / Purchase Invoice No',
+
+    'purchase_order_no' => 'Purchase Order No',
+
+    'starting_qty' => 'Starting Qty',
+
+    'purchase_qty' => 'Purchase Qty',
+
+    'sold_qty' => 'Sold Qty',
+
+    'total_sold_qty' => 'Total Sold Qty',
+
+    'balance_qty' => 'Balance Qty',
+
+    'success' => 'Success',
+
+
+
+    'tank_starting_stock' => 'Tank Starting Stock',
+
+    'received_stock' => 'Received Stock',
+
+    'total_stock' => 'Total Stock',
+
+    'list_pumps' => 'List Pumps',
+
+    'all_your_list_pumps' => 'All your pumps',
+
+    'list_pump_operators' => 'List Pump Operators',
+
+    'all_your_list_pump_operators' => 'All your Pump Operators',
+
+    'pump_no' => 'Pump No',
+
+    'pump_starting_meter' => 'Pump Starting Meter',
+
+    'location' => 'Location',
+
+    'fuel_tank' => 'Fuel Tank',
+
+    'pump_name' => 'Pump Name',
+
+    'installation_date' => 'Pump Installed',
+
+    'bulk_sale_meter' => 'Bulk Sale Meter',
+
+    'meter_value' => 'Meter Value',
+
+    'pump_name' => 'Pump Name',
+
+    'add_pump' => 'Add Pump',
+
+    'pump_add_success' => 'Pump added successfully',
+
+    'pump_delete_success' => 'Pump deleted successfully',
+
+    'pump_update_success' => 'Pump updated successfully',
+
+    'pump_import_success' => 'Pumps imported successfully',
+
+    'import' => 'Import',
+
+    'import_pumps' => 'Import Pumps',
+
+
+
+    'list_pump_operators' => 'List Pump Operators',
+
+    'add_pump_operator' => 'Add Pump Operator',
+
+    'edit_pump_operator' => 'Edit Pump Operator',
+
+    'name' => 'Name',
+
+    'address' => 'Address',
+
+    'mobile' => 'Mobile',
+
+    'landline' => 'Landline',
+
+    'dob' => 'Date of Birth',
+
+    'cnic' => 'National Identity Card Number',
+
+    'opening_balance' => 'Opening Balance',
+
+    'location' => 'Location',
+
+    'commission_type' => 'Commission Type',
+
+    'commission_ap' => 'Commission Value',
+
+    'commission_percentage' => 'Commission Percentage on Income',
+
+    'commission_fixed' => 'Fixed Amount per liter',
+
+    'pump_operator_add_success' =>    'Pump Operator added successfully',
+
+    'pump_operator_delete_success' => 'Pump Operator deleted successfully',
+
+    'pump_operator_update_success' => 'Pump Operator updated successfully',
+
+    'pump_operator_import_success' => 'Pump Operators imported successfully',
+
+    'pump_operator' => 'Pump Operator',
+
+    'close_daily_shift' => 'Close Daily shift',
+
+    'pending_assignment' => 'Pending Assignment',
+
+    'assign_for_today' => 'Assigned for the Shift',
+
+    'daily_shift_no' => 'Daily Shift No',
+
+    'settlement_no' => 'Settlement No',
+    'shift_no' => 'Shift No',
+
+    'sold_fuel_qty' => 'Sold Fuel Qty(Lts)',
+
+    'sale_amount_fuel' => 'Sale Amount Fuel',
+
+    'commission_rate' => 'Commission Rate',
+
+    'commission_amount' => 'Commission Amount',
+
+    'excess_amount' => 'Excess Amount',
+
+    'short_amount' => 'Short Amount',
+
+    'commission' => 'Commission',
+
+    'total_commission' => 'Total Commission',
+
+    'list_commission' => 'List Commission',
+
+    'commission_value' => 'Commission Value',
+
+    'excess' => 'Excess',
+
+    'shortage' => 'Shortage',
+
+    'pump_operator' => 'Pump Operator',
+
+    'type' => 'Type',
+
+    'all' => 'All',
+
+    'import_operators' => 'Import Operators',
+
+    'total_sale' => 'Total Sale',
+
+    'view_pump_operator' => 'View Pump Operator',
+
+
+
+    'pay_excess_and_commission' => 'Pay Excess & Commission',
+
+    'recover_shortages' => 'Recover Shortages',
+
+    'recover_shortage' => 'Recover Shortage',
+
+    'expense_account' => 'Expense Account',
+
+    'shortage_amount' => 'Shortage Amount',
+
+    'receivable_account' => 'Receivable Account',
+
+    'opening_balance_type' => 'Type',
+
+
+
+    'pump_operator_report' => 'Pump Operator Report',
+
+    'pumped_fuel_ltrs' => 'Pumped Fuel Lts',
+
+    'amount' => 'Amount',
+
+    'daily_collection' => 'Daily Collection',
+
+    'add_collection' => 'Add Collection',
+
+    'mange_daily_collection' => 'Manage your Daily Collection',
+
+    'all_your_daily_collection' => 'All your Daily Collection',
+
+    'settlement_date' => 'Settlement Date',
+
+    'daily_collection_add_success' =>    'Daily Collection added successfully',
+
+    'daily_collection_delete_success' => 'Daily Collection deleted successfully',
+
+    'daily_collection_update_success' => 'Daily Collection updated successfully',
+
+    'print' => 'Print',
+
+    'created_by' => 'Created By',
+
+    'total_collection' => 'Total Collection ',
+
+    'current_amount' => 'Current Amount',
+
+    'collection_form_no' => 'Collection Form No',
+
+    'balance_collection' => 'Balance Collection',
+
+    'cash_received_by' => 'Cash received by _______________',
+
+
+
+    'settlement' => 'Direct Settlement',
+
+    'shif_time_in' => 'Shift-Time-In',
+
+    'shif_time_out' => 'Shift-Time-Out',
+
+    'meter_sale' => 'Meter Sale',
+
+    'other_sale' => 'Other Sale',
+
+    'other_income' => 'Other Income',
+
+    'expense' => 'Expense',
+
+    'customer_payment' => 'Customer Payment',
+
+    'payment' => 'Payment',
+
+    'pump_starting_meter' => 'Pump Starting Meter',
+
+    'pump_closing_meter' => 'Pump Closing Meter',
+
+    'testing_qty' => 'Testing Qty',
+
+    'discount' => 'Discount',
+
+    'code' => 'Code',
+
+    'products' => 'Products',
+
+    'pump' => 'Pump',
+
+    'starting_meter' => 'Starting Meter',
+
+    'closing_meter' => 'Closing Meter',
+    'reconfirm_close_pump' => 'Reconfirmation to Close the Pump',
+
+    'price' => 'Price',
+
+    'qty' => 'Qty',
+
+    'sub_total' => 'Sub Total',
+
+    'meter_sale_total' => 'Fuel Sale Total',
+
+    'store' => 'Store',
+
+    'select_item' => 'Select Item',
+
+    'balance_stock' => 'Balance Stock',
+
+    'tax' => 'Tax',
+
+    'other_sale_total' => 'Other Sale Total',
+
+    'other_income_total' => 'Other Income Total',
+
+    'amount' => 'Amount',
+
+    'reason' => 'Reason',
+
+    'total' => 'Total',
+
+    'expense_number' => 'Expense Number',
+
+    'category' => 'Category',
+
+    'reference_no' => 'Vehicle No',
+
+    'expense_account' => 'Expense Account',
+
+    'payment' => 'Payment',
+
+    'note' => 'Note',
+    'view_note' => 'View Note',
+
+    'sold_qty' => 'Sold Qty',
+
+    'logoff_time' => 'Auto Log Off time in Minutes',
+
+    'logoff' => 'Auto Log Off time in Minutes(idle)',
+
+    'action' => 'Action',
+
+    'success' => 'Success',
+
+    'add_payment' => 'Add Payment',
+
+    'credit_sale_not_found' => 'Credit sale not found',
+
+    'current_short' => 'Current Short',
+
+    'current_excess' => 'Current Excess',
+
+    'daily_collections' => 'Daily Collections',
+
+    'daily_vouchers' => 'Daily Vouchers',
+
+    'commision_ammount' => 'Commission Amount',
+
+    'total_amount' => 'Total Settlement Amount',
+
+    'total_paid' => 'Total Paid',
+
+    'balance' => 'Balance',
+
+    'payment_method' => 'Payment Method',
+
+    'payment_amount' => 'Amount',
+
+    'add_payment' => 'Add Payment',
+
+    'voucher_number' => 'Voucher Number',
+
+    'customer' => 'Customer',
+
+    'amount' => 'Amount',
+
+    'limit_amount' => 'Limit(Amount)',
+
+    'current_outstanding' => 'Current Outstanding',
+
+    'credit_limit' => 'Credit Limit',
+
+    'expneses' => 'Expenses',
+
+    'credit_sales' => 'Credit Sales',
+
+    'cheques' => 'Cheques',
+
+    'cash' => 'Cash',
+
+    'cards' => 'Cards',
+
+    'customer' => 'Customer',
+
+    'cusotmer_name' => 'Customer Name',
+
+    'daily_collections' => 'Daily Collections',
+
+    'card_type' => 'Card Type',
+
+    'card_number' => 'Card Number',
+
+    'cheque_number' => 'Cheque Number',
+
+    'bank_name' => 'Bank Name',
+
+    'cheque_date' => 'Cheque Date',
+
+    'order_number' => 'Order Number',
+
+    'order_date' => 'Order Date',
+
+    'unit_price' => 'Unit Price',
+
+    'credit_sale_qty' => 'Qty',
+
+    'credit_sale_product' => 'Select Product',
+
+    'credit_sale_product_detail' => 'Credit Sale Product Detail',
+
+    'order_no' => 'Order No.',
+
+    'outstanding' => 'Outstanding',
+
+    'limit' => 'Limit',
+
+    'current_outstanding' => 'Current Outstanding',
+
+    'current_outstanding_before_sale' => 'Current Outstanding(Before this sale)',
+
+    'credit_limit' => 'Credit Limit',
+
+    'expense_category' => 'Expense Category',
+
+    'pump_operator_sale_report' => 'Pump Operator Sale Report',
+
+    'print_settlement' => 'Print Settlement',
+
+    'pump_operator_name' => 'Pump Operator Name',
+
+    'print_date_and_time' => 'Print Date & Time',
+
+    'shift_time_from' => 'Shift Time: From',
+
+    'short' => 'Short',
+
+    'voucher_no' => 'Voucher No.',
+
+    'expenses' => 'Expenses',
+
+    'payment_details' => 'Payment Details',
+
+    'back_to_settlement' => 'Back To Settlement',
+
+    'back_to_settlement_sw' => 'Back To Settlement SW', 
+
+
+
+    'meter_sale_total' => 'Meter Sales Total',
+
+    'other_sale_total' => 'Other Sales Total',
+
+    'other_income_total' => 'Other Incomes Total',
+
+    'customer_payment_total' => 'Customer Payments Total',
+
+    'work_shift' => 'Work Shift',
+
+    'back' => 'Back',
+
+
+
+
+
+    'list_settlement' => 'List Direct Settlement',
+
+    'mange_list_settlement' => 'Manage your All PD Settlements',
+
+    'all_your_list_settlement' => 'All Settlements',
+
+    'settlement_number' => 'Settlement Number',
+
+    'settlement_no' => 'Settlement No',
+
+    'status' => 'Status',
+
+    'shift' => 'Shift',
+
+    'total_amnt' => 'Total Amount',
+
+    'finish_settlement' => 'Finish Settlement',
+
+    'edit_settlement' => 'Edit Settlement',
+
+
+
+
+
+    'dip_management' => 'Dip Management',
+
+    'dip_report' => 'Dip Report',
+
+    'dip_resetting' => 'Dip Resetting',
+
+    'dip_resetting_no' => 'Dip Resetting No',
+
+    'tanks' => 'Tanks',
+
+    'add_dip' => 'Add Dip',
+
+    'all' => 'All',
+
+    'to' => ' To ',
+
+    'date_range' => 'Date Range',
+
+    'tank' => 'Tank',
+
+    'product' => 'Product',
+
+    'total_loss' => 'Total Loss',
+
+    'total_excess' => 'Total Excess',
+
+    'net_difference' => 'Net Difference',
+
+    'differnece' => 'Difference',
+
+    'add_dip_no' => 'Add Dip No',
+
+    'date' => 'Date',
+
+    'location' => 'Location',
+
+    'dip_reading' => 'Dip Reading',
+
+    'qty_on_dip_reading' => 'Qty(on Dip Reading)',
+
+    'qty_on_system_reading' => 'Qty(on System Reading)',
+
+    'difference' => 'Difference',
+
+    'current_qty' => 'Current Qty',
+
+    'qty_difference' => 'Qty Difference',
+
+    'new_qty' => 'New Qty',
+
+    'add_resetting' => 'Add Resetting',
+
+    'add_new_dip' => 'Add New Dip',
+
+    'tank_fuel_balance_dip_reading' => 'Dip Reading Value in Lts',
+
+    'tank_fuel_balance_system_reading' => 'Tank Fuel Balance (Based on system reading)',
+
+    'ref_number' => 'Reference No',
+
+    'meter_reset_form_no' => 'Meter Reset Form No',
+
+    'system_dip_balance' => 'System Dip Balance',
+
+    'current_dip_difference' => 'Current Dip Difference',
+
+    'reset_new_dip' => 'Reset/New Dip ',
+
+    /**  
+
+     * @ModifiedBy Afes Oktavianus
+
+     * @DateBy 06-06-2021
+
+     * @Task 3341
+
+     */
+
+    'qty_to_adjust' => 'Qty to Adjust',
+
+    'add_resetting_dip' => 'Add Resetting Dip',
+
+    'pump_management' => 'Pump Management',
+
+    'pumps' => 'Pumps',
+
+    'testing_details' => 'Testing Details',
+
+    'testing_liters' => 'Testing Liters',
+
+    'meter_resettings' => 'Meter Resettings',
+
+    'add_meter_reset' => 'Add Meter Reset',
+
+    'last_meter' => 'Last Meter',
+
+    'new_reset_meter' => 'New Reset Meter',
+
+    'meter_reset_ref_no' => 'Meter Reset Ref No',
+
+    'tank_name' => 'Tank Name',
+
+    'last_meter_current_meter' => 'Last Meter(Current Meter)',
+
+    'reset_new_meter' => 'Reset/New Meter',
+
+    'user' => 'User',
+
+    'meter_readings' => 'Meter Readings',
+
+    'sold_liters' => 'Sold Liters',
+
+    'start_meter' => 'Sart Meter',
+
+    'close_meter' => 'Close Meter',
+
+    'sale_amount' => 'Sale Amount',
+
+    'tank_management' => 'Tank Management',
+
+    'tank_transactions_details' => 'Tank Transaction Details',
+
+    'tank_transactions_summary' => 'Tank Transaction Summary',
+
+    'current_balance' => 'Current Balance',
+
+    'storage_volume' => 'Storage Volume',
+
+
+
+    'bill_to_customer' => 'Bill to Customer',
+
+    'issue_bills_customer' => 'Issue Customer Bills',
+
+    'issue_bill_customer' => 'Issue Customer Bill',
+
+    'issue_customer_bill' => 'Issue Customer Bill',
+
+    'all_issue_bill_customer' => 'List all Issue Customer Bills',
+
+    'all_issue_bill_customer_VAT' => 'List all Issue Customer Bills With VAT',
+
+    'add_issue_bill_customer' => 'Add Issue Customer Bill',
+
+    'add_issue_bill_customers' => 'Add Issue Customer Bill With VAT',
+
+
+
+    'bill_to_customer_VAT' => 'Bill to Customer with VAT',
+
+    'issue_bills_customer_VAT' => 'Issue Customer Bills with VAT',
+
+    'issue_bill_customer_VAT' => 'Issue Customer Bill with VAT',
+
+    'issue_customer_bill_VAT' => 'Issue Customer Bill with VAT',
+
+
+
+    'pump' => 'Pump',
+
+    'pump_operator' => 'Pump Operator',
+
+    'order_bill_no' => 'Order / Bill No',
+    'order_voucher_no' => 'Order / Voucher No',
+    'order_voucher_date' => 'Order / Voucher Date',
+    'customer_bill_no' => 'Customer Bill No',
+
+    'product' => 'Product',
+
+    'unit_price' => 'Unit Price',
+
+    'qty' => 'Qty',
+
+    'discount' => 'Discount',
+
+    'tax' => 'Tax',
+
+    'sub_total' => 'Sub Total',
+
+    'vehicle_no' => 'Vehicle No',
+
+    'order_no' => 'Order No',
+
+    'bill_no' => 'Bill No',
+
+    'customer_name' => 'Customer Name',
+
+    'no' => 'No',
+
+    'total_amount' => 'Total Amount',
+    'total_before_discount' => 'Total Before Discount',
+    'total_after_discount' => 'Total After Discount',
+
+    'customer_bill' => 'Customer Bill',
+
+    'bill_amount' => 'Bill Amount',
+
+    'add' => 'Add',
+
+    'tax_percentage' => 'Tax %',
+
+    'tax_percentages' => 'VAT %',
+
+    'reference' => 'Vehicle No',
+
+    'show_in_daily_voucher' => 'Show in Daily Voucher',
+
+    'issue_customer_bill_create_success' => 'Issue Customer Bill added successfully ',
+
+    'issue_customer_bill_update_success' => 'Issue Customer Bill updated successfully ',
+
+    'issue_customer_bill_delete_success' => 'Issue Customer Bill deleted successfully ',
+
+
+
+    'daily_voucher' => 'Daily Voucher',
+
+    'add_daily_voucher' => 'Add Daily Voucher',
+
+    'daily_vouchers_no' => 'Daily Voucher No',
+
+    'outstanding_pending' => 'Outstanding Pending',
+
+    'voucher_order_number' => 'Voucher Order No',
+
+    'voucher_order_numberss' => 'Business Name',
+
+    'voucher_order_address' => 'Business Address',
+
+    'voucher_order_contactno' => 'Business Contact No',
+
+    'voucher_order_vatinvoice' => 'VAT Invoice',
+
+    'voucher_order_vatno' => 'VAT No ',
+
+    'voucher_order_creditlimit' => 'Credit Limit',
+
+    'voucher_order_outstanding' => 'Customer Outstanding',
+
+    'voucher_order_amount' => 'This Bill Amount',
+
+    'voucher_order_newoutstanding' => 'New Outstanding',
+
+    'voucher_order_date' => 'Voucher Order Date',
+
+    'mange_daily_voucher' => 'Manage your Daily Voucher',
+
+    'all_your_daily_voucher' => 'All your Daily Voucher',
+
+    'daily_voucher_order_no' => 'Daily Voucher/Order No',
+
+    'daily_voucher_create_success' =>    'Daily Voucher added successfully',
+
+    'daily_voucher_delete_success' => 'Daily Voucher deleted successfully',
+
+    'daily_voucher_update_success' => 'Daily Voucher updated successfully',
+
+    'number_of_pumps_limit_reach_in_location' => 'Pumps limits not set or exceeded. Please check',
+
+
+
+    'preview' => 'Preview',
+
+    'details' => 'Details',
+
+    'bulk_tank' => 'Bulk Tank',
+
+    'service' => 'Service',
+
+    'edit_price' => 'Edit Price',
+
+    'edit_other_income_prices' => 'Edit Other Income Prices',
+
+    'business_location' => 'Business Locations',
+
+    'tank_number' => 'Fuel Tank Number',
+
+    'settlment' => 'Settlement',
+
+    'settlment_nos' => 'Settlement No',
+
+    'purhcase_no' => 'Purchase No',
+
+    'opening_stock' => 'Opening Stock',
+
+    'stock_adjustment' => 'Stock Adjustment',
+
+    'purchase_reference_no' => 'Purchase Reference No',
+
+    'transactions_exist_for_tank' => 'Transaction exist for this tank',
+
+    'tank_delete_success' => 'Tank delete successfully',
+
+    'pump_delete_success' => 'Pump delete successfully',
+
+    'testing_sale_value' => 'Testing Sale Value',
+
+    'total_purchase' => 'Total Purchase',
+
+    'pump_current_meter' => 'Pump Current Meter',
+
+    'reset_dip' => 'Reset Dip',
+
+    'delete' => 'Delete',
+
+    'daily_collection_delete_success' => 'Daily Collection deleted successfully',
+
+    'settlement_delete_success' => 'Settlement deleted successfully',
+
+    'unit_rate' => 'Unit Rate',
+
+    'pumper_management' => 'Pumper Management',
+
+    'pump_operators' => 'Pump Operators',
+
+    'pumper_excess_shortage_payments' => 'Pumper Excess / Shortage Payments',
+
+    'payment_type' => 'Payment Types',
+
+    'current_shortage' => 'Current Shortage',
+
+    'shortage_recovered' => 'Shortage Recovered',
+
+    'excess_paid' => 'Excess Paid',
+
+    'inactive' => 'Inactive',
+
+    'active' => 'Active',
+
+    'total_liter_sold' => 'Total Liter Sold',
+
+    'total_income_earned' => 'Total Income Earned',
+
+    'total_short' => 'Total Short',
+
+    'total_short_paid' => 'Total Short / Excess Paid',
+
+    'total_excess' => 'Total Excess',
+
+    'total_leave' => 'Total Leave',
+
+    'username' => 'Username',
+
+    'email' => 'Email',
+
+    'password' => 'Password',
+
+    'confirm_password' => 'Confirm Password',
+
+    'today' => 'Today',
+
+    'time' => 'Time',
+
+    'daily_report' => 'Daily Report',
+
+    'payments' => 'Payments',
+
+    'meters_with_payments' => 'Meters with Payments',
+
+    'all_your_meters_with_payments' => 'All your meters with payments',
+
+    'receive_pump' => 'Receive Pump',
+
+    'close_shift' => 'Close Shift',
+
+    'main_menu' => 'Main Menu',
+
+    'pump_operator_dashboard' => 'Pump Operator Dashboard',
+
+    'pumper_setting_dashboard' => 'Pumper Setting Dashboard',
+
+    'pump_number' => 'Pump Number',
+
+    'pump_receive' => 'Pump Receive',
+
+    'confirm_passcode' => 'Confirm Passcode',
+
+    'passcode' => 'Passcode',
+
+    'tank_manufacturer' => 'Tank Manufacturer',
+
+    'tank_capacity' => 'Tank Capacity',
+
+    'sheet_name' => 'Sheet Name',
+
+    'unit' => 'Unit',
+
+    'customer_reference_one_time' => 'Vehicle No (New)',
+
+    'add_expense_category' => 'Add Expense Category',
+
+    'correct_meter_reading' => 'Correct Meter Reading',
+
+    'last_closing_meter' => 'Last Closing Meter',
+
+    'pumper_day_entries' => 'Pumper Day Entries',
+
+    'no_of_pumps_today' => 'No of Pumps Today',
+
+    'total_sale_today' => 'Total Sale Today',
+
+    'total_payments' => 'Total Payments',
+
+    'balance_to_settle' => 'Balance to Settle',
+
+    'cash' => 'Cash',
+
+    'credit_sales' => 'Credit Sales',
+
+    'credit_cards' => 'Credit Cards',
+
+    'cheque_sales' => 'Cheque Sales',
+
+    'sold_amount' => 'Sold Amount',
+
+    'sold_ltr' => 'Sold Ltr',
+
+    'daily_pump_status' => 'Daily Pump Status',
+    'edit_not_allowed_shift_open' => 'Pump already received. Please wait until the shift is closed to edit.',
+
+    'confirm_meter_reading' => 'Confirm Meter Reading',
+
+    'pump_operator_assigned_success' => 'Pump Operator assigned to pump successfully',
+
+    // 'closing_meter_cannot_be_smaller' => 'Closing meter value should not less then starting meter value',
+    'closing_meter_cannot_be_smaller' => 'Enter closing meter greater than the starting meter',
+
+
+    'closing_meter_cannot_be_empty' => 'Closing meter value should not be empty',
+
+    'assignment_not_found' => 'This pump assignment is no longer available. Please return to the dashboard and open Close Pump again.',
+
+    'success' => 'Success',
+
+    'payment_added_successfully' => 'Payment added successfully',
+
+    'discount_type' => 'Discount Type',
+
+    'reconfirm_meter' => 'Reconfirm meter',
+
+    'sale_price' => 'Sale Price',
+
+    'save' => 'Save',
+
+    'cancel' => 'Cancel',
+
+    'main_system' => 'Main System',
+
+    'test_qty' => 'Test Qty',
+
+    'cheque' => 'Cheque',
+
+    'credit_sale' => 'Credit Sale',
+
+    'logout' => 'Logout',
+
+    'day_entries' => 'Day Entries',
+
+    'difference' => 'Difference',
+
+    /**  
+
+     * @ModifiedBy Afes Oktavianus
+
+     * @DateBy 08-06-2021
+
+     * @Task 3359
+
+     */
+
+    'difference_value' => 'Difference Value',
+
+    'shift_summary' => 'Shift Summary',
+
+    'payment_summary' => 'Payment Summary',
+
+    'all_your_payments' => 'All your payments',
+
+    'multiple_credit' => 'Multiple Credit',
+
+    'card' => 'Card',
+
+    'credit' => 'Credit Sale',
+
+    'cancel' => 'Cancel',
+
+    'settle_button' => 'Settle Button',
+
+    'balance_to_operator' => 'Balance to operator',
+
+    'double_entry_account' => 'Double Entry Account',
+
+    'account_types' => 'Account Types',
+
+    'payment_ref_no' => 'Payment Ref No',
+
+    'accounts' => 'accounts',
+
+    'closed' => 'Closed',
+
+    'testing_ltr' => 'Testing Ltr',
+
+    'edit_pumper_day_entry' => 'Edit Pumper Day Entry',
+
+    'add_settlement_no' => 'Add Settlement No',
+
+    'enter_current_meter' => 'Enter Current Meter',
+
+    'unload_stock' => 'Unload Stock',
+
+    'unload_stock_details' => 'Unload Stock Details',
+
+    'last_time_entered_meter' => 'Last Time Entered Meter',
+
+    'last_time_meter' => 'Last Time Meter',
+
+    'current_meter' => 'Current Meter',
+
+    'new_sale_amount' => 'New Sale Amount',
+
+    'total_sale_amount' => 'Total Sale Amount',
+
+    'click_to_enter' => 'Click to Enter',
+
+    'unloaded_qty' => 'Unloaded Quantity',
+
+    'current_stock' => 'Current Stock',
+
+    'unloaded_stocks' => 'Unloaded Stocks',
+
+    'unload_stock_details' => 'Unload Stock Details',
+
+    'current_dip' => 'Current Dip',
+
+    'added_by' => 'Added By',
+
+    'total_qty' => 'Total Qty',
+
+    'edited_by' => 'Edited By',
+
+    'edit_payment' => 'Edit Payment',
+
+    'payment_updated_successfully' => 'Payment updated successfully.',
+
+    'payment_update_failed' => 'Unable to update the payment. Please check the entered details and try again.',
+
+    'payment_not_found' => 'The payment record could not be found. Please refresh the Payment Summary and try again.',
+
+    'meters' => 'Meters',
+
+    'unloading' => 'Unloading',
+
+    'dashboard_opening_meters' => 'Dashboard Opening Meters',
+
+    'dashboard_opening_meter' => 'Dashboard Opening Meter',
+
+    'reset_meter' => 'Reset Meter',
+
+    'all_your_opening_meter' => 'All your opening meter',
+
+    'current_status' => 'Current Status',
+
+
+
+    'daily_status_report' => 'Daily Status Report',
+
+    'tank_no' => 'Tank No',
+
+    'dip_details_section' => 'Dip Details Section',
+
+    'dip_stick_reading' => 'Dip Stick Reading',
+
+    'qty_in_liters' => 'Qty in Liters',
+
+    'qty_in_system' => 'Qty in System',
+
+    'sub_category' => 'Sub Category',
+
+    'total_amount' => 'Total Amount',
+
+    'pump_sales_details' => 'Pump Sales Details',
+
+    'previous_day_meter' => 'Previous Day Meter',
+
+    'today_meter' => 'Today Meter',
+
+    'sold_qty_liters' => 'Sold Qty Liters',
+
+    'banked_by_3pm' => 'Banked By 3 PM',
+
+    'locker' => 'Locker',
+
+    'fuel_sale_summary' => 'Fuel Sale Summary',
+
+    'lubricant_sale' => 'Lubricant Sale',
+
+    'starting_qty' => 'Starting Qty',
+
+    'balance_qty' => 'Balance Qty',
+
+    'other_sales' => 'Other Sales',
+
+    'list_other_sales' => 'List Other Sales',
+
+    'empty_cylinders' => 'Empty Cylinders',
+
+    'gas_sales' => 'Gas Sales',
+
+    'filled_qty' => 'Filled Qty Balance',
+
+    'empty_qty' => 'Empty Qty Balance',
+
+    'total_payment_summary' => 'Total Payment Summary',
+
+    'total_sale' => 'Total Sale',
+
+    'total_card' => 'Total Card',
+
+    'total_credit' => 'Credit Sales',
+
+    'total_bank' => 'Bank',
+
+    'balance_credit_receipt' => 'Balance & Credit Sales Receipt',
+
+    'balance_cash' => 'Balance Cash',
+
+
+
+    'dip_readings' => 'Dip Readings',
+
+    'dip_reading_value' => 'Dip Reading Value',
+
+    'settlement_pd' => 'Settlement PD',
+    'list_settlement_pd' => 'List Settlement PD',
+
+    'daily_collection_sw' => 'Daily Collection SW',
+
+    'daily_shift_number' => 'Daily Shift Number',
+
+    'customer_bill_printer_setting' => 'Customer Bill Print Settings',
+    'print_option' => 'Print Option',
+    'print_settings_saved_successfully' => 'Print Settings Saved Successfully',
+    'map_pump_to_operator' => 'Map Pump To Operator',
+    'assigned_time' => 'Assigned Time',
+    'operator' => 'Operator',
+    'add_pump_to_operator' => 'Add Pump To Operator',
+    'edit_pump_to_operator' => 'Edit Pump To Operator',
+    'operator_already_assigned' => 'Operator Already Assigned',
+    'pump_already_assigned' => 'Pump Already Assigned',
+    'print_and_save' => 'Print & Save',
+    'deleted_purchase' => 'Deleted Purchase Order No',
+    'add_pump_to_operator' => 'Add Pump To Operator',
+    'select_print_size' => 'Select Print Size',
+    'prefill_credit_sale_details' => 'In Credit Sales Payment tab page to show the last saved details',
+    'amount_before_discount' => 'Amount Before Discount',
+    'last_entered_meter' => 'Last Entered Meter',
+    'pos_sales' => 'POS Sales',
+    'pump_details' => 'Pump Details',
+    'pos_details' => 'POS Details',
+    'total_pos_amount_today' => 'Total POS Amount Today',
+    'total_pos_cash_amount' => 'Total POS Cash Amount',
+    'total_pos_sales' => 'Total POS Sales',
+
+    'settle_oldest_shift_first_pd' => 'Please complete Petro PD settlement for the oldest pending shift (:shift) first. Shifts closed in the Pumper Dashboard must be settled in order of shift number.',
+
+    'no_pending_pd_shift_for_operator' => 'There is no pending Petro PD shift to settle for this pump operator.',
+    'shift_closed_payment_not_allowed' => 'This shift is already closed. Meter payment cannot be opened or finalized after close shift.',
+    'no_open_pumps_for_meter_entry' => 'No open pump assignment found for meter entry.',
+    'good_morning' => 'Good Morning',
+    'good_afternoon' => 'Good Afternoon',
+    'good_evening' => 'Good Evening',
+    // MA-008
+    'print_close_shift_summary' => 'Print Close Shift Summary',
+    'take_shift_summary_print' => 'Take the shift Summary Print',
+    'yes' => 'Yes',
+    'no_need' => 'No need',
+];
+
+

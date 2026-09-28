@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'purchase_module' => 'Purchase Module',
+    'purchase_entries' => 'Purchase Entries',
+    'purchase_saved' => 'Purchase saved successfully',
+    'purchase_updated' => 'Purchase updated successfully',
+    'add_purchase' => 'Add Purchase',
+    'edit_purchase' => 'Edit Purchase',
+    'purchase_orders' => 'Purchase Orders',
+    'purchase_order_saved' => 'Purchase order saved successfully',
+    'purchase_order_updated' => 'Purchase order updated successfully',
+    'date' => 'Date',
+    'ref_no' => 'Ref No',
+    'supplier' => 'Supplier',
+    'business_location' => 'Business Location',
+    'total' => 'Total',
+    'payment_status' => 'Payment Status',
+    'status' => 'Status',
+    'product' => 'Product',
+    'qty' => 'Qty',
+    'unit_cost' => 'Unit Cost',
+    'line_total' => 'Line Total',
+    'payment' => 'Payment',
+    'payment_will_be_separated_in_next_package' => 'Payment functionality will be separated in the next package.',
+    'deleted' => 'Deleted successfully',
+];

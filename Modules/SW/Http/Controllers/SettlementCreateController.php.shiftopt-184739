@@ -1,0 +1,268 @@
+<?php
+
+namespace Modules\SW\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Modules\SW\Entities\Shift;
+use Modules\SW\Services\NumberService;
+use Modules\SW\Services\SettlementBuilderService;
+use Modules\SW\Services\SettlementSaveService;
+
+/**
+ * SW Settlement — create.  8043.
+ *
+ * Header: settlement number, location, operator, date, shift, note.
+ *
+ * The operator is chosen before the shifts, and the shift list follows from it:
+ * 8043 says shifts are linked to the selected operator only.
+ */
+class SettlementCreateController extends Controller
+{
+    public function __construct(
+        protected SettlementBuilderService $builder,
+        protected SettlementSaveService $saver,
+        protected NumberService $numbers
+    ) {
+    }
+
+    protected function businessId(): int
+    {
+        return (int) (session('business.id') ?: session('user.business_id') ?: 0);
+    }
+
+    public function create()
+    {
+        $businessId = $this->businessId();
+
+        abort_unless(
+            auth()->user()->can('superadmin') || auth()->user()->can('sw.settlement.create'),
+            403
+        );
+
+        $locations = $this->locations($businessId);
+
+        return view('sw::settlements.create', [
+            'business_locations' => $locations,
+
+            // One location: choose it. Making someone pick from a list of one
+            // is a question with only one answer.
+            'default_location' => $locations->count() === 1 ? $locations->keys()->first() : null,
+
+            'pump_operators' => $this->operators($businessId),
+
+            /*
+             | Shown before anything is saved, so the user knows which number
+             | they are working on.
+             |
+             | peek() does not consume it - the real number is taken at save
+             | time, so an abandoned settlement leaves no gap in the sequence
+             | and two people starting at once do not both hold the same one.
+            */
+            'settlement_no' => $this->numbers->peek(
+                $businessId,
+                (int) ($locations->count() === 1 ? $locations->keys()->first() : 0),
+                'settlement'
+            ),
+
+            'opening_date' => $this->openingDate($businessId),
+            'max_date' => $this->maxDate($businessId),
+        ]);
+    }
+
+    /**
+     * Pending shifts for one operator at one location.
+     *
+     * CLOSED and not already settled. An open shift is still taking money;
+     * a settled one has been through this already.
+     */
+    public function availableShifts(Request $request)
+    {
+        $businessId = $this->businessId();
+        $locationId = (int) $request->input('location_id');
+        $operatorId = (int) $request->input('pump_operator_id');
+
+        if ($businessId <= 0 || $locationId <= 0 || $operatorId <= 0) {
+            return response()->json([]);
+        }
+
+        $rows = Shift::where('sw_shifts.business_id', $businessId)
+            ->where('sw_shifts.location_id', $locationId)
+            ->where('sw_shifts.status', Shift::STATUS_CLOSED)
+            // Linked to the operator - 8043.
+            ->whereExists(function ($q) use ($operatorId) {
+                $q->select(DB::raw(1))
+                  ->from('sw_shift_operators')
+                  ->whereColumn('sw_shift_operators.sw_shift_id', 'sw_shifts.id')
+                  ->where('sw_shift_operators.pump_operator_id', $operatorId);
+            })
+            ->orderBy('sw_shifts.shift_date')
+            ->orderBy('sw_shifts.id')
+            ->limit(100)
+            ->get(['sw_shifts.id', 'sw_shifts.sw_shift_no', 'sw_shifts.shift_date', 'sw_shifts.shift_name']);
+
+        return response()->json($rows->map(function ($r) {
+            $label = $r->sw_shift_no;
+
+            if ($r->shift_date) {
+                $label .= '  ·  ' . \Carbon\Carbon::parse($r->shift_date)->format('d/m/Y');
+            }
+
+            if (! empty($r->shift_name)) {
+                $label .= '  ·  ' . $r->shift_name;
+            }
+
+            return ['id' => $r->id, 'label' => $label];
+        }));
+    }
+
+    /** What the daily tabs recorded against the chosen shifts. */
+    public function assemble(Request $request)
+    {
+        $businessId = $this->businessId();
+
+        $shiftIds = array_filter(array_map('intval', (array) $request->input('shift_ids', [])));
+
+        if (empty($shiftIds)) {
+            return response('');
+        }
+
+        return view('sw::settlements.partials.settlement_body', [
+            'bundle' => $this->builder->assemble($businessId, $shiftIds),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $businessId = $this->businessId();
+
+        abort_unless(
+            auth()->user()->can('superadmin') || auth()->user()->can('sw.settlement.create'),
+            403
+        );
+
+        $data = $request->validate([
+            'location_id' => 'required|integer',
+            'pump_operator_id' => 'required|integer',
+            'shift_ids' => 'required|array|min:1',
+            'shift_ids.*' => 'integer',
+            'transaction_date' => 'required|date',
+            'note' => 'nullable|string',
+            'lines' => 'nullable|array',
+
+            /*
+             | The other four sections.
+             |
+             | Absent from the rules, validate() strips them and the settlement
+             | saves with four sections silently missing - the user watching it
+             | work and losing the lot.
+            */
+            'other_sales' => 'nullable|array',
+            'other_income' => 'nullable|array',
+            'credit_sales' => 'nullable|array',
+            'payments' => 'nullable|array',
+
+            'total_meter_sales' => 'nullable|numeric',
+            'total_other_sales' => 'nullable|numeric',
+            'total_other_income' => 'nullable|numeric',
+            'total_credit_sales' => 'nullable|numeric',
+        ]);
+
+        $this->assertDateAllowed($businessId, $data['transaction_date']);
+
+        $settlementId = $this->saver->create($businessId, $data);
+
+        $settlementNo = DB::table('sw_settlements')->where('id', $settlementId)->value('settlement_no');
+
+        return redirect()->route('sw.settlements.index')
+            ->with('status', [
+                'success' => 1,
+                'msg' => __('sw::lang.settlement_created', ['number' => $settlementNo]),
+            ]);
+    }
+
+    /**
+     * 8043: not before the system opening date, and not into closed accounts.
+     *
+     * Checked again here even though the picker restricts it - a picker is a
+     * convenience, not a control, and the date can still arrive by other means.
+     */
+    protected function assertDateAllowed(int $businessId, string $date): void
+    {
+        $opening = $this->openingDate($businessId);
+
+        abort_if(
+            $opening && $date < $opening,
+            422,
+            __('sw::lang.date_before_opening', ['date' => $opening])
+        );
+
+        $max = $this->maxDate($businessId);
+
+        abort_if(
+            $max && $date > $max,
+            422,
+            __('sw::lang.date_in_closed_period')
+        );
+    }
+
+    /** The business's own start date, where one is recorded. */
+    protected function openingDate(int $businessId): ?string
+    {
+        if (! Schema::hasTable('business')) {
+            return null;
+        }
+
+        foreach (['start_date', 'financial_year_start_month'] as $column) {
+            if ($column === 'start_date' && Schema::hasColumn('business', 'start_date')) {
+                $v = DB::table('business')->where('id', $businessId)->value('start_date');
+                if (! empty($v)) {
+                    return \Carbon\Carbon::parse($v)->toDateString();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * The latest date that may be settled.
+     *
+     * Where the business records an accounts-closed date, nothing after it. No
+     * such setting: today, because a settlement dated into the future is
+     * settling money that has not been taken.
+     */
+    protected function maxDate(int $businessId): string
+    {
+        if (Schema::hasTable('business') && Schema::hasColumn('business', 'accounts_closed_date')) {
+            $v = DB::table('business')->where('id', $businessId)->value('accounts_closed_date');
+
+            if (! empty($v)) {
+                return \Carbon\Carbon::parse($v)->toDateString();
+            }
+        }
+
+        return now()->toDateString();
+    }
+
+    protected function locations(int $businessId)
+    {
+        return DB::table('business_locations')
+            ->where('business_id', $businessId)
+            ->when(Schema::hasColumn('business_locations', 'is_active'),
+                fn ($q) => $q->where('is_active', 1))
+            ->orderBy('name')
+            ->pluck('name', 'id');
+    }
+
+    protected function operators(int $businessId)
+    {
+        return DB::table('pump_operators')
+            ->where('business_id', $businessId)
+            ->where('active', 1)
+            ->orderBy('name')
+            ->pluck('name', 'id');
+    }
+}

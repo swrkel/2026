@@ -1,0 +1,7 @@
+@extends('pos::layouts.app', ['title' => __('pos::messages.open_shift')])
+@section('pos_content')
+<div class="box box-primary"><div class="box-body"><form method="POST" action="{{ route('pos.shifts.open') }}">@csrf
+<div class="row"><div class="col-md-4"><div class="form-group"><label>{{ __('pos::messages.register') }}</label><select name="register_id" class="form-control select2" required><option value="">{{ __('pos::messages.please_select') }}</option>@foreach($registers as $register)<option value="{{ $register->id }}">{{ $register->name }} {{ $register->code ? '('.$register->code.')' : '' }}</option>@endforeach</select></div></div><div class="col-md-4"><div class="form-group"><label>{{ __('pos::messages.opening_amount') }}</label><input type="number" step="0.0001" name="opening_amount" class="form-control text-right" value="0.00"></div></div><div class="col-md-4"><div class="form-group"><label>{{ __('pos::messages.opened_at') }}</label><input type="text" name="opened_at" class="form-control pos-datetimepicker" value="{{ now()->format('Y-m-d H:i:s') }}"></div></div></div>
+<div class="form-group"><label>{{ __('pos::messages.note') }}</label><textarea name="note" rows="3" class="form-control"></textarea></div><div class="text-right"><button class="btn btn-success pos-large-save"><i class="fa fa-play"></i> {{ __('pos::messages.open_shift') }}</button></div>
+</form></div></div>
+@endsection

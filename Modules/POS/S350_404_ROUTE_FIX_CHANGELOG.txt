@@ -1,0 +1,40 @@
+S350 - POS 404 Route Fix
+
+Reason for fix:
+- POS pages showing 404 means the POS module routes were not being registered reliably by the Laravel module loader.
+- The previous POSServiceProvider loaded route files directly in boot(). Some module loaders/cache states do not reliably map those route files unless a dedicated RouteServiceProvider is registered.
+
+Changed files:
+- Modules/POS/Providers/POSServiceProvider.php
+- Modules/POS/Providers/RouteServiceProvider.php
+- Modules/POS/module.json
+
+Fix included:
+- Added POS RouteServiceProvider using the same pattern as other working Modules.
+- POSServiceProvider now registers RouteServiceProvider in register().
+- POS module.json now follows standard module-loader fields with priority and provider.
+- Added compatibility redirects:
+  /pos-module -> /pos
+  /pos-module/dashboard -> /pos
+  /pos-module/sales -> /pos/sales
+  /pos-module/sales/workspace -> /pos/sales/workspace
+  /pos-module/products -> /pos/products
+  /pos-module/customers -> /pos/customers
+  /pos-dashboard -> /pos
+  /point-of-sale -> /pos
+
+Main URLs to test:
+- /pos
+- /pos/sales
+- /pos/sales/workspace
+- /pos/products
+- /pos/customers
+- /pos/stock-adjustment
+- /pos/stock-movements
+- /pos/reports
+
+After replacing files, clear Laravel cache if the server still shows old routes:
+php artisan optimize:clear
+php artisan route:clear
+php artisan config:clear
+php artisan view:clear

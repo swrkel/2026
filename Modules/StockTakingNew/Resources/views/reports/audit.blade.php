@@ -1,0 +1,5 @@
+@extends('stocktakingnew::layouts.app')
+@section('stk_title','Stock Taking Audit Trail')
+@section('stk_content')
+<section class="stk-card"><form method="get" class="stk-report-filter">@include('stocktakingnew::partials.report_filters')<div><label>Event</label><input name="event" value="{{ request('event') }}" class="form-control" placeholder="Example: counts_saved"></div></form><div class="table-responsive"><table class="stk-table"><thead><tr><th>Date & Time</th><th>Session</th><th>Event</th><th>Entity</th><th>User</th><th>IP Address</th><th>Details</th></tr></thead><tbody>@forelse($rows as $r)<tr><td>{{ optional($r->created_at)->format('d M Y h:i:s A') }}</td><td>{{ $r->session_id ?: '—' }}</td><td><strong>{{ ucwords(str_replace('_',' ',$r->event)) }}</strong></td><td>{{ $r->entity_type }} #{{ $r->entity_id }}</td><td>{{ $r->created_by ?: 'System' }}</td><td>{{ $r->ip_address }}</td><td><small>{{ json_encode($r->metadata,JSON_UNESCAPED_SLASHES) }}</small></td></tr>@empty<tr><td colspan="7" class="stk-empty">No audit events.</td></tr>@endforelse</tbody></table></div>{{ $rows->links() }}</section>
+@endsection

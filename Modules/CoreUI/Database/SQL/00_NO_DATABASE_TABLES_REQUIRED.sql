@@ -1,0 +1,3 @@
+-- CoreUI is a presentation-only module.
+-- No database tables are required.
+-- Run no SQL for this module.

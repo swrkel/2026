@@ -1,0 +1,29 @@
+PURCHASE MODULE - MODULE-WIDE 404 / DUAL CONTEXT FIX
+15 Sep 2026
+
+Purpose
+-------
+Prevent isolated 404 Not Found errors on Purchase pages and Purchase AJAX
+endpoints on servers that still have an older Laravel route cache, while also
+supporting both database layouts used by the ERP:
+
+1. businesses in a separate Stancl tenant database; and
+2. businesses that intentionally remain in the master/system database.
+
+Deployment
+----------
+Upload/extract/replace the Purchase module and refresh the browser (Ctrl+F5).
+No SQL import, migration, vendor:publish, route:clear or optimize:clear is
+required for this correction.
+
+Routing
+-------
+Canonical Purchase URLs now live under /purchase-module-live/....
+Existing /purchase/... and /purchase-module/... URLs remain compatible.
+All Purchase route() calls resolve to the canonical collision-proof family.
+
+Assets
+------
+Purchase views that previously depended on published /modules/purchase/*.js
+files now execute the module-owned Resource JavaScript directly. This prevents
+404 asset failures when public assets were not republished on a server.

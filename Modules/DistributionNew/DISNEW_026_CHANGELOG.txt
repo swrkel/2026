@@ -1,0 +1,10 @@
+DISNEW_026 - Server Feedback Stabilization
+
+Purpose:
+- Strengthen server testing readiness after the full replacement package.
+- Add a visible stabilization dashboard for common deployment issues.
+- Add route/menu/permission/SQL/migration verification helpers.
+- Add tenant/business isolation diagnostics.
+- Add clear repair notes for missing sidebar, 404 route, permission, SQL, and asset loading issues.
+
+No existing business logic is removed.

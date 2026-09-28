@@ -1,0 +1,10 @@
+{
+    "name": "nivasa/airline-ticketing-new",
+    "description": "Standalone Airline Ticketing New module",
+    "type": "laravel-module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\AirlineTicketingNew\\": ""
+        }
+    }
+}

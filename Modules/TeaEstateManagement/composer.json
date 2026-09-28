@@ -1,0 +1,5 @@
+{
+  "name": "modules/tea-estate-management",
+  "description": "Standalone Tea Estate Management module",
+  "autoload": {"psr-4": {"Modules\\TeaEstateManagement\\": ""}}
+}

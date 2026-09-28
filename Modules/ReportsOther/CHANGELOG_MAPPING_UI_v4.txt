@@ -1,0 +1,25 @@
+Reports - Other v4 - Product Category dropdown + tab colours
+Date: 20 Sep 2026
+
+FIXED
+1. Map Sub Products to Source now uses a real dropdown-style multi-selector.
+2. The dropdown supports multiple Product Category and Product Sub Category selection.
+3. ProductsNew categories are read directly from tenant DB table products_new_categories first.
+4. Legacy categories table is retained as automatic fallback.
+5. Only active categories are shown where the source table has an is_active column.
+6. Nested sub categories are flattened into the same dropdown with indentation.
+7. Added type-to-filter search, Select All, Clear All, selected count and Done button.
+8. Receipt/List Receipt/Map Sub Products/Prefix tabs now have different inactive colours.
+9. Whichever tab is active is always white with dark text.
+10. ReportsOther asset responses now prevent stale browser cache after module updates.
+
+DATABASE
+No ReportsOther schema change is required for this correction.
+
+DEPLOY
+Replace Modules/ReportsOther with this parcel version, then run:
+php artisan optimize:clear
+php artisan module:enable ReportsOther
+php artisan optimize:clear
+
+A hard refresh is optional because v4 disables stale module-asset caching, but Ctrl+F5 is still safe after deployment.

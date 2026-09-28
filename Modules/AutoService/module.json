@@ -1,0 +1,18 @@
+{
+    "name": "AutoService",
+    "alias": "autoservice",
+    "description": "Standalone Auto Service workshop management module using shared Customers and Products.",
+    "keywords": [
+        "auto",
+        "service",
+        "vehicle",
+        "workshop"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\AutoService\\Providers\\AutoServiceServiceProvider"
+    ],
+    "aliases": [],
+    "files": [],
+    "requires": []
+}

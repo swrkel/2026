@@ -1,0 +1,21 @@
+{
+    "name": "PetroGeneral",
+    "alias": "petrogeneral",
+    "description": "Standalone Petro General operations and settings module without runtime dependency on the legacy Petro module.",
+    "keywords": [
+        "petro",
+        "general",
+        "operations",
+        "standalone"
+    ],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\PetroGeneral\\Providers\\PetroGeneralServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

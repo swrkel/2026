@@ -1,0 +1,12 @@
+S352 POS module URL 404 fix
+
+Changed files:
+- Modules/POS/Providers/RouteServiceProvider.php
+
+Fixes:
+- Added wildcard backward-compatible redirect for /pos-module/{any-page}.
+- /pos-module/registers now redirects to /pos/registers.
+- /pos-module/sales, /pos-module/products, /pos-module/customers and all child pages redirect to the standalone POS route group.
+- Keeps actual POS implementation under /pos so route names remain clean and do not conflict.
+
+No SQL changes required for this 404 URL fix.

@@ -1,0 +1,2 @@
+<?php
+namespace Modules\RestaurantNew\Http\Requests; use Illuminate\Foundation\Http\FormRequest; class StockAdjustmentRequest extends FormRequest { public function authorize(): bool{return $this->user()?->can('restaurant_new.stock.adjust')??false;} public function rules(): array{return ['location_id'=>'nullable|integer','ingredient_id'=>'required|integer','quantity'=>'required|numeric|not_in:0','reason'=>'required|string|max:1000'];}}

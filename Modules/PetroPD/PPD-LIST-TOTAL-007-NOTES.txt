@@ -1,0 +1,15 @@
+PPD-LIST-TOTAL-007
+
+Issue:
+- Petro PD / List Settlement / Total Amount column did not match Settlement Print/Preview Payment Details total.
+- Meter sale amount was being added again in the list page calculation.
+
+Fix:
+- Updated PetroPDSettlementController List Settlement datatable total_amount column.
+- The list total now uses the same Payment Details source as print preview:
+  customer loans + cash deposits + cash + card + cheque + credit sales net of discount + expenses + shortage + excess.
+- Meter sales and other sales are intentionally excluded from the list total calculation to prevent double counting.
+- Added fallback for old settlements without settlement_cash_payments rows using daily_collections only when cash payment rows are missing.
+
+Changed file:
+- Modules/PetroPD/Http/Controllers/PetroPDSettlementController.php

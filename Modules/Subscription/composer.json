@@ -1,0 +1,16 @@
+{
+    "name": "nivasa/subscription",
+    "description": "Standalone central multi-tenant subscription administration module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Subscription\\": ""
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Subscription\\Providers\\SubscriptionServiceProvider"
+            ]
+        }
+    }
+}

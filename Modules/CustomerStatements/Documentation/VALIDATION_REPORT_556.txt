@@ -1,0 +1,45 @@
+Customer Statements – Task 556 Validation Report
+Date: 27 July 2026
+
+Source reviewed
+---------------
+- User-supplied CustomerStatements(2).zip
+- Issue document: 556 - Customer Statement Module – 27 Jul 2026.docx
+- Current shared Customers workspace/controller structure used by the adapter
+
+Confirmed source defects
+------------------------
+1. Statement Print Formats was linked to #list_statement_payments.
+2. Alert Settings was linked to #font_settings.
+3. The page initialization always forced the first pane.
+4. The settings button selector used #settings_statement_btn, but the supplied form uses .settings_statement_btn.
+5. The save script read #customer_id and #starting_no, but the supplied form uses:
+   - #statement_customer_id
+   - #statement_starting_no_customer
+   - #statement_starting_no_all
+6. The old controller inserted a new settings row on every save and had no General-sequence calculation.
+
+Validation completed
+--------------------
+PASS - PHP syntax validation for every non-empty PHP/Blade file in the module.
+PASS - JavaScript syntax validation for both injected script blocks using node --check.
+PASS - Route audit for numbering show/store/next endpoints.
+PASS - Static pane mapping audit:
+       List Customer Statements -> #list_customer_statements
+       Statement Print Formats -> existing print/font-format pane (#font_settings fallback)
+PASS - Existing form-field compatibility audit for all four settings controls.
+PASS - Numbering-scope audit:
+       Customer-wise counts only statements for the selected customer.
+       General counts all statements for the current business.
+PASS - Business ownership validation for selected customers.
+PASS - Existing Customers module files remain untouched.
+PASS - No migration or raw SQL schema change required.
+
+Deployment command
+------------------
+php artisan optimize:clear
+
+Live tenant note
+----------------
+A live browser/database test cannot be executed inside this offline packaging environment.
+After upload, verify one Customer-wise sequence and one General sequence in a test tenant before production use.

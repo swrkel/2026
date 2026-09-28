@@ -1,0 +1,7 @@
+.stn-audit-page .stn-card{border-radius:12px;border:0;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.stn-audit-page .box-header{background:#1f2937;color:#fff;border-radius:12px 12px 0 0;padding:14px 18px}
+.stn-audit-page .box-title{font-weight:700;color:#fff}
+.stn-filter-row{margin-bottom:15px}
+.stn-table thead th{background:#334155;color:#fff;white-space:nowrap}
+.stn-table td{vertical-align:middle!important}
+.stn-pre{max-height:180px;overflow:auto;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;font-size:11px}

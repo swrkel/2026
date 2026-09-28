@@ -1,0 +1,15 @@
+S363 SYSTEM UI FRAMEWORK FIX
+
+Purpose:
+- Correct POS module UI to match the system dashboard standard shown by user.
+- Keep POS standalone functionality while fixing visual layout consistency.
+
+Fixed:
+- Forced 4-column KPI cards on desktop and normal laptop widths.
+- Reduced oversized sidebar/page/card spacing.
+- Added server-safe CSS overrides inside POS layout to prevent unstyled/wrong layout rendering.
+- Updated cache version from s362 to s363.
+- Improved card sizing, topbar, menu, footer, recent transactions, quick actions, and quick operations spacing.
+
+SQL:
+- No SQL changes required.

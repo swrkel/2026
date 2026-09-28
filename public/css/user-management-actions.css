@@ -1,0 +1,76 @@
+.user-management-action-dropdown > .dropdown-toggle {
+    min-width: 78px;
+    font-weight: 600;
+}
+
+.user-management-action-dropdown .dropdown-menu {
+    min-width: 170px;
+    padding: 5px;
+    border-radius: 7px;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, .18);
+}
+
+.user-management-action-dropdown .dropdown-menu > li > a.erp-action-child {
+    display: block;
+    margin: 2px 0;
+    padding: 7px 10px;
+    border-radius: 5px;
+    color: #fff !important;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.user-management-action-dropdown .dropdown-menu > li > a.erp-action-child:hover,
+.user-management-action-dropdown .dropdown-menu > li > a.erp-action-child:focus {
+    color: #fff !important;
+    filter: brightness(.93);
+}
+
+.user-management-action-dropdown .erp-action-edit {
+    background: #337ab7 !important;
+}
+
+.user-management-action-dropdown .erp-action-view {
+    background: #00a7b5 !important;
+}
+
+.user-management-action-dropdown .erp-action-delete {
+    background: #d9534f !important;
+}
+
+.user-management-action-dropdown .dropdown-menu > li.disabled > a.erp-action-delete,
+.user-management-action-dropdown .dropdown-menu > li.disabled > a.erp-action-delete:hover,
+.user-management-action-dropdown .dropdown-menu > li.disabled > a.erp-action-delete:focus {
+    background: #e5e7eb !important;
+    color: #6b7280 !important;
+    cursor: not-allowed !important;
+    filter: none;
+}
+
+.user-management-action-dropdown .label-warning {
+    margin-left: 9px;
+    font-size: 9px;
+    line-height: 1.25;
+}
+
+#users_table td:last-child,
+#roles_table td:last-child {
+    overflow: visible !important;
+    white-space: nowrap;
+}
+
+#users_table_wrapper,
+#roles_table_wrapper,
+#users_table_wrapper .table-responsive,
+#roles_table_wrapper .table-responsive {
+    overflow: visible !important;
+}
+
+.role-row-new td {
+    animation: roleRowNewHighlight 5s ease-out;
+}
+
+@keyframes roleRowNewHighlight {
+    0%, 35% { background: #fff3a3; }
+    100% { background: transparent; }
+}

@@ -1,0 +1,13 @@
+{
+    "name": "CoreUI",
+    "alias": "coreui",
+    "description": "Reusable enterprise UI component framework for standalone ERP modules.",
+    "keywords": ["ui", "components", "dashboard", "datatable", "forms", "reports"],
+    "priority": 5,
+    "providers": [
+        "Modules\\CoreUI\\Providers\\CoreUIServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

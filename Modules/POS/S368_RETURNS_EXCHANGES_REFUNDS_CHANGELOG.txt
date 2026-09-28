@@ -1,0 +1,21 @@
+POS Standalone S368 - Returns, Refunds & Exchanges
+
+Included:
+- Returns dashboard KPI cards.
+- Return filters with date range and CSV export.
+- Full/partial sale return page with calculated refund total.
+- Refund methods: cash, card, credit note, mixed.
+- Optional manager approval workflow for returns.
+- Return approval actions from the return list.
+- Product exchange list and exchange create page.
+- Exchange flow: returned items + replacement items + difference calculation.
+- Automatic stock restore for returned items.
+- Automatic stock reduction for replacement/exchange-issued items.
+- Cash movement posting for refund/exchange differences when cash movement table exists.
+- Improved return receipt UI.
+- Communication Hub/ERP layout classes retained.
+
+SQL:
+Modules/POS/Database/SQL/pos_standalone_s368_returns_exchanges_refunds.sql
+
+No main Contacts dependency added. POS customer/credit linkage remains through the standalone Customers module bridge built earlier.

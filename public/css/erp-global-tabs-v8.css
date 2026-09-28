@@ -1,0 +1,202 @@
+/*
+ | ERP Global Tab Framework V10 SAFE BASELINE
+ | Purpose: Revert the broken V9 control-scale changes and keep the last good V8 global tab framework.
+ | Only the tab component height/padding is reduced safely; no page layout/header/form/control CSS is touched.
+ | Load this file AFTER app.css, erp-communication-standard.css and erp-global-tabs-v7.css.
+ */
+
+:root{
+    --erp-tab-height: 40px;
+    --erp-tab-min-height: 40px;
+    --erp-tab-radius: 10px 10px 0 0;
+    --erp-tab-font-size: 14px;
+    --erp-tab-font-weight: 700;
+    --erp-tab-x-padding: 14px;
+    --erp-tab-gap: 7px;
+}
+
+/* Main tab containers used across modules */
+.nav-tabs-custom > .nav-tabs,
+ul.nav.nav-tabs,
+.nav-tabs,
+.nav-pills,
+.erp-tabs,
+.erp-tab-list,
+.tab-container,
+.tab-menu,
+.tab-buttons,
+.module-tabs{
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-end !important;
+    gap: var(--erp-tab-gap) !important;
+    border-bottom: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Accounting/old Bootstrap tabs and common module tab links */
+.nav-tabs-custom > .nav-tabs > li,
+ul.nav.nav-tabs > li,
+.nav-tabs > li,
+.nav-pills > li,
+.erp-tabs > li,
+.erp-tab-list > li,
+.tab-container > li,
+.tab-menu > li,
+.tab-buttons > li,
+.module-tabs > li{
+    float: none !important;
+    display: inline-flex !important;
+    margin: 0 0 6px 0 !important;
+    width: auto !important;
+    min-height: 0 !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a,
+ul.nav.nav-tabs > li > a,
+ul.nav.nav-tabs > li > a[data-toggle="tab"],
+.nav-tabs > li > a,
+.nav-pills > li > a,
+.erp-tabs a,
+.erp-tab-list a,
+.tab-container a,
+.tab-menu a,
+.tab-buttons a,
+.module-tabs a,
+.erp-tab,
+.erp-tab-btn,
+.customer-tab-btn,
+.module-tab-btn,
+a[data-toggle="tab"],
+button[data-toggle="tab"],
+button[data-bs-toggle="tab"]{
+    min-height: var(--erp-tab-height) !important;
+    height: var(--erp-tab-height) !important;
+    line-height: 1.15 !important;
+    padding: 0 var(--erp-tab-x-padding) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: auto !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+    font-size: var(--erp-tab-font-size) !important;
+    font-weight: var(--erp-tab-font-weight) !important;
+    border-radius: var(--erp-tab-radius) !important;
+    border: 1px solid transparent !important;
+    margin: 0 !important;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, .07) !important;
+    transition: all .18s ease-in-out !important;
+}
+
+/* Smaller icons inside tabs */
+.nav-tabs-custom > .nav-tabs > li > a i,
+ul.nav.nav-tabs > li > a i,
+.nav-tabs > li > a i,
+.nav-pills > li > a i,
+.erp-tabs a i,
+.erp-tab-list a i,
+.tab-container a i,
+.tab-menu a i,
+.tab-buttons a i,
+.module-tabs a i,
+.erp-tab i,
+.erp-tab-btn i,
+.customer-tab-btn i,
+.module-tab-btn i{
+    font-size: 13px !important;
+    line-height: 1 !important;
+    margin-right: 3px !important;
+}
+
+/* Active selected tab remains white with black text */
+.nav-tabs-custom > .nav-tabs > li.active > a,
+ul.nav.nav-tabs > li.active > a,
+.nav-tabs > li.active > a,
+.nav-pills > li.active > a,
+.nav-tabs .nav-link.active,
+.nav-pills .nav-link.active,
+.erp-tabs .active > a,
+.erp-tab-list .active > a,
+.tab-container .active > a,
+.tab-menu .active > a,
+.tab-buttons .active > a,
+.module-tabs .active > a,
+.erp-tab.active,
+.erp-tab-btn.active,
+.customer-tab-btn.active,
+.module-tab-btn.active,
+a[data-toggle="tab"].active,
+button[data-toggle="tab"].active,
+button[data-bs-toggle="tab"].active{
+    background: #ffffff !important;
+    color: #111827 !important;
+    border-color: #2f6df6 !important;
+    box-shadow: 0 6px 16px rgba(47, 109, 246, .12) !important;
+}
+
+/* Keep colour engine for inactive tabs. These rules are intentionally high-specificity. */
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+1) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+1) > a,
+.nav-tabs > li:not(.active):nth-child(8n+1) > a,
+.nav-pills > li:not(.active):nth-child(8n+1) > a{ background:#2563eb !important; color:#fff !important; }
+
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+2) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+2) > a,
+.nav-tabs > li:not(.active):nth-child(8n+2) > a,
+.nav-pills > li:not(.active):nth-child(8n+2) > a{ background:#8b008b !important; color:#fff !important; }
+
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+3) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+3) > a,
+.nav-tabs > li:not(.active):nth-child(8n+3) > a,
+.nav-pills > li:not(.active):nth-child(8n+3) > a{ background:#2f7ea7 !important; color:#fff !important; }
+
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+4) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+4) > a,
+.nav-tabs > li:not(.active):nth-child(8n+4) > a,
+.nav-pills > li:not(.active):nth-child(8n+4) > a{ background:#286c1f !important; color:#fff !important; }
+
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+5) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+5) > a,
+.nav-tabs > li:not(.active):nth-child(8n+5) > a,
+.nav-pills > li:not(.active):nth-child(8n+5) > a{ background:#f59e0b !important; color:#fff !important; }
+
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+6) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+6) > a,
+.nav-tabs > li:not(.active):nth-child(8n+6) > a,
+.nav-pills > li:not(.active):nth-child(8n+6) > a{ background:#0891b2 !important; color:#fff !important; }
+
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+7) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+7) > a,
+.nav-tabs > li:not(.active):nth-child(8n+7) > a,
+.nav-pills > li:not(.active):nth-child(8n+7) > a{ background:#9f1239 !important; color:#fff !important; }
+
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+8) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+8) > a,
+.nav-tabs > li:not(.active):nth-child(8n+8) > a,
+.nav-pills > li:not(.active):nth-child(8n+8) > a{ background:#4f46e5 !important; color:#fff !important; }
+
+/* Hover for inactive tabs */
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:hover,
+ul.nav.nav-tabs > li:not(.active) > a:hover,
+.nav-tabs > li:not(.active) > a:hover,
+.nav-pills > li:not(.active) > a:hover,
+.erp-tab:not(.active):hover,
+.erp-tab-btn:not(.active):hover,
+.customer-tab-btn:not(.active):hover,
+.module-tab-btn:not(.active):hover{
+    filter: brightness(1.05) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Optional compact override class for pages needing tighter tabs */
+.erp-tabs-compact .nav-tabs-custom > .nav-tabs > li > a,
+.erp-tabs-compact ul.nav.nav-tabs > li > a,
+.erp-tabs-compact .nav-tabs > li > a,
+.erp-tabs-compact .nav-pills > li > a{
+    --erp-tab-height: 38px;
+    --erp-tab-font-size: 13px;
+    --erp-tab-x-padding: 12px;
+}

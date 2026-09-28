@@ -1,0 +1,14 @@
+{
+    "name": "BankingPaymentsHub",
+    "alias": "banking-payments-hub",
+    "description": "BKG-RC-001 Payments Hub enterprise standalone module",
+    "keywords": ["banking", "enterprise", "treasury", "payments"],
+    "priority": 902,
+    "providers": [
+        "Modules\\BankingPaymentsHub\\Providers\\BankingPaymentsHubServiceProvider",
+        "Modules\\BankingPaymentsHub\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,9 @@
+@extends('autoservice::layouts.master')
+@section('content')
+@include('autoservice::layouts.nav')
+<section class="content-header"><h1>Workshop Bay Management</h1></section>
+<section class="content">
+<div class="box"><div class="box-header"><h3 class="box-title">Allocate Bay</h3></div><div class="box-body"><form method="post" action="{{ route('autoservice.bays.store') }}">@csrf<div class="row"><div class="col-md-3"><label>Bay</label><select class="form-control" name="bay_id" required><option value="">Please Select</option>@foreach($bays as $b)<option value="{{ $b->id }}">{{ $b->name }}</option>@endforeach</select></div><div class="col-md-3"><label>Job</label><select class="form-control" name="job_id" required><option value="">Please Select</option>@foreach($jobs as $j)<option value="{{ $j->id }}">{{ $j->job_no ?? $j->id }} - {{ $j->status }}</option>@endforeach</select></div><div class="col-md-3"><label>Mechanic</label><select class="form-control" name="mechanic_id"><option value="">Please Select</option>@foreach($mechanics as $m)<option value="{{ $m->id }}">{{ $m->name }}</option>@endforeach</select></div><div class="col-md-3"><label>Notes</label><input class="form-control" name="notes"></div></div><br><button class="btn btn-primary">Allocate</button></form></div></div>
+<div class="box"><div class="box-header"><h3 class="box-title">Active Allocations</h3></div><div class="box-body table-responsive"><table class="table table-bordered"><thead><tr><th>Bay</th><th>Job</th><th>Vehicle</th><th>Allocated At</th><th>Status</th><th>Action</th></tr></thead><tbody>@foreach($active as $a)<tr><td>{{ $a->bay_id }}</td><td>{{ $a->job_id }}</td><td>{{ $a->vehicle_id }}</td><td>{{ $a->allocated_at }}</td><td>{{ $a->status }}</td><td><form method="post" action="{{ route('autoservice.bays.release',$a->id) }}">@csrf<button class="btn btn-xs btn-warning">Release</button></form></td></tr>@endforeach</tbody></table></div></div>
+</section>
+@endsection

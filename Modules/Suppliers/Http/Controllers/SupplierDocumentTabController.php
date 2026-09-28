@@ -1,0 +1,4 @@
+<?php
+namespace Modules\Suppliers\Http\Controllers;
+use Modules\Suppliers\Http\Controllers\SuppliersBaseController as Controller; use Illuminate\Http\Request; use Modules\Suppliers\Entities\Supplier;
+class SupplierDocumentTabController extends Controller { public function index(Supplier $supplier){ $this->check($supplier); return view('suppliers::documents.index', compact('supplier')); } public function store(Request $request, Supplier $supplier){ $this->check($supplier); return back()->with('status', __('suppliers::lang.document_uploaded_successfully')); } public function destroy(Supplier $supplier, $document){ $this->check($supplier); return back()->with('status', __('suppliers::lang.document_deleted_successfully')); } private function check(Supplier $supplier): void { abort_unless((int)$supplier->business_id === (int)\Modules\Suppliers\Utils\SupplierContextUtil::businessId() && $supplier->type === 'supplier', 404); } }

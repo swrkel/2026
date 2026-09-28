@@ -1,0 +1,51 @@
+S734 - List SW Settlements - 14 Sep 2026
+=========================================
+
+Basis
+-----
+Built on SW_S732_FINAL_Corrected_14Sep2026.zip so all prior S732/S731/S728 and SW shift/list fixes are retained.
+
+Requested changes
+-----------------
+1) List SW Settlements font size increased by 20%.
+2) Added Action as the first column with a View button.
+3) View opens a settlement detail form containing:
+   - Settlement header and totals
+   - All SW Shift Nos linked to the settlement
+   - Names of all pump operators linked to all those SW shifts
+   - All sw_collections payment details
+   - Detailed Credit Sales from sw_settlement_credit_sales (the authoritative source)
+   - Customer, Finance account/bank, expense category, reference, amount and note where available
+4) Added Print button and a dedicated print route/view mode. Print uses an A4 landscape clean layout and automatically opens the browser print dialog.
+5) Settlement No and Date columns were compacted by approximately 30% relative to the supplied screenshot. Widths are responsive percentages so the reduction is preserved across screen sizes.
+
+Correctness / compatibility safeguards
+--------------------------------------
+- Current session business is authoritative for multi-business isolation.
+- Settlement detail is always business-scoped; another business's settlement cannot be opened by changing the URL ID.
+- Operator lookup reads sw_shift_operators and pump_operators from the live tenant DB and supports sw_shift_id/shift_id plus pump_operator_id/operator_id legacy variants.
+- Detailed Credit Sales are included in payment details. If an old tenant also has a legacy generic credit_sale row in sw_collections, it is suppressed to prevent duplicate display.
+- Expense categories resolve from Expenses New (expnew_categories) first, with legacy expense_categories fallback.
+- No settlement accounting/totals/posting/save logic was changed.
+- No SQL or migration is required.
+
+Changed operational files
+-------------------------
+Http/Controllers/SettlementController.php
+Resources/views/settlements/index.blade.php
+Resources/views/settlements/show.blade.php  (new)
+Routes/web.php
+
+Verification
+------------
+- PHP/Blade PHP lint: all 135 files passed, 0 failures.
+- New routes confirmed: sw.settlements.show and sw.settlements.print.
+- View is first column on List SW Settlements.
+- Detail view contains linked operators and complete payment detail table.
+- Print button/auto-print route included.
+
+Deployment
+----------
+Replace Modules/SW with the full consolidated parcel, then run:
+    php artisan optimize:clear
+Then hard refresh once (Ctrl+F5).

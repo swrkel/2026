@@ -1,0 +1,20 @@
+{
+    "name": "MyHealthMembers",
+    "alias": "myhealthmembers",
+    "description": "Central shared My Health module for multi-tenant businesses.",
+    "keywords": [
+        "myhealth",
+        "members",
+        "medical",
+        "shared",
+        "central"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\MyHealthMembers\\Providers\\MyHealthMembersServiceProvider",
+        "Modules\\MyHealthMembers\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

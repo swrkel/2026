@@ -1,0 +1,28 @@
+IS1717 – Finance Account Book tenant/business/location and loading fix V5
+
+Root cause corrected
+1. Finance routes were being loaded twice: once from FinanceServiceProvider and again from RouteServiceProvider.
+2. The Finance-owned routes were not initialized with the Stancl tenant-domain middleware before controller/database access. In a multi-tenant, separate-database installation this can make the Account Book query use the wrong/default database and return no transaction rows.
+3. The optimized Account Book data query scoped the account itself by business, but did not explicitly scope account_transactions by business or the account's location.
+
+Module-only corrections
+- FinanceServiceProvider now loads views/translations only.
+- RouteServiceProvider is the single Finance route loader.
+- Finance routes now initialize tenancy by domain and block central-domain access before Finance route middleware/controllers execute.
+- Account Book data is scoped to:
+  * the tenant database resolved from the domain,
+  * the logged-in business,
+  * the selected account ID,
+  * the selected account's location (with legacy null/zero-location rows retained safely).
+- account_transactions.business_id is enforced while retaining valid legacy null/zero values belonging to the business-owned account.
+- The browser sends the selected account's location_id with every DataTable request.
+- Row count, debit total and credit total are resolved in one aggregate query.
+- Only the requested 25 rows and small indexed related-record lookups are loaded for the first page.
+
+Files changed
+Modules/Finance/Providers/FinanceServiceProvider.php
+Modules/Finance/Providers/RouteServiceProvider.php
+Modules/Finance/Services/Accounts/AccountBookDataService.php
+Modules/Finance/Resources/views/account/show.blade.php
+
+No root application files, SQL or migration changes are included.

@@ -1,0 +1,13 @@
+{
+    "name": "DisStockTransfer",
+    "alias": "DisStockTransfer",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DisStockTransfer\\Providers\\DisStockTransferServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

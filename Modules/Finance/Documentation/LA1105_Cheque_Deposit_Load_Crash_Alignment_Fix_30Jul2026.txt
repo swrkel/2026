@@ -1,0 +1,35 @@
+LA-1105 - Finance Cheque Deposit load/crash correction - 30 July 2026
+
+Scope
+-----
+Finance module only. No root/core controller, route, model, view, JavaScript or CSS file is included or changed.
+
+Corrections
+-----------
+1. Cheque Deposit list loading
+   - Removed the two extra filter-option AJAX calls from modal startup.
+   - The modal now makes one bounded cheque-list request after both date controls are ready.
+   - Prevented the generic modal event from requesting cheque data before the modal date pickers are initialized.
+   - Added request abort/debounce protection so overlapping cheque-list calls cannot accumulate.
+   - Added visible Loading, No Items and Error table states instead of leaving a blank table.
+
+2. Performance and crash protection
+   - Added Finance/Services/Deposits/ChequeDepositListService.php.
+   - Uses a lightweight database query instead of hydrating full Eloquent records.
+   - Applies business, account, outstanding-status and date filters before loading rows.
+   - De-duplicates repeated account rows for the same transaction payment.
+   - Limits the rendered list to 500 rows and asks the user to narrow the date range when more rows exist.
+   - Removed executable script blocks from the AJAX table-body partial.
+
+3. Table alignment
+   - Restored the exact six-column mapping: Select / Name / Cheque No / Cheque Date / Bank / Amount.
+   - Cheque Number heading and values are right aligned.
+   - Amount heading and values are right aligned.
+   - Cheque numbers are kept as text so leading zeros remain intact.
+
+4. Card Deposit
+   - Retains the previous standalone Finance Card Deposit account resolver and validation correction.
+
+Database
+--------
+No migration or raw SQL is required.

@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration; use Illuminate\Database\Schema\Blueprint; use Illuminate\Support\Facades\Schema;
+return new class extends Migration { public function up(){ Schema::create('leads_new_api_tokens', function(Blueprint $t){ $t->id(); $t->unsignedBigInteger('business_id')->index(); $t->string('name'); $t->string('token_hash')->unique(); $t->json('abilities')->nullable(); $t->timestamp('last_used_at')->nullable(); $t->timestamp('expires_at')->nullable(); $t->boolean('is_active')->default(true); $t->timestamps(); }); } public function down(){ Schema::dropIfExists('leads_new_api_tokens'); } };

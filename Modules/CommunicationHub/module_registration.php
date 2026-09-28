@@ -1,0 +1,36 @@
+<?php
+
+return [
+    'name' => 'CommunicationHub',
+    'alias' => 'communicationhub',
+    'display_name' => 'Communication Hub',
+    'description' => 'Commercial communication platform for SMS, Email, WhatsApp, Push, OTP, campaigns, wallets, APIs and reseller operations.',
+    'version' => '1.0.16',
+    'icon' => 'fa fa-comments',
+    'sidebar_partial' => 'communicationhub::partials.sidebar',
+    'route_prefix' => 'communication-hub',
+    'api_prefix' => 'api/v1/communication-hub',
+    'permission_prefix' => 'communicationhub',
+    'display_order' => 65,
+    'enabled_by_default' => true,
+    'channels' => ['sms', 'email', 'whatsapp', 'push', 'otp', 'in_app', 'live_chat', 'internal_messaging'],
+    'commercial_features' => [
+        'sms_packages',
+        'business_wallets',
+        'credit_refills',
+        'reseller_wallets',
+        'client_api_tokens',
+        'profit_reports',
+        'automation_engine',
+        'workflow_engine',
+        'analytics_reports',
+        'api_gateway',
+        'audit_centre',
+    ],
+    'menu' => [
+        'title' => 'Communication Hub',
+        'route' => 'communicationhub.dashboard',
+        'permission' => 'communicationhub.dashboard.view',
+        'icon' => 'fa fa-comments',
+    ],
+];

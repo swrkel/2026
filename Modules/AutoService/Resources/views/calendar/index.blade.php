@@ -1,0 +1,5 @@
+@extends('autoservice::layouts.master')
+@section('content')
+<section class="content-header"><h1>Workshop Calendar</h1></section>
+<section class="content"><div class="box"><div class="box-body"><form method="get" class="form-inline"><label>Date</label> <input type="date" name="date" value="{{ $date }}" class="form-control"> <button class="btn btn-primary">Search</button></form><hr><h4>Appointments</h4><table class="table table-bordered"><tr><th>Time</th><th>Vehicle</th><th>Customer</th><th>Status</th></tr>@foreach($appointments as $a)<tr><td>{{ $a->appointment_date }}</td><td>{{ $a->vehicle_id }}</td><td>{{ $a->contact_id }}</td><td>{{ $a->status }}</td></tr>@endforeach</table><h4>Jobs / Deliveries</h4><table class="table table-bordered"><tr><th>Job No</th><th>Status</th><th>Estimated Completion</th><th>Bay</th></tr>@foreach($jobs as $j)<tr><td>{{ $j->job_no }}</td><td>{{ $j->status }}</td><td>{{ $j->estimated_completion_at }}</td><td>{{ $j->bay_id }}</td></tr>@endforeach</table></div></div></section>
+@endsection

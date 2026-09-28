@@ -1,0 +1,35 @@
+Finance Bank Reconciliation - Visibility / First-Run Fix
+08 Sep 2026
+
+ROOT CAUSE ADDRESSED
+--------------------
+The Bank Reconciliation code and routes were present, but a newly deployed tenant could fail before the page rendered when the two reconciliation tables had not yet been created. The previous S723 deployment instruction only repeated optimize:clear and did not repeat the Bank Reconciliation database initialization step.
+
+CHANGES
+-------
+1. Registers Finance module migrations through FinanceServiceProvider.
+2. Adds a controlled first-run setup screen instead of a SQLSTATE/Table-not-found crash.
+3. Adds a one-click tenant-local initializer for the two reconciliation tables and reconcile_status compatibility column.
+4. Adds /accounting-module/bank-reconciliation compatibility entry points.
+5. Adds a visible Bank Reconciliation navigation entry inside Finance > List Accounts in addition to the toolbar button.
+6. Expands compatibility permission mapping so existing finance.accounts permissions can see/use the new page where appropriate.
+7. Does not modify historical reconciliation data.
+
+NORMAL URL
+----------
+/finance/bank-reconciliation
+
+COMPATIBILITY URL
+-----------------
+/accounting-module/bank-reconciliation
+
+FIRST VISIT
+-----------
+If the tenant database is already ready, the Bank Reconciliation list opens immediately.
+If it is not ready, the page shows One-time Tenant Setup Required. An authorized Finance user can click Initialize Bank Reconciliation once.
+
+MANUAL SQL FALLBACK
+-------------------
+Finance/Database/SQL/2026_09_08_CREATE_FINANCE_BANK_RECONCILIATION.sql
+Optional only if reconcile_status is absent:
+Finance/Database/SQL/OPTIONAL_2026_09_08_ENSURE_RECONCILE_STATUS.sql

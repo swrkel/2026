@@ -1,0 +1,54 @@
+IS1756 - Finance Reports - 24 July 2026
+==========================================
+
+Scope
+-----
+Finance module-only correction for the Finance Reports pages reported as 404:
+- Dashboard
+- Trial Balance
+- General Ledger
+- Account Ledger
+- Day Book
+- Income Statement
+- Balance Sheet
+- Profit & Loss
+- Cash Flow Statement
+
+Main corrections
+----------------
+1. Added a standalone Finance Reports route file and loaded it from the Finance route loader.
+2. Added canonical /finance-reports URLs and compatibility for /finance/reports,
+   /finance-report and /finance_reports menu URLs.
+3. Added a Finance Reports dashboard and report navigation.
+4. Added Finance-owned Account Ledger, Day Book and Cash Flow Statement pages.
+5. Kept all data restricted to the logged-in tenant database, business and selected location.
+6. Added paginated ledger/day-book/cash-flow queries instead of loading complete histories.
+7. Corrected Income Statement to render independently from the Profit & Loss title.
+8. Corrected Profit & Loss to load consolidated data when All Locations is selected.
+9. Corrected Trial Balance location handling for transaction-linked and direct account postings.
+10. Preserved the existing Balance Sheet, Trial Balance and General Ledger implementations
+    while exposing them through working Finance Reports URLs.
+
+Canonical URLs
+--------------
+/finance-reports
+/finance-reports/dashboard
+/finance-reports/trial-balance
+/finance-reports/general-ledger
+/finance-reports/account-ledger
+/finance-reports/day-book
+/finance-reports/income-statement
+/finance-reports/balance-sheet
+/finance-reports/profit-loss
+/finance-reports/cash-flow-statement
+
+Deployment
+----------
+Extract at the Laravel project root and overwrite the included Modules/Finance files.
+Then run:
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+php artisan config:clear
+
+No SQL or migration is required.

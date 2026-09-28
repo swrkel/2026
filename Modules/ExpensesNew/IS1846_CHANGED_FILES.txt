@@ -1,0 +1,19 @@
+IS1846 - Expenses New - 31 July 2026
+
+Changed files:
+- Services/OptionService.php
+- Services/PayeeSyncService.php
+- Http/Controllers/ExpenseController.php
+- Http/Controllers/CategoryController.php
+- Routes/web.php
+- Resources/views/layouts/app.blade.php
+- Resources/views/expenses/form.blade.php
+- Resources/views/expenses/index.blade.php
+- Resources/views/expenses/partials/actions.blade.php
+- Resources/views/expenses/show.blade.php (new)
+- Resources/views/categories/index.blade.php
+- Resources/views/categories/partials/actions.blade.php
+- Resources/views/categories/show.blade.php (new)
+- Documentation/IS1846_EXPENSES_NEW_FIXES.md
+
+No migration or raw SQL change is required.

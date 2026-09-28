@@ -1,0 +1,3 @@
+<?php
+namespace Modules\Ran\Http\Controllers;use Modules\Ran\Entities\{Sale,SaleReturn};use Modules\Ran\Http\Requests\SaleReturnRequest;use Modules\Ran\Services\SaleReturnService;
+class SaleReturnController extends RanController{public function __construct(private SaleReturnService $service){}public function index(){return view('ran::returns.index',['returns'=>SaleReturn::query()->with('sale','customer')->latest('return_date')->paginate(25)]);}public function create(){return view('ran::returns.form',['sales'=>Sale::query()->with('lines.item')->where('status','posted')->latest('invoice_date')->limit(100)->get()]);}public function store(SaleReturnRequest $r){$this->service->createAndPost($r->validated());return $this->success('Sale return posted.','ran.returns.index');}}

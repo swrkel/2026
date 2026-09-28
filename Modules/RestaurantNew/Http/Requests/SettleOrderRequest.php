@@ -1,0 +1,2 @@
+<?php
+namespace Modules\RestaurantNew\Http\Requests; use Illuminate\Foundation\Http\FormRequest; class SettleOrderRequest extends FormRequest { public function authorize(): bool{return $this->user()?->can('restaurant_new.payments.create')??false;} public function rules(): array{return ['payments'=>'required|array|min:1','payments.*.payment_method'=>'required|in:cash,card,bank_transfer,credit,other','payments.*.amount'=>'required|numeric|min:0.0001','payments.*.tendered_amount'=>'nullable|numeric|min:0','payments.*.reference_no'=>'nullable|string|max:160'];}}

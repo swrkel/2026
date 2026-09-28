@@ -1,0 +1,3 @@
+-- Stage 013 corrected consolidation note.
+-- The supplied parcel targeted resnew_kitchen_ticket_items, a table that is not created by any RestaurantNew migration.
+-- No ALTER is required; Stage 013 creates its own resnew_kitchen_* production tables.

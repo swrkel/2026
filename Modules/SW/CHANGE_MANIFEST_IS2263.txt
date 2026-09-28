@@ -1,0 +1,86 @@
+IS2263 – SW Settlement – 13 Sep 2026
+====================================
+Base: latest SW.zip supplied with IS2263 on 13 Sep 2026.
+Scope: SW module only. No SQL / migration required.
+
+FIXED TOGETHER
+
+1) Finance / List Accounts / Cash Deposit + Card Deposit / Daily Shift No
+   Requirement:
+   - A newly OPENED SW Shift must appear.
+   - A CLOSED SW Shift must disappear from new deposit forms.
+
+   Fix:
+   - ShiftOptionController now checks tables/columns against the LIVE tenant DB
+     instead of depending on Schema metadata that may have been cached before
+     tenant.context changed connections.
+   - The open-shift endpoint queries OPEN rows directly; it no longer loads only
+     the latest 500 rows and then filters them in PHP.
+   - closed_at/deleted_at are honoured from live schema metadata.
+   - The shared field also server-renders the current OPEN shifts when the form/
+     AJAX modal is created, so Finance starts with the correct list even before
+     Select2 refresh JavaScript runs.
+   - Select2 verifies the authoritative open-shift feed on EVERY opening; the
+     previous 750ms stale-list grace period was removed.
+   - Existing historical records may still display their already-saved closed
+     shift, but a NEW deposit cannot select a closed shift.
+   - sw_shifts remains the only authoritative shift source; it is not bypassed.
+
+2) Purchase / Add Purchase / SW Shift No
+   Requirement:
+   - Increase SW Shift No dropdown 100%.
+
+   Fix:
+   - Purchase detection now also recognises custom purchase route names/paths,
+     not only four hard-coded URL patterns.
+   - Purchase SW Shift No now uses col-sm-12/full 100% width, exactly double the
+     previous col-sm-6 width inside the shared SW field.
+   - Other screens keep their existing compact width.
+
+3) SW Settlement / New Settlement / Payments / Expenses / Expense Category
+   Requirement:
+   - Categories newly added through Expenses New / Categories / Add must appear.
+
+   Root cause fixed:
+   - The previous page had TWO Select2 opening refresh handlers for the same
+     Expense Category field. The second request aborted the first request and the
+     aborted request could reopen Select2 before the live tenant category list
+     was applied.
+
+   Fix:
+   - There is now one controlled refresh sequence only.
+   - The SW live tenant expense_categories endpoint is authoritative.
+   - The core Expenses dropdown endpoint is used only as a true failure fallback.
+   - If fallback is needed, Select2 waits for it to finish before reopening.
+   - Older aborted/stale requests cannot reopen or overwrite the current picker.
+   - The category list is verified on EVERY dropdown opening; no 750ms cached
+     grace period is accepted.
+
+FILES CHANGED
+- SW/Http/Controllers/ShiftOptionController.php
+- SW/Resources/views/partials/shift_field.blade.php
+- SW/Resources/views/settlements/partials/payments_js.blade.php
+- SW/CHANGE_MANIFEST_IS2263.txt
+
+SAFETY / NOT CHANGED
+- No settlement totals or balance calculations changed.
+- No settlement save/posting logic changed.
+- No Finance ledger/account posting changed.
+- No Customer ledger logic changed.
+- No stock/tank/product logic changed.
+- No database schema/table/column change.
+- No SQL import required.
+
+DEPLOY
+1. Replace the existing Modules/SW folder with the consolidated parcel.
+2. Run: php artisan optimize:clear
+3. Hard refresh the browser once (Ctrl+F5).
+
+TEST ORDER
+A. Open a new SW Shift -> open Finance Cash Deposit -> shift must be listed.
+B. Open Finance Card Deposit -> same open shift must be listed.
+C. Close that SW Shift -> reopen Cash/Card Deposit -> closed shift must be absent.
+D. Purchase / Add Purchase -> SW Shift No control should be double the old width.
+E. Expenses New / Categories / Add -> create a test category.
+F. Return to SW Settlement -> Payments -> Expenses -> open Expense Category ->
+   new category must appear without reloading the settlement page.

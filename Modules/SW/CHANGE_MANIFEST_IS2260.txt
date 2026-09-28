@@ -1,0 +1,43 @@
+IS2260 – SW Settlement – 13 Sep 2026
+====================================
+Base: latest SW.zip supplied with IS2260.
+Scope: SW module only. No SQL / migration required.
+
+FIXED TOGETHER
+1) Finance / List Accounts / Cash Deposit + Card Deposit / Daily Shift No
+   - Uses sw_shifts as the only authoritative shift source.
+   - The Select2 dropdown now waits for the fresh OPEN-shift feed before opening,
+     so a newly opened shift is visible on that opening and a closed shift is not
+     shown from an older Select2 result list.
+   - Existing saved records can still display their historical closed shift; NEW
+     deposits cannot select a closed shift.
+
+2) Customers / Customer Register / Pay Due Amount / SW Shift No
+3) Expenses New / Add Expense / SW Shift No
+4) Purchase / Add Purchase / SW Shift No
+   - Fixed the async refresh race that removed a shift immediately after the user
+     selected it. A refresh started by select2:opening used to finish after the
+     click and restore the PREVIOUS value. The response now respects the live value.
+   - A user's change also invalidates/aborts any older in-flight refresh so stale
+     requests cannot overwrite the new selection.
+   - Genuine location changes still clear a shift from the old location.
+   - Purchase retains the already-requested doubled SW Shift No width (col-sm-6).
+
+5) SW Settlement / New Settlement / Payments / Expenses / Expense Category
+   - The category selector now refreshes from the live tenant expense_categories
+     feed before Select2 opens, then opens once with the current list.
+   - Newly added Expenses New categories therefore do not depend on a page reload
+     or on a window-focus event winning a race with Select2 rendering.
+   - Existing tenant/business/location scoping and the core endpoint fallback are
+     preserved.
+
+SAFETY / NOT CHANGED
+- sw_shifts is required and is NOT bypassed.
+- No settlement amount calculation changed.
+- No Finance posting, customer ledger, stock, tank, or payment save logic changed.
+- No database schema change.
+
+FILES CHANGED
+- SW/Resources/views/partials/shift_field.blade.php
+- SW/Resources/views/settlements/partials/payments_js.blade.php
+- SW/CHANGE_MANIFEST_IS2260.txt

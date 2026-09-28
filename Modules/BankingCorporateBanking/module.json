@@ -1,0 +1,19 @@
+{
+    "name": "Banking Corporate Banking",
+    "alias": "bankingcorporatebanking",
+    "description": "Standalone Corporate Banking module for Enterprise ERP Banking Suite",
+    "keywords": [
+        "banking",
+        "corporate",
+        "payments",
+        "payroll",
+        "maker-checker"
+    ],
+    "priority": 507,
+    "providers": [
+        "Modules\\BankingCorporateBanking\\Providers\\BankingCorporateBankingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

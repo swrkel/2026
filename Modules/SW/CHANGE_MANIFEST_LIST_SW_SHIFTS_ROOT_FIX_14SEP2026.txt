@@ -1,0 +1,43 @@
+SW LIST SW SHIFTS - ROOT FIX - 14 SEP 2026
+
+Problem
+-------
+List SW Shifts could still display:
+"Unable to load List SW Shifts. The server-side error has been logged for review."
+and remain at Loading...
+
+Root correction
+---------------
+1. The visible List SW Shifts page no longer depends on /sw/list-shifts/data AJAX.
+   The row dataset is built during the normal authenticated tenant page request.
+   DataTables is now client-side for this screen.
+
+2. All filters remain available and are applied instantly in the browser:
+   Business Location, Date Range, Operator, Shift No, Pump Nos, Payment Method,
+   Cheque No and Settlement No.
+
+3. Business scope now follows the currently selected session business first.
+   auth()->user()->business_id is only a fallback. This matches the multi-business
+   tenant behavior used elsewhere in SW.
+
+4. sw_shifts remains the REQUIRED authoritative shift table. Optional companion
+   data is fail-soft: location names, operators, payment totals, settlement info,
+   pumps and cheque metadata cannot take down the complete list.
+
+5. /sw/list-shifts/data is retained only for backward compatibility with stale
+   browser caches/older views and always keeps a valid DataTables JSON contract.
+
+Files changed
+-------------
+- Http/Controllers/ListShiftController.php
+- Resources/views/list_shifts/index.blade.php
+
+Database
+--------
+No SQL. No migration. No schema change.
+
+Install
+-------
+Replace the existing Modules/SW folder with this full consolidated parcel, then:
+php artisan optimize:clear
+Hard refresh the browser with Ctrl+F5.

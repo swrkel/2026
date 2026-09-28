@@ -1,0 +1,69 @@
+Finance Module - Add Account + IS2229 Cash/Card Deposit Fix
+Prepared: 10 Sep 2026
+Source: latest Finance.zip supplied in the conversation
+
+SCOPE
+1. Finance -> List Accounts -> Add returned/triggered HTTP 500.
+2. Finance -> List Accounts -> Add -> Main A/C / Sub A/C checkboxes did not behave correctly.
+3. Finance -> List Accounts -> Add -> Account Number did not auto-load from
+   Super Admin -> Super Admin Settings -> Default Accounts -> Account Numbers.
+4. IS2229: Cash Deposit and Card Deposit forms returned HTTP 500 while opening.
+
+ROOT CAUSES FIXED
+A. ADD FORM / 500
+- The List Accounts Add button used the generic DOM id #add_button. Legacy/core page code also uses this id,
+  allowing an older remote-modal handler to run before the Finance-only handler.
+- Finance also still exposed /finance/accounts/create through an older bridge controller while the canonical
+  page uses Modules\Finance\Http\Controllers\AccountController. Depending on cached markup/route usage,
+  the stale create path could render a different form/view and fail.
+- The Finance Add button now uses a unique id and only the Finance inline modal handler.
+- The historical /finance/accounts/create URL now resolves to the same canonical Finance controller as
+  /finance/account/create.
+- Account-group form data is tolerant of older tenant schemas without the optional reg_cheque column.
+
+B. MAIN A/C / SUB A/C
+- Add used plain jQuery .prop('checked', false) after iCheck had replaced the visible checkbox UI.
+  The hidden input and visible iCheck box could therefore disagree.
+- The Add form now uses the iCheck API when iCheck is present, falls back to native checkbox handling when
+  it is not, and keeps Main A/C / Sub A/C mutually exclusive with the correct dependent fields.
+
+C. ACCOUNT NUMBER
+- The old lookup matched the tenant Account Type to default_account_types by NAME only. The actual setup
+  is keyed by account_numbers.account_type, while tenant account_types carry default_account_type_id.
+- The new lookup maps account_types.default_account_type_id -> account_numbers.account_type first, with
+  compatibility fallbacks for older tenant data.
+- Existing account-number scanning is now scoped to the current business and calculates the highest numeric
+  suffix for the configured prefix instead of taking the latest account across all businesses.
+- The configured starting number and zero-padding are preserved.
+- If manual account numbering is permitted, the configured number is still preloaded but remains editable.
+- Store has a server-side fallback: if browser JS fails to populate Account Number, Finance generates it from
+  the same setup before save.
+
+D. IS2229 CASH/CARD DEPOSIT 500
+- Both forms shared an unconditional query to the legacy PetroDailyShift model/table, although the live deposit
+  form no longer uses that data (the optional SW shift field is owned by SW). A missing/disabled legacy Petro
+  dependency could therefore break both Finance forms with HTTP 500.
+- The obsolete query has been removed from the live path.
+- package_details is normalized defensively before checking MPCS so a legacy string/object value cannot crash
+  the shared Cash/Card form.
+
+ADDITIONAL SAFETY
+- Corrected an existing Add Account opening-balance TypeError: the code passed an AccountType model object to
+  strpos(). It now compares the actual account type name, preventing a newly created Sub A/C with a non-zero
+  opening balance from partially failing after the account row is created.
+- Finance-owned account-group AJAX endpoint added; Add no longer depends on root/core /get-account-groups.
+
+DATABASE
+No new SQL query or migration is required.
+
+DEPLOY
+cd /home/nivasa/public_html
+php artisan optimize:clear
+Then perform a hard refresh (Ctrl+F5).
+
+TEST
+1. Open Finance -> List Accounts and click Add. The modal must open immediately with no 500.
+2. Tick Main A/C, then Sub A/C. The visible ticks must be mutually exclusive and dependent fields must change.
+3. Select an Account Type. Account Number must populate with the configured prefix/next number.
+4. Create a test Sub A/C with a small opening balance and verify save completes.
+5. Open Cash Deposit and Card Deposit. Both forms must open without the previous 500.

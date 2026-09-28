@@ -1,0 +1,115 @@
+-- HOTELMGT_030_SQL.sql
+-- Hotel Management Parcel 030: Channel Manager / OTA controls
+-- Raw SQL only for this parcel. Run inside each tenant database; no database name is hardcoded.
+
+CREATE TABLE IF NOT EXISTS `hm_sales_channels` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `channel_name` VARCHAR(160) NOT NULL,
+  `channel_code` VARCHAR(60) NULL,
+  `channel_type` VARCHAR(60) NOT NULL DEFAULT 'ota',
+  `contact_email` VARCHAR(160) NULL,
+  `commission_percent` DECIMAL(8,2) NOT NULL DEFAULT 0.00,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hm_sales_channels_business_name_unique` (`business_id`,`channel_name`),
+  KEY `hm_sales_channels_business_idx` (`business_id`),
+  KEY `hm_sales_channels_location_idx` (`business_location_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hm_channel_rate_maps` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `channel_id` BIGINT UNSIGNED NOT NULL,
+  `room_type_id` BIGINT UNSIGNED NULL,
+  `rate_plan_id` BIGINT UNSIGNED NULL,
+  `external_room_code` VARCHAR(100) NULL,
+  `external_rate_code` VARCHAR(100) NULL,
+  `sell_rate` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `currency` VARCHAR(10) NOT NULL DEFAULT 'LKR',
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hm_channel_rate_maps_unique` (`business_id`,`channel_id`,`room_type_id`,`rate_plan_id`),
+  KEY `hm_channel_rate_maps_business_idx` (`business_id`),
+  KEY `hm_channel_rate_maps_location_idx` (`business_location_id`),
+  KEY `hm_channel_rate_maps_channel_idx` (`channel_id`),
+  KEY `hm_channel_rate_maps_room_type_idx` (`room_type_id`),
+  KEY `hm_channel_rate_maps_rate_plan_idx` (`rate_plan_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hm_channel_availability` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `channel_id` BIGINT UNSIGNED NOT NULL,
+  `room_type_id` BIGINT UNSIGNED NULL,
+  `available_date` DATE NOT NULL,
+  `available_rooms` INT NOT NULL DEFAULT 0,
+  `stop_sell` TINYINT(1) NOT NULL DEFAULT 0,
+  `min_stay` INT NOT NULL DEFAULT 0,
+  `max_stay` INT NOT NULL DEFAULT 0,
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hm_channel_availability_unique` (`business_id`,`channel_id`,`room_type_id`,`available_date`),
+  KEY `hm_channel_availability_business_idx` (`business_id`),
+  KEY `hm_channel_availability_location_idx` (`business_location_id`),
+  KEY `hm_channel_availability_channel_idx` (`channel_id`),
+  KEY `hm_channel_availability_room_type_idx` (`room_type_id`),
+  KEY `hm_channel_availability_date_idx` (`available_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hm_channel_bookings` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `channel_id` BIGINT UNSIGNED NOT NULL,
+  `external_booking_ref` VARCHAR(120) NOT NULL,
+  `guest_name` VARCHAR(160) NOT NULL,
+  `guest_mobile` VARCHAR(50) NULL,
+  `guest_email` VARCHAR(160) NULL,
+  `arrival_date` DATE NOT NULL,
+  `departure_date` DATE NOT NULL,
+  `rooms` INT NOT NULL DEFAULT 1,
+  `adults` INT NOT NULL DEFAULT 0,
+  `children` INT NOT NULL DEFAULT 0,
+  `gross_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `commission_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `net_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `status` VARCHAR(40) NOT NULL DEFAULT 'new',
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hm_channel_bookings_ref_unique` (`business_id`,`channel_id`,`external_booking_ref`),
+  KEY `hm_channel_bookings_business_idx` (`business_id`),
+  KEY `hm_channel_bookings_location_idx` (`business_location_id`),
+  KEY `hm_channel_bookings_channel_idx` (`channel_id`),
+  KEY `hm_channel_bookings_arrival_idx` (`arrival_date`),
+  KEY `hm_channel_bookings_departure_idx` (`departure_date`),
+  KEY `hm_channel_bookings_status_idx` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT IGNORE INTO `permissions` (`name`, `guard_name`, `created_at`, `updated_at`) VALUES
+('hotel.channel_manager.view', 'web', NOW(), NOW()),
+('hotel.channel_manager.manage', 'web', NOW(), NOW());

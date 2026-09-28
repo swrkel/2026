@@ -1,0 +1,65 @@
+POS Route Test Matrix - S372
+
+Core:
+[ ] GET /pos-module
+[ ] GET /pos-module/dashboard
+
+Sales:
+[ ] GET /pos-module/sales
+[ ] GET /pos-module/sales/workspace
+[ ] GET /pos-module/sales/receipts/{id}
+[ ] GET /pos-module/sales/reprint/{id}
+
+Products and Inventory:
+[ ] GET /pos-module/products
+[ ] GET /pos-module/products/create
+[ ] GET /pos-module/products/{id}/edit
+[ ] GET /pos-module/purchases
+[ ] GET /pos-module/purchases/create
+[ ] GET /pos-module/inventory/setup
+[ ] GET /pos-module/barcodes
+
+Customers Integration:
+[ ] GET /pos-module/customers
+[ ] Customer lookup from Customers module
+[ ] Credit sale ledger posting to Customers module
+
+Registers/Shifts/Cash:
+[ ] GET /pos-module/registers
+[ ] GET /pos-module/shifts
+[ ] GET /pos-module/cash-drawer
+[ ] Open register
+[ ] Close register
+[ ] Cash in
+[ ] Cash out
+
+Returns:
+[ ] GET /pos-module/returns
+[ ] Full return
+[ ] Partial return
+[ ] Exchange
+[ ] Refund
+
+Reports:
+[ ] GET /pos-module/reports
+[ ] Daily sales
+[ ] Payment report
+[ ] Item sales
+[ ] Category sales
+[ ] Cashier sales
+[ ] Stock valuation
+[ ] Low stock
+[ ] CSV export
+
+Settings:
+[ ] GET /pos-module/settings
+[ ] Receipt designer
+[ ] Barcode designer
+[ ] Terminal settings
+[ ] Hardware settings
+[ ] Security approval rules
+[ ] Number series
+
+Audit:
+[ ] GET /pos-module/standalone-audit
+[ ] GET /pos-module/route-health

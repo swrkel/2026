@@ -1,0 +1,11 @@
+{
+    "name": "HRManager",
+    "alias": "hrmanager",
+    "description": "Standalone Enterprise HR Manager module",
+    "providers": [
+        "Modules\\HRManager\\Providers\\HRManagerServiceProvider",
+        "Modules\\HRManager\\Providers\\RouteServiceProvider"
+    ],
+    "files": [],
+    "requires": []
+}

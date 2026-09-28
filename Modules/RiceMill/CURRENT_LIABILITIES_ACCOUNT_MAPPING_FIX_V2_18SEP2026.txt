@@ -1,0 +1,19 @@
+Rice Mill - Current Liabilities Account Mapping Fix v2 - 18 Sep 2026
+
+Problem fixed:
+The previous Rice Mill query looked for an account_groups row literally named
+"Current Liabilities". In the Finance/List Accounts hierarchy, Current Liabilities
+is an Account Type/Sub Type. Account Groups beneath it are linked through:
+
+  account_groups.account_type_id -> account_types.id
+
+List Accounts are then linked through either/both:
+
+  accounts.account_type_id -> account_types.id
+  accounts.asset_type      -> account_groups.id
+
+The Rice Mill Payment Account dropdown now returns every open account belonging
+to Current Liabilities, including accounts linked through any Account Group below
+Current Liabilities. It also supports child Account Types under Current Liabilities.
+
+No SQL/database change is required.

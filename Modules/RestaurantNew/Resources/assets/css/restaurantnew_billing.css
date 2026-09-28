@@ -1,0 +1,38 @@
+.restaurantnew-billing-page .restaurantnew-table th,
+.restaurantnew-billing-page .restaurantnew-table td,
+.restaurantnew-bill-show .restaurantnew-table th,
+.restaurantnew-bill-show .restaurantnew-table td {
+    vertical-align: middle;
+    font-size: 13px;
+}
+.rn-summary-card .rn-total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #edf0f2;
+}
+.rn-summary-card .rn-total-row.grand {
+    font-size: 16px;
+    font-weight: 700;
+    border-top: 2px solid #d8dee4;
+    margin-top: 6px;
+}
+.rn-payment-box {
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 15px;
+    background: #fff;
+}
+.restaurantnew-receipt {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    width: 80mm;
+    margin: 0 auto;
+}
+.restaurantnew-receipt .receipt-box {
+    padding: 10px;
+}
+.restaurantnew-receipt h3,
+.restaurantnew-receipt .text-center {
+    text-align: center;
+}

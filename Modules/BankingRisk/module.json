@@ -1,0 +1,17 @@
+{
+    "name": "BankingRisk",
+    "alias": "bankingrisk",
+    "description": "Credit, liquidity, operational and market risk dashboards, early warning and stress testing.",
+    "keywords": [
+        "banking",
+        "erp",
+        "bankingrisk"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\BankingRisk\\Providers\\BankingRiskServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

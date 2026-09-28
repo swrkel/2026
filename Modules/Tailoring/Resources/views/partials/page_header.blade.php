@@ -1,0 +1,1 @@
+<div class="tailoring-page-header"><div><h3>{{ $title ?? 'Tailoring' }}</h3><p class="text-muted">Standalone tailoring operations module</p></div><div class="tailoring-actions">{{ $actions ?? '' }}</div></div>

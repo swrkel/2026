@@ -1,0 +1,95 @@
+S723 - Financial Module and Cheque Deposit Form - 08 Sep 2026
+================================================================
+
+Scope
+-----
+Finance Module -> List Accounts
+1. Action dropdown disappears immediately after clicking Action.
+2. Cheque Deposit form width must be increased by 15%.
+3. Cheque Deposit must not remain indefinitely on the Loading state when opened.
+
+Baseline used
+-------------
+Finance_Bank_Reconciliation_08Sep2026.zip (the latest Finance module produced in
+this conversation). The Bank Reconciliation functionality and all prior IS2207
+Cheque Deposit corrections remain included.
+
+Root cause / correction
+-----------------------
+1. Stable Action dropdown
+   The List Accounts Action menu is intentionally cloned into a body-level fixed
+   floating menu so DataTables scrolling cannot clip it. The old controller then
+   removed that floating menu on ANY window scroll or resize. DataTables/browser
+   focus can generate a small scroll/resize immediately after the Action button
+   receives focus, so the menu could be opened and removed in the same user
+   interaction.
+
+   Correction:
+   - one explicit owner Action button and one floating menu are tracked;
+   - window/DataTables scrolling REPOSITIONS the menu instead of closing it;
+   - only an outside mouse press, a second click on the same Action button, or a
+     DataTables redraw closes it;
+   - event handlers are namespaced and previous copies are removed before binding;
+   - aria-expanded and the shared modal-menu close path are kept in sync.
+
+2. Cheque Deposit width +15%
+   Previous current width: 39.78%, minimum width 530.4px.
+   Exact 15% increase:
+      39.78%  x 1.15 = 45.747%
+      530.4px x 1.15 = 609.96px
+   The shared compact-modal rules and responsive 96vw maximum remain unchanged.
+
+3. Cheque Deposit Loading state
+   The form HTML was already prefetched, but the outstanding-cheque table started
+   a separate request only after the modal opened. On a busy tenant the user could
+   therefore continue seeing the Loading row while that second request was pending.
+
+   Correction:
+   - List Accounts now prefetches the initial unfiltered cheque rows while the
+     page is idle and again when the Cheque Deposit button is hovered/focused;
+   - when cached rows are ready, the modal paints them immediately;
+   - a silent freshness refresh runs after cached rows are shown, so a cached first
+     paint cannot hide newly saved cheques;
+   - if the prefetch is already running, opening the modal shares that request
+     instead of starting a duplicate query;
+   - cheque-list and modal-HTML requests have a 15-second timeout;
+   - timeout/failure replaces Loading with an explicit Retry action instead of
+     leaving an endless spinner;
+   - a failed silent refresh keeps already displayed cheque rows on screen.
+
+Files changed for S723
+----------------------
+Finance/Resources/views/account/index.blade.php
+Finance/Resources/views/account/cheque_deposit.blade.php
+Finance/Documentation/S723_Financial_Module_Cheque_Deposit_08Sep2026.txt
+
+Database
+--------
+No new SQL or migration is required for S723.
+The Bank Reconciliation SQL/migration already present in the latest Finance module
+is preserved unchanged.
+
+Deployment
+----------
+1. Replace the current Finance module with the supplied full corrected Finance ZIP,
+   OR apply the supplied changed-files ZIP over the current
+   Finance_Bank_Reconciliation_08Sep2026 version.
+2. From the Laravel project root run:
+
+   php artisan optimize:clear
+
+3. Hard refresh the browser (Ctrl+F5).
+
+Recommended test
+----------------
+A. List Accounts -> click Action on several rows, including rows near the bottom
+   and after using Search. Confirm the menu remains visible until the user chooses
+   an action or clicks elsewhere.
+B. With the Action menu open, scroll horizontally/vertically. Confirm it remains
+   aligned to its Action button and does not disappear merely because of scrolling.
+C. Open Cheque Deposit. Confirm the dialog is 15% wider than the preceding version.
+D. Confirm outstanding cheque rows appear immediately when prefetch is ready.
+E. If the server intentionally delays/fails the cheque-list request, confirm the
+   form does not remain forever on Loading and instead offers Retry.
+F. Confirm Cheque Number, Amount, Date Range and Created On filters continue to work.
+G. Confirm existing IS2207 deposit save and success-message behavior remains intact.

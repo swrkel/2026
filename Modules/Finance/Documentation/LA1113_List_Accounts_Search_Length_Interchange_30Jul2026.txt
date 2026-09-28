@@ -1,0 +1,18 @@
+LA-1113 - Finance / List Accounts
+Date: 30 July 2026
+
+Requested change
+----------------
+Interchange the locations of the DataTables Search control and the "Show entries" page-length control on Finance > List Accounts.
+
+Implementation
+--------------
+1. Search is moved into the original upper-right page-length slot.
+2. Show entries is moved into the original lower-left Search slot.
+3. Existing DataTables search, page length, export buttons, AJAX loading, pagination and responsive behaviour are preserved.
+4. The change is scoped only to #other_account_table in the standalone Finance module.
+5. No database or SQL changes are required.
+
+Changed file
+------------
+Finance/Resources/views/account/index.blade.php

@@ -1,0 +1,18 @@
+{
+    "name": "VehicleService",
+    "alias": "vehicleservice",
+    "description": "Standalone Vehicle Service module for service job billing with Product module item lookup and custom billing lines.",
+    "keywords": [
+        "vehicle",
+        "service",
+        "billing",
+        "products"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\VehicleService\\Providers\\VehicleServiceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

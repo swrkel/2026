@@ -1,0 +1,33 @@
+S605 Validation Report
+======================
+Date: 4 Aug 2026
+Source module: CustomerStatements(5).zip
+
+Implemented checks
+------------------
+PASS - New GET /customer-statements/data/bills route is registered.
+PASS - DataController exposes billList() with JSON/DataTables error handling.
+PASS - CustomerStatementPersistenceService delegates to the existing Customers bill query.
+PASS - Blank Date values are resolved from transactions.transaction_date by transaction_id.
+PASS - Transaction date lookup is restricted by current business_id.
+PASS - Existing non-empty Date values are preserved.
+PASS - Workspace adapter supplies the module-owned bill-list URL.
+PASS - The page AJAX prefilter redirects only the Customer Statement bill request to that endpoint.
+PASS - Saved statement DataTable order resolves to:
+       Action, Statement No, Date Printed, Date From, Date To, Customer,
+       Statement Amount, Payment Status, Added By, Description.
+PASS - Existing DataTable AJAX, filter functions, buttons, callbacks, and row data are reused during the one-time rebuild.
+PASS - Main bill table font increased from 9px to 13.5px (50%).
+PASS - Saved statement table font increased from 10px to 15px (50%).
+PASS - Responsive fonts increased from 8px to 12px and 9px to 13.5px (50%).
+PASS - PHP syntax check completed for all 15 module PHP files.
+PASS - JavaScript syntax check completed for both executable injected script blocks.
+PASS - No migration or raw SQL required.
+
+Deployment verification still required
+--------------------------------------
+A final authenticated browser test must be performed on a tenant database after upload:
+1. Open Customer Statements and confirm every bill row shows its transaction date.
+2. Open List Customer Statements and confirm Statement No is immediately after Action.
+3. Confirm both table fonts and DataTables controls are visibly 50% larger.
+4. Confirm filters, exports, action menus, saving, and tab navigation still operate normally.

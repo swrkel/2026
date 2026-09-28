@@ -1,0 +1,1 @@
+(function($){'use strict';$(function(){$('[data-atn-confirm]').on('click',function(e){if(!window.confirm($(this).data('atn-confirm'))){e.preventDefault();}});$('.atn-select2').each(function(){if($.fn.select2){$(this).select2({width:'100%'});}});});})(window.jQuery);

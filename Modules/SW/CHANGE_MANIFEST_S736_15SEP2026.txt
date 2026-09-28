@@ -1,0 +1,60 @@
+S736 - Pump Selection Dropdown Issue - 15 Sep 2026
+====================================================
+
+Scope
+-----
+SW Module / SW Settlement / Settle / Meter Sales
+
+Requested behaviour
+-------------------
+1. Once a pump is selected and added to Meter Sales, that pump must immediately disappear from the Pump No dropdown.
+2. Pumps already present in the Meter Sales list must not be selectable again.
+3. If a Meter Sales row is removed, its pump must immediately become available in the dropdown again.
+4. The same pump must never be shown more than once in the dropdown.
+
+Root cause
+----------
+The Pump No Select2 was repopulated directly from the server response every time the location/operator pump list was loaded. The browser-side Meter Sales rows (swMeterLines) were not used to filter that response. Adding or removing a Meter Sales row therefore changed the table only; it never changed the dropdown options.
+
+Changes
+-------
+Resources/views/settlements/partials/meter_sales_js.blade.php
+- Keeps the complete server pump list in a small browser-side cache.
+- Rebuilds Pump No options after excluding every pump_id already in swMeterLines.
+- De-duplicates the server response by pump ID before adding Select2 options.
+- Refreshes Pump No immediately after Add and Remove.
+- Restores a removed pump immediately from the cached authoritative pump list; no extra request is required.
+- Adds an Add-button duplicate guard so a stale Select2/browser option cannot create a second line for the same pump.
+- Uses an AJAX load sequence so an older location/operator pump response cannot overwrite a newer response.
+- Removes duplicate pump lines from old autosaved browser drafts when such a stale draft is restored.
+
+Resources/lang/en/lang.php
+- Adds the S736 duplicate-pump validation message.
+
+Not changed
+-----------
+- Meter quantity calculations
+- Previous closing/opening meter logic
+- Fuel price logic
+- Discount calculations
+- Settlement totals
+- Payments / Credit Sales / Other Sales
+- Finance posting
+- Tank/stock posting
+- SW shift eligibility
+- Database schema
+
+SQL / migration
+---------------
+None required.
+
+Verification
+------------
+1. Open SW Settlements -> Settle -> Meter Sales.
+2. Select Pump A and add its Meter Sales row.
+3. Open Pump No: Pump A must no longer be listed.
+4. Add Pump B: neither Pump A nor Pump B may be listed.
+5. Remove the Pump A row: Pump A must immediately return to the dropdown while Pump B remains excluded.
+6. Remove Pump B: both pumps must be available again.
+7. Change operator/location quickly and confirm an old pump response does not reappear.
+8. Save the settlement and confirm existing Meter Sales calculations/posting remain unchanged.

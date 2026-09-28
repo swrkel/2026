@@ -1,0 +1,6 @@
+@extends('communicationhub::layout')
+
+@section('communicationhub_title', 'Template Designer')
+@section('communicationhub_content')
+<div class="row"><div class="col-md-8"><div class="box box-primary"><div class="box-header with-border"><h3 class="box-title">Templates</h3></div><div class="box-body table-responsive"><table class="table table-bordered table-striped"><thead><tr><th>Name</th><th>Channel</th><th>Category</th><th>Status</th><th>Updated</th></tr></thead><tbody>@forelse($templates as $template)<tr><td>{{ $template->name }}</td><td>{{ strtoupper($template->channel ?? '') }}</td><td>{{ $template->category ?? '-' }}</td><td><span class="label label-info">{{ $template->status ?? 'draft' }}</span></td><td>{{ $template->updated_at }}</td></tr>@empty<tr><td colspan="5" class="text-center">No templates found.</td></tr>@endforelse</tbody></table></div></div></div><div class="col-md-4"><div class="box box-success"><div class="box-header with-border"><h3 class="box-title">Common Variables</h3></div><div class="box-body"><table class="table table-bordered">@foreach($variables as $key=>$description)<tr><td><code>{{ $key }}</code></td><td>{{ $description }}</td></tr>@endforeach</table></div></div></div></div>
+@endsection

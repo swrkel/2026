@@ -1,0 +1,32 @@
+<?php
+use Illuminate\Support\Facades\Route;
+use Modules\BankingMicrofinance\Http\Controllers\Credit\CreditBureauProviderController;
+use Modules\BankingMicrofinance\Http\Controllers\Credit\CreditBureauEnquiryController;
+use Modules\BankingMicrofinance\Http\Controllers\Origination\LoanOriginationController;
+use Modules\BankingMicrofinance\Http\Controllers\Origination\ApplicationTimelineController;
+use Modules\BankingMicrofinance\Http\Controllers\Financial\CashflowAnalysisController;
+use Modules\BankingMicrofinance\Http\Controllers\Risk\CollateralValuationController;
+use Modules\BankingMicrofinance\Http\Controllers\Risk\GuarantorAssessmentController;
+use Modules\BankingMicrofinance\Http\Controllers\Pricing\LoanPricingRuleController;
+use Modules\BankingMicrofinance\Http\Controllers\Committee\CreditCommitteeDecisionController;
+use Modules\BankingMicrofinance\Http\Controllers\Reports\CreditPipelineReportController;
+use Modules\BankingMicrofinance\Http\Controllers\Reports\CashflowReportController;
+use Modules\BankingMicrofinance\Http\Controllers\Reports\GuarantorReportController;
+use Modules\BankingMicrofinance\Http\Controllers\Reports\PricingReportController;
+use Modules\BankingMicrofinance\Http\Controllers\Reports\CreditCommitteeReportController;
+Route::middleware(['web','auth'])->prefix('banking/microfinance/enterprise-lending')->name('bkg.mfi.enterprise.')->group(function(){
+ Route::resource('bureau-providers', CreditBureauProviderController::class)->only(['index','create','store']);
+ Route::resource('bureau-enquiries', CreditBureauEnquiryController::class)->only(['index','create','store']);
+ Route::resource('origination', LoanOriginationController::class)->only(['index','create','store']);
+ Route::resource('application-timeline', ApplicationTimelineController::class)->only(['index','create','store']);
+ Route::resource('cashflow-analysis', CashflowAnalysisController::class)->only(['index','create','store']);
+ Route::resource('collateral-valuations', CollateralValuationController::class)->only(['index','create','store']);
+ Route::resource('guarantor-assessments', GuarantorAssessmentController::class)->only(['index','create','store']);
+ Route::resource('pricing-rules', LoanPricingRuleController::class)->only(['index','create','store']);
+ Route::resource('committee-decisions', CreditCommitteeDecisionController::class)->only(['index','create','store']);
+ Route::get('reports/credit-pipeline',[CreditPipelineReportController::class,'index'])->name('reports.credit_pipeline');
+ Route::get('reports/cashflow',[CashflowReportController::class,'index'])->name('reports.cashflow');
+ Route::get('reports/guarantors',[GuarantorReportController::class,'index'])->name('reports.guarantors');
+ Route::get('reports/pricing',[PricingReportController::class,'index'])->name('reports.pricing');
+ Route::get('reports/credit-committee',[CreditCommitteeReportController::class,'index'])->name('reports.credit_committee');
+});

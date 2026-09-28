@@ -1,0 +1,15 @@
+POS Standalone S381 - Offline Cache, Stock Snapshot & Conflict Validation
+
+Included:
+- Added stronger offline cache endpoints for products, customers, stock snapshot and all-in-one cache payload.
+- Added offline preflight endpoint before browser queue submission.
+- Added conflict list endpoint for manager review dashboard.
+- Added browser IndexedDB stores for products, customers, settings and stock snapshots.
+- Added cache refresh button and conflict refresh button on /pos-module/offline-sync.
+- Added stock/customer version hash to reduce stale offline sales risk.
+- Added credit and stock warning controls before sending queue items.
+- Added SQL for cache version and sync conflict indexes.
+
+Purpose:
+This stage reduces the major offline risks: stale product prices, stale stock, stale customer credit limits,
+duplicate sync, and hidden conflicts after sync processing.

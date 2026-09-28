@@ -1,0 +1,12 @@
+@extends('leadsnew::layouts.app')
+@section('title', 'Advanced Lead Search')
+@section('leadsnew_subtitle', 'Find leads quickly using reference, contact, assignment, status, territory and date filters.')
+@section('leadsnew_content')
+<div class="ln-panel"><div class="ln-panel-header"><div><h3 class="ln-panel-title"><i class="fa fa-search"></i> Search Criteria</h3><div class="ch-card-subtitle">Use one or more filters. Leave a field blank to include all values.</div></div></div><div class="ln-panel-body">
+<form method="post" action="{{ url('/leads-new/search') }}">@csrf
+<div class="row"><div class="col-md-6"><div class="form-group"><label>Keyword</label><input type="text" name="q" class="form-control" value="{{ old('q', request('q')) }}" placeholder="Lead number, name, mobile, email or company"></div></div><div class="col-md-3"><div class="form-group"><label>Status ID</label><input type="number" name="status_id" class="form-control" value="{{ old('status_id', request('status_id')) }}"></div></div><div class="col-md-3"><div class="form-group"><label>Assigned User ID</label><input type="number" name="assigned_to" class="form-control" value="{{ old('assigned_to', request('assigned_to')) }}"></div></div></div>
+<div class="row"><div class="col-md-3"><div class="form-group"><label>Location ID</label><input type="number" name="location_id" class="form-control" value="{{ old('location_id', request('location_id')) }}"></div></div><div class="col-md-3"><div class="form-group"><label>Source ID</label><input type="number" name="source_id" class="form-control" value="{{ old('source_id', request('source_id')) }}"></div></div><div class="col-md-3"><div class="form-group"><label>Territory ID</label><input type="number" name="territory_id" class="form-control" value="{{ old('territory_id', request('territory_id')) }}"></div></div><div class="col-md-3"></div></div>
+<div class="row"><div class="col-md-3"><div class="form-group"><label>Date From</label><input type="date" name="date_from" class="form-control" value="{{ old('date_from', request('date_from')) }}"></div></div><div class="col-md-3"><div class="form-group"><label>Date To</label><input type="date" name="date_to" class="form-control" value="{{ old('date_to', request('date_to')) }}"></div></div></div>
+<div class="text-right"><a href="{{ url('/leads-new/search') }}" class="btn btn-default">Clear</a> <button class="btn btn-primary"><i class="fa fa-search"></i> Search Leads</button></div>
+</form></div></div>
+@endsection

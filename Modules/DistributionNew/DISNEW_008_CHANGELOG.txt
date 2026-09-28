@@ -1,0 +1,10 @@
+Distribution New Stage 8 - Large consolidated parcel
+- Added full order lifecycle/status history foundation.
+- Added partial/multiple invoice allocation tracking with over-invoice protection service.
+- Added vehicle trip operations, driver/helper assignment, route/warehouse link and capacity validation.
+- Added warehouse master, warehouse stock, transfer header/lines.
+- Added loading/unloading checklist tables and service hooks.
+- Added delivery proof with receiver, attachment and GPS placeholders.
+- Added extended Super Admin business limits for vehicles, reps, routes, warehouses, users, active orders and daily deliveries.
+- Added POS-style Stage 8 dashboard and operational reports.
+- Added Stage 8 SQL and updated DISNEW_MASTER.sql.

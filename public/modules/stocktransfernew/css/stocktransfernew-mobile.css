@@ -1,0 +1,9 @@
+/* STN_011 warehouse/mobile additions */
+.stn-mobile-page .stn-command-hero{background:linear-gradient(135deg,#1f4f7a,#2d6f9f);color:#fff;border-radius:14px;padding:20px;margin-bottom:16px;}
+.stn-mobile-tile{display:block;text-decoration:none;min-height:120px;}
+.stn-scan-card{border-radius:14px;border:1px solid #e7eef5;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:18px;background:#fff;}
+.stn-scan-input{font-size:24px;height:58px;font-weight:700;letter-spacing:1px;}
+.stn-big-btn{min-height:46px;font-weight:700;border-radius:10px;padding-left:22px;padding-right:22px;}
+.stn-small-kpi .stn-kpi strong{font-size:22px;}
+.stn-scan-form{margin-top:16px;padding:14px;background:#f8fbff;border-radius:12px;}
+@media(max-width:768px){.stn-scan-input{font-size:20px}.stn-kpi-grid{grid-template-columns:1fr!important}.stn-big-btn{width:100%;margin-top:12px}}

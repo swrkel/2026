@@ -1,0 +1,225 @@
+#sa_permission_explorer,
+#sa_permission_explorer *{box-sizing:border-box;}
+#sa_permission_explorer{position:fixed!important;top:76px!important;right:24px!important;left:auto!important;bottom:auto!important;z-index:99999!important;width:520px!important;max-width:calc(100vw - 40px)!important;background:#fff;border:1px solid #d8e0ea;border-radius:14px;padding:10px 12px;box-shadow:0 18px 45px rgba(15,23,42,.18);clear:both;pointer-events:auto;}
+#sa_permission_explorer .sa-permission-search-line{display:flex;align-items:center;width:100%;gap:0;background:#fff;border:1px solid #cfd8e3;border-radius:9px;overflow:hidden;}
+#sa_permission_explorer .sa-search-icon{height:42px;min-width:44px;display:flex;align-items:center;justify-content:center;background:#f8fafc;color:#2563eb;border-right:1px solid #e5edf6;}
+#sa_permission_explorer .sa-permission-search-input{display:block!important;visibility:visible!important;opacity:1!important;position:static!important;width:100%!important;min-width:80px!important;height:42px!important;line-height:42px!important;margin:0!important;padding:0 12px!important;border:0!important;outline:0!important;background:#fff!important;color:#111827!important;font-size:14px!important;font-weight:400!important;box-shadow:none!important;pointer-events:auto!important;z-index:100000!important;-webkit-text-fill-color:#111827!important;caret-color:#111827!important;}
+#sa_permission_explorer .sa-permission-search-input:focus{background:#fff!important;box-shadow:inset 0 0 0 2px rgba(37,99,235,.18)!important;}
+#sa_permission_explorer .sa-permission-clear{height:42px;min-width:44px;border:0;border-left:1px solid #e5edf6;background:#fff;color:#64748b;cursor:pointer;pointer-events:auto;}
+#sa_permission_explorer .sa-permission-clear:hover{background:#f8fafc;color:#111827;}
+#sa_permission_explorer .sa-search-meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:7px;font-size:12px;color:#64748b;}
+#sa_permission_search_counter{font-weight:600;color:#0f4fbf;}
+#sa_permission_explorer .sa-search-help{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#sa_permission_explorer .sa-permission-search-results{position:absolute;left:12px;right:12px;top:104px;max-height:380px;overflow-y:auto;background:#fff;border:1px solid #cfd8e3;border-radius:10px;box-shadow:0 18px 40px rgba(15,23,42,.20);z-index:100001;}
+#sa_permission_explorer .sa-permission-search-result{padding:10px 13px;border-bottom:1px solid #eef2f7;cursor:pointer;color:#1f2937;font-size:13px;line-height:1.35;background:#fff;}
+#sa_permission_explorer .sa-permission-search-result:last-child{border-bottom:0;}
+#sa_permission_explorer .sa-permission-search-result:hover,
+#sa_permission_explorer .sa-permission-search-result.active{background:#eff6ff;color:#0f4fbf;}
+#sa_permission_explorer .sa-permission-search-result mark{background:#fff2a8;color:inherit;padding:0 2px;border-radius:2px;}
+#sa_permission_explorer .sa-permission-search-empty{padding:11px 13px;color:#7a8797;font-size:13px;}
+.sa-permission-hidden-by-search{display:none!important;}
+.sa-permission-search-highlight{outline:3px solid #facc15!important;background:#fef9c3!important;border-radius:5px!important;transition:background .2s ease, outline .2s ease;}
+.sa-permission-section-match{box-shadow:0 0 0 2px rgba(37,99,235,.20)!important;border-radius:8px!important;}
+
+#sa_permission_explorer .sa-search-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;}
+#sa_permission_explorer .sa-permission-mini-btn{border:1px solid #cfd8e3;background:#f8fafc;color:#0f172a;border-radius:7px;padding:5px 10px;font-size:12px;line-height:1.2;cursor:pointer;}
+#sa_permission_explorer .sa-permission-mini-btn:hover{background:#eff6ff;border-color:#93c5fd;color:#0f4fbf;}
+.sa-permission-collapsible-section{transition:box-shadow .15s ease;background:#fff;}
+.sa-permission-collapsible-section > .box-header,
+.sa-permission-collapsible-section > .card-header,
+.sa-permission-collapsible-section > .panel-heading,
+.sa-permission-collapsible-section > .module-permission-header,
+.sa-permission-collapsible-section > .permission-section-header{cursor:pointer;user-select:none;}
+.sa-section-collapse-indicator{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-right:7px;color:#2563eb;background:#eff6ff;border:1px solid #bfdbfe;border-radius:50%;font-size:11px;vertical-align:middle;}
+.sa-permission-section-collapsed{box-shadow:0 1px 4px rgba(15,23,42,.05)!important;}
+.sa-permission-section-expanded{box-shadow:0 4px 14px rgba(15,23,42,.08)!important;}
+
+@media (max-width: 768px){#sa_permission_explorer{top:58px;left:12px;right:12px;width:auto;max-width:none;}}
+body.sa-permission-floating-active{padding-top:0!important;}
+
+
+/* Super Admin business listing polish */
+.sa-business-card-shell{background:#fff1f6!important;border-radius:18px!important;padding:18px!important;margin-top:20px!important;box-shadow:0 14px 36px rgba(15,23,42,.08)!important;}
+.sa-business-card-shell .box-widget{background:#fff!important;border-radius:14px!important;overflow:hidden!important;border:1px solid #e8d6df!important;}
+body.sa-superadmin-business-index{scroll-behavior:auto;}
+
+/* V039: collapsible floating search panel */
+#sa_permission_explorer.sa-permission-panel-minimized{width:260px!important;min-height:auto!important;padding:8px 10px!important;}
+#sa_permission_explorer.sa-permission-panel-minimized .sa-permission-search-line,
+#sa_permission_explorer.sa-permission-panel-minimized .sa-search-meta,
+#sa_permission_explorer.sa-permission-panel-minimized #sa_permission_expand_all,
+#sa_permission_explorer.sa-permission-panel-minimized #sa_permission_collapse_all,
+#sa_permission_explorer.sa-permission-panel-minimized .sa-permission-search-results{display:none!important;}
+#sa_permission_explorer.sa-permission-panel-minimized .sa-search-actions{margin-top:0!important;justify-content:center!important;}
+#sa_permission_explorer.sa-permission-panel-minimized .sa-permission-toggle-btn{width:100%;font-weight:700;background:#2563eb;color:#fff;border-color:#2563eb;}
+#sa_permission_explorer .sa-permission-toggle-btn{font-weight:700;}
+
+
+/* V040: professional minimize/show behavior */
+#sa_permission_explorer .sa-permission-search-line .sa-permission-toggle-btn{
+    height:42px;
+    min-width:86px;
+    border:0;
+    border-left:1px solid #e5edf6;
+    border-radius:0;
+    background:#fff;
+    color:#2563eb;
+    font-weight:700;
+    cursor:pointer;
+    padding:0 12px;
+    white-space:nowrap;
+}
+#sa_permission_explorer .sa-permission-search-line .sa-permission-toggle-btn:hover{
+    background:#eff6ff;
+    color:#0f4fbf;
+}
+#sa_permission_explorer .sa-search-actions .sa-permission-toggle-btn{display:none!important;}
+#sa_permission_explorer.sa-permission-panel-minimized{
+    width:520px!important;
+    max-width:calc(100vw - 40px)!important;
+    padding:10px 12px!important;
+}
+#sa_permission_explorer.sa-permission-panel-minimized .sa-permission-search-line{display:flex!important;}
+#sa_permission_explorer.sa-permission-panel-minimized .sa-search-meta,
+#sa_permission_explorer.sa-permission-panel-minimized .sa-search-actions,
+#sa_permission_explorer.sa-permission-panel-minimized .sa-permission-search-results{display:none!important;}
+#sa_permission_explorer.sa-permission-panel-minimized .sa-permission-search-line .sa-permission-toggle-btn{
+    display:inline-flex!important;
+    align-items:center;
+    justify-content:center;
+    background:#2563eb!important;
+    color:#fff!important;
+    border-left:1px solid #1d4ed8!important;
+}
+#sa_permission_explorer.sa-permission-panel-minimized .sa-permission-search-line .sa-permission-toggle-btn:hover{
+    background:#1d4ed8!important;
+}
+#sa_permission_explorer .sa-permission-search-results{top:104px!important;}
+#sa_permission_explorer.sa-permission-panel-minimized .sa-permission-search-input{height:42px!important;}
+
+/* V042: child permissions are visually child-level to the module master switch. */
+.sa-module-master-disabled .sa-child-permission-disabled{opacity:.45!important;filter:grayscale(.35);}
+.sa-module-master-disabled .sa-child-permission-disabled label,
+.sa-module-master-disabled .sa-child-permission-disabled{cursor:not-allowed!important;}
+.sa-module-master-disabled:after{content:'Module disabled: child permissions will not show this module in sidebar.';display:block;margin:8px 16px 0;color:#b91c1c;font-size:12px;font-weight:600;}
+
+
+/* V050: parent module checkbox is always recoverable/clickable. Only child permissions lock. */
+.sa-module-master-disabled input[type=checkbox]:not(:disabled) + label,
+.sa-module-master-disabled .sa-module-master-checkbox{opacity:1!important;filter:none!important;cursor:pointer!important;}
+.sa-module-master-disabled input[type=checkbox][name$='_module'],
+.sa-module-master-disabled input[type=checkbox][name^='enable_'][name$='_module']{opacity:1!important;filter:none!important;cursor:pointer!important;}
+
+
+/* V054: search never disables permissions. Parent/child hierarchy is enforced
+   by saved permissions and route guards, not by making the Manage UI unusable. */
+.sa-child-permission-disabled,
+.sa-module-master-disabled .sa-child-permission-disabled,
+.sa-module-master-disabled input[type="checkbox"]{
+    opacity:1!important;
+    filter:none!important;
+    cursor:pointer!important;
+    pointer-events:auto!important;
+}
+.sa-module-master-disabled:after{display:none!important;content:none!important;}
+
+/* V055: Role Add/Edit pages keep Role Name and permission search in normal page flow. */
+#sa_permission_explorer.sa-permission-explorer-inline,
+#sa_permission_explorer.sa-permission-explorer-inline.sa-permission-panel-minimized {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 0 15px 0 !important;
+    z-index: 20 !important;
+}
+#sa_permission_explorer.sa-permission-explorer-inline .sa-permission-search-results {
+    z-index: 30 !important;
+}
+@media (max-width: 991px) {
+    #sa_permission_explorer.sa-permission-explorer-inline,
+    #sa_permission_explorer.sa-permission-explorer-inline.sa-permission-panel-minimized {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+    }
+}
+
+/* V059: Role Add/Edit is a non-collapsing permission editor. */
+#sa_permission_explorer[data-sa-context="role"],
+#sa_permission_explorer[data-sa-context="role"].sa-permission-panel-minimized {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    z-index: 40 !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, .07) !important;
+}
+
+#sa_permission_explorer[data-sa-context="role"] .sa-permission-search-results {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-height: 300px;
+    margin-top: 8px;
+    z-index: 41 !important;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .12);
+}
+
+#sa_permission_explorer[data-sa-context="role"] .sa-search-help {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: initial;
+    text-align: right;
+}
+
+#sa_permission_explorer[data-sa-context="role"] .sa-search-actions {
+    display: none !important;
+}
+
+#sa_permission_explorer[data-sa-context="role"].sa-permission-panel-minimized {
+    padding: 10px 12px !important;
+}
+
+#sa_permission_explorer[data-sa-context="role"].sa-permission-panel-minimized .sa-permission-search-line {
+    display: flex !important;
+}
+
+#sa_permission_explorer[data-sa-context="role"].sa-permission-panel-minimized .sa-search-meta,
+#sa_permission_explorer[data-sa-context="role"].sa-permission-panel-minimized .sa-permission-search-results {
+    display: none !important;
+}
+
+.role-page-editor-box.sa-permission-section-collapsed > .box-body,
+.role-page-editor-box > .box-body {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+@media (max-width: 767px) {
+    #sa_permission_explorer[data-sa-context="role"] .sa-search-meta {
+        display: block;
+    }
+
+    #sa_permission_explorer[data-sa-context="role"] .sa-search-help {
+        display: block;
+        margin-top: 5px;
+        text-align: left;
+    }
+
+    #sa_permission_explorer[data-sa-context="role"] .sa-permission-search-line .sa-permission-toggle-btn {
+        min-width: 72px;
+        padding: 0 8px;
+    }
+}

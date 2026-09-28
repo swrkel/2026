@@ -1,0 +1,1 @@
+(function($){'use strict';$(function(){$('.atn-profile-search input').on('keydown',function(e){if(e.key==='Enter'){this.form.submit();}});});})(window.jQuery);

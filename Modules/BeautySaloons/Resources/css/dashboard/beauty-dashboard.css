@@ -1,0 +1,16 @@
+.bs-dashboard-page { min-height: 600px; }
+.beauty-dashboard-kpis { margin-bottom: 15px; }
+.bs-kpi-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 15px;
+    min-height: 105px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.bs-kpi-title { font-size: 13px; font-weight: 700; color: #6b7280; text-transform: uppercase; }
+.bs-kpi-value { font-size: 28px; font-weight: 800; color: #111827; margin-top: 8px; }
+.bs-kpi-sub { font-size: 12px; color: #6b7280; margin-top: 4px; }
+.bs-dashboard-page .box { border-radius: 8px; border-top: 0; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.bs-dashboard-page canvas { width: 100%; max-height: 320px; }

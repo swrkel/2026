@@ -1,0 +1,1 @@
+window.TailoringReports={init:function(){if(window.$&&$.fn.select2){$('.tailoring-select2').select2({width:'100%'})}if(window.$&&$.fn.daterangepicker){$('.tailoring-date-range').daterangepicker()}}};document.addEventListener('DOMContentLoaded',function(){window.TailoringReports.init()});

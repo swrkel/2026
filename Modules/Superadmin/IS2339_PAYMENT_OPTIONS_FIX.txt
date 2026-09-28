@@ -1,0 +1,9 @@
+IS2339 - Payment Options - 25 Sep 2026
+
+Fixes
+- Legacy Manage -> Payment Options now reads/writes the selected business operational tenant DB, same as Manage New.
+- New custom rows use a per-location unique POST index; duplicate #current_id collision removed.
+- Newly added methods retain Active/Purchase/Sale/Expense/Purchase Return/Sales Return flags and account mapping.
+- Existing non-payment Manage sections keep their previous data sources.
+
+No SQL/migration required.

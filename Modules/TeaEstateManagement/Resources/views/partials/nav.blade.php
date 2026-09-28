@@ -1,0 +1,3 @@
+@php $nav=[
+['teaestate.dashboard','Dashboard'],['teaestate.plantation.index','Plantation'],['teaestate.harvests.index','Harvests'],['teaestate.parties.index','Parties'],['teaestate.buying.index','Buying'],['teaestate.processing.index','Processing'],['teaestate.inventory.index','Inventory'],['teaestate.sales.index','Sales'],['teaestate.finance.index','Finance'],['teaestate.reports.index','Reports'],['teaestate.settings.index','Settings']]; @endphp
+<div class="tea-nav">@foreach($nav as [$route,$label]) @if(Route::has($route))<a href="{{ route($route) }}" class="{{ request()->routeIs($route)?'active':'' }}">{{ $label }}</a>@endif @endforeach</div>

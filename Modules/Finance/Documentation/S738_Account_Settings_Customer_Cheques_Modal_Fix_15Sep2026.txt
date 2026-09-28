@@ -1,0 +1,12 @@
+S738 + user follow-up - 15 Sep 2026
+
+1. Account Settings Save remains clickable; validation is done on submit.
+2. Cash Deposit, Card Deposit, Cheque Deposit and Transfer use collision-proof
+   /finance/list-accounts-live/* form, AJAX and save endpoints.
+3. Cheque Deposit GET no longer requires X-Requested-With, preventing backdrop-only failures.
+4. Finance idempotently creates a missing Cheques-in-Hand debit for outstanding
+   CUSTOMER cheque payments saved by Pay Due Amount, Advance Payment or Bulk Payment.
+   Supplier cheques and already deposited cheques are excluded.
+5. Existing linked Cheques-in-Hand debits are never duplicated.
+
+Deployment: replace Finance module and Ctrl+F5. No SQL/migration required.

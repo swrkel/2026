@@ -1,0 +1,8 @@
+S358 Communication Hub UI Standard Fix
+
+- Reworked POS standalone layout to match the existing ERP/SYZYGY sidebar standard.
+- Replaced the white POS module sidebar with the blue SYZYGY system-style sidebar, same font weight and menu spacing.
+- Rebuilt POS dashboard metric cards to follow the Communication Hub box design: large rounded cards, colored icons, bottom accent line, mini progress/spark line, and Open link.
+- Added Quick Operations panel with Communication Hub card/button styling.
+- Updated dashboard table/panel/button styling to match the requested page standard.
+- No SQL changes required.

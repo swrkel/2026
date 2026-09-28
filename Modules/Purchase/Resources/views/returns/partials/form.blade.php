@@ -1,0 +1,1 @@
+<div class="box box-primary"><div class="box-body"><div class="row">@include('purchase::returns.partials.form_header')</div>@include('purchase::returns.partials.product_lines')@include('purchase::returns.partials.totals')@include('purchase::returns.partials.payment')</div></div>

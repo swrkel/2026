@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('title','Pawning Auction Due')
+@section('content')
+<section class="content-header no-print"><h1>Pawning Auction Due</h1></section><section class="content no-print">@include('pawning::layouts.nav')
+<div class="box box-danger"><div class="box-header with-border"><h3 class="box-title">Overdue Pledges</h3></div><div class="box-body table-responsive"><table class="table table-bordered table-striped"><thead><tr><th>Pledge No</th><th>Customer</th><th>Due On</th><th>Outstanding</th><th>Action</th></tr></thead><tbody>@forelse($pledges as $pledge)<tr><td>{{ $pledge->pledge_no }}</td><td>{{ $pledge->customer_name }}</td><td>{{ $pledge->due_on }}</td><td>{{ number_format($pledge->outstanding_amount,2) }}</td><td><form method="POST" action="{{ route('pawning.auction.mark',$pledge->id) }}">@csrf<button class="btn btn-xs btn-danger" onclick="return confirm('Mark as auctioned?')">Mark Auctioned</button></form></td></tr>@empty<tr><td colspan="5" class="text-center">No overdue pledges</td></tr>@endforelse</tbody></table>{{ $pledges->links() }}</div></div></section>@endsection

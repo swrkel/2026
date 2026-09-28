@@ -1,0 +1,64 @@
+IS2253 – SW Settlement – 11 Sep 2026
+====================================
+Source used: user-supplied latest SW.zip
+
+ISSUES FIXED
+------------
+1) Petro General / Tank Management / Fuel Tanks
+   - SW Settlement meter sales are now posted into Petro's standard tank_sell_lines ledger.
+   - The posting uses each pump's configured fuel_tank_id.
+   - Multiple pumps drawing from the same tank are aggregated into one tank movement for the settlement transaction.
+   - Petro's normal tank-balance calculation can therefore reduce the related tank by the SW sold quantity.
+   - The bridge is idempotent on settlement transaction + tank, so a retry does not create a second tank deduction.
+   - Business/location/product mapping is validated before posting to prevent cross-business or wrong-tank stock movement.
+   - If Petro tank tables are not installed for a tenant, SW continues normally without forcing a Petro dependency.
+
+2) Petro General / Tank Management / Tank Transaction Details + Summary
+   - The same SW tank_sell_lines movement is linked to the SW settlement's normal core sell transaction.
+   - Existing Petro General transaction reports can therefore read the SW tank movement through their standard source.
+
+3) SW Settlement / New Settlement / Payments / Expenses
+   - Expense Categories now resolve against the active session business used by the core Expenses module.
+   - The live category endpoint now checks table/column metadata on the current tenant DB connection instead of relying on potentially stale Schema metadata.
+   - The Expense Category selector is refreshed once when the settlement page loads, again whenever Expenses is selected, and again when returning to the page after adding a category in another tab/window.
+   - Existing no-cache and stale-request protection remains in place.
+
+CHANGED FILES
+-------------
+1. Services/SettlementFinancePostingService.php
+2. Http/Controllers/PaymentSummaryController.php
+3. Resources/views/settlements/partials/payments_js.blade.php
+
+DATABASE / MIGRATION
+--------------------
+No new table or column is required by this parcel.
+It uses the existing Petro tables: pumps, fuel_tanks and tank_sell_lines.
+No SQL import is required.
+
+VALIDATION
+----------
+- PHP syntax check passed for all 128 PHP files in the SW module.
+- payments_js.blade.php JavaScript block passed Node syntax validation after neutralising Blade echo expressions.
+- Final ZIP archive integrity check is required/performed during packaging.
+
+DEPLOYMENT
+----------
+Replace the SW module with the consolidated parcel, then run:
+
+cd /home/nivasa/public_html
+php artisan optimize:clear
+
+Then use Ctrl + F5 once on the SW Settlement page to clear cached browser JavaScript.
+
+TEST CHECKLIST
+--------------
+A. Save a NEW SW Settlement containing meter sales.
+B. Petro General -> Tank Management -> Fuel Tanks:
+   confirm the related pump's tank balance is reduced by the settlement sold quantity.
+C. Petro General -> Tank Management -> Tank Transaction Details:
+   confirm the SW settlement tank sale appears for the related tank/product.
+D. Petro General -> Tank Management -> Tank Transaction Summary:
+   confirm Total Sold Qty / Transfer Out includes the SW settlement tank movement.
+E. Add a new Expense Category in the Expenses module while SW Settlement remains open.
+F. Return to SW Settlement -> Payments -> Expenses (or click Expenses again):
+   confirm the newly-added category is visible without reloading the whole settlement workflow.

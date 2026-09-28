@@ -1,0 +1,17 @@
+PetroPD PD Operators Final Separation Cleanup
+
+This package continues the separation of PD Operators from Petro while keeping the same shared database tables.
+
+Included changes:
+1. PetroPD Add Operator route/view now posts to PDOperatorController.
+2. PetroPD Import Operator route/view now posts to PDOperatorController.
+3. Username/passcode validation routes now stay inside PetroPD.
+4. Add and Import buttons are enabled in PetroPD PD Operators page.
+5. List Commission stays inside PetroPD instead of redirecting to Petro.
+6. Delete route safely deactivates the operator instead of physically deleting records.
+
+Test:
+- PetroPD > PD Operators > Add
+- PetroPD > PD Operators > Import
+- PetroPD > PD Operators > Actions > List Commission
+- PetroPD > PD Operators > Actions > Activate/Deactivate

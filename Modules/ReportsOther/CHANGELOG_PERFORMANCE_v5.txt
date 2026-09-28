@@ -1,0 +1,32 @@
+ReportsOther v5 - Instant Tab Performance Fix
+Date: 20 Sep 2026
+
+Problem
+- Cash Receipt tab links performed a full browser page navigation.
+- Every tab navigation rebuilt the layout and re-requested module CSS/JS through Laravel.
+- The controller also resolved organisation/currency/settings data even for tabs that did not use them.
+
+Changes
+1. Added a dependency-free instant tab engine in reports-other.js.
+   - The current tab remains in the DOM.
+   - Other tabs are prefetched quietly after first paint.
+   - Each tab is fetched as an HTML fragment only once and kept in memory/DOM.
+   - Switching between warmed tabs performs no full page reload.
+   - Browser Back/Forward is supported.
+   - Existing direct tab links remain as a safe non-JavaScript fallback.
+2. CashReceiptController now supports ?fragment=1 and renders only the requested tab partial.
+3. Controller loads only the services/data required by the requested tab.
+   - Receipt: sources + numbering + organisation + precision.
+   - Mapping: mapped sources + product category tree only.
+   - List: receipts/audits + precision only.
+   - Numbering: sequence only.
+4. Removed the duplicate receipt-number sequence lookup on Receipt tab.
+5. Reduced selected columns for source/list/audit queries.
+6. Date-range changes on List Receipt refresh the list tab through the fragment engine instead of reloading the full page.
+7. Receipt preview responses are cached in the browser by source/date during the page session, and stale requests are aborted.
+8. Module CSS/JS now use a versioned URL and long-lived browser caching instead of no-store.
+9. Existing v4 coloured tabs and Product Category/Sub Category multiple-selection dropdown are retained.
+
+Database
+- No database changes.
+- No SQL import required for v5.

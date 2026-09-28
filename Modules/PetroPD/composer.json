@@ -1,0 +1,23 @@
+{
+    "name": "modules/petro-pd",
+    "description": "Standalone Petro PD operations and settlement module.",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\PetroPD\\": ""
+        }
+    }
+}

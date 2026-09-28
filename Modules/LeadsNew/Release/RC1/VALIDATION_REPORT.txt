@@ -1,0 +1,13 @@
+Leads-New RC1 Validation Report
+===============================
+
+Checked before packaging:
+- All PHP files: syntax check completed.
+- Routes/web.php: controller class references checked.
+- Routes/web.php: controller method references checked.
+- Module providers: aligned with Customers provider pattern.
+- View namespace: leadsnew and leads_new supported.
+- Translation namespace: leadsnew and leads_new supported.
+- Route aliases: leads-new.* and leadsnew.* retained for old sidebar/menu cache safety.
+
+No main ERP route files are included in this parcel.

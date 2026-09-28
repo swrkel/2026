@@ -1,0 +1,24 @@
+/* Product create/edit page styles kept inside the Product module. */
+.product-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.product-form-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.product-image-preview {
+    max-width: 140px;
+    max-height: 140px;
+    border: 1px solid #ddd;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+@media (max-width: 767px) {
+    .product-form-grid {
+        grid-template-columns: 1fr;
+    }
+}

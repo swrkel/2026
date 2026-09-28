@@ -1,0 +1,51 @@
+Simple Audit v1.0.4 - Central System + Route Bootstrap Fix
+Date: 25 Sep 2026
+
+WHY THIS PATCH IS NEEDED
+------------------------
+`php artisan module:enable SimpleAudit` was successful, but `php artisan route:list | grep simple-audit`
+returned no rows. This proves the module was globally enabled but its service provider was not booted by
+the host's older module-provider manifest. Because the module sidebar intentionally renders only when its
+route exists, the module stayed invisible.
+
+FIXES
+-----
+1. app/Providers/AppServiceProvider.php
+   - Adds a narrow bootstrap bridge for SimpleAudit only when modules_statuses.json explicitly enables it.
+   - The bridge registers only Modules\SimpleAudit\Providers\SimpleAuditServiceProvider.
+   - All routes/views/services/business logic remain in Modules/SimpleAudit.
+
+2. app/Services/AutomaticModuleRegistry.php
+   - Adds Simple Audit to the system-standard sidebar renderer list.
+   - Pins its correct landing URL to /simple-audit.
+
+3. resources/views/layouts/partials/sidebar-superadmin.blade.php
+   - Central Super Admin's installed-module catalogue now merges the detailed registry with the lightweight
+     installed registry, so newly uploaded globally-enabled modules cannot disappear during metadata rebuild.
+
+4. Modules/SimpleAudit/Routes/web.php
+   - Uses config(..., 'simple-audit') directly in prefix() so the automatic registry can statically discover
+     the real route prefix.
+
+5. Modules/SimpleAudit/Config/module_permissions.php
+   - Declares Purchase Audit as the module's managed page for Manage Page / Role / standard sidebar discovery.
+
+DEPLOYMENT
+----------
+Extract the package at the Laravel project root, preserving paths, then run:
+
+php artisan module:enable SimpleAudit
+php artisan optimize:clear
+php Modules/SimpleAudit/Tools/check_sidebar.php
+php artisan route:list | grep simple-audit
+php artisan route:list --name=simpleaudit
+
+EXPECTED
+--------
+The route commands must show /simple-audit and /simple-audit/purchase-audit routes.
+Central Super Admin should list Simple Audit under All Installed Modules.
+The business sidebar will show Simple Audit only when Manage Side Bar / Manage Page / Role gates permit it.
+
+NO SQL CHANGE
+-------------
+No database SQL re-import is required for v1.0.4.

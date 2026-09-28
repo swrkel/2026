@@ -1,0 +1,96 @@
+POS Module - Live Testing Checklist S373
+========================================
+
+1. Main pages
+-------------
+[ ] /pos-module
+[ ] /pos-module/sales
+[ ] /pos-module/sales/workspace
+[ ] /pos-module/products
+[ ] /pos-module/purchases
+[ ] /pos-module/registers
+[ ] /pos-module/shifts
+[ ] /pos-module/cash-drawer
+[ ] /pos-module/returns
+[ ] /pos-module/exchanges
+[ ] /pos-module/reports
+[ ] /pos-module/settings
+[ ] /pos-module/standalone-audit
+
+2. UI standard
+--------------
+[ ] Sidebar matches system standard
+[ ] Header matches system standard
+[ ] Font family and font sizes match Communication Hub
+[ ] KPI cards match Communication Hub style
+[ ] Buttons use approved ERP colours
+[ ] Tables/toolbars match system standard
+[ ] No missing icons or square placeholders
+[ ] No translation keys visible on screen
+
+3. Sales workflow
+-----------------
+[ ] Search product by name/SKU/barcode
+[ ] Add product to cart
+[ ] Edit quantity
+[ ] Apply discount/tax
+[ ] Select walk-in customer
+[ ] Select customer from Customers module
+[ ] Complete cash sale
+[ ] Complete card sale
+[ ] Complete credit sale
+[ ] Print/reprint receipt
+[ ] Sale appears in reports
+
+4. Inventory workflow
+---------------------
+[ ] Add/edit product
+[ ] Create purchase
+[ ] Product stock increases after purchase
+[ ] Product stock decreases after sale
+[ ] Stock restores after return
+[ ] Stock movements show correct history
+
+5. Register/cash workflow
+-------------------------
+[ ] Open register
+[ ] Start shift
+[ ] Cash sale affects cash drawer
+[ ] Cash in works
+[ ] Cash out works
+[ ] Close shift reconciliation works
+[ ] Register summary matches sales/payment totals
+
+6. Returns/exchanges
+--------------------
+[ ] Full return
+[ ] Partial return
+[ ] Refund method selected
+[ ] Product exchange
+[ ] Stock restored/reduced correctly
+[ ] Return receipt prints
+
+7. Reports
+----------
+[ ] Daily sales
+[ ] Payment report
+[ ] Item sales
+[ ] Category sales
+[ ] Cashier sales
+[ ] Stock valuation
+[ ] Low stock
+[ ] CSV export works
+
+8. Customers module integration
+-------------------------------
+[ ] Customer search loads from Customers module
+[ ] Credit sale posts to customer ledger/statement
+[ ] Walk-in customer does not create duplicate customer master
+[ ] Outstanding balance/credit rules behave correctly
+
+9. Server commands after deployment
+-----------------------------------
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+php artisan config:clear

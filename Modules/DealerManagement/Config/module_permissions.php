@@ -1,0 +1,22 @@
+<?php
+return [
+    ['key'=>'dealer_management_dashboard','label'=>'Dashboard','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_hub','label'=>'Multi-Distributor Dealer Hub','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_hub_login','label'=>'Dealer Hub Login','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_dealers','label'=>'Dealers','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_outlets','label'=>'Dealer Outlets','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_users','label'=>'Dealer Users','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_roles','label'=>'Dealer Roles','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_stock','label'=>'Dealer Stock Balances','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_stock_history','label'=>'Dealer Stock History','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_hub_sales','label'=>'Hub Dealer Sales','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_stock_updates','label'=>'Dealer Stock Updates','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_reorder','label'=>'Re-order Planning','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_orders','label'=>'Dealer Orders','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_deliveries','label'=>'Deliveries','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_returns','label'=>'Returns','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_notifications','label'=>'Notifications & Alerts','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_reports','label'=>'Reports','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_distribution_sync','label'=>'Distribution Sync','type'=>'page','source'=>'module_pages'],
+    ['key'=>'dealer_management_dealer_login','label'=>'Dealer Login','type'=>'page','source'=>'module_pages'],
+];

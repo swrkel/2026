@@ -1,0 +1,1 @@
+(function(){'use strict';document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.stn-status.failed').forEach(function(el){el.setAttribute('title','Please fix before go-live.');});});})();

@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('bakery_drivers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('business_id')->index('business_id');
+            $table->string('employee_no');
+            $table->string('driver_name');
+            $table->string('nic_number');
+            $table->string('dl_number');
+            $table->date('joined_date');
+            $table->unsignedInteger('created_by');
+            $table->string('dl_type');
+            $table->date('expiry_date');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('bakery_drivers');
+    }
+};

@@ -1,0 +1,21 @@
+{
+    "name": "BankingCoreDeposits",
+    "alias": "banking-core-deposits",
+    "description": "Standalone Core Deposits module for Banking Suite",
+    "keywords": [
+        "banking",
+        "core",
+        "deposits",
+        "savings",
+        "current",
+        "fixed-deposits"
+    ],
+    "priority": 510,
+    "providers": [
+        "Modules\\BankingCoreDeposits\\Providers\\BankingCoreDepositsServiceProvider",
+        "Modules\\BankingCoreDeposits\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'tailoring.fabric_rolls.view',
+    'tailoring.fabric_rolls.manage',
+    'tailoring.bom.view',
+    'tailoring.bom.manage',
+    'tailoring.patterns.view',
+    'tailoring.patterns.manage',
+    'tailoring.size_matrix.view',
+    'tailoring.bulk_orders.view',
+    'tailoring.bulk_orders.manage',
+    'tailoring.uniform_contracts.view',
+    'tailoring.uniform_contracts.manage',
+    'tailoring.capacity_planning.view',
+    'tailoring.work_queues.view',
+    'tailoring.wardrobe.view',
+    'tailoring.appointments.view',
+    'tailoring.executive_dashboard.view',
+    'tailoring.enterprise_reports.view',
+
+    // TM009-TM012 enterprise operations permissions
+    'tailoring.workshop.view',
+    'tailoring.workshop.manage',
+    'tailoring.workforce.view',
+    'tailoring.workforce.manage',
+    'tailoring.machines.view',
+    'tailoring.machines.manage',
+    'tailoring.maintenance.view',
+    'tailoring.maintenance.manage',
+    'tailoring.costing.view',
+    'tailoring.costing.manage',
+    'tailoring.workflow_designer.view',
+    'tailoring.workflow_designer.manage',
+    'tailoring.forecasting.view',
+    'tailoring.mobile_queues.view',
+    'tailoring.customer_experience.view',
+];

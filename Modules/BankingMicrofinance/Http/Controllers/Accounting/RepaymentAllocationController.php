@@ -1,0 +1,4 @@
+<?php
+namespace Modules\BankingMicrofinance\Http\Controllers\Accounting;
+use Illuminate\Routing\Controller;use Illuminate\Http\Request;use Modules\BankingMicrofinance\Entities\RepaymentAllocation;use Modules\BankingMicrofinance\Services\RepaymentAllocationService;
+class RepaymentAllocationController extends Controller{public function index(){ $allocations=RepaymentAllocation::latest()->paginate(25); return view('bankingmicrofinance::accounting.repayment_allocation.index',compact('allocations'));} public function preview(Request $r, RepaymentAllocationService $s){return response()->json($s->preview((float)$r->received_amount,(float)$r->fee_due,(float)$r->penalty_due,(float)$r->interest_due,(float)$r->principal_due));} public function apply(Request $r, RepaymentAllocationService $s){$s->post($r->all()); return back()->with('status','Repayment allocation posted.');}}

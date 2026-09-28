@@ -1,0 +1,40 @@
+{
+  "name": "Graphs",
+  "alias": "graphs",
+  "description": "Standalone stock, sales, financial, profitability, operational, loss, customer and payment analytics graphs module.",
+  "keywords": [
+    "graphs",
+    "analytics",
+    "stock",
+    "sales",
+    "fuel",
+    "tank",
+    "financial",
+    "profitability",
+    "reconciliation",
+    "debtors",
+    "ageing",
+    "operational",
+    "loss",
+    "dip",
+    "variance",
+    "pump",
+    "shift",
+    "customer",
+    "payment",
+    "cash",
+    "card",
+    "online-transfer",
+    "fleet",
+    "credit-customer",
+    "yearly"
+  ],
+  "priority": 0,
+  "providers": [
+    "Modules\\Graphs\\Providers\\GraphsServiceProvider",
+    "Modules\\Graphs\\Providers\\RouteServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

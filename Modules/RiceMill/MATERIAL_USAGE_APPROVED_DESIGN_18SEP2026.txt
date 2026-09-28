@@ -1,0 +1,18 @@
+Rice Mill - Material Usage Mapping approved design update - 18 Sep 2026
+
+Changed presentation only; existing bulk mapping/save logic remains intact.
+
+Files changed:
+1. Resources/views/settings/partials/packaging-material-mapping.blade.php
+2. Resources/assets/css/ricemill.css
+
+Design alignment:
+- Material Usage Mapping title/header follows supplied mock-up.
+- Packaging Materials button remains at upper-right.
+- Rice Product and Bag Size appear as the first two fields.
+- All Packaging Materials appear one below another in the third column.
+- Usage per Bag inputs align one-to-one in the fourth column.
+- Save Mapping button appears at the lower-right of the entry area.
+- Saved Material Usage table remains below.
+- Responsive layout retained for smaller screens.
+- No database change / SQL import required.

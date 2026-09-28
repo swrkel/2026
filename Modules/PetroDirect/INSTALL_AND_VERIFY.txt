@@ -1,0 +1,65 @@
+PETRO DIRECT — FULL STANDALONE MODULE
+=====================================
+
+This is a complete replacement for Modules/PetroDirect.
+
+INSTALL
+-------
+1. Back up or rename the current Modules/PetroDirect directory.
+2. Extract this ZIP at the Laravel project root. It must create:
+   Modules/PetroDirect
+3. Run from the Laravel project root:
+
+   composer dump-autoload -o
+   php artisan module:enable PetroDirect
+   php artisan optimize:clear
+   php artisan route:list --path=petrodirect -v
+
+NO SQL OR MIGRATION IS REQUIRED FOR THIS PACKAGE.
+
+VERIFY
+------
+Confirm the Petro Direct sidebar contains only:
+
+1. Dashboard
+2. Direct Settlement
+3. List Direct Settlements
+4. Pumper Management
+5. Reports
+
+Open all five pages and confirm Direct Settlement tabs, payment entry,
+settlement listing, print preview and Pumper Management tabs work.
+
+IS1855 CHECK
+------------
+On Direct Settlement, verify that:
+
+1. Other Sale saves and appears in its table.
+2. Opening Payment to Finalize / Add Payment shows no customer-details error.
+3. Add one entry in every applicable payment tab and confirm each entry saves.
+
+RETIREMENT TEST
+---------------
+After the other replacement modules have also been installed and verified,
+Petro and PumperDashboard can be disabled for the separation test:
+
+   php artisan module:disable Petro
+   php artisan module:disable PumperDashboard
+   php artisan optimize:clear
+
+Then repeat the five-page Petro Direct test above.
+
+ROLLBACK
+--------
+Restore the backed-up Modules/PetroDirect directory and run:
+
+   composer dump-autoload -o
+   php artisan optimize:clear
+
+PACKAGE BOUNDARY
+----------------
+PetroDirect has no runtime route, controller, view, asset, permission or
+isolation-helper dependency on Petro, PumperDashboard, PetroPD or
+SettlementSW. Normal application-core integrations (authentication,
+business/location data, accounting, contacts, products, VAT and subscription
+data) remain part of the ERP platform by design.

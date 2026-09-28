@@ -1,0 +1,12 @@
+-- ================================================================
+-- Simple Audit (SAU) - Central/Master Database
+-- ================================================================
+-- No new central/master database table is required.
+--
+-- The standalone module reads the existing central `tenants` and `domains`
+-- tables and resolves the selected tenant database at runtime. All persistent
+-- Simple Audit data is kept inside each tenant DB in tables prefixed `sau_`.
+-- This avoids cross-tenant audit data in the central database.
+--
+-- Therefore this script intentionally makes no schema changes.
+SELECT 'Simple Audit: no central/master schema changes required' AS status;

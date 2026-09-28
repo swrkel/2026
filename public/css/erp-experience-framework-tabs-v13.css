@@ -1,0 +1,335 @@
+/*
+ | ERP Experience Framework (EXF) V1 - Tabs Component v1.0
+ | POS-standard compact adaptive coloured tabs.
+ | Safe scope: tab component only. Does not change page wrappers, breadcrumbs, forms, cards, or DataTables.
+ | Load order: after app.css, erp-communication-standard.css, erp-global-tabs-v7.css, and erp-global-tabs-v8.css.
+ */
+
+:root{
+    /* Geometry tokens - change here only for future tab size adjustments */
+    --exf-tab-height: 32px;
+    --exf-tab-min-height: 32px;
+    --exf-tab-padding-x: 8px;
+    --exf-tab-font-size: 13px;
+    --exf-tab-font-weight: 700;
+    --exf-tab-icon-size: 12px;
+    --exf-tab-icon-gap: 3px;
+    --exf-tab-gap: 5px;
+    --exf-tab-radius: 7px 7px 0 0;
+
+    /* Appearance tokens - kept separate from geometry */
+    --exf-tab-active-bg: #ffffff;
+    --exf-tab-active-text: #111827;
+    --exf-tab-active-border: #2563eb;
+    --exf-tab-shadow: 0 4px 9px rgba(15, 23, 42, .08);
+    --exf-tab-active-shadow: 0 4px 11px rgba(37, 99, 235, .13);
+
+    --exf-tab-c1: #2563eb;
+    --exf-tab-c2: #8b008b;
+    --exf-tab-c3: #2f7ea7;
+    --exf-tab-c4: #286c1f;
+    --exf-tab-c5: #f59e0b;
+    --exf-tab-c6: #0891b2;
+    --exf-tab-c7: #9f1239;
+    --exf-tab-c8: #4f46e5;
+}
+
+/* Global tab rows: Bootstrap 3/4, AdminLTE, and module custom tabs */
+.nav-tabs-custom > .nav-tabs,
+ul.nav.nav-tabs,
+ul.nav.nav-pills,
+.nav-tabs,
+.nav-pills,
+.erp-tabs,
+.erp-global-tabs,
+.erp-tab-list,
+.tab-container,
+.tab-menu,
+.tab-buttons,
+.module-tabs,
+.customer-tabs{
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-end !important;
+    gap: var(--exf-tab-gap) !important;
+    border-bottom: 0 !important;
+    background: transparent !important;
+    min-height: 0 !important;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li,
+ul.nav.nav-tabs > li,
+ul.nav.nav-pills > li,
+.nav-tabs > li,
+.nav-pills > li,
+.erp-tabs > li,
+.erp-global-tabs > li,
+.erp-tab-list > li,
+.tab-container > li,
+.tab-menu > li,
+.tab-buttons > li,
+.module-tabs > li,
+.customer-tabs > li{
+    float: none !important;
+    display: inline-flex !important;
+    width: auto !important;
+    margin: 0 0 4px 0 !important;
+    min-height: 0 !important;
+}
+
+/* Global tab links/buttons */
+.nav-tabs-custom > .nav-tabs > li > a,
+ul.nav.nav-tabs > li > a,
+ul.nav.nav-tabs > li > a[data-toggle="tab"],
+ul.nav.nav-pills > li > a,
+ul.nav.nav-pills > li > a[data-toggle="tab"],
+.nav-tabs > li > a,
+.nav-pills > li > a,
+.nav-tabs .nav-link,
+.nav-pills .nav-link,
+.erp-tabs a,
+.erp-global-tabs a,
+.erp-tab-list a,
+.tab-container a,
+.tab-menu a,
+.tab-buttons a,
+.module-tabs a,
+.customer-tabs a,
+.erp-tab,
+.erp-tab-btn,
+.customer-tab-btn,
+.module-tab-btn,
+a[data-toggle="tab"],
+a[data-bs-toggle="tab"],
+button[data-toggle="tab"],
+button[data-bs-toggle="tab"]{
+    min-height: var(--exf-tab-height) !important;
+    height: var(--exf-tab-height) !important;
+    line-height: 1.05 !important;
+    padding: 0 var(--exf-tab-padding-x) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--exf-tab-icon-gap) !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+    font-size: var(--exf-tab-font-size) !important;
+    font-weight: var(--exf-tab-font-weight) !important;
+    border-radius: var(--exf-tab-radius) !important;
+    border: 1px solid transparent !important;
+    margin: 0 !important;
+    box-shadow: var(--exf-tab-shadow) !important;
+    text-decoration: none !important;
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease !important;
+}
+
+/* Keep label text compact even when strong/span is used */
+.nav-tabs-custom > .nav-tabs > li > a strong,
+ul.nav.nav-tabs > li > a strong,
+ul.nav.nav-pills > li > a strong,
+.nav-tabs > li > a strong,
+.nav-pills > li > a strong,
+.erp-tab strong,
+.erp-tab-btn strong,
+.customer-tab-btn strong,
+.module-tab-btn strong,
+.nav-tabs-custom > .nav-tabs > li > a span,
+ul.nav.nav-tabs > li > a span,
+ul.nav.nav-pills > li > a span{
+    font-size: inherit !important;
+    line-height: 1.05 !important;
+    font-weight: inherit !important;
+}
+
+/* Icon geometry */
+.nav-tabs-custom > .nav-tabs > li > a i,
+ul.nav.nav-tabs > li > a i,
+ul.nav.nav-pills > li > a i,
+.nav-tabs > li > a i,
+.nav-pills > li > a i,
+.erp-tabs a i,
+.erp-global-tabs a i,
+.erp-tab-list a i,
+.tab-container a i,
+.tab-menu a i,
+.tab-buttons a i,
+.module-tabs a i,
+.customer-tabs a i,
+.erp-tab i,
+.erp-tab-btn i,
+.customer-tab-btn i,
+.module-tab-btn i{
+    font-size: var(--exf-tab-icon-size) !important;
+    line-height: 1 !important;
+    margin-right: 2px !important;
+}
+
+/* Automatic inactive colour palette */
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+1) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+1) > a,
+ul.nav.nav-pills > li:not(.active):nth-child(8n+1) > a,
+.nav-tabs > li:not(.active):nth-child(8n+1) > a,
+.nav-pills > li:not(.active):nth-child(8n+1) > a{ background:var(--exf-tab-c1) !important; border-color:var(--exf-tab-c1) !important; color:#fff !important; }
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+2) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+2) > a,
+ul.nav.nav-pills > li:not(.active):nth-child(8n+2) > a,
+.nav-tabs > li:not(.active):nth-child(8n+2) > a,
+.nav-pills > li:not(.active):nth-child(8n+2) > a{ background:var(--exf-tab-c2) !important; border-color:var(--exf-tab-c2) !important; color:#fff !important; }
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+3) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+3) > a,
+ul.nav.nav-pills > li:not(.active):nth-child(8n+3) > a,
+.nav-tabs > li:not(.active):nth-child(8n+3) > a,
+.nav-pills > li:not(.active):nth-child(8n+3) > a{ background:var(--exf-tab-c3) !important; border-color:var(--exf-tab-c3) !important; color:#fff !important; }
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+4) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+4) > a,
+ul.nav.nav-pills > li:not(.active):nth-child(8n+4) > a,
+.nav-tabs > li:not(.active):nth-child(8n+4) > a,
+.nav-pills > li:not(.active):nth-child(8n+4) > a{ background:var(--exf-tab-c4) !important; border-color:var(--exf-tab-c4) !important; color:#fff !important; }
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+5) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+5) > a,
+ul.nav.nav-pills > li:not(.active):nth-child(8n+5) > a,
+.nav-tabs > li:not(.active):nth-child(8n+5) > a,
+.nav-pills > li:not(.active):nth-child(8n+5) > a{ background:var(--exf-tab-c5) !important; border-color:var(--exf-tab-c5) !important; color:#fff !important; }
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+6) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+6) > a,
+ul.nav.nav-pills > li:not(.active):nth-child(8n+6) > a,
+.nav-tabs > li:not(.active):nth-child(8n+6) > a,
+.nav-pills > li:not(.active):nth-child(8n+6) > a{ background:var(--exf-tab-c6) !important; border-color:var(--exf-tab-c6) !important; color:#fff !important; }
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+7) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+7) > a,
+ul.nav.nav-pills > li:not(.active):nth-child(8n+7) > a,
+.nav-tabs > li:not(.active):nth-child(8n+7) > a,
+.nav-pills > li:not(.active):nth-child(8n+7) > a{ background:var(--exf-tab-c7) !important; border-color:var(--exf-tab-c7) !important; color:#fff !important; }
+.nav-tabs-custom > .nav-tabs > li:not(.active):nth-child(8n+8) > a,
+ul.nav.nav-tabs > li:not(.active):nth-child(8n+8) > a,
+ul.nav.nav-pills > li:not(.active):nth-child(8n+8) > a,
+.nav-tabs > li:not(.active):nth-child(8n+8) > a,
+.nav-pills > li:not(.active):nth-child(8n+8) > a{ background:var(--exf-tab-c8) !important; border-color:var(--exf-tab-c8) !important; color:#fff !important; }
+
+/* Active / selected tab */
+.nav-tabs-custom > .nav-tabs > li.active > a,
+.nav-tabs-custom > .nav-tabs > li.active > a:hover,
+.nav-tabs-custom > .nav-tabs > li.active > a:focus,
+ul.nav.nav-tabs > li.active > a,
+ul.nav.nav-tabs > li.active > a:hover,
+ul.nav.nav-tabs > li.active > a:focus,
+ul.nav.nav-pills > li.active > a,
+ul.nav.nav-pills > li.active > a:hover,
+ul.nav.nav-pills > li.active > a:focus,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus,
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus,
+.nav-tabs .nav-link.active,
+.nav-pills .nav-link.active,
+.erp-tabs .active > a,
+.erp-global-tabs .active > a,
+.erp-tab-list .active > a,
+.tab-container .active > a,
+.tab-menu .active > a,
+.tab-buttons .active > a,
+.module-tabs .active > a,
+.customer-tabs .active > a,
+.erp-tab.active,
+.erp-tab-btn.active,
+.customer-tab-btn.active,
+.module-tab-btn.active,
+a[data-toggle="tab"].active,
+a[data-bs-toggle="tab"].active,
+button[data-toggle="tab"].active,
+button[data-bs-toggle="tab"].active{
+    background: var(--exf-tab-active-bg) !important;
+    color: var(--exf-tab-active-text) !important;
+    border-color: var(--exf-tab-active-border) !important;
+    box-shadow: var(--exf-tab-active-shadow) !important;
+}
+
+/* Active children inherit black text */
+.nav-tabs-custom > .nav-tabs > li.active > a *,
+ul.nav.nav-tabs > li.active > a *,
+ul.nav.nav-pills > li.active > a *,
+.nav-tabs > li.active > a *,
+.nav-pills > li.active > a *,
+.nav-tabs .nav-link.active *,
+.nav-pills .nav-link.active *,
+.erp-tab.active *,
+.erp-tab-btn.active *,
+.customer-tab-btn.active *,
+.module-tab-btn.active *{
+    color: var(--exf-tab-active-text) !important;
+}
+
+/* Inactive children inherit white text */
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a *,
+ul.nav.nav-tabs > li:not(.active) > a *,
+ul.nav.nav-pills > li:not(.active) > a *,
+.nav-tabs > li:not(.active) > a *,
+.nav-pills > li:not(.active) > a *,
+.erp-tabs li:not(.active) > a *,
+.erp-global-tabs li:not(.active) > a *,
+.module-tabs li:not(.active) > a *,
+.customer-tabs li:not(.active) > a *{
+    color:#ffffff !important;
+}
+
+/* Hover for inactive tabs */
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:hover,
+ul.nav.nav-tabs > li:not(.active) > a:hover,
+ul.nav.nav-pills > li:not(.active) > a:hover,
+.nav-tabs > li:not(.active) > a:hover,
+.nav-pills > li:not(.active) > a:hover,
+.erp-tab:not(.active):hover,
+.erp-tab-btn:not(.active):hover,
+.customer-tab-btn:not(.active):hover,
+.module-tab-btn:not(.active):hover{
+    filter: brightness(1.06) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Safe opt-outs/overrides */
+.no-erp-global-tabs,
+.no-exf-tabs{
+    --exf-tab-height: initial;
+}
+.no-erp-global-tabs.nav-tabs,
+.no-exf-tabs.nav-tabs{
+    display: block !important;
+}
+.erp-tabs-normal{
+    --exf-tab-height: 38px;
+    --exf-tab-padding-x: 12px;
+    --exf-tab-font-size: 14px;
+    --exf-tab-icon-size: 13px;
+    --exf-tab-icon-gap: 5px;
+}
+.erp-tabs-ultra-compact{
+    --exf-tab-height: 30px;
+    --exf-tab-padding-x: 7px;
+    --exf-tab-font-size: 12px;
+    --exf-tab-icon-size: 11px;
+    --exf-tab-icon-gap: 2px;
+}
+
+@media (max-width: 767px){
+    :root{
+        --exf-tab-height: 31px;
+        --exf-tab-padding-x: 7px;
+        --exf-tab-font-size: 12px;
+        --exf-tab-icon-size: 11px;
+        --exf-tab-gap: 4px;
+    }
+    .nav-tabs-custom > .nav-tabs,
+    ul.nav.nav-tabs,
+    ul.nav.nav-pills,
+    .nav-tabs,
+    .nav-pills{
+        gap: var(--exf-tab-gap) !important;
+    }
+}

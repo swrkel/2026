@@ -1,0 +1,18 @@
+{
+    "name": "Purchase",
+    "alias": "purchase",
+    "description": "Standalone Purchase Module",
+    "keywords": [
+        "purchase",
+        "standalone",
+        "erp"
+    ],
+    "active": 1,
+    "order": 50,
+    "providers": [
+        "Modules\\Purchase\\Providers\\PurchaseServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

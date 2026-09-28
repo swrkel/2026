@@ -1,0 +1,23 @@
+IS1849 – Deposits – Reworked V2 – 31 July 2026
+
+Root causes corrected
+1. The cheque table header had six columns, but the response row had only five cells and omitted Customer Name. This shifted Bank into Cheque No, Cheque No into Cheque Date, and Amount into Bank.
+2. The modal used legacy duplicate /accounting-module URLs. On installations where route order differed, requests could reach a legacy controller/view instead of the Finance module.
+3. The Deposit to Account Select2 instance was initialized more than once inside a dynamically loaded modal.
+4. Deposit/transfer controllers returned different translated success texts instead of the exact required message.
+
+V2 corrections
+- Uses one six-cell row in the exact order: Select, Name, Cheque No, Cheque Date, Bank, Amount.
+- Resolves the selected cheque date from direct Customer Register payments and bulk-payment parent/child records.
+- Reads only the Cheques in Hand debit row so later deposit credits cannot duplicate or shift entries.
+- Adds unique Finance-owned cheque-list, cheque-deposit, cash/card-deposit and transfer endpoints while keeping old aliases for compatibility.
+- Uses the unique Finance routes in the List Accounts page and modal forms.
+- Uses a native modal-safe Deposit to Account select populated with active bank ledger accounts for the current business.
+- Success message for Cheque Deposit, Cash Deposit, Card Deposit and Transfer is exactly: Successfully Saved.
+- Success alert/toast uses green background and white text on the Finance List Accounts page.
+
+Scope
+- Finance module files only.
+- No Purchase module files changed.
+- No Customers module files changed.
+- No SQL or migration required.

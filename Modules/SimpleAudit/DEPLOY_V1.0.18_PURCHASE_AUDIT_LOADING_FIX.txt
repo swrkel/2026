@@ -1,0 +1,23 @@
+Simple Audit v1.0.18 - Purchase Audit Loading / Older Tenant Schema Fix
+======================================================================
+
+This build fixes the Purchase Audit page remaining behind the "Loading Purchase Audit..." overlay.
+
+Changes:
+1. Cache-busts the module JS/CSS on every module build and sends no-store headers, so the browser cannot keep an older Simple Audit frontend after deployment.
+2. All AJAX context/report requests use no-store and have a controlled timeout. The loading overlay is forcibly removed on success, failure, JS error, or rejected promise.
+3. Fixes the Purchase Audit report for older tenant schemas where account_transactions.location_id does not exist. Location is derived from the linked transaction/account instead of referencing a missing column.
+4. Adds low-memory backend report test command:
+     php artisan simple-audit:test-report --tenant=100
+
+No SQL import is required when upgrading from v1.0.17.
+
+Deployment:
+  php artisan module:enable SimpleAudit
+  php artisan optimize:clear
+  php artisan view:clear
+  php Modules/SimpleAudit/Tools/check_sidebar.php
+  php artisan simple-audit:routes
+  php artisan simple-audit:test-report --tenant=100
+
+Then hard refresh the Central Purchase Audit page once (Ctrl+F5).

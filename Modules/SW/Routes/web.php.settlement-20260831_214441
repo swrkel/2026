@@ -1,0 +1,214 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Modules\SW\Http\Controllers\CashStatusController;
+use Modules\SW\Http\Controllers\CollectionSummaryController;
+use Modules\SW\Http\Controllers\DailyShiftsPageController;
+use Modules\SW\Http\Controllers\PaymentsPageController;
+use Modules\SW\Http\Controllers\DailyCardController;
+use Modules\SW\Http\Controllers\DailyShiftController;
+use Modules\SW\Http\Controllers\LogController;
+use Modules\SW\Http\Controllers\DailyChequeController;
+use Modules\SW\Http\Controllers\DailyCashController;
+use Modules\SW\Http\Controllers\DailyCreditSaleController;
+use Modules\SW\Http\Controllers\OperatorController;
+use Modules\SW\Http\Controllers\ShortageExcessController;
+use Modules\SW\Http\Controllers\OperatorPaymentController;
+use Modules\SW\Http\Controllers\SettlementController;
+use Modules\SW\Http\Controllers\ShiftController;
+
+/*
+|------------------------------------------------------------------------------
+| SW Module routes
+|------------------------------------------------------------------------------
+| Prefix /sw, names sw.* - deliberately distinct from settlement_sw.* and
+| petro*. Every duplicate route name on this estate causes route() to resolve by
+| load order rather than intent, and route caching to fail outright; a clean
+| namespace keeps SW out of that.
+|
+| Middleware matches every other working module. tenant.context points the
+| default connection at the tenant; SetSessionData provides
+| session('business.id'), without which every record would carry a null
+| business.
+*/
+Route::group([
+    'middleware' => ['web', 'auth', 'SetSessionData', 'language', 'timezone', 'tenant.context'],
+    'prefix' => 'sw',
+], function () {
+
+    // --- SW Operators, the eleven-tab page --------------------------------
+    Route::get('/operators', [OperatorController::class, 'index'])->name('sw.operators.index');
+    Route::get('/operators/data', [OperatorController::class, 'data'])->name('sw.operators.data');
+    Route::get('/operators/excess-shortage/data', [OperatorController::class, 'excessShortageData'])
+        ->name('sw.operators.excess-shortage.data');
+
+    Route::get('/operators/create', [OperatorController::class, 'create'])->name('sw.operators.create');
+    Route::post('/operators', [OperatorController::class, 'store'])->name('sw.operators.store');
+    Route::get('/operators/{id}/edit', [OperatorController::class, 'edit'])->name('sw.operators.edit');
+    Route::put('/operators/{id}', [OperatorController::class, 'update'])->name('sw.operators.update');
+    Route::get('/operators/{id}/toggle', [OperatorController::class, 'toggle'])->name('sw.operators.toggle');
+
+    /*
+     | Recover Shortage / Pay Excess.
+     |
+     | These POST TO THE LEDGER on save - the one exception to the rule that
+     | everything recorded during a shift waits for settlement. Their own
+     | controller, so that boundary is visible.
+    */
+    Route::get('/operators/{id}/recover-shortage', [OperatorPaymentController::class, 'recoverShortage'])
+        ->name('sw.operators.recover-shortage');
+    Route::get('/operators/{id}/pay-excess', [OperatorPaymentController::class, 'payExcess'])
+        ->name('sw.operators.pay-excess');
+    Route::post('/operators/payment', [OperatorPaymentController::class, 'store'])
+        ->name('sw.operators.payment.store');
+
+    // --- Daily Cash, tab 3 -------------------------------------------------
+    // Records only. Nothing here posts to the ledger; settlement does that.
+    Route::get('/daily-cash/data', [DailyCashController::class, 'data'])->name('sw.daily-cash.data');
+    Route::get('/daily-cash/create', [DailyCashController::class, 'create'])->name('sw.daily-cash.create');
+    Route::post('/daily-cash', [DailyCashController::class, 'store'])->name('sw.daily-cash.store');
+    Route::get('/daily-cash/{id}/edit', [DailyCashController::class, 'edit'])->name('sw.daily-cash.edit');
+    Route::put('/daily-cash/{id}', [DailyCashController::class, 'update'])->name('sw.daily-cash.update');
+    Route::get('/daily-cash/{id}/delete', [DailyCashController::class, 'destroy'])->name('sw.daily-cash.destroy');
+
+    // --- Daily Credit Sales, tab 4 ----------------------------------------
+    // A header per sale with product lines. Records only - the customer's
+    // account is not touched until settlement.
+    Route::get('/daily-credit-sales/data', [DailyCreditSaleController::class, 'data'])
+        ->name('sw.daily-credit-sales.data');
+    Route::get('/daily-credit-sales/create', [DailyCreditSaleController::class, 'create'])
+        ->name('sw.daily-credit-sales.create');
+    Route::post('/daily-credit-sales', [DailyCreditSaleController::class, 'store'])
+        ->name('sw.daily-credit-sales.store');
+    Route::get('/daily-credit-sales/{id}/edit', [DailyCreditSaleController::class, 'edit'])
+        ->name('sw.daily-credit-sales.edit');
+    Route::put('/daily-credit-sales/{id}', [DailyCreditSaleController::class, 'update'])
+        ->name('sw.daily-credit-sales.update');
+    Route::get('/daily-credit-sales/{id}/delete', [DailyCreditSaleController::class, 'destroy'])
+        ->name('sw.daily-credit-sales.destroy');
+
+    // Customer lookups for the credit sale form.
+    Route::get('/customers/search', [DailyCreditSaleController::class, 'searchCustomers'])
+        ->name('sw.customers.search');
+    Route::get('/customers/{id}/info', [DailyCreditSaleController::class, 'customerInfo'])
+        ->name('sw.customers.info');
+    Route::post('/customer-references', [DailyCreditSaleController::class, 'storeReference'])
+        ->name('sw.customer-references.store');
+
+    // --- Daily Cards, tab 5 ------------------------------------------------
+    // The card type IS the account - the "Card" group. Records only.
+    Route::get('/daily-cards/data', [DailyCardController::class, 'data'])->name('sw.daily-cards.data');
+    Route::get('/daily-cards/create', [DailyCardController::class, 'create'])->name('sw.daily-cards.create');
+    Route::post('/daily-cards', [DailyCardController::class, 'store'])->name('sw.daily-cards.store');
+    Route::get('/daily-cards/{id}/edit', [DailyCardController::class, 'edit'])->name('sw.daily-cards.edit');
+    Route::put('/daily-cards/{id}', [DailyCardController::class, 'update'])->name('sw.daily-cards.update');
+    Route::get('/daily-cards/{id}/delete', [DailyCardController::class, 'destroy'])->name('sw.daily-cards.destroy');
+
+    // --- Daily Shortage Excess, tab 6 --------------------------------------
+    // Records the difference. Recovering it happens from the operator's row.
+    Route::get('/shortage-excess/data', [ShortageExcessController::class, 'data'])
+        ->name('sw.shortage-excess.data');
+    Route::get('/shortage-excess/create', [ShortageExcessController::class, 'create'])
+        ->name('sw.shortage-excess.create');
+    Route::post('/shortage-excess', [ShortageExcessController::class, 'store'])
+        ->name('sw.shortage-excess.store');
+    Route::get('/shortage-excess/{id}/edit', [ShortageExcessController::class, 'edit'])
+        ->name('sw.shortage-excess.edit');
+    Route::put('/shortage-excess/{id}', [ShortageExcessController::class, 'update'])
+        ->name('sw.shortage-excess.update');
+    Route::get('/shortage-excess/{id}/delete', [ShortageExcessController::class, 'destroy'])
+        ->name('sw.shortage-excess.destroy');
+
+    // --- Daily Cheques, tab 7 ----------------------------------------------
+    // No account: which account a cheque lands in is decided at settlement.
+    Route::get('/daily-cheques/data', [DailyChequeController::class, 'data'])->name('sw.daily-cheques.data');
+    Route::get('/daily-cheques/banks', [DailyChequeController::class, 'banks'])->name('sw.daily-cheques.banks');
+    Route::get('/daily-cheques/create', [DailyChequeController::class, 'create'])->name('sw.daily-cheques.create');
+    Route::post('/daily-cheques', [DailyChequeController::class, 'store'])->name('sw.daily-cheques.store');
+    Route::get('/daily-cheques/{id}/edit', [DailyChequeController::class, 'edit'])->name('sw.daily-cheques.edit');
+    Route::put('/daily-cheques/{id}', [DailyChequeController::class, 'update'])->name('sw.daily-cheques.update');
+    Route::get('/daily-cheques/{id}/delete', [DailyChequeController::class, 'destroy'])->name('sw.daily-cheques.destroy');
+
+    // --- Shifts -----------------------------------------------------------
+    Route::get('/shifts', [ShiftController::class, 'index'])->name('sw.shifts.index');
+    Route::get('/shifts/create', [ShiftController::class, 'create'])->name('sw.shifts.create');
+    // Operators at a location, so the create modal can refresh its list without
+    // reloading - a modal that reloads is a modal that closes.
+    Route::get('/shifts/location-operators', [ShiftController::class, 'locationOperators'])
+        ->name('sw.shifts.location-operators');
+    Route::post('/shifts', [ShiftController::class, 'store'])->name('sw.shifts.store');
+    Route::get('/shifts/{id}/edit', [ShiftController::class, 'edit'])->name('sw.shifts.edit');
+    Route::put('/shifts/{id}', [ShiftController::class, 'update'])->name('sw.shifts.update');
+
+    // Open shifts feed the expense, customer payment and cash deposit
+    // dropdowns; closed shifts feed SW Settlement.
+    // Open shifts for one operator - the daily entry forms ask for an operator
+    // first, then offer only that operator's open shifts.
+    Route::get('/operators/shifts', [OperatorController::class, 'shifts'])->name('sw.operators.shifts');
+
+    Route::get('/open-shifts/{locationId}', [ShiftController::class, 'openShifts'])->name('sw.open-shifts');
+    Route::get('/closed-shifts/{locationId}', [ShiftController::class, 'closedShifts'])->name('sw.closed-shifts');
+
+    // --- Daily Shift, tab 11 -----------------------------------------------
+    // Open, assign operators, close. Several shifts may be open at one location
+    // at once, so this works from a list.
+    Route::get('/daily-shift/data', [DailyShiftController::class, 'data'])->name('sw.shifts.data');
+    Route::get('/daily-shift/{id}/assignment', [DailyShiftController::class, 'assign'])
+        ->name('sw.shifts.assignment');
+    Route::post('/daily-shift/{id}/assignment', [DailyShiftController::class, 'saveAssignment'])
+        ->name('sw.shifts.assignment.save');
+    Route::post('/daily-shift/{id}/close', [DailyShiftController::class, 'close'])
+        ->name('sw.shifts.close');
+    Route::get('/daily-shift/{id}/reopen', [DailyShiftController::class, 'reopenForm'])
+        ->name('sw.shifts.reopen.form');
+    Route::post('/daily-shift/{id}/reopen', [DailyShiftController::class, 'reopen'])
+        ->name('sw.shifts.reopen');
+
+    /*
+     | SW Logs - its own page, covering changes to BOTH shifts and settlements.
+     |
+     | Read only. There is no edit route and no delete route, deliberately: a
+     | log that can be altered answers nothing.
+    */
+    Route::get('/logs', [LogController::class, 'index'])->name('sw.logs.index');
+    Route::get('/logs/data', [LogController::class, 'data'])->name('sw.logs.data');
+
+    /*
+     | Daily Cash Status, tab 10.
+     |
+     | Balance In Hand for ONE open shift. Fetched when a shift is chosen, so
+     | the figures are read at the moment they are looked at rather than when
+     | the tab was opened.
+    */
+    Route::get('/cash-status/shifts', [CashStatusController::class, 'shifts'])
+        ->name('sw.cash-status.shifts');
+    Route::get('/cash-status/show', [CashStatusController::class, 'show'])
+        ->name('sw.cash-status.show');
+    Route::post('/cash-status/close', [CashStatusController::class, 'close'])
+        ->name('sw.cash-status.close');
+
+    /*
+     | The two new pages.
+     |
+     | SW Operators had eleven tabs doing two unrelated jobs - managing
+     | operators, and recording a shift's cash. Different work, different
+     | people, now different pages.
+     |
+     | The tab partials are unchanged and shared; only where they appear has
+     | moved. Collection Summary appears on both new pages from one file.
+    */
+    Route::get('/payments', [PaymentsPageController::class, 'index'])->name('sw.payments.index');
+    Route::get('/daily-shifts', [DailyShiftsPageController::class, 'index'])->name('sw.daily-shifts.index');
+
+    /*
+     | Collection Summary, tab 8. Restored - these were lost when the routes
+     | file was replaced with a copy built before they existed.
+    */
+    Route::get('/collection-summary/shifts', [CollectionSummaryController::class, 'shifts'])
+        ->name('sw.collection-summary.shifts');
+    Route::get('/collection-summary/show', [CollectionSummaryController::class, 'show'])
+        ->name('sw.collection-summary.show');
+
+    // --- SW Settlement ----------------------------------------------------
+    Route::get('/settlements', [SettlementController::class, 'index'])->name('sw.settlements.index');
+});

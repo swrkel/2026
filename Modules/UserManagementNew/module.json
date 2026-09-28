@@ -1,0 +1,13 @@
+{
+  "name": "UserManagementNew",
+  "alias": "user-management-new",
+  "description": "Standalone business role and permission management driven by Manage Side Bar and Manage permissions.",
+  "keywords": ["users", "roles", "permissions", "standalone"],
+  "priority": 0,
+  "providers": [
+    "Modules\\UserManagementNew\\Providers\\UserManagementNewServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

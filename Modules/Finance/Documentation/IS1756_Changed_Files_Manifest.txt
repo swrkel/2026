@@ -1,0 +1,27 @@
+IS1756 Finance Reports - Changed/Cumulative Files
+=================================================
+Modules/Finance/Config/permissions.php
+Modules/Finance/Http/Controllers/Financial/GeneralLedgerController.php
+Modules/Finance/Http/Controllers/Financial/ProfitLossController.php
+Modules/Finance/Http/Controllers/Financial/TrialBalanceController.php
+Modules/Finance/Http/Controllers/Reports/FinanceReportsController.php
+Modules/Finance/Providers/FinanceServiceProvider.php
+Modules/Finance/Resources/views/finance_reports/account_ledger.blade.php
+Modules/Finance/Resources/views/finance_reports/cash_flow_statement.blade.php
+Modules/Finance/Resources/views/finance_reports/dashboard.blade.php
+Modules/Finance/Resources/views/finance_reports/day_book.blade.php
+Modules/Finance/Resources/views/finance_reports/partials/navigation.blade.php
+Modules/Finance/Resources/views/finance_reports/partials/pagination.blade.php
+Modules/Finance/Resources/views/financial/balance_sheet/index.blade.php
+Modules/Finance/Resources/views/financial/general_ledger/account.blade.php
+Modules/Finance/Resources/views/financial/general_ledger/index.blade.php
+Modules/Finance/Resources/views/financial/profit_loss/branch.blade.php
+Modules/Finance/Resources/views/financial/trial_balance/index.blade.php
+Modules/Finance/Routes/finance_reports.php
+Modules/Finance/Routes/financial.php
+Modules/Finance/Routes/web.php
+Modules/Finance/Services/Accounts/FinanceAccountBalanceService.php
+Modules/Finance/Services/Reports/FinanceReportsService.php
+Modules/Finance/Documentation/IS1756_Finance_Reports_Fix_24Jul2026.txt
+Modules/Finance/Documentation/IS1756_Changed_Files_Manifest.txt
+Modules/Finance/module.json

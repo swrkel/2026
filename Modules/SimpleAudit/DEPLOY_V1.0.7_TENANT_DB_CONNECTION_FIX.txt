@@ -1,0 +1,44 @@
+Simple Audit v1.0.7 - Central -> Tenant Database Connection Fix
+================================================================
+
+Issue fixed
+-----------
+Central Super Admin could open Simple Audit, but selecting a tenant failed with
+MySQL #1044 / SQLSTATE[HY000] access denied and the loading overlay remained on
+screen.
+
+Root cause
+----------
+The previous Simple Audit runtime connection cloned the CENTRAL database
+connection credentials. In this ERP the central MySQL account is not guaranteed
+to have privileges on each tenant schema. The host application already has a
+dedicated tenant DB connection (normally mysql_tenant), which must be used as
+the connection template.
+
+v1.0.7 changes
+--------------
+1. TenantConnectionManager now prefers mysql_tenant.
+2. Supports SAU_TENANT_CONNECTION for an explicit tenant DB connection name.
+3. Supports Stancl template_tenant_connection and compatible tenant connection
+   names as fallbacks.
+4. Tenant-specific credentials in tenants.data still override the template when
+   supplied.
+5. Does NOT modify or purge the application's central/default connection.
+6. Fixes the Loading Purchase Audit overlay so a connection error can never
+   permanently cover the error message.
+7. No SQL/schema change.
+
+Deploy
+------
+Extract at Laravel project root, replacing Modules/SimpleAudit.
+Then run:
+
+  php artisan module:enable SimpleAudit
+  php artisan optimize:clear
+  php artisan simple-audit:diagnose --tenant=<TENANT_ID>
+
+If your installation's tenant connection has a non-standard name, add to .env:
+
+  SAU_TENANT_CONNECTION=your_connection_name
+
+and run php artisan optimize:clear again.

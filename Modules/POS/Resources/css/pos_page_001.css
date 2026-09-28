@@ -1,0 +1,19 @@
+.pos-page-header h1 { font-weight: 600; }
+.pos-content .box { border-radius: 8px; }
+.pos-card { box-shadow: 0 2px 8px rgba(0,0,0,.06); border: 1px solid #e8edf3; }
+.pos-kpi-card { background: #fff; border: 1px solid #e8edf3; border-radius: 8px; padding: 18px; margin-bottom: 15px; min-height: 120px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+.pos-kpi-icon { font-size: 24px; opacity: .75; }
+.pos-kpi-label { font-size: 13px; text-transform: uppercase; margin-top: 8px; color: #697386; }
+.pos-kpi-value { font-size: 26px; font-weight: 700; margin-top: 5px; }
+.pos-standard-table th { white-space: nowrap; }
+.pos-standard-table .text-right, .pos-kpi-value { text-align: right !important; }
+.pos-toolbar { display: flex; gap: 6px; align-items: center; }
+.pos-toolbar .form-control { max-width: 180px; }
+.pos-large-button { padding: 12px 15px; font-size: 15px; text-align: left; }
+.pos-alert-info { background: #edf7ff; border-color: #cbe7ff; color: #245a7a; }
+.pos-config-card { display: block; background: #fff; border: 1px solid #e8edf3; border-radius: 8px; padding: 20px; margin-bottom: 15px; min-height: 150px; color: #2f3b52; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+.pos-config-card:hover { text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,.10); }
+.pos-config-icon { font-size: 26px; margin-bottom: 10px; }
+.pos-config-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.pos-config-desc { font-size: 13px; color: #6b7280; }
+.pos-save-button { min-width: 150px; font-size: 16px; padding: 10px 18px; }

@@ -1,0 +1,16 @@
+S738 - Account Settings / Customer Cheques - 15 Sep 2026
+
+1. Finance > List Account > Account Settings
+   - Super Admin is an explicit edit-opening-balance override.
+   - The opening-balance Save button is kept enabled for Super Admin.
+   - Cheques-in-Hand breakdown validation still runs on submit/server; validation no longer leaves the button permanently disabled.
+
+2. Finance > List Account > Cheque Deposit
+   - Finance scans explicit saved customer transaction_payments with method=cheque.
+   - Covers Customer Pay Due, Customer Advance Payment and Customer Bulk Payment storage shapes.
+   - Missing/wrong payment-method ledger debit is idempotently corrected to Cheques in Hand when the customer-cheque identity is safe and unambiguous.
+   - Existing correct rows are preserved; wrong debit rows are moved rather than duplicated.
+   - Supplier-only and ambiguous dual-role advance payments are not guessed.
+   - The repaired cheque becomes immediately selectable/depositable through the existing Finance Cheque Deposit workflow.
+
+No SQL or migration required.

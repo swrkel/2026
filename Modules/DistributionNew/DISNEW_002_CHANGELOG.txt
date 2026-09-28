@@ -1,0 +1,8 @@
+DISNEW_002 - SMS, Sales Order, Invoice and Stock workflow
+
+- Added SMS template and bridge tables for existing SMS module integration.
+- Added sales order status history and edit lock tables.
+- Added vehicle + store stock balance table.
+- Added invoice creation from sales orders with auto SMS events.
+- Added POS-style sales order list, create/edit/show, invoice list/show and SMS pages.
+- Added standalone services under DistributionNew only.

@@ -1,0 +1,80 @@
+SW MODULE - SHIFT CLOSE PRINT + LIST SW SHIFTS DATATABLE FIX
+Prepared: 13 Sep 2026
+Base: SW_IS2257_FIXED_2026-09-13.zip
+
+SCOPE
+=====
+1. SW Module -> SW Shifts -> Daily Cash Status
+   - When an SW shift is closed from Daily Cash Status, the user is redirected
+     to a dedicated professional Shift Closing Statement.
+   - The statement uses the SAME CashStatusService calculation used immediately
+     before the close, so the printed Balance In Hand matches the close action.
+   - A4 landscape professional print layout includes:
+       * Business / Location
+       * Shift date, shift name and shift number
+       * Operators
+       * Closed date & time and Closed By
+       * Cash Collection
+       * Customer Payment - Cash
+       * Cash Expenses
+       * Cash Purchases
+       * Cash Deposits
+       * Balance In Hand
+       * Detailed rows and section totals
+       * Signature areas
+   - Browser print opens automatically after a successful close.
+   - Print route is business-scoped and is available only after the shift is closed.
+
+2. SW Module -> List SW Shifts
+   - Hardened the DataTables feed so optional/older companion-table schema
+     differences cannot crash the complete shift list.
+   - sw_shifts remains the REQUIRED and authoritative table. It is NOT bypassed.
+   - Operator, settlement and settlement-pump enrichment now runs only when the
+     corresponding real tables/columns are present in the active tenant.
+   - Settlement amount/status/date fields have safe compatibility aliases instead
+     of causing SQL errors if an older sw_settlements table lacks an optional field.
+   - Removed unnecessary assigned/location-pump enrichment queries from this feed;
+     List SW Shifts continues to show only pumps actually saved on the settlement.
+   - Filters were hardened for real column availability.
+   - Detailed row/print payment lookup was hardened for tenants where an optional
+     pump_operator_id/contact_id column is absent.
+   - Unexpected feed errors are logged with business/user/file/line context and
+     returned as valid DataTables JSON, preventing the intrusive tn/7 alert.
+   - The page shows a normal inline error area only if an unexpected server error
+     still occurs, while the exact cause remains in Laravel log.
+
+CHANGED FILES
+=============
+SW/Routes/web.php
+SW/Http/Controllers/CashStatusController.php
+SW/Http/Controllers/ListShiftController.php
+SW/Resources/views/operators/partials/cash_status_panel.blade.php
+SW/Resources/views/operators/print/cash_status.blade.php   (NEW)
+SW/Resources/views/list_shifts/index.blade.php
+
+DATABASE
+========
+No SQL import and no new migration are required for this correction.
+The existing real sw_shifts table remains required.
+
+INSTALLATION
+============
+1. Back up the current Modules/SW folder.
+2. Replace it with the SW folder from the consolidated parcel.
+3. Run:
+     cd /home/nivasa/public_html
+     php artisan optimize:clear
+4. Do one Ctrl + F5.
+5. Test:
+   a) SW Shifts -> Daily Cash Status -> choose an open shift -> Close Shift.
+      The professional closing statement should open and the print dialog should appear.
+   b) SW Module -> List SW Shifts.
+      Rows should load without the DataTables tn/7 Ajax warning.
+   c) Test Location / Operator / Shift / Pump / Payment Method / Cheque / Settlement filters.
+   d) Test List SW Shifts -> Action -> View and Print.
+
+VALIDATION
+==========
+- 132 PHP / Blade PHP files passed php -l syntax validation.
+- Modified JavaScript blocks passed Node syntax checking after Blade-expression masking.
+- Final ZIP archive integrity test passed.

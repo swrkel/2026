@@ -1,0 +1,2 @@
+-- No mandatory tenant data inserts for Stage 005.
+-- Kitchen sections and ticket records are tenant/business operational data.

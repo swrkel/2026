@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',function(){console.log('BKG-MFI-005 compliance risk recovery controls loaded');});

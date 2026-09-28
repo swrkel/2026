@@ -1,0 +1,11 @@
+Rice Mill - Select Packaging Material multi-product update - 19 Sep 2026
+
+Change:
+- Settings > Product Category Mapping > Select Packaging Material now allows selecting multiple Products New products in one save.
+- Product Category and Product Sub Category remain optional filters.
+- Selecting/changing a Category or Sub Category filters the available Products and keeps only selections still valid for the filter.
+- Search/type-to-filter, dropdown scrolling and keyboard Up/Down selection are retained through Select2.
+- Every selected Product is validated against the selected filters server-side.
+- Existing saved selections are updated without duplication; new selections are appended.
+- Every selected product is immediately synced to Rice Mill > Packaging Materials.
+- No database change is required; selections remain stored in rcm_settings.settings JSON.

@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'module' => 'product',
+    'permissions' => [
+        'product.view' => 'View products',
+        'product.create' => 'Create products',
+        'product.edit' => 'Edit products',
+        'product.delete' => 'Delete products',
+        'product.category.view' => 'View product categories',
+        'product.category.create' => 'Create product categories',
+        'product.category.edit' => 'Edit product categories',
+        'product.category.delete' => 'Delete product categories',
+        'product.brand.view' => 'View product brands',
+        'product.brand.create' => 'Create product brands',
+        'product.brand.edit' => 'Edit product brands',
+        'product.brand.delete' => 'Delete product brands',
+        'product.unit.view' => 'View product units',
+        'product.unit.create' => 'Create product units',
+        'product.unit.edit' => 'Edit product units',
+        'product.unit.delete' => 'Delete product units',
+        'product.variation.view' => 'View product variations',
+        'product.variation.create' => 'Create product variations',
+        'product.variation.edit' => 'Edit product variations',
+        'product.variation.delete' => 'Delete product variations',
+        'product.import' => 'Import products',
+        'product.report.view' => 'View product reports',
+        'product.settings' => 'Manage product settings',
+    ],
+];

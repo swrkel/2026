@@ -1,0 +1,146 @@
+/* ERP Global Design System - Compact Adaptive Coloured Tabs
+   Load this file AFTER app.css / module css / bootstrap css. */
+:root{
+  --erp-tab-radius: 10px;
+  --erp-tab-font-size: 14px;
+  --erp-tab-font-weight: 700;
+  --erp-tab-padding-y: 10px;
+  --erp-tab-padding-x: 18px;
+  --erp-tab-gap: 12px;
+  --erp-tab-active-text: #111827;
+  --erp-tab-active-bg: #ffffff;
+  --erp-tab-shadow: 0 8px 18px rgba(15, 23, 42, .10);
+  --erp-tab-c1:#2563eb;
+  --erp-tab-c2:#8b008b;
+  --erp-tab-c3:#2f7ea8;
+  --erp-tab-c4:#2f6f1f;
+  --erp-tab-c5:#f59e0b;
+  --erp-tab-c6:#0891b2;
+  --erp-tab-c7:#b91c1c;
+  --erp-tab-c8:#4f46e5;
+}
+
+/* covers common ERP tab containers */
+.erp-tabs,
+.erp-gds-tabs,
+.nav-tabs,
+.nav-pills,
+.tab-buttons,
+.tab-buttons-wrapper,
+.module-tabs,
+.settings-tabs,
+ul.nav.nav-tabs,
+ul.nav.nav-pills{
+  display:flex !important;
+  align-items:center !important;
+  flex-wrap:wrap !important;
+  gap:var(--erp-tab-gap) !important;
+  border-bottom:0 !important;
+}
+
+/* covers anchors/buttons used as tab buttons */
+.erp-tabs a,.erp-tabs button,
+.erp-gds-tabs a,.erp-gds-tabs button,
+.nav-tabs .nav-link,
+.nav-pills .nav-link,
+.tab-buttons a,.tab-buttons button,
+.tab-buttons-wrapper a,.tab-buttons-wrapper button,
+.module-tabs a,.module-tabs button,
+.settings-tabs a,.settings-tabs button,
+ul.nav.nav-tabs > li > a,
+ul.nav.nav-pills > li > a{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:7px !important;
+  width:auto !important;
+  min-width:max-content !important;
+  max-width:100% !important;
+  height:auto !important;
+  min-height:40px !important;
+  padding:var(--erp-tab-padding-y) var(--erp-tab-padding-x) !important;
+  border-radius:var(--erp-tab-radius) !important;
+  border:1px solid transparent !important;
+  font-size:var(--erp-tab-font-size) !important;
+  font-weight:var(--erp-tab-font-weight) !important;
+  line-height:1.15 !important;
+  text-decoration:none !important;
+  white-space:nowrap !important;
+  box-shadow:none !important;
+  transition:all .18s ease-in-out !important;
+  color:#fff !important;
+}
+
+/* automatic colour cycling */
+.erp-tabs > *:nth-child(8n+1) a,.erp-tabs > *:nth-child(8n+1) button,
+.erp-gds-tabs > *:nth-child(8n+1) a,.erp-gds-tabs > *:nth-child(8n+1) button,
+.nav-tabs > *:nth-child(8n+1) .nav-link,.nav-pills > *:nth-child(8n+1) .nav-link,
+.tab-buttons > *:nth-child(8n+1) a,.tab-buttons > *:nth-child(8n+1) button,
+.module-tabs > *:nth-child(8n+1) a,.module-tabs > *:nth-child(8n+1) button{background:var(--erp-tab-c1) !important;}
+.erp-tabs > *:nth-child(8n+2) a,.erp-tabs > *:nth-child(8n+2) button,
+.erp-gds-tabs > *:nth-child(8n+2) a,.erp-gds-tabs > *:nth-child(8n+2) button,
+.nav-tabs > *:nth-child(8n+2) .nav-link,.nav-pills > *:nth-child(8n+2) .nav-link,
+.tab-buttons > *:nth-child(8n+2) a,.tab-buttons > *:nth-child(8n+2) button,
+.module-tabs > *:nth-child(8n+2) a,.module-tabs > *:nth-child(8n+2) button{background:var(--erp-tab-c2) !important;}
+.erp-tabs > *:nth-child(8n+3) a,.erp-tabs > *:nth-child(8n+3) button,
+.erp-gds-tabs > *:nth-child(8n+3) a,.erp-gds-tabs > *:nth-child(8n+3) button,
+.nav-tabs > *:nth-child(8n+3) .nav-link,.nav-pills > *:nth-child(8n+3) .nav-link,
+.tab-buttons > *:nth-child(8n+3) a,.tab-buttons > *:nth-child(8n+3) button,
+.module-tabs > *:nth-child(8n+3) a,.module-tabs > *:nth-child(8n+3) button{background:var(--erp-tab-c3) !important;}
+.erp-tabs > *:nth-child(8n+4) a,.erp-tabs > *:nth-child(8n+4) button,
+.erp-gds-tabs > *:nth-child(8n+4) a,.erp-gds-tabs > *:nth-child(8n+4) button,
+.nav-tabs > *:nth-child(8n+4) .nav-link,.nav-pills > *:nth-child(8n+4) .nav-link,
+.tab-buttons > *:nth-child(8n+4) a,.tab-buttons > *:nth-child(8n+4) button,
+.module-tabs > *:nth-child(8n+4) a,.module-tabs > *:nth-child(8n+4) button{background:var(--erp-tab-c4) !important;}
+.erp-tabs > *:nth-child(8n+5) a,.erp-tabs > *:nth-child(8n+5) button,
+.erp-gds-tabs > *:nth-child(8n+5) a,.erp-gds-tabs > *:nth-child(8n+5) button,
+.nav-tabs > *:nth-child(8n+5) .nav-link,.nav-pills > *:nth-child(8n+5) .nav-link,
+.tab-buttons > *:nth-child(8n+5) a,.tab-buttons > *:nth-child(8n+5) button,
+.module-tabs > *:nth-child(8n+5) a,.module-tabs > *:nth-child(8n+5) button{background:var(--erp-tab-c5) !important;}
+.erp-tabs > *:nth-child(8n+6) a,.erp-tabs > *:nth-child(8n+6) button,
+.erp-gds-tabs > *:nth-child(8n+6) a,.erp-gds-tabs > *:nth-child(8n+6) button,
+.nav-tabs > *:nth-child(8n+6) .nav-link,.nav-pills > *:nth-child(8n+6) .nav-link,
+.tab-buttons > *:nth-child(8n+6) a,.tab-buttons > *:nth-child(8n+6) button,
+.module-tabs > *:nth-child(8n+6) a,.module-tabs > *:nth-child(8n+6) button{background:var(--erp-tab-c6) !important;}
+.erp-tabs > *:nth-child(8n+7) a,.erp-tabs > *:nth-child(8n+7) button,
+.erp-gds-tabs > *:nth-child(8n+7) a,.erp-gds-tabs > *:nth-child(8n+7) button,
+.nav-tabs > *:nth-child(8n+7) .nav-link,.nav-pills > *:nth-child(8n+7) .nav-link,
+.tab-buttons > *:nth-child(8n+7) a,.tab-buttons > *:nth-child(8n+7) button,
+.module-tabs > *:nth-child(8n+7) a,.module-tabs > *:nth-child(8n+7) button{background:var(--erp-tab-c7) !important;}
+.erp-tabs > *:nth-child(8n+8) a,.erp-tabs > *:nth-child(8n+8) button,
+.erp-gds-tabs > *:nth-child(8n+8) a,.erp-gds-tabs > *:nth-child(8n+8) button,
+.nav-tabs > *:nth-child(8n+8) .nav-link,.nav-pills > *:nth-child(8n+8) .nav-link,
+.tab-buttons > *:nth-child(8n+8) a,.tab-buttons > *:nth-child(8n+8) button,
+.module-tabs > *:nth-child(8n+8) a,.module-tabs > *:nth-child(8n+8) button{background:var(--erp-tab-c8) !important;}
+
+/* active/current selected tab must win */
+.erp-tabs a.active,.erp-tabs button.active,
+.erp-gds-tabs a.active,.erp-gds-tabs button.active,
+.nav-tabs .nav-link.active,
+.nav-pills .nav-link.active,
+.tab-buttons a.active,.tab-buttons button.active,
+.tab-buttons-wrapper a.active,.tab-buttons-wrapper button.active,
+.module-tabs a.active,.module-tabs button.active,
+.settings-tabs a.active,.settings-tabs button.active,
+[aria-selected="true"],
+.active > a,
+li.active > a{
+  background:var(--erp-tab-active-bg) !important;
+  color:var(--erp-tab-active-text) !important;
+  border:1px solid var(--erp-tab-c1) !important;
+  box-shadow:var(--erp-tab-shadow) !important;
+}
+
+/* explicit page override support */
+.erp-tab-blue{background:var(--erp-tab-c1) !important;color:#fff !important;}
+.erp-tab-purple{background:var(--erp-tab-c2) !important;color:#fff !important;}
+.erp-tab-steel{background:var(--erp-tab-c3) !important;color:#fff !important;}
+.erp-tab-green{background:var(--erp-tab-c4) !important;color:#fff !important;}
+.erp-tab-orange{background:var(--erp-tab-c5) !important;color:#fff !important;}
+.erp-tab-cyan{background:var(--erp-tab-c6) !important;color:#fff !important;}
+.erp-tab-red{background:var(--erp-tab-c7) !important;color:#fff !important;}
+.erp-tab-indigo{background:var(--erp-tab-c8) !important;color:#fff !important;}
+
+@media (max-width:768px){
+  :root{--erp-tab-font-size:13px;--erp-tab-padding-y:8px;--erp-tab-padding-x:12px;--erp-tab-gap:8px;}
+}

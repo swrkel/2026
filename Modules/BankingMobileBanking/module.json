@@ -1,0 +1,20 @@
+{
+    "name": "BankingMobileBanking",
+    "alias": "banking-mobile-banking",
+    "description": "BKG-CORE-006 Mobile Banking Enterprise standalone module",
+    "keywords": [
+        "banking",
+        "mobile",
+        "api",
+        "qr",
+        "wallet",
+        "notifications"
+    ],
+    "priority": 106,
+    "providers": [
+        "Modules\\BankingMobileBanking\\Providers\\BankingMobileBankingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

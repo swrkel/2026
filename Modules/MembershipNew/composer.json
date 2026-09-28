@@ -1,0 +1,9 @@
+{
+    "name": "modules/membership-new",
+    "description": "Standalone Membership-New module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\MembershipNew\\": "app/"
+        }
+    }
+}

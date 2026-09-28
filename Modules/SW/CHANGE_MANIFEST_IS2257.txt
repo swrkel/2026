@@ -1,0 +1,44 @@
+IS2257 – SW Settlement – 13 Sep 2026
+=====================================
+Base: SW_IS2256_FIXED_2026-09-13.zip (the previous consolidated parcel).
+Scope: SW module only. No SQL / migration required.
+
+1) Finance List Accounts -> Cash Deposit / Card Deposit -> Daily Shift No
+- Kept sw_shifts as the required/authoritative shift table.
+- Fixed active-business mismatch: shift options now use the same session business order used when Open New Shift saves the row.
+- location_id is now optional for Finance modals that do not expose location; in that case the endpoint returns all OPEN shifts for the active business.
+- When business-wide, location name is included in the label to avoid ambiguity.
+- CLOSED/SETTLED shifts remain excluded; existing saved closed values remain preserved on edit.
+
+2) SW Settlement -> Payments -> Expenses -> Expense Category
+- Expense Categories are business-level; live refresh now uses the same business resolver as the settlement create page.
+- The live SW JSON feed remains authoritative.
+- Core Expenses dropdown is also read after a successful live refresh and only missing category IDs are merged, preventing a newly created Expenses New category from being hidden by endpoint-shape differences.
+- No stale list/cache reuse.
+
+3) Petro General -> Tank Transaction Summary -> Testing In
+- Corrected IS2256 behavior: SW testing is no longer added to Purchase / Transferred In.
+- SW testing is no longer added to Sold / Transferred Out.
+- SW testing does not modify Balance Qty.
+- SW testing is added only to the dedicated Testing In output (testing_qty/testing_in compatibility keys).
+
+4) List SW Shift -> Action
+- View and Print menu is still floated above the responsive table to prevent clipping.
+- Positioning now uses document coordinates and always opens directly BELOW the clicked Action button.
+- Removed the automatic flip-above behavior that caused the menu to appear away from the clicked row.
+
+Files changed
+-------------
+SW/Http/Controllers/ShiftOptionController.php
+SW/Http/Controllers/PaymentSummaryController.php
+SW/Http/Middleware/AugmentPetroTankTransactions.php
+SW/Resources/views/partials/shift_field.blade.php
+SW/Resources/views/settlements/partials/payments_js.blade.php
+SW/Resources/views/list_shifts/index.blade.php
+
+Safety
+------
+- sw_shifts remains required and is NOT bypassed.
+- No settlement accounting/Finance posting changes.
+- No stock/tank physical balance changes.
+- No SQL or migration required.

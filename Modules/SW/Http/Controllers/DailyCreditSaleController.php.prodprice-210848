@@ -1,0 +1,407 @@
+<?php
+
+namespace Modules\SW\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Modules\SW\Entities\DailyCreditSaleLine;
+use Modules\SW\Entities\Shift;
+
+/**
+ * Daily Credit Sales - tab 4 of SW Operators.
+ *
+ * A header per sale with product lines beneath, following the shape
+ * daily_vouchers and daily_voucher_items already use.
+ *
+ * RECORDS ONLY. Nothing here posts to the ledger or to the customer's account -
+ * that happens when the settlement is saved.
+ */
+class DailyCreditSaleController extends Controller
+{
+    protected function businessId(): int
+    {
+        return (int) (session('business.id') ?: session('user.business_id') ?: 0);
+    }
+
+    public function data(Request $request)
+    {
+        $businessId = $this->businessId();
+
+        $rows = DB::table('sw_daily_credit_sales as cs')
+            ->join('sw_shifts', 'sw_shifts.id', '=', 'cs.sw_shift_id')
+            ->leftJoin('contacts', 'contacts.id', '=', 'cs.contact_id')
+            ->leftJoin('pump_operators', 'pump_operators.id', '=', 'cs.pump_operator_id')
+            ->where('sw_shifts.business_id', $businessId)
+            ->when($request->filled('location_id'),
+                fn ($q) => $q->where('sw_shifts.location_id', (int) $request->location_id))
+            ->orderByDesc('cs.id')
+            ->limit(5000)
+            ->get([
+                'cs.*',
+                'sw_shifts.sw_shift_no',
+                'sw_shifts.status as shift_status',
+                'contacts.name as customer_name',
+                'pump_operators.name as operator_name',
+            ]);
+
+        $data = $rows->map(function ($r) {
+            $when = $r->sale_date ?: $r->created_at;
+
+            return [
+                'action' => view('sw::operators.partials.credit_sale_actions', ['row' => $r])->render(),
+                'date' => $when ? \Carbon\Carbon::parse($when)->format('d/m/Y') : '—',
+                'customer' => e($r->customer_name ?? '—'),
+                'outstanding' => number_format((float) $r->current_outstanding, 2),
+                'credit_limit' => (float) $r->credit_limit > 0
+                    ? number_format((float) $r->credit_limit, 2)
+                    : __('sw::lang.no_limit'),
+                'order_no' => e($r->order_no ?? '—'),
+                'vehicle_no' => e($r->vehicle_no ?? '—'),
+                'shift_no' => e($r->sw_shift_no ?? '—'),
+                'operator' => e($r->operator_name ?? '—'),
+                'sub_total' => number_format((float) $r->total_before_discount, 2),
+                'discount_total' => number_format((float) $r->total_discount, 2),
+                'total' => number_format((float) $r->amount, 2),
+            ];
+        });
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function create()
+    {
+        return view('sw::operators.partials.credit_sale_form', [
+            'row' => null,
+            'lines' => collect(),
+            'operators' => $this->operators($this->businessId()),
+            'products' => $this->products($this->businessId()),
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $businessId = $this->businessId();
+
+        $row = DB::table('sw_daily_credit_sales as cs')
+            ->join('sw_shifts', 'sw_shifts.id', '=', 'cs.sw_shift_id')
+            ->leftJoin('contacts', 'contacts.id', '=', 'cs.contact_id')
+            ->where('sw_shifts.business_id', $businessId)
+            ->where('cs.id', (int) $id)
+            ->first(['cs.*', 'sw_shifts.sw_shift_no', 'sw_shifts.status as shift_status',
+                     'contacts.name as customer_name']);
+
+        abort_if(! $row, 404);
+
+        if ((int) $row->shift_status !== Shift::STATUS_OPEN) {
+            return $this->refuse(__('sw::lang.shift_closed_no_edit'));
+        }
+
+        return view('sw::operators.partials.credit_sale_form', [
+            'row' => $row,
+            'lines' => DB::table('sw_daily_credit_sale_lines')
+                ->where('sw_daily_credit_sale_id', (int) $id)->orderBy('id')->get(),
+            'operators' => $this->operators($businessId),
+            'products' => $this->products($businessId),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        return $this->save($request, null);
+    }
+
+    public function update(Request $request, $id)
+    {
+        return $this->save($request, (int) $id);
+    }
+
+    protected function save(Request $request, ?int $id)
+    {
+        $data = $request->validate([
+            'sw_shift_id' => 'required|integer',
+            'pump_operator_id' => 'required|integer',
+            'contact_id' => 'required|integer',
+            'order_no' => 'nullable|string|max:191',
+            'order_date' => 'nullable|date',
+            'customer_reference_id' => 'nullable|integer',
+            'vehicle_no' => 'nullable|string|max:60',
+            'sale_date' => 'required|date',
+            'note' => 'nullable|string',
+            'lines' => 'required|array|min:1',
+            'lines.*.product_id' => 'required|integer',
+            'lines.*.quantity' => 'required|numeric|min:0.0001',
+            'lines.*.unit_price' => 'required|numeric|min:0',
+            'lines.*.unit_discount' => 'nullable|numeric|min:0',
+        ], [
+            'lines.required' => __('sw::lang.at_least_one_product'),
+        ]);
+
+        $businessId = $this->businessId();
+        $shift = $this->openShiftOrFail($businessId, (int) $data['sw_shift_id']);
+
+        /*
+         | The customer's position is captured NOW, not looked up later.
+         |
+         | An outstanding balance changes constantly. A credit sale printed next
+         | month must show what the operator saw when they allowed it - anything
+         | else is a guess about the past dressed as a record.
+        */
+        $customer = DB::table('contacts')->where('id', (int) $data['contact_id'])->first();
+        abort_if(! $customer, 404);
+
+        $saleId = DB::transaction(function () use ($data, $shift, $customer, $id) {
+
+            $totals = ['before' => 0.0, 'discount' => 0.0, 'after' => 0.0];
+            $lines = [];
+
+            foreach ($data['lines'] as $line) {
+                $computed = DailyCreditSaleLine::compute(
+                    (float) $line['quantity'],
+                    (float) $line['unit_price'],
+                    (float) ($line['unit_discount'] ?? 0)
+                );
+
+                $totals['before'] += $computed['amount_before_discount'];
+                $totals['after'] += $computed['amount'];
+
+                $lines[] = [
+                    'product_id' => (int) $line['product_id'],
+                    'variation_id' => $line['variation_id'] ?? null,
+                    'quantity' => $line['quantity'],
+                    'unit_price' => $line['unit_price'],
+                    'unit_discount' => $line['unit_discount'] ?? 0,
+                    'amount_before_discount' => $computed['amount_before_discount'],
+                    'amount' => $computed['amount'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            $totals['discount'] = round($totals['before'] - $totals['after'], 4);
+
+            $header = [
+                'sw_shift_id' => $shift->id,
+                'pump_operator_id' => $data['pump_operator_id'],
+                'contact_id' => $data['contact_id'],
+                'order_no' => $data['order_no'] ?? null,
+                'order_date' => $data['order_date'] ?? null,
+                'customer_reference_id' => $data['customer_reference_id'] ?? null,
+                'vehicle_no' => $data['vehicle_no'] ?? null,
+                'sale_date' => $data['sale_date'],
+                'note' => $data['note'] ?? null,
+                'total_before_discount' => round($totals['before'], 4),
+                'total_discount' => $totals['discount'],
+                'amount' => round($totals['after'], 4),
+                'updated_at' => now(),
+            ];
+
+            if ($id) {
+                DB::table('sw_daily_credit_sales')->where('id', $id)->update(
+                    $header + ['updated_by' => auth()->id()]
+                );
+                // Lines are replaced wholesale rather than reconciled: a sale is
+                // saved as a unit, and matching rows one by one risks leaving a
+                // line behind that no longer belongs to anything.
+                DB::table('sw_daily_credit_sale_lines')
+                    ->where('sw_daily_credit_sale_id', $id)->delete();
+                $saleId = $id;
+            } else {
+                $saleId = DB::table('sw_daily_credit_sales')->insertGetId(
+                    $header + [
+                        'current_outstanding' => $this->outstandingFor($customer),
+                        'credit_limit' => (float) ($customer->credit_limit ?? 0),
+                        'created_by' => auth()->id(),
+                        'created_at' => now(),
+                    ]
+                );
+            }
+
+            foreach ($lines as &$line) {
+                $line['sw_daily_credit_sale_id'] = $saleId;
+            }
+            DB::table('sw_daily_credit_sale_lines')->insert($lines);
+
+            return $saleId;
+        });
+
+        return redirect()->route('sw.payments.index')
+            ->with('status', ['success' => 1, 'msg' => $id
+                ? __('sw::lang.credit_sale_updated')
+                : __('sw::lang.credit_sale_added')])
+            ->with('status.tab', 'sw_daily_credit_sales');
+    }
+
+    public function destroy($id)
+    {
+        $businessId = $this->businessId();
+
+        $row = DB::table('sw_daily_credit_sales')->where('id', (int) $id)->first();
+        abort_if(! $row, 404);
+
+        $this->openShiftOrFail($businessId, (int) $row->sw_shift_id);
+
+        // The lines go with it - the foreign key cascades.
+        DB::table('sw_daily_credit_sales')->where('id', (int) $id)->delete();
+
+        return redirect()->route('sw.payments.index')
+            ->with('status', ['success' => 1, 'msg' => __('sw::lang.credit_sale_deleted')])
+            ->with('status.tab', 'sw_daily_credit_sales');
+    }
+
+    /**
+     * Customer search for the form.
+     *
+     * Searched on the server rather than loading every contact: a business may
+     * have thousands, and sending them all to filter in the browser is the one
+     * case where client-side is the wrong choice.
+     */
+    public function searchCustomers(Request $request)
+    {
+        $term = trim((string) $request->input('q'));
+
+        if ($term === '') {
+            return response()->json([]);
+        }
+
+        $rows = DB::table('contacts')
+            ->where('business_id', $this->businessId())
+            ->whereIn('type', ['customer', 'both'])
+            ->when(Schema::hasColumn('contacts', 'deleted_at'),
+                fn ($q) => $q->whereNull('deleted_at'))
+            ->where(function ($q) use ($term) {
+                $q->where('name', 'like', '%' . $term . '%')
+                  ->orWhere('supplier_business_name', 'like', '%' . $term . '%')
+                  ->orWhere('mobile', 'like', '%' . $term . '%');
+            })
+            ->orderBy('name')
+            ->limit(30)
+            ->get(['id', 'name', 'mobile']);
+
+        return response()->json($rows->map(fn ($r) => [
+            'id' => $r->id,
+            'text' => $r->name . ($r->mobile ? ' (' . $r->mobile . ')' : ''),
+        ]));
+    }
+
+    /** Customer lookup for the form, with their position. */
+    public function customerInfo($id)
+    {
+        $customer = DB::table('contacts')
+            ->where('business_id', $this->businessId())
+            ->where('id', (int) $id)
+            ->first();
+
+        if (! $customer) {
+            return response()->json(['found' => false]);
+        }
+
+        return response()->json([
+            'found' => true,
+            'outstanding' => round($this->outstandingFor($customer), 2),
+            'credit_limit' => (float) ($customer->credit_limit ?? 0),
+            'references' => DB::table('customer_references')
+                ->where('contact_id', (int) $id)
+                ->orderBy('reference')
+                ->get(['id', 'reference']),
+        ]);
+    }
+
+    /** Add a vehicle reference without leaving the form. */
+    public function storeReference(Request $request)
+    {
+        $data = $request->validate([
+            'contact_id' => 'required|integer',
+            'reference' => 'required|string|max:191',
+        ]);
+
+        $businessId = $this->businessId();
+
+        $exists = DB::table('customer_references')
+            ->where('contact_id', $data['contact_id'])
+            ->where('reference', $data['reference'])
+            ->first(['id', 'reference']);
+
+        if ($exists) {
+            // Already there - hand back the existing one rather than making a
+            // duplicate the operator would then have to choose between.
+            return response()->json(['id' => $exists->id, 'reference' => $exists->reference]);
+        }
+
+        $id = DB::table('customer_references')->insertGetId([
+            'business_id' => $businessId,
+            'contact_id' => $data['contact_id'],
+            'reference' => $data['reference'],
+            'date' => now()->toDateString(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['id' => $id, 'reference' => $data['reference']]);
+    }
+
+    // ------------------------------------------------------------------
+
+    /**
+     * What the customer owes.
+     *
+     * Read from the contact's own balance where the column exists, rather than
+     * summing transactions here - core already maintains that figure, and a
+     * second calculation would eventually disagree with it.
+     */
+    protected function outstandingFor($customer): float
+    {
+        foreach (['balance', 'opening_balance'] as $col) {
+            if (isset($customer->$col)) {
+                return (float) $customer->$col;
+            }
+        }
+
+        return 0.0;
+    }
+
+    protected function openShiftOrFail(int $businessId, int $shiftId): Shift
+    {
+        $shift = Shift::where('business_id', $businessId)->find($shiftId);
+
+        abort_if(! $shift, 404);
+        abort_unless($shift->isOpen(), 422, __('sw::lang.shift_closed_no_entry'));
+
+        return $shift;
+    }
+
+    protected function operators(int $businessId)
+    {
+        return DB::table('pump_operators')
+            ->where('business_id', $businessId)->where('active', 1)
+            ->orderBy('name')->pluck('name', 'id');
+    }
+
+    protected function products(int $businessId)
+    {
+        if (! Schema::hasTable('products')) {
+            return collect();
+        }
+
+        return DB::table('products')
+            ->where('business_id', $businessId)
+            ->when(Schema::hasColumn('products', 'is_inactive'),
+                fn ($q) => $q->where('is_inactive', 0))
+            ->orderBy('name')
+            ->limit(2000)
+            ->pluck('name', 'id');
+    }
+
+    protected function refuse(string $message)
+    {
+        return response(
+            '<div class="modal-dialog"><div class="modal-content">'
+            . '<div class="modal-body"><div class="alert alert-warning" style="margin:0">'
+            . e($message)
+            . '</div></div><div class="modal-footer">'
+            . '<button type="button" class="btn btn-default" data-dismiss="modal">'
+            . __('messages.close') . '</button></div></div></div>'
+        );
+    }
+}

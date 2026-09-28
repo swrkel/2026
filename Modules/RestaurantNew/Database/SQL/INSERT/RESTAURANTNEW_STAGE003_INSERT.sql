@@ -1,0 +1,2 @@
+-- RestaurantNew Stage 003 INSERT SQL
+-- Optional sample data is intentionally not inserted to avoid duplicate menu records.

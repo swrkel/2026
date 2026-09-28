@@ -1,0 +1,40 @@
+IS1830 – FINANCE MODULE – FINISHED GOODS PURCHASE DEBIT FIX
+Date: 30 July 2026
+
+Issue
+-----
+Purchase / Add Purchase / Save Purchase must post the Finished Goods account
+entry in the Debit column.
+
+Changed Finance files
+---------------------
+1. Finance/Entities/AccountTransaction.php
+   - Purchase account transaction type changed from credit to debit.
+
+2. Finance/Services/Purchases/PurchaseFinishedGoodsDebitNormalizer.php
+   - New Finance-owned normalizer for purchase postings saved through the
+     shared App\AccountTransaction model.
+   - Multi-tenant-safe because it uses the currently initialized tenant
+     connection and scopes every lookup by business_id.
+
+3. Finance/Providers/FinanceServiceProvider.php
+   - Registers the Finance-owned saved-event integration hook.
+
+4. Finance/Http/Controllers/AccountController.php
+   - Existing historical purchase credits in the Finished Goods Account Book
+     are treated as debits.
+   - Such rows are suppressed from the Credit column to prevent double display.
+
+5. Finance/Database/SQL/IS1830_Finished_Goods_Purchase_Debit_Backfill.sql
+   - Optional idempotent backfill for old tenant data.
+
+Purchase module conflict check
+------------------------------
+NO Purchase module file was changed.
+No Purchase controller, model, route, view, JavaScript, CSS, service, or language
+file is included in this package. The integration is entirely Finance-owned, so
+the other developer can continue Purchase module work without a file conflict.
+
+Database structure
+------------------
+No migration or schema change is required.

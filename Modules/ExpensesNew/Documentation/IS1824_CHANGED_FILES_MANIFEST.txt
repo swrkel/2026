@@ -1,0 +1,28 @@
+Expenses-New IS1824 changed files only
+Generated: 30 July 2026
+
+Database/Migrations/2026_07_30_000001_add_accounting_module_to_expnew_expenses_table.php
+Database/sql/00_EXPENSES_NEW_CORE_SCHEMA_IDEMPOTENT.sql
+Database/sql/00_EXPENSES_NEW_FULL_MASTER_ALL_STAGES_IDEMPOTENT.sql
+Database/sql/01_EXPENSES_NEW_CORE_COLUMN_REPAIR_IDEMPOTENT.sql
+Database/sql/02_EXPNEW_IS1824_ACCOUNTING_MODULE_IDEMPOTENT.sql
+Documentation/IS1824_EXPENSES_NEW_FIXES.md
+Entities/Category.php
+Entities/Expense.php
+Http/Controllers/CategoryController.php
+Http/Controllers/ExpenseController.php
+Http/Requests/ExpenseRequest.php
+Resources/views/categories/form.blade.php
+Resources/views/categories/index.blade.php
+Resources/views/components/toolbar.blade.php
+Resources/views/dashboard/index.blade.php
+Resources/views/expenses/form.blade.php
+Resources/views/expenses/index.blade.php
+Resources/views/layouts/app.blade.php
+Resources/views/reports/expense_summary.blade.php
+Services/AccountingModuleService.php
+Services/ModuleAvailabilityService.php
+Services/OptionService.php
+Services/PayeeSyncService.php
+Services/SchemaReadinessService.php
+module.json

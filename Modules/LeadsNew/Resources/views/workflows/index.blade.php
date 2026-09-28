@@ -1,0 +1,11 @@
+@extends('leadsnew::layouts.app')
+@section('title', 'Lead Workflows')
+@section('leadsnew_subtitle', 'Manage automated workflow definitions and review trigger priority from one controlled register.')
+@section('leadsnew_content')
+<div class="ln-split-grid">
+<div class="ln-panel"><div class="ln-panel-header"><div><h3 class="ln-panel-title"><i class="fa fa-cogs"></i> Workflow Register</h3><div class="ch-card-subtitle">Active rules are evaluated according to priority.</div></div><a href="{{ url('/leads-new/workflow/kanban') }}" class="btn btn-default btn-sm"><i class="fa fa-columns"></i> Kanban</a></div><div class="ln-table table-responsive"><table class="table table-hover"><thead><tr><th>Name</th><th>Trigger Event</th><th class="text-right">Priority</th><th>Status</th></tr></thead><tbody>
+@forelse($workflows as $workflow)<tr><td><strong>{{ $workflow->name }}</strong></td><td><code>{{ $workflow->trigger_event }}</code></td><td class="text-right">{{ $workflow->priority }}</td><td><span class="ln-badge {{ $workflow->is_active ? 'status-converted' : 'status-lost' }}">{{ $workflow->is_active ? 'Active' : 'Inactive' }}</span></td></tr>@empty<tr><td colspan="4"><div class="ln-empty"><i class="fa fa-cogs"></i>No workflows created yet.</div></td></tr>@endforelse
+</tbody></table></div>@if(method_exists($workflows, 'links'))<div class="ln-panel-body">{{ $workflows->links() }}</div>@endif</div>
+<div class="ln-panel ln-sticky-panel"><div class="ln-panel-header"><h3 class="ln-panel-title"><i class="fa fa-plus-circle"></i> New Workflow</h3></div><div class="ln-panel-body"><form method="post" action="{{ url('/leads-new/workflows') }}">@csrf<div class="form-group"><label>Workflow Name</label><input type="text" name="name" class="form-control" value="{{ old('name') }}" required></div><div class="form-group"><label>Trigger Event</label><input type="text" name="trigger_event" class="form-control" value="{{ old('trigger_event') }}" placeholder="lead.created" required></div><div class="form-group"><label>Priority</label><input type="number" min="0" name="priority" class="form-control" value="{{ old('priority', 0) }}"></div><input type="hidden" name="is_active" value="1"><button class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save Workflow</button></form></div></div>
+</div>
+@endsection

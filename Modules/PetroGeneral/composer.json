@@ -1,0 +1,25 @@
+{
+    "name": "syzeasy/petro-general",
+    "description": "Standalone Petro General operations module.",
+    "authors": [
+        {
+            "name": "The Web Fosters",
+            "email": "thewebfosters@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\PetroGeneral\\Providers\\PetroGeneralServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\PetroGeneral\\": ""
+        }
+    }
+}

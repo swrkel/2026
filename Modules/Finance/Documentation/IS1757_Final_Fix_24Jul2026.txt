@@ -1,0 +1,80 @@
+IS1757 – Finance Module Final Fix
+Built from: 1. latest-code(23).zip
+Date: 24 July 2026
+
+SCOPE
+This package changes only Modules/Finance. No root app, root routes, root resources,
+SQL, migration, or database structure is changed.
+
+ROOT CAUSE CORRECTED
+The application registers duplicate /accounting-module routes in root route files.
+Finance routes were being registered too early and the legacy routes later replaced
+them. This sent Finance pages to legacy controllers/views and caused the reported
+warnings and exceptions. FinanceServiceProvider now registers Finance routes after
+application routes have finished loading. module.json registers only the Finance
+provider, preventing duplicate early route registration.
+
+ISSUES CORRECTED
+1. Disabled Accounts
+   - Uses a Finance-owned controller and view.
+   - Removes ambiguous amount SQL by qualifying AT.amount.
+   - Applies tenant connection, current business, selected/permitted location scope.
+   - Loads only the requested DataTables page and calculates balances for those rows.
+
+2. List Journals
+   - Uses the Finance-owned controller, models, routes, and views.
+   - Cash account lookup is null-safe.
+   - Added the missing Finance edit and dynamic-row views.
+   - Journal list is business/location scoped and server-side paginated.
+   - Corrected DataTables order configuration and AJAX error handling.
+
+3. Profit & Loss Report on Trading
+   - Uses a Finance-owned JSON endpoint.
+   - Replaces the failing grouped DataTables response with explicit grouped count,
+     filtering, ordering, and server-side pagination.
+   - Applies current business, selected location, and date range.
+   - Tabs load only when opened.
+
+4. Balance Sheet
+   - Uses Finance controller/view for the existing Accounting Module URL.
+   - Invalid/malformed dates safely fall back to a valid date.
+   - Supports consolidated or selected-location results.
+   - Includes current financial-year earnings in Equity.
+
+5. Balance Sheet Comparison
+   - Uses Finance controller/view for the existing Accounting Module URL.
+   - All three dates are independently validated.
+   - Supports consolidated or selected-location comparisons.
+
+6. Fixed Assets
+   - Replaces indefinite Processing with a valid server-side DataTables response.
+   - First request loads 25 records; filter lists load independently afterward.
+   - Applies current business and selected filters.
+   - CRUD and accounting entries stay inside the Finance module.
+
+DEPLOYMENT
+Extract at the Laravel project root and overwrite the included Modules/Finance files.
+Then run:
+
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+php artisan config:clear
+
+NOTE ABOUT route:list
+The supplied project currently contains an unrelated PetroPD route whose controller
+class is missing. That can make php artisan route:list fail before displaying routes.
+This does not come from this Finance package.
+
+STATIC VALIDATION COMPLETED
+- PHP syntax checks passed for every changed PHP file.
+- JavaScript syntax checks passed for every changed Blade script block after Blade
+  placeholders/includes were expanded for validation.
+- Finance route controller classes and methods were checked.
+- module.json JSON parsing passed.
+- ZIP integrity and module-only path checks are performed before delivery.
+
+SERVER LIMITATION
+The supplied archive does not include vendor/autoload.php or a tenant database, so
+live browser/database execution cannot be performed in the packaging environment.
+Final tenant-data verification must be completed after upload to the server.

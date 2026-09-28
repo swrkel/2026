@@ -1,0 +1,17 @@
+{
+    "name": "BankingMicrofinance",
+    "alias": "banking-microfinance",
+    "description": "Standalone Banking Suite Microfinance module for groups, loan cycles, collections and approvals.",
+    "keywords": [
+        "banking",
+        "microfinance",
+        "standalone"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\BankingMicrofinance\\Providers\\BankingMicrofinanceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

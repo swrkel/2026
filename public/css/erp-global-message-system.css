@@ -1,0 +1,124 @@
+/*
+ * ERP global success/error message standard.
+ * Colours intentionally use !important so older module styles cannot override
+ * the global state meaning.
+ */
+
+#toast-container > .toast-success,
+.toast.toast-success,
+.alert.alert-success,
+.erp-global-message--success {
+    color: #ffffff !important;
+    background-color: #168a46 !important;
+    background-image: none !important;
+    border-color: #11723a !important;
+}
+
+#toast-container > .toast-error,
+#toast-container > .toast-danger,
+.toast.toast-error,
+.toast.toast-danger,
+.alert.alert-danger,
+.alert.alert-error,
+.erp-global-message--error {
+    color: #ffffff !important;
+    background-color: #d92d38 !important;
+    background-image: none !important;
+    border-color: #b9232d !important;
+}
+
+#toast-container > .toast-success,
+#toast-container > .toast-error,
+#toast-container > .toast-danger {
+    min-width: 320px;
+    max-width: min(440px, calc(100vw - 30px));
+    padding: 16px 42px 16px 18px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 16px 40px rgba(22, 35, 58, 0.25) !important;
+    opacity: 1 !important;
+}
+
+#toast-container .toast-title,
+#toast-container .toast-message,
+#toast-container .toast-success a,
+#toast-container .toast-error a,
+.alert.alert-success,
+.alert.alert-success a,
+.alert.alert-danger,
+.alert.alert-danger a,
+.alert.alert-error,
+.alert.alert-error a,
+.erp-global-message--success,
+.erp-global-message--error {
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+#toast-container .toast-close-button,
+.alert.alert-success .close,
+.alert.alert-danger .close,
+.alert.alert-error .close {
+    color: #ffffff !important;
+    opacity: 0.9 !important;
+    text-shadow: none !important;
+}
+
+#toast-container .toast-progress {
+    background-color: rgba(255, 255, 255, 0.75) !important;
+    opacity: 1 !important;
+}
+
+.alert.alert-success,
+.alert.alert-danger,
+.alert.alert-error {
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-radius: 10px !important;
+    padding: 13px 16px !important;
+}
+
+#erp-global-message-container {
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    z-index: 2147483001;
+    display: grid;
+    gap: 10px;
+    width: min(420px, calc(100vw - 32px));
+    pointer-events: none;
+}
+
+.erp-global-message {
+    padding: 15px 17px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(22, 35, 58, 0.25);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    pointer-events: auto;
+}
+
+.erp-global-message__title {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+@media (max-width: 600px) {
+    #toast-container > .toast-success,
+    #toast-container > .toast-error,
+    #toast-container > .toast-danger {
+        min-width: 0;
+        width: calc(100vw - 24px) !important;
+        max-width: calc(100vw - 24px);
+    }
+
+    #erp-global-message-container {
+        top: 12px;
+        right: 12px;
+        width: calc(100vw - 24px);
+    }
+}

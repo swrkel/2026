@@ -1,0 +1,24 @@
+POS Standalone S385 - Enterprise Reliability & Disaster Recovery
+
+Purpose
+- Final hardening layer for the POS online/offline synchronization platform.
+- Adds reliability audit dashboard, disaster recovery checklist, integrity checks, and stress-test readiness endpoints.
+
+Included
+- /pos-module/offline-sync/reliability-audit page.
+- Reliability status endpoint.
+- Stress-test scenario registry endpoint.
+- Queue integrity verification endpoint.
+- Register close pending queue protection summary.
+- Stock and Customers ledger reconciliation readiness indicators.
+- SQL foundation for reliability tests and integrity snapshots.
+
+Risk Controls Covered
+- Browser crash / power failure recovery.
+- Internet loss during payment/sync.
+- Duplicate sync replay attempts.
+- Partial transaction apply protection.
+- Register/shift close while offline transactions are pending.
+- Stock reconciliation after offline sales/returns.
+- Customer ledger duplicate posting prevention.
+- High-volume batch sync readiness.

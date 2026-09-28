@@ -1,0 +1,18 @@
+Simple Audit v1.0.9 build manifest
+25 Sep 2026
+
+Central integration files:
+- app/Providers/AppServiceProvider.php
+- app/Services/AutomaticModuleRegistry.php
+- resources/views/layouts/partials/sidebar-superadmin.blade.php
+
+Module files:
+- Modules/SimpleAudit/**
+
+Current fixes:
+- Central sidebar and route access use the same AccessService decision.
+- central_only registry contract keeps Simple Audit out of tenant/business sidebars.
+- SchemaInstaller is column-aware for older tenant schemas.
+- account_transactions.location_id is optional; location derives from linked transactions when absent.
+- installer remains re-runnable after partial installation.
+- diagnose reports module tables, old-schema compatibility and trigger count.

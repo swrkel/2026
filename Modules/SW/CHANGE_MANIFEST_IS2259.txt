@@ -1,0 +1,29 @@
+IS2259 - SW Settlement - 13 Sep 2026
+====================================
+Base: SW_DAILY_SHIFTS_COLUMN_HEADER_STYLE_2026-09-13.zip
+
+FIXED
+1. Finance / List Accounts / Cash Deposit & Card Deposit / Daily Shift No
+   - Open SW shifts are resolved with the module's compatibility-aware status rules.
+   - Closed shifts are removed immediately.
+   - Invalid/ambiguous host location controls no longer hide all open shifts.
+
+2. Customers / Customer Register / Pay Due Amount / SW Shift No
+3. Expenses New / Add Expense / SW Shift No
+4. Purchase / Add Purchase / SW Shift No
+   - Shared field now binds to the location control inside its OWN form/modal.
+   - Duplicate #location_id controls elsewhere on the page cannot overwrite it.
+   - A selected shift is preserved across refresh only while it remains OPEN.
+   - A genuine location change clears a previous location's shift.
+   - Purchase entry SW Shift No column is doubled from 25% (col-sm-3) to 50% (col-sm-6).
+
+5. SW Settlement / Payments / Expenses / Expense Category
+   - Category business is resolved from the settlement location first.
+   - Falls back to the active session business, then auth model business.
+   - Existing no-cache live refresh remains in place.
+
+SAFETY
+- sw_shifts remains required and authoritative.
+- No table bypass.
+- No SQL/migration required.
+- No settlement accounting, stock, tank, Finance posting, or amount logic changed.

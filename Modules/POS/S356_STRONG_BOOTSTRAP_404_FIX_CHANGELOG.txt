@@ -1,0 +1,21 @@
+S356 Strong Bootstrap 404 Fix
+
+Purpose:
+Fix persistent 404 on /pos-module and /pos-module/registers when the standalone POS provider is not being discovered by the server's module cache/status loader.
+
+Changed:
+1. Added fallback loader inside Modules/POS2/Routes/web.php.
+   - POS2 is already present in the original uploaded module package.
+   - If POS2 routes are loaded, it will also load Modules/POS/Routes/web.php.
+   - POS remains standalone internally; POS2 is only used as a temporary route bootstrap fallback.
+
+2. Added optional root fallback route file:
+   - routes/pos_module_standalone_fallback.php
+   - If route still 404, include it from routes/web.php with:
+     require_once base_path('routes/pos_module_standalone_fallback.php');
+
+3. Added notes for module status:
+   - POS should be true
+   - POS2 should be true
+
+No SQL needed.

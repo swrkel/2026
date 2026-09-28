@@ -1,0 +1,12 @@
+DISNEW_003 - Loading, unloading and vehicle/store stock workflow
+
+Added:
+- Loading Plan page/controller/service with create, approve and convert-to-loading actions.
+- Loading Plan tables and line-level planned/loaded quantity controls.
+- Vehicle + Store stock table and report service.
+- Unloading line table to record delivered, returned, damaged and shortage quantities.
+- Delivery issue log table for shortage/damage/customer rejection tracking.
+- Hardened loading completion to update vehicle stock and vehicle+store stock.
+- Hardened unloading completion to reduce vehicle stock and record issue logs.
+- POS-style blade pages for loading plan list/create/show and vehicle+store stock.
+- Stage 3 SQL and updated master SQL.

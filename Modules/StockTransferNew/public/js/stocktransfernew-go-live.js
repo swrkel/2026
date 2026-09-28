@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.stn-go-live-card strong').forEach(function(el){if(el.innerText==='MISSING'){el.classList.add('text-danger')}if(el.innerText==='OK'){el.classList.add('text-success')}});});

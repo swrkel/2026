@@ -1,0 +1,1 @@
+(function(){'use strict';function init(){if(window.jQuery&&jQuery.fn.DataTable){jQuery('.rn-datatable').DataTable({pageLength:25,responsive:true,dom:'Bfrtip',buttons:['csv','excel','pdf','print','colvis']});}}document.addEventListener('DOMContentLoaded',init);}());

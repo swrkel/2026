@@ -1,0 +1,72 @@
+SW MODULE — S732 CORRECTION MANIFEST
+Date: 14 Sep 2026
+Basis: SW_S731_All_Issues_Fixed_14Sep2026 (latest consolidated SW parcel in this chat)
+
+S732 requirements corrected
+===========================
+1) SW Settlements / Payment — rows isolated by payment type
+   - Replaced the single reusable payment-table body with one dedicated tbody per payment type.
+   - Switching Cash/Card/Cheque/Expense/Shortage/Excess/etc. now changes only the visible pane.
+   - Hidden form inputs continue to include ALL payments so switching tabs cannot lose another type's rows.
+   - Credit Sales keeps its dedicated detailed form/table.
+
+2) Save Settlement — only available at true zero balance
+   - Save remains hidden/disabled until a shift is selected, Payment Summary has loaded successfully,
+     Daily Credit Sales has loaded successfully, and Balance is exactly zero within currency tolerance.
+   - Added a balance MutationObserver fail-safe so stale UI code cannot leave Save visible after balance changes.
+   - Existing server-side zero-balance validation remains authoritative.
+
+3) Daily Shift Cash lifecycle
+   - SW Payments / Daily Cash rows are editable/deletable only while their SW shift is OPEN.
+   - Legacy textual/numeric shift statuses are normalized before deciding whether Edit/Delete is shown.
+   - Store/Update/Delete continue to reject closed shifts on the server.
+   - Settlement treats Daily Cash as an authoritative source row: closed-shift Daily Cash cannot be removed
+     or changed from the Settlement screen.
+   - On final settlement save, browser-submitted Cash rows are discarded and reloaded from sw_daily_cash
+     for the selected shifts/operator, preventing cached/forged pages from altering closed-shift cash.
+
+4) Payment tab usability / visual clarity
+   - Tab switching is lightweight and delegated, so it does not rebuild all payment rows on every click.
+   - Payment buttons remain full-opacity and clickable.
+   - Active tab uses white background, dark text, strong border; inactive tabs retain clear solid colors.
+
+Operational files changed
+=========================
+Http/Controllers/DailyCashController.php
+Resources/lang/en/lang.php
+Resources/views/operators/partials/daily_cash_actions.blade.php
+Resources/views/settlements/create.blade.php
+Resources/views/settlements/partials/credit_sales_js.blade.php
+Resources/views/settlements/partials/payments.blade.php
+Resources/views/settlements/partials/payments_js.blade.php
+Resources/views/settlements/partials/section_styles.blade.php
+Services/SettlementSaveService.php
+
+Database
+========
+No SQL or migration is required.
+
+Deployment
+==========
+Replace Modules/SW with this consolidated SW folder, then run:
+  php artisan optimize:clear
+Then hard-refresh the browser once (Ctrl+F5).
+
+Recommended verification
+========================
+A. Payment isolation
+   - Open a settlement and add different payment types.
+   - Cash tab must show only Cash rows, Cards only Cards, etc.
+   - Switch tabs repeatedly: no row should leak to another payment type.
+
+B. Save Settlement gate
+   - With any non-zero Balance: Save Settlement must remain hidden/disabled.
+   - After all authoritative summaries finish loading and Balance = 0.00: Save Settlement becomes available.
+
+C. Daily Cash open/closed rule
+   - On SW Payments / Daily Cash with an OPEN shift: Edit/Delete must be available and additional cash may be added.
+   - Close the shift: existing cash must show locked; Edit/Delete and further additions/changes are rejected.
+   - In Settlement, Daily Cash rows are read-only.
+
+D. Tabs
+   - Click every Payment button repeatedly. Each should open immediately and visibly show its active state.

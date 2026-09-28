@@ -1,0 +1,1 @@
+-- Stage 001 has no ALTER statements. Foundation tables are created separately.

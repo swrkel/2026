@@ -1,0 +1,267 @@
+{{--
+    The SW Shift No field, for core screens.
+
+    Included on expense, customer payment, cash deposit and purchase forms so a
+    cash movement can be attributed to a shift. Those four feed Balance In Hand
+    on the Daily Cash Status tab:
+
+        Cash Collection + Customer Payment Cash
+      - Cash Expenses - Cash Purchases - Cash Deposit
+      = Balance In Hand
+
+    RENDERS NOTHING unless SW is enabled for this business. A business without
+    SW has no reason to see a shift dropdown on its expense form, and a field
+    that appears for everyone is a field everyone has to learn to ignore.
+
+    OPTIONAL, always. An expense unconnected to a shift is ordinary - most are.
+    Requiring it would block every entry made outside shift hours.
+
+    Usage:
+
+        @include('sw::partials.shift_field')
+        @include('sw::partials.shift_field', ['selected' => $transaction->sw_shift_no])
+        @include('sw::partials.shift_field', ['locationId' => $transaction->location_id])
+--}}
+
+@php
+    $__sw_enabled = false;
+
+    try {
+        $__sw_business_id = (int) (session('business.id') ?: session('user.business_id') ?: 0);
+        $__sw_enabled = $__sw_business_id > 0
+            && class_exists(\App\Utils\SidebarPermissionUtil::class)
+            && \App\Utils\SidebarPermissionUtil::isVisibleInSidebar('sw', $__sw_business_id)
+            && \Illuminate\Support\Facades\Schema::hasTable('sw_shifts');
+    } catch (\Throwable $e) {
+        // A business without SW simply does not see the field. Never let this
+        // check break the form it is embedded in - these are core screens, and
+        // an expense form that will not render is far worse than a missing
+        // dropdown.
+        $__sw_enabled = false;
+    }
+
+    $__sw_selected = $selected ?? old('sw_shift_no') ?? null;
+    $__sw_location = $locationId ?? null;
+    $__sw_uid = 'sw_field_' . uniqid();
+
+    /*
+     | Several of these forms ALREADY have a location dropdown - the expense and
+     | purchase screens do.
+     |
+     | Pass its selector as $bindLocation and this field follows it instead of
+     | offering a second one. Two location dropdowns on one form is an invitation
+     | for them to disagree, and then nobody can say which the entry belongs to.
+     |
+     |     @include('sw::partials.shift_field', ['bindLocation' => '#location_id'])
+    */
+    $__sw_bind = $bindLocation ?? null;
+@endphp
+
+@if ($__sw_enabled)
+    @php
+        $__sw_locations = \Illuminate\Support\Facades\DB::table('business_locations')
+            ->where('business_id', $__sw_business_id)
+            ->when(
+                \Illuminate\Support\Facades\Schema::hasColumn('business_locations', 'is_active'),
+                fn ($q) => $q->where('is_active', 1)
+            )
+            ->orderBy('name')
+            ->pluck('name', 'id');
+
+        // One location means there is nothing to choose. Selecting it for the
+        // user saves a click on every single entry.
+        if ($__sw_locations->count() === 1) {
+            $__sw_location = $__sw_location ?: $__sw_locations->keys()->first();
+        }
+    @endphp
+
+    <div class="row sw-shift-field" id="{{ $__sw_uid }}">
+
+        @if ($__sw_bind)
+            {{-- Following the form's own location field. --}}
+            <input type="hidden" class="sw-shift-location" value="{{ $__sw_location }}"
+                data-bind-location="{{ $__sw_bind }}">
+        @elseif ($__sw_locations->count() > 1)
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>@lang('sw::lang.location')</label>
+                    <select class="form-control sw-shift-location" style="width:100%">
+                        <option value="">@lang('messages.please_select')</option>
+                        @foreach ($__sw_locations as $id => $name)
+                            <option value="{{ $id }}" @selected((int) $__sw_location === (int) $id)>{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @else
+            <input type="hidden" class="sw-shift-location" value="{{ $__sw_location }}">
+        @endif
+
+        <div class="col-sm-{{ (! $__sw_bind && $__sw_locations->count() > 1) ? '6' : '12' }}">
+            <div class="form-group">
+                <label>
+                    @lang('sw::lang.shift_no')
+                    <small class="text-muted">&mdash; @lang('sw::lang.optional')</small>
+                </label>
+                <select name="sw_shift_no" class="form-control sw-shift-select" style="width:100%">
+                    <option value="">@lang('sw::lang.not_linked_to_a_shift')</option>
+                    @if ($__sw_selected)
+                        {{-- The saved value is offered even before the list
+                             loads, so an edit form never appears to have lost
+                             it. --}}
+                        <option value="{{ $__sw_selected }}" selected>{{ $__sw_selected }}</option>
+                    @endif
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    {{--
+        The script is INLINE, not pushed to a stack.
+
+        @push('javascript') sends it to the layout, which renders that stack
+        once when the page is built. Several of these forms - the Finance cash
+        deposit among them - are fetched by AJAX and injected into a page that
+        has already rendered, so the stack never receives it. The field arrived
+        with nothing to fill it: location set, one option, no fill ever run.
+
+        Inline, the script travels with the field wherever it goes.
+
+        The guard below replaces @once. Two copies of this partial on one page
+        would otherwise bind everything twice, and a fetch that fires twice is
+        a fetch that races itself.
+    --}}
+    <script>
+    (function () {
+        if (window.__swShiftFieldReady) { return; }
+        window.__swShiftFieldReady = true;
+
+    $(function () {
+        /*
+         | Location first, then that location's OPEN shifts.
+         |
+         | Delegated and keyed on the wrapper, so this works whether the
+         | field is on a page or inside a modal loaded later.
+        */
+        function swLoadShifts($wrap, keepSelected) {
+            var $loc = $wrap.find('.sw-shift-location');
+            var $sel = $wrap.find('.sw-shift-select');
+            var current = keepSelected ? $sel.val() : '';
+            var locationId = $loc.val();
+
+            // When bound to the form's own location field, read it directly
+            // rather than trusting a hidden copy that may not have been set
+            // when this ran.
+            var bound = $loc.data('bind-location');
+            if (bound) {
+                var $src = $(bound).first();
+                if ($src.length && $src.val()) {
+                    locationId = $src.val();
+                    $loc.val(locationId);
+                }
+            }
+
+            if (!locationId) {
+                $sel.html('<option value="">{{ __('sw::lang.choose_a_location_first') }}</option>');
+                return;
+            }
+
+            $.get('{{ route('sw.shift-options') }}', { location_id: locationId }, function (rows) {
+                var html = '<option value="">{{ __('sw::lang.not_linked_to_a_shift') }}</option>';
+
+                var found = false;
+                $.each(rows || [], function (i, r) {
+                    if (r.no === current) { found = true; }
+                    html += '<option value="' + r.no + '"'
+                          + (r.no === current ? ' selected' : '') + '>'
+                          + $('<div>').text(r.label).html() + '</option>';
+                });
+
+                /*
+                 | A saved shift that is no longer open must still show.
+                 |
+                 | Otherwise editing an old expense would silently drop its
+                 | shift the moment that shift closed - the entry would
+                 | quietly leave the balance it belongs to.
+                */
+                if (current && !found) {
+                    html += '<option value="' + current + '" selected>'
+                          + $('<div>').text(current).html()
+                          + ' ({{ __('sw::lang.closed') }})</option>';
+                }
+
+                $sel.html(html);
+            });
+        }
+
+        $(document).on('change', '.sw-shift-field .sw-shift-location', function () {
+            swLoadShifts($(this).closest('.sw-shift-field'), false);
+        });
+
+        /*
+         | When bound to the form's own location field, follow it.
+         |
+         | Delegated on document so it works whether that field is a plain
+         | select or a select2, and whether it exists yet or arrives with a
+         | modal.
+        */
+        /*
+         | Follow the host form's own location field where one was named.
+         |
+         | Delegated on document and keyed off the hidden input, so it works
+         | for fields that arrive later and for select2, which fires change
+         | on the original element.
+        */
+        $(document).on('change', 'select, input', function () {
+            var $src = $(this);
+
+            $('.sw-shift-field .sw-shift-location[data-bind-location]').each(function () {
+                var $hidden = $(this);
+                var selector = $hidden.data('bind-location');
+
+                if (! $src.is(selector)) { return; }
+
+                $hidden.val($src.val());
+                swLoadShifts($hidden.closest('.sw-shift-field'), false);
+            });
+        });
+
+        /*
+         | Fill every field, however it arrived.
+         |
+         | Waiting on shown.bs.modal was not enough. Several of these forms
+         | are fetched by AJAX and injected, and a field that appears that
+         | way may never see the event - the Finance cash deposit modal
+         | showed an empty dropdown for exactly this reason, while the
+         | server was returning both shifts perfectly well.
+         |
+         | So each field marks itself once filled, and a short poll catches
+         | any that appear later. Cheap - it only looks for unfilled fields,
+         | and does nothing when there are none.
+        */
+        function swFillPending() {
+            $('.sw-shift-field').not('[data-sw-filled]').each(function () {
+                var $wrap = $(this);
+                $wrap.attr('data-sw-filled', '1');
+                swLoadShifts($wrap, true);
+            });
+        }
+
+        swFillPending();
+
+        // Modals, when the event does fire.
+        $(document).on('shown.bs.modal', function (e) {
+            $(e.target).find('.sw-shift-field').not('[data-sw-filled]').each(function () {
+                var $wrap = $(this);
+                $wrap.attr('data-sw-filled', '1');
+                swLoadShifts($wrap, true);
+            });
+        });
+
+        // And anything injected without one.
+        setInterval(swFillPending, 700);
+    });
+    })();
+    </script>
+@endif

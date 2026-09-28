@@ -1,0 +1,13 @@
+{
+    "name": "DailyActivityReport",
+    "alias": "dailyactivityreport",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DailyActivityReport\\Providers\\DailyActivityReportServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

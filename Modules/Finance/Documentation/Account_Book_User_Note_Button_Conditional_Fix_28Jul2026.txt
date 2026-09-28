@@ -1,0 +1,40 @@
+FINANCE ACCOUNT BOOK - USER NOTE BUTTON CONDITIONAL FIX
+Date: 28 July 2026
+
+PURPOSE
+The Note button in the Account Book must represent only a note entered by a user in a payment/account form. Generated ledger descriptions must never create a Note button.
+
+CHANGES
+1. Purchase, Sales, Expense and other payment-linked rows now use transaction_payments.note as the source of the Note button.
+2. Account Transfers use the note saved with the transfer payment; legacy transfer rows remain supported.
+3. Direct Account Deposits use the user note saved on account_transactions.note.
+4. If the related user note is null, empty or whitespace-only, no Note button is returned.
+5. Generated settlement text such as Settlement No, payment type, internal SETL/BIZ/ACCT/CP keys, Daily Collection and business/location footer text does not create a Note button.
+6. If a real free-form user note was appended to a settlement entry, only that user-entered part is shown by the Note button.
+7. Account Book search now includes transaction payment notes.
+8. Tenant databases without a transaction_payments.note column are handled safely without a SQL error.
+9. Previous Account Book Action-column removal, Description placement, font-size, screen-fit and reconcile_status corrections remain unchanged.
+
+CHANGED APPLICATION FILE
+Finance/Services/Accounts/AccountBookDataService.php
+
+VALIDATION
+- PHP syntax check: passed.
+- Conditional-note logic tested for:
+  * settlement technical text only: no button
+  * settlement with a genuine user note: button shown
+  * purchase/payment with note: button shown
+  * payment without note: no button
+  * direct account deposit with note: button shown
+  * generated cheque-deposit text: no button
+  * legacy fund transfer with note: button shown
+
+DEPLOYMENT
+Upload and overwrite the included Finance file, then run:
+
+php artisan optimize:clear
+
+Refresh the Account Book page with Ctrl+F5.
+
+DATABASE
+No migration or raw SQL is required.

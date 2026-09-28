@@ -1,0 +1,13 @@
+{
+    "name": "PetroPD",
+    "alias": "petropd",
+    "description": "Standalone Petro PD operations and settlement module.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PetroPD\\Providers\\PetroPDServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

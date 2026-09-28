@@ -1,0 +1,2 @@
+-- Stage 007 has no mandatory ALTER queries when CREATE scripts are used on a clean tenant database.
+-- Keep this file for deployment separation and future upgrade patches.

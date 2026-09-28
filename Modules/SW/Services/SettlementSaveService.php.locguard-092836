@@ -1,0 +1,315 @@
+<?php
+
+namespace Modules\SW\Services;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Modules\SW\Entities\Shift;
+
+/**
+ * Saves a settlement and marks its shifts settled.
+ *
+ * The settlement is AUTHORITATIVE. It holds its own figures, and the daily
+ * entries behind it are never altered - a shift's records are fixed once it
+ * closes, and a difference between recorded and settled is something to see,
+ * not something to erase.
+ *
+ * Every change is logged with both the settlement number and the shift numbers
+ * it covers, so "why is this different from what the operator handed over" has
+ * an answer.
+ */
+class SettlementSaveService
+{
+    public function __construct(
+        protected NumberService $numbers,
+        protected LogService $logs
+    ) {
+    }
+
+    public function create(int $businessId, array $data): int
+    {
+        return DB::transaction(function () use ($businessId, $data) {
+
+            $shiftIds = array_map('intval', $data['shift_ids'] ?? []);
+
+            /*
+             | Every shift must be CLOSED and not already settled.
+             |
+             | An open shift is still taking money, so settling it would agree a
+             | figure that has not stopped moving. And settling one twice would
+             | post its cash to the ledger a second time.
+            */
+            $this->assertShiftsSettleable($businessId, $shiftIds);
+
+            $locationId = (int) ($data['location_id'] ?? 0);
+
+            $settlementNo = $this->numbers->next($businessId, $locationId, 'settlement');
+
+            $settlementId = DB::table('sw_settlements')->insertGetId([
+                'business_id' => $businessId,
+                'location_id' => $locationId,
+                'settlement_no' => $settlementNo,
+                'transaction_date' => $data['transaction_date'] ?? now()->toDateString(),
+                'finish_date' => $data['finish_date'] ?? null,
+                'pump_operator_id' => $data['pump_operator_id'] ?? null,
+                'note' => $data['note'] ?? null,
+
+                'total_meter_sales' => $data['total_meter_sales'] ?? 0,
+                'total_other_sales' => $data['total_other_sales'] ?? 0,
+                'total_other_income' => $data['total_other_income'] ?? 0,
+                'total_credit_sales' => $data['total_credit_sales'] ?? 0,
+
+                'status' => 'final',
+                'created_by' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            foreach ($shiftIds as $shiftId) {
+                DB::table('sw_settlement_shifts')->insert([
+                    'settlement_id' => $settlementId,
+                    'sw_shift_id' => $shiftId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            $this->saveMeterLines($settlementId, $data['lines'] ?? []);
+
+            /*
+             | The other four sections.
+             |
+             | Until now only meter lines were stored - a settlement saved with
+             | other sales, other income, credit sales or payments lost them
+             | silently. That is worse than a section not existing, because the
+             | user watched it work.
+            */
+            $this->saveOtherSales($settlementId, $data['other_sales'] ?? []);
+            $this->saveOtherIncome($settlementId, $data['other_income'] ?? []);
+            $this->saveCreditSales(
+                $settlementId,
+                (int) ($data['pump_operator_id'] ?? 0),
+                $data['credit_sales'] ?? []
+            );
+            $this->savePayments($settlementId, $data['payments'] ?? []);
+
+            /*
+             | The shifts become SETTLED, not merely closed.
+             |
+             | That is what stops them appearing on another settlement, and what
+             | the daily tabs check before refusing an edit.
+            */
+            DB::table('sw_shifts')
+                ->whereIn('id', $shiftIds)
+                ->update([
+                    'status' => Shift::STATUS_SETTLED,
+                    'updated_at' => now(),
+                ]);
+
+            $shiftNumbers = DB::table('sw_shifts')
+                ->whereIn('id', $shiftIds)
+                ->pluck('sw_shift_no')
+                ->implode(', ');
+
+            $this->logs->record(
+                'settlement', $settlementId, $settlementNo, 'created',
+                [],
+                [
+                    'shifts' => $shiftNumbers,
+                    'meter_sales' => number_format((float) ($data['total_meter_sales'] ?? 0), 2),
+                    'other_sales' => number_format((float) ($data['total_other_sales'] ?? 0), 2),
+                    'other_income' => number_format((float) ($data['total_other_income'] ?? 0), 2),
+                    'credit_sales' => number_format((float) ($data['total_credit_sales'] ?? 0), 2),
+                ],
+                [
+                    'business_id' => $businessId,
+                    'location_id' => $locationId,
+                    'document_status' => 'Final',
+                    'note' => 'Shifts settled: ' . $shiftNumbers,
+                ]
+            );
+
+            return $settlementId;
+        });
+    }
+
+    /** Other Sales - 8044. */
+    protected function saveOtherSales(int $settlementId, array $rows): void
+    {
+        foreach ($rows as $r) {
+            if (empty($r['product_id']) || (float) ($r['quantity'] ?? 0) <= 0) {
+                continue;
+            }
+
+            DB::table('sw_other_sales')->insert([
+                'settlement_id' => $settlementId,
+                'store_id' => $r['store_id'] ?? null,
+                'product_id' => $r['product_id'],
+                'variation_id' => $r['variation_id'] ?? null,
+
+                // What the stock showed AT THE TIME. Read later it would give
+                // today's figure, which says nothing about the sale.
+                'balance_stock' => $r['balance_stock'] ?? 0,
+
+                'quantity' => $r['quantity'] ?? 0,
+                'rate' => $r['rate'] ?? 0,
+                'discount_type' => $r['discount_type'] ?? 'fixed',
+                'discount_value' => $r['discount_value'] ?? 0,
+                'amount_before_discount' => $r['amount_before_discount'] ?? 0,
+                'amount' => $r['amount'] ?? 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+
+    /** Other Income - 8045. */
+    protected function saveOtherIncome(int $settlementId, array $rows): void
+    {
+        foreach ($rows as $r) {
+            if (empty($r['product_id']) || (float) ($r['quantity'] ?? 0) <= 0) {
+                continue;
+            }
+
+            $edited = ! empty($r['price_edited']);
+
+            DB::table('sw_other_income')->insert([
+                'settlement_id' => $settlementId,
+                'product_id' => $r['product_id'],
+                'details' => $r['details'] ?? null,
+                'quantity' => $r['quantity'] ?? 0,
+                'rate' => $r['rate'] ?? 0,
+                'amount' => $r['amount'] ?? 0,
+
+                /*
+                 | WHO changed a price, not merely that one changed.
+                 |
+                 | 8045 restricts the edit to a permitted user. Recording only
+                 | the flag would leave no way to ask them about it.
+                */
+                'price_edited' => $edited ? 1 : 0,
+                'price_edited_by' => $edited ? auth()->id() : null,
+
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+
+    /** Credit Sales - 8047. */
+    protected function saveCreditSales(int $settlementId, int $operatorId, array $rows): void
+    {
+        foreach ($rows as $r) {
+            if (empty($r['contact_id']) || (float) ($r['amount'] ?? 0) == 0.0) {
+                continue;
+            }
+
+            $row = [
+                'settlement_id' => $settlementId,
+                'daily_credit_sale_id' => ! empty($r['daily_credit_sale_id'])
+                    ? (int) $r['daily_credit_sale_id'] : null,
+                'contact_id' => $r['contact_id'],
+                'pump_operator_id' => $operatorId ?: null,
+                'vehicle_no' => $r['vehicle_no'] ?? null,
+                'amount' => $r['amount'] ?? 0,
+                'reference' => $r['order_no'] ?? null,
+                'note' => $r['note'] ?? null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            /*
+             | The product columns are written only where they exist.
+             |
+             | They come from 71-292's migration, and a tenant that has not run
+             | it yet must still be able to settle - a missing column should not
+             | stop money being recorded.
+            */
+            foreach ([
+                'order_no', 'order_date', 'product_id', 'variation_id',
+                'quantity', 'unit_price', 'unit_discount', 'amount_before_discount',
+            ] as $col) {
+                if (Schema::hasColumn('sw_settlement_credit_sales', $col)) {
+                    $row[$col] = $r[$col] ?? null;
+                }
+            }
+
+            DB::table('sw_settlement_credit_sales')->insert($row);
+        }
+    }
+
+    /** Payments - 8048. */
+    protected function savePayments(int $settlementId, array $rows): void
+    {
+        foreach ($rows as $r) {
+            if (empty($r['payment_method']) || (float) ($r['amount'] ?? 0) <= 0) {
+                continue;
+            }
+
+            DB::table('sw_collections')->insert([
+                'settlement_id' => $settlementId,
+                'payment_method' => $r['payment_method'],
+                'account_id' => ! empty($r['account_id']) ? (int) $r['account_id'] : null,
+                'contact_id' => ! empty($r['contact_id']) ? (int) $r['contact_id'] : null,
+                'amount' => $r['amount'] ?? 0,
+                'reference' => $r['reference'] ?? null,
+                'note' => $r['note'] ?? null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+
+    /**
+     * Meter sale lines.
+     *
+     * The rate is stored ON THE LINE, not looked up later. A fuel price changes
+     * whenever the tanks are refilled, and a settlement that re-reads today's
+     * price would restate what was sold last week.
+     */
+    protected function saveMeterLines(int $settlementId, array $lines): void
+    {
+        foreach ($lines as $line) {
+            if (empty($line['pump_id']) || (float) ($line['quantity'] ?? 0) <= 0) {
+                continue;
+            }
+
+            DB::table('sw_settlement_lines')->insert([
+                'settlement_id' => $settlementId,
+                'pump_id' => (int) $line['pump_id'],
+                'product_id' => $line['product_id'] ?? null,
+                'opening_meter' => $line['opening_meter'] ?? 0,
+                'closing_meter' => $line['closing_meter'] ?? 0,
+                'testing_qty' => $line['testing_qty'] ?? 0,
+                'quantity' => $line['quantity'] ?? 0,
+                'rate' => $line['rate'] ?? 0,
+                'discount_type' => $line['discount_type'] ?? 'fixed',
+                'discount_value' => $line['discount_value'] ?? 0,
+                'amount_before_discount' => $line['amount_before_discount'] ?? 0,
+                'amount' => $line['amount'] ?? 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+
+    protected function assertShiftsSettleable(int $businessId, array $shiftIds): void
+    {
+        abort_if(empty($shiftIds), 422, __('sw::lang.choose_at_least_one_shift'));
+
+        $shifts = DB::table('sw_shifts')
+            ->where('business_id', $businessId)
+            ->whereIn('id', $shiftIds)
+            ->get(['id', 'sw_shift_no', 'status']);
+
+        abort_if($shifts->count() !== count($shiftIds), 422, __('sw::lang.shift_not_found'));
+
+        $open = $shifts->where('status', Shift::STATUS_OPEN)->pluck('sw_shift_no');
+        abort_if($open->isNotEmpty(), 422,
+            __('sw::lang.shift_still_open', ['numbers' => $open->implode(', ')]));
+
+        $settled = $shifts->where('status', Shift::STATUS_SETTLED)->pluck('sw_shift_no');
+        abort_if($settled->isNotEmpty(), 422,
+            __('sw::lang.shift_already_settled', ['numbers' => $settled->implode(', ')]));
+    }
+}

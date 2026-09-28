@@ -1,0 +1,11 @@
+Finance List Accounts 404 - Collision-Proof Fix - 15 Sep 2026
+
+Canonical runtime page for sidebar/navigation: /finance/list-accounts-live
+
+Why: Some servers retain an older compiled route for /finance/account or /accounting-module/account. A late duplicate route cannot always supersede a compiled matcher entry. The new URI is unique to Finance, uses the same AccountController@index, and retains the normal auth/session/language/timezone middleware.
+
+Compatibility: If an old List Accounts URL returns HTTP 404, Finance catches only that exact 404 GET/HEAD and redirects to the new URL. Other 404s are untouched.
+
+Database context: Works with businesses stored in the master/system database and businesses using separate tenant databases.
+
+Deployment: plug-and-play; no SQL or route-cache command required.

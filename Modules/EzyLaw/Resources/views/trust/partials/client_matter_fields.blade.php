@@ -1,0 +1,2 @@
+<label>Client</label><select class="form-control" name="client_id" required><option value="">Please Select</option>@foreach($clients as $c)<option value="{{ $c->id }}">{{ $c->client_no }} - {{ $c->name }}</option>@endforeach</select>
+<label>Matter</label><select class="form-control" name="matter_id"><option value="">General</option>@foreach($matters as $m)<option value="{{ $m->id }}">{{ $m->matter_no }} - {{ $m->title }}</option>@endforeach</select>

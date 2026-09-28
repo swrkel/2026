@@ -1,0 +1,18 @@
+{
+    "name": "Reporting",
+    "alias": "reporting",
+    "description": "Enterprise Reporting Module",
+    "keywords": [
+        "reporting",
+        "financial",
+        "enterprise",
+        "branch",
+        "consolidated"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\Reporting\\Providers\\ReportingServiceProvider"
+    ],
+    "files": [],
+    "aliases": {}
+}

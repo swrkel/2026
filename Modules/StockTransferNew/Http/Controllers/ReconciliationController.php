@@ -1,0 +1,4 @@
+<?php
+namespace Modules\StockTransferNew\Http\Controllers;
+use Illuminate\Http\Request; use Illuminate\Routing\Controller; use Modules\StockTransferNew\Entities\StockTransfer; use Modules\StockTransferNew\Services\StockTransferReconciliationService;
+class ReconciliationController extends Controller { public function index(StockTransferReconciliationService $service){ return view('stocktransfernew::reconciliation.index',['transfers'=>$service->varianceTransfers()]); } public function resolve(Request $request, StockTransfer $transfer, StockTransferReconciliationService $service){ $request->validate(['resolution'=>'required|string|max:191','note'=>'nullable|string|max:1000']); $service->resolve($transfer,$request->resolution,$request->note); return redirect()->back()->with('status','Variance resolved successfully.'); } }

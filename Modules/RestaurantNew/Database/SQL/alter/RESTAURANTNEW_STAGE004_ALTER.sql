@@ -1,0 +1,2 @@
+-- RESTAURANTNEW_STAGE004_ALTER.sql
+-- No ALTER queries required for Stage 004 when the CREATE script is used on a fresh tenant database.

@@ -1,0 +1,19 @@
+{
+    "name": "POS",
+    "alias": "pos",
+    "description": "Standalone POS Module",
+    "providers": [
+        "Modules\\POS\\Providers\\POSServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "keywords": [
+        "pos",
+        "point-of-sale",
+        "standalone"
+    ],
+    "priority": 0,
+    "active": true,
+    "order": 100
+}

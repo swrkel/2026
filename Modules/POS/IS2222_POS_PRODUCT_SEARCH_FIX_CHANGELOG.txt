@@ -1,0 +1,21 @@
+IS2222 – POS Product Search Fix – 9 Sep 2026
+
+Issue
+- POS / Sales: after entering a product and clicking Search, the product was not displayed.
+
+Root causes corrected
+1. POS Sales product filter relied on session('business.id') only. The host ERP commonly stores the active business in user.business_id, so valid business-linked POS products could be hidden.
+2. Historical POS SQL contains two compatible product schemas: sell_price/stock_qty and selling_price/current_stock. Sales search assumed only the first schema.
+3. Browser could keep the previous POS JS for 24 hours because the asset URL version was unchanged.
+
+Changes
+- POSCartService now uses POSBaseService businessId() resolution and only applies business filtering when a valid business id is known.
+- Search, price lookup and barcode lookup support both historical pos_products column layouts.
+- Deleted/inactive products are excluded when those columns exist.
+- Sales Workspace search uses the same tenant/schema-safe rules.
+- Search/Scan buttons explicitly use type=button.
+- Product-search JS now handles HTTP/JSON failures visibly instead of silently leaving an empty grid.
+- POS JS asset version changed to is2222-20260909 to force browsers to load the corrected script.
+
+Database
+- No SQL/database change required.

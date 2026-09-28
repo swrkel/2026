@@ -1,0 +1,101 @@
+Finance Module - Bank Reconciliation
+08 Sep 2026
+
+PURPOSE
+-------
+Adds a full bank reconciliation workflow to the standalone Finance module while preserving the existing Account Book reconciliation flag.
+
+FUNCTIONALITY
+-------------
+1. New Finance > Bank Reconciliation page.
+2. Also adds a Bank Reconciliation button to Finance > List Accounts.
+3. Bank accounts are loaded only for the current business and permitted locations.
+4. Select a Bank Account and Bank Statement Date.
+5. Enter the Bank Statement Ending Balance.
+6. The system loads unreconciled bank-account transactions through the statement date.
+7. Tick transactions which appear on the bank statement.
+8. Unticked Debit entries are Outstanding Deposits.
+9. Unticked Credit entries are Outstanding Payments.
+10. Adjusted Bank Balance = Statement Ending Balance + Outstanding Deposits - Outstanding Payments.
+11. Difference = Book Ending Balance - Adjusted Bank Balance.
+12. Save as Draft at any difference.
+13. Finalization is allowed only when Difference = 0.0000 (tolerance 0.0001).
+14. Finalization marks selected account transactions reconciled when the existing account_transactions.reconcile_status column is available.
+15. Finalized reconciliations can be reopened by an authorized user.
+16. Existing Account Book Un-Reconcile is blocked for transactions belonging to a finalized Bank Reconciliation; the reconciliation must be reopened first.
+17. A stale-draft protection prevents finalization if the bank ledger changed after the draft was saved.
+18. Historical reconciliation lines are snapshotted so later transactions do not rewrite an old reconciliation.
+19. Reconciliation detail can be printed.
+
+DATABASE
+--------
+New tables:
+- finance_bank_reconciliations
+- finance_bank_reconciliation_lines
+
+No foreign keys are used. This avoids the cross-tenant/type mismatch problems that have previously caused imports to fail.
+
+Canonical raw SQL for each tenant database:
+Finance/Database/SQL/2026_09_08_CREATE_FINANCE_BANK_RECONCILIATION.sql
+
+Optional compatibility SQL:
+Finance/Database/SQL/OPTIONAL_2026_09_08_ENSURE_RECONCILE_STATUS.sql
+Only use the optional ALTER if SHOW COLUMNS confirms account_transactions.reconcile_status does not exist.
+
+Migrations are also included:
+- 2026_09_08_000001_create_finance_bank_reconciliation_tables.php
+- 2026_09_08_000002_ensure_account_transactions_reconcile_status.php
+
+MULTI-TENANT / MULTI-BUSINESS SAFETY
+------------------------------------
+- Every reconciliation query is scoped by current session business_id.
+- Bank-account selection is business-scoped and location-permission aware.
+- Reconciliation records store business_id and applicable account location_id.
+- Account transactions from another business are rejected.
+- Existing tenant database selection remains untouched.
+
+PERMISSIONS
+-----------
+New namespaced permissions:
+- finance.bank_reconciliation.view
+- finance.bank_reconciliation.create
+- finance.bank_reconciliation.update
+- finance.bank_reconciliation.finalize
+- finance.bank_reconciliation.reopen
+
+A page entry named "Bank Reconciliation" was added to Config/module_permissions.php.
+Legacy Finance/Account permissions are retained as compatibility fallbacks so existing Business Admin users are not unexpectedly locked out after deployment.
+
+IMPORTANT ACCOUNTING RULE
+-------------------------
+The Bank Reconciliation screen does not create artificial journal adjustments merely to force a zero difference. If there is a genuine bank charge, interest receipt, error or missing ledger item, record/correct it through the Finance journal/accounting workflow first, refresh the reconciliation, and then finalize when the difference is zero.
+
+FILES ADDED
+-----------
+Entities/BankReconciliation.php
+Entities/BankReconciliationLine.php
+Http/Controllers/BankReconciliationController.php
+Services/BankReconciliation/BankReconciliationService.php
+Routes/bank_reconciliation.php
+Resources/views/bank_reconciliation/index.blade.php
+Resources/views/bank_reconciliation/form.blade.php
+Resources/views/bank_reconciliation/show.blade.php
+Database/Migrations/2026_09_08_000001_create_finance_bank_reconciliation_tables.php
+Database/Migrations/2026_09_08_000002_ensure_account_transactions_reconcile_status.php
+Database/SQL/2026_09_08_CREATE_FINANCE_BANK_RECONCILIATION.sql
+Database/SQL/OPTIONAL_2026_09_08_ENSURE_RECONCILE_STATUS.sql
+
+FILES CHANGED
+-------------
+Config/permissions.php
+Config/module_permissions.php
+Utils/FinancePermissionHelper.php
+Routes/web.php
+Resources/views/layouts/sidebar.blade.php
+Resources/views/layouts/partials/menu.blade.php
+Resources/views/account/index.blade.php
+Http/Controllers/Account/Concerns/ReportsAccountBalances.php
+
+FINANCE REPORTS MODULE
+----------------------
+The separate Finance Reports module is intentionally not guessed or reconstructed from an older copy. Its latest ZIP must be supplied before adding the Bank Reconciliation Report there. The report should read the finalized/draft reconciliation tables above and provide filters for bank account, location, status and statement date, plus print/PDF/Excel output according to that module's existing report standard.

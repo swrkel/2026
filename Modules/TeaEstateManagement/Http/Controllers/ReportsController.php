@@ -1,0 +1,7 @@
+<?php
+namespace Modules\TeaEstateManagement\Http\Controllers;
+use Illuminate\Http\Request; use Illuminate\Support\Facades\DB;
+class ReportsController extends BaseTeaController
+{
+ public function index(Request $r){$d=$this->common();$b=$this->businessId();$start=$r->start_date?:now()->startOfMonth()->toDateString();$end=$r->end_date?:now()->toDateString();$d['start']=$start;$d['end']=$end;if(!$d['installed']){$d['summary']=['harvest_kg'=>0,'purchased_kg'=>0,'purchase_value'=>0,'made_tea_kg'=>0,'sales_value'=>0];return view('teaestate::reports.index',$d);} $locs=$this->locations->allowedIds();$d['summary']=['harvest_kg'=>(float)DB::table('tea_harvests')->where('business_id',$b)->whereIn('location_id',$locs)->whereBetween('harvest_date',[$start,$end])->sum('accepted_qty_kg'),'purchased_kg'=>(float)DB::table('tea_leaf_purchases')->where('business_id',$b)->whereIn('location_id',$locs)->whereBetween('purchase_date',[$start,$end])->sum('accepted_weight_kg'),'purchase_value'=>(float)DB::table('tea_leaf_purchases')->where('business_id',$b)->whereIn('location_id',$locs)->whereBetween('purchase_date',[$start,$end])->sum('net_amount'),'made_tea_kg'=>(float)DB::table('tea_processing_batches')->where('business_id',$b)->whereIn('location_id',$locs)->whereBetween('process_date',[$start,$end])->sum('output_qty_kg'),'sales_value'=>(float)DB::table('tea_sales')->where('business_id',$b)->whereIn('location_id',$locs)->whereBetween('sale_date',[$start,$end])->sum('total_amount')];return view('teaestate::reports.index',$d);}
+}

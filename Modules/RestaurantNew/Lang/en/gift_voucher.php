@@ -1,0 +1,23 @@
+<?php
+return [
+    'title' => 'Gift Cards & Vouchers',
+    'issue_new' => 'Issue New Voucher',
+    'voucher_no' => 'Voucher No',
+    'customer' => 'Customer',
+    'issue_amount' => 'Issue Amount',
+    'balance' => 'Balance',
+    'status' => 'Status',
+    'action' => 'Action',
+    'view' => 'View',
+    'type' => 'Type',
+    'mobile' => 'Mobile',
+    'email' => 'Email',
+    'issued_on' => 'Issued On',
+    'expires_on' => 'Expires On',
+    'save' => 'Save',
+    'redeem' => 'Redeem',
+    'transactions' => 'Transactions',
+    'no_records' => 'No gift cards or vouchers found.',
+    'issued_success' => 'Gift card/voucher issued successfully.',
+    'redeemed_success' => 'Voucher redeemed successfully.',
+];

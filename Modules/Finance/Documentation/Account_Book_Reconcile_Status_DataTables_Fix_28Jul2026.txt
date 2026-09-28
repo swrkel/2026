@@ -1,0 +1,39 @@
+Finance Module / List Accounts / Account Book
+DataTables reconcile_status warning fix — 28 July 2026
+
+Problem found
+-------------
+The Account Book AJAX service had been changed to place the Reconcile button below
+Debit or Credit, so its JSON rows no longer contained a separate reconcile_status
+value. A previously compiled/cached Account Book Blade view was still requesting the
+old reconcile_status DataTables column. This caused:
+
+DataTables warning: Requested unknown parameter 'reconcile_status' for row 0, column 10.
+
+Fix implemented
+---------------
+1. The AJAX response now remains compatible with both layouts:
+   - Current layout: Reconcile button remains below the applicable Debit/Credit amount.
+   - Older compiled/cached layout: reconcile_status is returned as a separate field.
+2. Duplicate Reconcile buttons are prevented by detecting the columns requested by
+   DataTables for each AJAX call.
+3. The query safely supplies reconcile_status = 0 when an older tenant database does
+   not contain the account_transactions.reconcile_status column.
+4. The Blade AJAX data normalizer supplies an empty reconcile_status fallback.
+
+Changed files
+-------------
+Finance/Services/Accounts/AccountBookDataService.php
+Finance/Resources/views/account/show.blade.php
+
+Database
+--------
+No migration or raw SQL is required for this correction.
+
+After upload
+------------
+Run from the Laravel project root:
+
+php artisan optimize:clear
+
+Then hard-refresh the Account Book page (Ctrl+F5).

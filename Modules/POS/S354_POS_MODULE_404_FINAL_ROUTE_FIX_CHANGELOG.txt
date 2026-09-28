@@ -1,0 +1,45 @@
+POS Standalone S354 - Final Route Registration / 404 Fix
+Date: 2026-07-04
+
+Purpose
+- Fix 404 Not Found for all POS Module pages, especially:
+  /pos-module
+  /pos-module/registers
+  /pos-module/sales
+  /pos-module/sales/workspace
+  /pos-module/products
+  /pos-module/customers
+  /pos-module/reports
+
+Changed files
+- Modules/POS/module.json
+- Modules/POS/Providers/POSServiceProvider.php
+- Modules/POS/Providers/RouteServiceProvider.php
+- Modules/POS/Routes/web.php
+- Modules/POS/Routes/pos_page_003.php
+- Modules/POS/Routes/pos006_010.php
+- Modules/POS/Routes/pos016_020.php
+- Modules/POS/Routes/reports.php
+- Modules/POS/Routes/kitchen.php
+
+Main fixes
+1. Added RouteServiceProvider directly to module.json providers list.
+2. Added POSServiceProvider direct route-loading fallback.
+3. Added route-loading lock to prevent duplicate route registration.
+4. Changed primary visible route prefix from /pos to /pos-module.
+5. Kept backward compatibility redirects:
+   /pos -> /pos-module
+   /pos/* -> /pos-module/*
+   /pos-dashboard -> /pos-module
+   /point-of-sale -> /pos-module
+6. No dependency on main ERP route files.
+7. No SQL changes required.
+
+Important server step after replacing files
+- Clear Laravel caches because old route cache can keep 404 routes:
+  php artisan optimize:clear
+  php artisan route:clear
+  php artisan config:clear
+  php artisan view:clear
+
+If you cannot run commands, clear cache from hosting panel / ask server admin to clear Laravel cache.

@@ -1,0 +1,2 @@
+-- Stage 008 has no required ALTER statements for existing RestaurantNew tables.
+-- Optional later integration: add waiter_id/cashier_shift_id columns to rn_orders/rn_bills when final POS/billing schemas are locked.

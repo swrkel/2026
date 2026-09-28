@@ -1,0 +1,24 @@
+Rice Mill - Out Put Type Product Mapping Update - 21 Sep 2026
+
+Scope
+-----
+Rice Mill / Settings / Product Category Mapping / Out Put Type
+
+Changes
+-------
+1. Eligible Output Products now come only from Products New top-level Product Categories:
+   - Rice
+   - By Products
+   Products linked through descendant Product Sub Categories are included.
+2. Output Product selection is now a scrollable checkbox box instead of a multi-select Product dropdown.
+3. Product Category and Product Sub Category / Product remain optional on-screen filters only.
+4. Type-to-filter search is available inside the Output Products box.
+5. Select Visible and Clear Visible actions are provided for faster bulk selection.
+6. Saving replaces the previous Output mapping with the exact checked Product list.
+   Unchecked Products stop appearing in Mill Production -> Output Type immediately.
+7. Existing/stale Output mappings outside Rice / By Products are ignored by Production for safety.
+8. Added Out Put Type Products remain listed in the same Settings section.
+
+Database
+--------
+No database schema change. Mapping remains stored in rcm_settings.settings JSON.

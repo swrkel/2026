@@ -1,0 +1,18 @@
+IS2214 – SW Settlement – 08 Sep 2026
+
+Changed code:
+- SW/Services/SettlementFinancePostingService.php
+
+Added documentation:
+- SW/Documentation/IS2214_SW_Settlement_Finance_Customer_Ledger_Fix_08Sep2026.txt
+- SW/CHANGE_MANIFEST_IS2214.txt
+
+Purpose:
+- Make SW settlement Finance posting tenant-safe and atomic.
+- Post Cash/Card/Cheque/Cash Deposit through Finance-compatible settlement transaction types.
+- Ensure Sales Income / COGS / Finished Goods and Trading Profit sources are created.
+- Create Customer Ledger rows for SW credit sales.
+- Prevent silent partial Finance posting.
+
+No SQL/database change required.
+No historical backfill included.

@@ -1,0 +1,6 @@
+DISNEW_001 - Stage 1 Foundation
+
+Added new standalone DistributionNew module with disnew_ database prefix.
+Added routes, providers, module config, dashboard, sales order, invoice, loading, stock, settings and report foundations.
+Added SQL for sales orders, sales invoices, loadings, unloadings, vehicle stock, stock movement, SMS officers/logs and number sequences.
+Added POS-style UI standard partial copied into the module, with Distribution New local additions.

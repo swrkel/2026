@@ -1,0 +1,85 @@
+SW Module - SW Shifts / Shift Operations Ajax fix
+Date: 14 Sep 2026
+Base: SW_IS2269_Fixed_13Sep2026.zip (latest consolidated SW module in this chat)
+
+Reported symptom
+----------------
+SW Shifts / Shift Operations opened, but the page immediately showed:
+  DataTables warning: table id=sw_daily_shift_table - Ajax error
+The Daily Cash Status shift selector on the same page also showed:
+  The cash status could not be loaded.
+
+Root cause corrected
+--------------------
+The affected Ajax endpoints were still using Laravel Schema facade metadata
+(and, for the cash-status selector, the Shift Eloquent model/SoftDeletes path)
+after tenant.context had switched the active tenant database.
+
+This module already contains a newer shift-options endpoint that deliberately
+avoids Schema facade metadata for exactly this multi-tenant reason: metadata can
+refer to the connection/schema that existed before the tenant switch. When an
+optional table/column was then assumed to exist in the live tenant DB, the Ajax
+request could fail with HTTP 500. DataTables surfaces that only as its generic
+"Ajax error" message.
+
+Changes made
+------------
+1. Http/Controllers/DailyShiftController.php
+   - Reads table/column availability from information_schema for DATABASE(),
+     i.e. the tenant database selected for the current request.
+   - Keeps sw_shifts as the authoritative required table; it is NOT bypassed.
+   - Guards optional business_locations/users/settlement/operator joins.
+   - Supports existing assignment-key variants (sw_shift_id/shift_id and
+     pump_operator_id/operator_id) without changing any data.
+   - Prevents optional operator-assignment schema differences from breaking the
+     entire shift DataTable.
+   - Returns a normal no-cache DataTables JSON payload.
+   - Makes date display tolerant of one malformed historical value.
+
+2. Http/Controllers/CashStatusController.php
+   - Loads the open-shift selector directly from the live tenant sw_shifts table.
+   - Removes the selector's dependency on Eloquent SoftDeletes when an older
+     tenant schema has different optional columns.
+   - Guards optional shift display columns and operator-assignment columns.
+   - Uses the same live tenant metadata checks as the repaired Daily Shift feed.
+
+3. Resources/views/operators/partials/daily_shift.blade.php
+   - Uses a relative same-origin URL for the Daily Shift DataTable Ajax request.
+     This prevents tenant host/scheme drift from breaking the request.
+
+4. Resources/views/operators/partials/daily_cash_status.blade.php
+   - Uses relative same-origin URLs for the shift-list and cash-status Ajax
+     requests for the same tenant-safety reason.
+
+Safety
+------
+- No database table is created, altered, renamed or dropped.
+- No settlement calculations, settlement posting, Finance posting, purchase,
+  customer ledger, tank/stock or payment logic was changed.
+- Existing IS2260 / IS2263 / IS2267 / IS2269 fixes are preserved because this
+  parcel is built on the latest IS2269 consolidated module.
+- No SQL import or migration is required.
+
+Validation performed
+--------------------
+- 133 PHP / Blade-PHP files passed php -l.
+- Only the four files listed above plus this manifest differ from the IS2269
+  consolidated base.
+- Full and changed-files ZIP archives were integrity-tested after creation.
+
+After upload
+------------
+cd /home/nivasa/public_html
+php artisan optimize:clear
+
+Then hard-refresh the browser once (Ctrl+F5) and open:
+  /sw/shifts
+or the internal page:
+  /sw/shift-operations
+
+Expected result
+---------------
+- No DataTables Ajax warning for sw_daily_shift_table.
+- Daily Shift rows load normally for the selected location/status.
+- Daily Cash Status SW Shift No loads open SW shifts instead of showing
+  "The cash status could not be loaded."

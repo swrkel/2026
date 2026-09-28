@@ -1,0 +1,1 @@
+window.ExpensesNewBudgetManager=window.ExpensesNewBudgetManager||{};

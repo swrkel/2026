@@ -1,0 +1,13 @@
+{
+    "name": "StockReports",
+    "alias": "stockreports",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\StockReports\\Providers\\StockReportsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

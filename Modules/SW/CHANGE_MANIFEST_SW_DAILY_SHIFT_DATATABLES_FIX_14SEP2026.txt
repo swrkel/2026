@@ -1,0 +1,92 @@
+SW Module - SW Daily Shift DataTables tn/7 permanent page-path fix
+Date: 14 Sep 2026
+Base: SW_Shifts_Ajax_Fix_14Sep2026.zip (preserves all IS2260 / IS2263 / IS2267 / IS2269 and prior SW Shifts fixes)
+
+Reported symptom
+----------------
+The same warning still appeared on the SW Shifts page:
+  DataTables warning: table id=sw_daily_shift_table - Ajax error (tn/7)
+
+Why the previous repair was not enough
+--------------------------------------
+The previous parcel made /sw/daily-shift/data much safer, but the visible
+Daily Shift table still depended on a SECOND HTTP/Ajax request after the page
+had already loaded. Therefore any request-specific tenant/session problem,
+legacy optional-table difference, malformed row or route-level exception could
+still make DataTables show tn/7 even though /sw/shifts itself opened normally.
+
+Fix implemented
+---------------
+1. Services/ShiftTableService.php (new)
+   - One read-only authoritative source for the Daily Shift rows.
+   - Reads the current tenant's sw_shifts table directly.
+   - Does not use Schema facade metadata after tenant.context switches DB.
+   - Loads optional location/user/operator/settlement display data separately.
+     An optional shared table can no longer take down the whole shift list.
+   - Supports sw_shift_id/shift_id and pump_operator_id/operator_id variants.
+   - Normalizes numeric and legacy text statuses in PHP.
+   - A failure in optional enrichment returns the base shift rows instead of an
+     HTTP 500.
+
+2. Http/Controllers/DailyShiftsPageController.php
+   - Loads Daily Shift rows as part of the normal /sw/shift-operations page
+     request using ShiftTableService.
+   - Business location and operator lookups now use live tenant metadata and
+     tolerate optional column differences.
+
+3. Resources/views/operators/partials/daily_shift.blade.php
+   - The shift rows are rendered into <tbody> with the page itself.
+   - sw_daily_shift_table is now a CLIENT-SIDE DataTable on this page.
+   - There is NO Ajax request in this DataTable, therefore the visible SW Shifts
+     page can no longer produce tn/7 from sw_daily_shift_table.
+   - Existing Location, Status and Shift No filters are preserved with hidden
+     client-side filter columns.
+   - Open / Closed / Settled status behavior remains unchanged.
+   - After an Ajax-style modal save event, the page reloads once to show the
+     updated shift lifecycle.
+
+4. Http/Controllers/DailyShiftController.php
+   - /sw/daily-shift/data is kept for compatibility with old/cached code.
+   - It now uses the same ShiftTableService and returns HTTP 200 + {data: []}
+     safely if an unexpected legacy-row/display exception occurs.
+   - JSON_INVALID_UTF8_SUBSTITUTE is used where available, preventing malformed
+     legacy text from turning the JSON response into an HTTP 500.
+
+Safety
+------
+- sw_shifts remains the required and authoritative SW shift table.
+- No table is bypassed or replaced.
+- No SQL or migration is required.
+- No settlement calculation/posting, Finance posting, customer ledger,
+  stock/tank, purchase or payment logic was changed.
+- All earlier consolidated SW fixes are preserved.
+
+Validation
+----------
+- 134 PHP / Blade-PHP files passed php -l (133 existing + 1 new service).
+- Daily Shift JavaScript passed node --check.
+- The visible daily_shift.blade.php contains no Ajax configuration and no
+  sw.shifts.data/daily-shift/data request.
+- Changed files are limited to:
+    SW/Services/ShiftTableService.php
+    SW/Http/Controllers/DailyShiftsPageController.php
+    SW/Http/Controllers/DailyShiftController.php
+    SW/Resources/views/operators/partials/daily_shift.blade.php
+    this manifest
+
+After upload
+------------
+cd /home/nivasa/public_html
+php artisan optimize:clear
+
+Then Ctrl+F5 and open either:
+  /sw/shifts
+or
+  /sw/shift-operations
+
+Expected result
+---------------
+- No "table id=sw_daily_shift_table - Ajax error" popup.
+- Daily Shift rows appear immediately with the page.
+- Location / Status / Shift No filters continue to work.
+- Open New Shift / Assign / Edit / Close / Reopen actions remain available.

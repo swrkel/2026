@@ -1,0 +1,12 @@
+{
+  "name": "PriceChangeNew",
+  "alias": "pricechangenew",
+  "description": "Fresh standalone tenant-aware price change management module built for system baseline 9773.",
+  "keywords": ["price", "pricing", "tenant", "approval", "audit"],
+  "priority": 0,
+  "providers": ["Modules\\PriceChangeNew\\Providers\\PriceChangeNewServiceProvider"],
+  "aliases": {},
+  "files": [],
+  "requires": [],
+  "version": "2.0.0-sequence-02-large-9773"
+}

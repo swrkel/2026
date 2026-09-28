@@ -1,0 +1,1 @@
+.atn-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.atn-kpi{background:#fff;border:1px solid #dfe5ec;border-radius:8px;padding:16px}.atn-kpi-label{font-size:12px;font-weight:700;text-transform:uppercase}.atn-kpi-value{font-size:24px;font-weight:800}.atn-table th{white-space:nowrap}.atn-table td{vertical-align:middle}

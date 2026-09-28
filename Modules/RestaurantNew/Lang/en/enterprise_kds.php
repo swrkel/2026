@@ -1,0 +1,21 @@
+<?php
+return [
+    'enterprise_kds' => 'Enterprise Kitchen Display System',
+    'live_kitchen_queue' => 'Live Kitchen Queue',
+    'kds_screens' => 'KDS Screens',
+    'kds_screen_saved' => 'KDS screen saved successfully.',
+    'received' => 'Received',
+    'preparing' => 'Preparing',
+    'ready' => 'Ready',
+    'overdue' => 'Overdue',
+    'accept' => 'Accept',
+    'start' => 'Start',
+    'collected' => 'Collected',
+    'qty' => 'Qty',
+    'section' => 'Section',
+    'name' => 'Name',
+    'code' => 'Code',
+    'sound' => 'Sound',
+    'save' => 'Save',
+    'active' => 'Active',
+];

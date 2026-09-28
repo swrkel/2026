@@ -1,0 +1,644 @@
+MA-002 - DUPLICATE ROUTE NAMES : THE REMAINING BLOCKER FOR route:cache
+======================================================================
+
+WHY THIS MATTERS
+  php artisan route:cache fails with:
+      Unable to prepare route [x] for serialization.
+      Another route has already been assigned name [y].
+
+  Laravel TOLERATES duplicate route names at runtime - the last one
+  registered simply wins - but it REFUSES to cache them, because a cache
+  is a name-to-route map and a name cannot point at two routes.
+
+  fully-qualified route names declared : 4,307
+  names used more than once            : 280
+
+I FIXED TWO OF THEM ALREADY - see Manufacturing and PriceChanges. Both
+used Route::resource('/') which, having no uri to derive from, generated
+the bare names index/create/store/show/edit/update/destroy. Naming them
+explicitly changed no url and nothing referenced the old bare names.
+
+THE REST ARE LISTED BELOW.
+
+======================================================================
+DUPLICATES BY MODULE
+======================================================================
+
+  core (routes/)                  318
+  Loan                            50
+  POS                             30
+  StockTransferNew                28
+  AutoService                     20
+  PetroPDNew                      19
+  ExpensesNew                     18
+  DistributionNew                 15
+  PetroGeneral                    15
+  Petro                           14
+  PetroDirectNew                  12
+  StockTakingNew                  11
+  Product                         8
+  Finance                         7
+  RestaurantNew                   7
+  StockAdjustmentNew              7
+  CustomerStatements              5
+  Suppliers                       5
+  PetroDirect                     5
+  Purchase                        5
+  PriceChangeNew                  4
+  BeautySaloons                   4
+  Chequer                         4
+  Superadmin                      3
+  PetroPD                         2
+  AutoRepairServices              2
+  Repair                          2
+  EnterpriseFramework             1
+  BankingCoreDeposits             1
+  FinanceReports                  1
+  PumperDashboardNew              1
+  DailyActivityReport             1
+  DailyCollectionSW               1
+
+======================================================================
+THE DUPLICATED NAMES
+======================================================================
+
+  Rooms.maketable                             2x
+      core
+  about                                       2x
+      core
+  account-settings.default-date-range.get     2x
+      core
+  account-settings.default-date-range.save    2x
+      core
+  accounts.correctAccountsProductWiseDiscount 2x
+      core
+  accounts.correctCOGSAccountsTax             2x
+      core
+  accounts.correctSaleIncomeAccountsTax       2x
+      core
+  accounts.correctSellLinesDecimalDifference  2x
+      core
+  accounts.correctSellLinesTax                2x
+      core
+  accounts.fixDecemberSalesAccounts           2x
+      core
+  accounts.getAccountsReceivableSettlementCustomerPaymentToCredit2x
+      core
+  accounts.getCashAccountPosSaleTax           2x
+      core
+  accounts.getFinishedGoodsAccountPosSaleTax  2x
+      core
+  accounts.import                             2x
+      core
+  accounts.updateAccountsProductWiseDiscount  2x
+      core
+  accounts.updateAccountsReceivableSettlementCustomerPaymentToCredit2x
+      core
+  accounts.updateCOGSAccountsTax              2x
+      core
+  accounts.updateCashAccountPosSaleTax        2x
+      core
+  accounts.updateDecemberSalesAccounts        2x
+      core
+  accounts.updateFinishedGoodsAccountPosSaleTax2x
+      core
+  accounts.updateSaleIncomeAccountsTax        2x
+      core
+  accounts.updateSellLinesDecimalDifference   2x
+      core
+  accounts.updateSellLinesTax                 2x
+      core
+  adjustments.approve                         2x
+      PetroPDNew, StockAdjustmentNew
+  adjustments.reject                          2x
+      PetroPDNew, StockAdjustmentNew
+  adjustments.store                           2x
+      PetroPDNew, StockAdjustmentNew
+  agent_password.email                        2x
+      core
+  agent_password.reset                        2x
+      core
+  approvals.approve                           2x
+      StockTakingNew, StockTransferNew
+  approvals.index                             3x
+      PriceChangeNew, StockTakingNew, StockTransferNew
+  approvals.reject                            2x
+      StockTakingNew, StockTransferNew
+  approve                                     2x
+      StockTransferNew
+  autoservice.inventory_control.export        2x
+      AutoService
+  autoservice.inventory_control.index         2x
+      AutoService
+  autoservice.inventory_control.reorder.store 2x
+      AutoService
+  autoservice.inventory_control.stock.store   2x
+      AutoService
+  autoservice.management_kpi.index            2x
+      AutoService
+  autoservice.management_kpi.repeat_repairs.store2x
+      AutoService
+  autoservice.ui_standardization.index        2x
+      AutoService
+  autoservice.ui_standardization.log_check    2x
+      AutoService
+  autoservice_short.business_intelligence.export2x
+      AutoService
+  autoservice_short.business_intelligence.index2x
+      AutoService
+  business.customer_register                  2x
+      core
+  business.dayEnd                             2x
+      core
+  business.getRegister                        2x
+      core
+  business.images.delete                      3x
+      Superadmin, core
+  business.images.update                      3x
+      Superadmin, core
+  business.member_register                    2x
+      core
+  business.postAgentRegister                  2x
+      core
+  business.postBusinessSettings               2x
+      core
+  business.postCheckEmail                     2x
+      core
+  business.postCheckEmailAgent                2x
+      core
+  business.postCheckUsername                  2x
+      core
+  business.postCheckUsernameAgent             2x
+      core
+  business.postPatientRegister                2x
+      core
+  business.postRegister                       2x
+      core
+  business.postVisitorRegister                2x
+      core
+  cancel                                      2x
+      StockTransferNew
+  cheque-write-store                          2x
+      core
+  chequer.cancel_cheque.note                  2x
+      core
+  chequerDashboard                            2x
+      core
+  contact                                     2x
+      core
+  contacts.check_contact_id.compat            2x
+      core
+  contacts.create_customer.compat             2x
+      core
+  contacts.customer.balance_details.compat    2x
+      core
+  contacts.customer.ledger.compat             2x
+      core
+  contacts.customer.payments.compat           2x
+      core
+  contacts.customer.security_deposit.compat   2x
+      core
+  contacts.customer.toggle_activate.compat    2x
+      core
+  contacts.customer_loan.compat               2x
+      core
+  contacts.customer_loan_view.compat          2x
+      core
+  contacts.customer_loans_list.compat         2x
+      core
+  contacts.customers.compat                   2x
+      core
+  contacts.export_customers.compat            2x
+      core
+  contacts.get-sub-customers                  2x
+      core
+  contacts.import                             2x
+      core
+  contacts.issued_payment_details.compat      2x
+      core
+  contacts.outstanding_filters.compat         2x
+      core
+  contacts.outstanding_received_report.compat 2x
+      core
+  contacts.quick-add-sub-customer             2x
+      core
+  contacts.returned_cheque_details.compat     2x
+      core
+  create                                      3x
+      CustomerStatements, Product, StockTransferNew
+  customer-home                               2x
+      core
+  customer.updatePassword                     2x
+      core
+  customer_password.email                     2x
+      core
+  customer_password.reset                     2x
+      core
+  customer_statement.update_font              2x
+      core
+  customers.legacy.check_mobile               2x
+      core
+  customers.legacy.get_contacts               2x
+      core
+  customers.legacy.post_api                   2x
+      core
+  customers.legacy.search                     2x
+      core
+  daily-shift.edit-save-shift                 2x
+      PetroDirect, PetroGeneral
+  daily.cash.status                           2x
+      Petro, PetroGeneral
+  daily.cash.status.data.by.date              2x
+      Petro, PetroGeneral
+  daily_collection.save_settings              2x
+      Petro, PetroGeneral
+  dashboard                                   17x
+      BankingCoreDeposits, BeautySaloons, Chequer, CustomerStatements, DistributionNew, EnterpriseFramework, Finance, FinanceReports, PetroDirect, PetroDirectNew, PetroPDNew, PriceChangeNew, RestaurantNew, StockAdjustmentNew, StockTakingNew, StockTransferNew, Suppliers
+  dashboard.index                             7x
+      PetroDirect, PetroDirectNew, PetroPDNew, Purchase, RestaurantNew, StockAdjustmentNew, StockTakingNew
+  database.getDatabases                       2x
+      core
+  database.updateDatabases                    2x
+      core
+  dbindex                                     2x
+      core
+  distributionnew.approvals.approve           2x
+      DistributionNew
+  distributionnew.approvals.index             2x
+      DistributionNew
+  distributionnew.audit.index                 2x
+      DistributionNew
+  distributionnew.audit.run                   2x
+      DistributionNew
+  distributionnew.delivery-proofs.store       2x
+      DistributionNew
+  documents.download                          2x
+      PetroPDNew, StockTakingNew
+  documents.store                             2x
+      PetroPDNew, Suppliers
+  employee-home                               2x
+      core
+  employee_password.email                     2x
+      core
+  employee_password.reset                     2x
+      core
+  expense-categories-code.note-settings       2x
+      core
+  expense-print                               2x
+      core
+  expenses-new.analytics                      2x
+      ExpensesNew
+  expenses-new.analytics.data                 2x
+      ExpensesNew
+  expenses-new.analytics.index                2x
+      ExpensesNew
+  expenses-new.command-center                 2x
+      ExpensesNew
+  expenses-new.command-center.data            2x
+      ExpensesNew
+  expenses-new.intelligence                   2x
+      ExpensesNew
+  expenses-new.reports                        2x
+      ExpensesNew
+  expenses-new.reports.run                    2x
+      ExpensesNew
+  expenses-new.vendor-analytics.index         2x
+      ExpensesNew
+  expenses.daily_shift_options                2x
+      core
+  export                                      3x
+      StockTransferNew
+  faq                                         2x
+      core
+  fetch.openShift                             2x
+      Petro, PetroGeneral
+  finance.list-deposit-transfer               2x
+      Finance
+  finance.standalone.account.index            2x
+      core
+  get-dose-for-medicine                       2x
+      core
+  get-medicines-for-health-issue              2x
+      core
+  getMeterSalesDetails                        2x
+      core
+  getOutStandingReceivedDataTable             2x
+      core
+  getSoldItemsReportDetail                    2x
+      core
+  getchequesReceivedReport                    2x
+      core
+  getexpensesReport                           2x
+      core
+  home                                        2x
+      core
+  home-locale                                 2x
+      core
+  imports.index                               2x
+      Product, Suppliers
+  index                                       12x
+      CustomerStatements, DailyActivityReport, Product, Purchase, StockTransferNew, core
+  loan.applications.approve                   2x
+      Loan
+  loan.applications.create                    2x
+      Loan
+  loan.applications.disburse                  2x
+      Loan
+  loan.applications.edit                      2x
+      Loan
+  loan.applications.index                     2x
+      Loan
+  loan.applications.reject                    2x
+      Loan
+  loan.applications.show                      2x
+      Loan
+  loan.applications.store                     2x
+      Loan
+  loan.applications.update                    2x
+      Loan
+  loan.customers.create                       2x
+      Loan
+  loan.customers.edit                         2x
+      Loan
+  loan.customers.index                        2x
+      Loan
+  loan.customers.show                         2x
+      Loan
+  loan.customers.store                        2x
+      Loan
+  loan.customers.update                       2x
+      Loan
+  loan.products.activate                      2x
+      Loan
+  loan.products.create                        2x
+      Loan
+  loan.products.deactivate                    2x
+      Loan
+  loan.products.delete                        2x
+      Loan
+  loan.products.duplicate                     2x
+      Loan
+  loan.products.edit                          2x
+      Loan
+  loan.products.index                         2x
+      Loan
+  loan.products.show                          2x
+      Loan
+  loan.products.store                         2x
+      Loan
+  loan.products.update                        2x
+      Loan
+  location.currency                           2x
+      core
+  location.customer.form                      2x
+      core
+  location.settings                           2x
+      core
+  location.settings_update                    2x
+      core
+  login                                       5x
+      PumperDashboardNew, core
+  login.perform                               2x
+      core
+  lookup.products                             2x
+      StockTakingNew, Suppliers
+  medicine.view                               2x
+      core
+  member-home                                 2x
+      core
+  member_password.email                       2x
+      core
+  member_password.reset                       2x
+      core
+  module.subscription                         2x
+      core
+  mpcs.forms.form_9a                          6x
+      core
+  mpcs.forms.partials.create_9a_form_settings 2x
+      core
+  mpcs.forms.partials.edit_9a_form_settings   2x
+      core
+  myhealth.public.register.store              2x
+      core
+  not-subscribed                              2x
+      core
+  orders.index                                2x
+      Purchase, RestaurantNew
+  orders.show                                 2x
+      Purchase, RestaurantNew
+  password.email                              2x
+      core
+  password.sms                                2x
+      core
+  payees.active                               2x
+      core
+  payees.create                               2x
+      core
+  payees.delete                               2x
+      core
+  payees.inactive                             2x
+      core
+  payees.index                                3x
+      Chequer, core
+  payees.ledger                               2x
+      core
+  payees.ledger.post                          2x
+      core
+  payments                                    2x
+      BeautySaloons, CustomerStatements
+  petropd.pumper-dashboard.close-shift.summary2x
+      PetroPD
+  pos.advanced_sales.index                    2x
+      POS
+  pos.kitchen.index                           2x
+      POS
+  pos.reports.export                          2x
+      POS
+  pos.reports.index                           2x
+      POS
+  pos.returns.index                           2x
+      POS
+  pos.sales.cart.add_line                     2x
+      POS
+  pos.sales.cart.clear                        2x
+      POS
+  pos.sales.cart.hold                         2x
+      POS
+  pos.sales.cart.remove_line                  2x
+      POS
+  pos.sales.cart.resume                       2x
+      POS
+  pos.sales.cart.show                         2x
+      POS
+  pos.sales.cart.suspend                      2x
+      POS
+  pos.sales.cart.update_line                  2x
+      POS
+  pos.sales.workspace                         2x
+      POS
+  pos.shifts.index                            2x
+      POS
+  post-repair-status                          2x
+      AutoRepairServices, Repair
+  privacy.policy                              2x
+      core
+  products.getAdjustedOpeningStocks           2x
+      core
+  products.getAdjustedProductCodes            2x
+      core
+  products.listAdjustments                    2x
+      core
+  pump-operators.payments.edit                2x
+      Petro, PetroGeneral
+  pump_operator_mapping.last                  2x
+      Petro, PetroGeneral
+  purchases.add_purchase_order                2x
+      core
+  purchases.create_from_order                 2x
+      core
+  purchases.discounts                         2x
+      core
+  purchases.discounts.data                    2x
+      core
+  purchases.list_purchase_orders              2x
+      core
+  random.ad                                   2x
+      core
+  refund.policy                               2x
+      core
+  reorder.categories                          2x
+      core
+  reorder.data                                2x
+      core
+  reorder.export                              2x
+      core
+  reorder.locations                           2x
+      core
+  reorder.old-list                            2x
+      core
+  reorder.products                            2x
+      core
+  repair-status                               2x
+      AutoRepairServices, Repair
+  report.monthlyReport                        2x
+      core
+  reports.export                              3x
+      PetroDirect, PetroDirectNew, PetroPDNew
+  reports.index                               8x
+      PetroDirect, PetroDirectNew, PetroPDNew, Product, Purchase, RestaurantNew, StockTakingNew, Suppliers
+  reports.print                               2x
+      PetroDirectNew, PetroPDNew
+  reports.variance                            2x
+      StockAdjustmentNew, StockTakingNew
+  sell.printInvoice                           2x
+      core
+  sell.printOustandingInvoice                 2x
+      core
+  settings                                    3x
+      CustomerStatements, DailyCollectionSW, Superadmin
+  settings.edit                               2x
+      Finance, PetroPDNew
+  settings.index                              8x
+      Chequer, Finance, PriceChangeNew, Product, RestaurantNew, StockAdjustmentNew, StockTakingNew, StockTransferNew
+  settings.store                              4x
+      Chequer, Finance, Product, StockTransferNew
+  settings.update                             5x
+      Finance, PetroPDNew, PriceChangeNew, RestaurantNew, StockTakingNew
+  settlement_sw.create                        2x
+      Petro, PetroGeneral
+  settlement_sw.destroy                       2x
+      Petro, PetroGeneral
+  settlement_sw.edit                          2x
+      Petro, PetroGeneral
+  settlement_sw.index                         2x
+      Petro, PetroGeneral
+  settlement_sw.show                          2x
+      Petro, PetroGeneral
+  settlement_sw.store                         2x
+      Petro, PetroGeneral
+  settlement_sw.update                        2x
+      Petro, PetroGeneral
+  settlements.create                          2x
+      PetroDirectNew, PetroPDNew
+  settlements.edit                            2x
+      PetroDirectNew, PetroPDNew
+  settlements.index                           2x
+      PetroDirectNew, PetroPDNew
+  settlements.print                           2x
+      PetroDirectNew, PetroPDNew
+  settlements.show                            2x
+      PetroDirectNew, PetroPDNew
+  settlements.store                           2x
+      PetroDirectNew, PetroPDNew
+  settlements.update                          2x
+      PetroDirectNew, PetroPDNew
+  show                                        2x
+      Product, StockTransferNew
+  show_invoice                                2x
+      core
+  site_settings.getcurrency                   2x
+      core
+  site_settings.help_update                   2x
+      core
+  site_settings.help_view                     2x
+      core
+  site_settings.update_settings               2x
+      core
+  site_settings.view                          2x
+      core
+  staff                                       2x
+      BeautySaloons
+  stockconversion.delete                      2x
+      core
+  stockconversion.edit                        2x
+      core
+  stockconversion.view                        2x
+      core
+  store                                       5x
+      Product, StockTransferNew
+  superadmin.distributionnew.limits.edit      2x
+      DistributionNew
+  superadmin.distributionnew.limits.update    2x
+      DistributionNew
+  support                                     2x
+      core
+  terms.and.conditions                        2x
+      core
+  transaction_payments.update_cheque          2x
+      core
+  updateStockExpiryReport                     2x
+      core
+  user.getProfile                             2x
+      core
+  user.list                                   3x
+      core
+  user.updatePassword                         2x
+      core
+  user.updateProfile                          2x
+      core
+  variance                                    2x
+      StockTransferNew
+  vehicle.editVehicle                         2x
+      Petro, PetroGeneral
+  visitor-home                                2x
+      core
+
+======================================================================
+HOW I WOULD FIX IT
+======================================================================
+
+  The safe way is NOT to rename individual routes - every route('name')
+  reference would have to move with it, and there are thousands.
+
+  It is to give each module's route group a name prefix it does not
+  currently have, so 'dashboard' becomes 'stocktakingnew.dashboard' and
+  so on. That is one line per route file, but every reference to the old
+  name inside that module must change with it.
+
+  Roughly 30 modules are involved. It is a day's careful work and it must
+  be done module by module with the references checked each time - which
+  is exactly the kind of change that should not be rushed alongside a
+  speed fix.
+
+  MEANWHILE: do NOT run php artisan route:cache. It will fail and leave
+  you no worse off, but it will not help either.

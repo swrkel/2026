@@ -1,0 +1,51 @@
+SW Module - S731 / document page heading S730
+Date: 14 Sep 2026
+Base: SW_Payment_Tab_Isolation_Fix_14Sep2026.zip (latest consolidated SW parcel in this chat)
+
+REQUIREMENTS IMPLEMENTED
+
+1) Settlement -> Payment tab isolation
+   - Retained the latest payment-tab isolation fix from the base parcel.
+   - The visible generic payment table continues to filter to the active payment type only.
+   - Hidden submission inputs continue to preserve all payment types when switching tabs.
+   - Credit Sales continues to use its own detailed table/form.
+
+2) Save Settlement button only when Balance = 0.00
+   - Save Settlement submit button now starts hidden/disabled.
+   - It is shown/enabled only when at least one SW shift is selected AND abs(Total Amount - Total Paid) < 0.005.
+   - Changing/selecting a shift hides the button until the payment summary/totals are recalculated.
+   - Form submit has an additional browser guard against a non-zero balance.
+   - SettlementSaveService has a server-side balance guard, so cached pages/direct submissions cannot finalize a non-zero settlement.
+
+3) Meter Sales / Other Sales - Amount After Discount
+   - Added a dedicated "Amount After Discount" heading for Meter Sales and Other Sales only.
+   - Credit Sales wording is not changed.
+   - Corrected FIXED discount semantics: the entered fixed value is one fixed line discount, NOT quantity x discount.
+     Example from the issue image: 100 x 368.75 = 36,875.00; fixed discount 875.00 => Amount After Discount 36,000.00.
+   - Percentage discount remains percentage of Amount Before Discount.
+   - Old browser drafts are recalculated on restore using the corrected formula.
+   - Server re-calculates Meter/Other Sale amounts before saving, protecting against stale browser cache using the old formula.
+
+OPERATIONAL FILES CHANGED
+- Resources/lang/en/lang.php
+- Resources/views/settlements/create.blade.php
+- Resources/views/settlements/partials/payments_js.blade.php
+- Resources/views/settlements/partials/meter_sales.blade.php
+- Resources/views/settlements/partials/meter_sales_js.blade.php
+- Resources/views/settlements/partials/other_sales.blade.php
+- Resources/views/settlements/partials/other_sales_js.blade.php
+- Services/SettlementSaveService.php
+
+NO DATABASE CHANGE
+- No SQL or migration required.
+
+DEPLOY
+1. Replace current Modules/SW with the full consolidated parcel.
+2. Run: php artisan optimize:clear
+3. Hard refresh browser (Ctrl+F5).
+
+TEST
+A. Add Cash and Card payments. Cash tab must show only Cash; Card tab only Card. Switch back/forth and confirm both still save.
+B. With non-zero settlement Balance, Save Settlement must not be visible/enabled. Bring Balance to 0.00; button must appear.
+C. Meter Sales: Qty 100.000, Price 368.75, Fixed Discount 875.00 -> Amount Before Discount 36,875.00 and Amount After Discount 36,000.00.
+D. Other Sales: verify the same fixed-line discount rule and Amount After Discount heading.

@@ -1,0 +1,60 @@
+/* PROD-010: Product module standalone CSS foundation. */
+.product-module-wrapper .product-card,
+.product-module-wrapper .box {
+    border-radius: 4px;
+}
+
+.product-module-wrapper .product-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.product-module-wrapper .product-toolbar .form-control {
+    min-width: 180px;
+}
+
+.product-module-wrapper .product-actions-dropdown {
+    white-space: nowrap;
+}
+
+.product-module-wrapper .product-form-section {
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.product-module-wrapper .product-form-section-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.product-module-wrapper .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.product-module-wrapper .amount,
+.product-module-wrapper .qty,
+.product-module-wrapper .text-number {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.product-module-wrapper .product-tab-content {
+    padding-top: 12px;
+}
+
+@media (max-width: 767px) {
+    .product-module-wrapper .product-toolbar {
+        display: block;
+    }
+
+    .product-module-wrapper .product-toolbar > * {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}

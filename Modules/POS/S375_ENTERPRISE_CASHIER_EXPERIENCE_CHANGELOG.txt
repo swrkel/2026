@@ -1,0 +1,28 @@
+POS S375 - Enterprise Cashier Experience
+
+Purpose
+- Improve cashier speed and usability without changing the agreed standalone architecture.
+- Keep the visual design aligned with the ERP / Communication Hub standard.
+
+Included
+- Cashier hotbar added to Sales Workspace.
+- Keyboard shortcuts added:
+  F2  = focus barcode/search box
+  F4  = customer section
+  F6  = hold sale
+  F7  = resume sale
+  F8  = payment field
+  F9  = checkout button
+  F10 = shortcut help panel
+- Barcode/search field is automatically focused on page load.
+- Shortcut help panel added.
+- Quick-cash helper JS added for payment screens where data-pos-quick-cash buttons are available.
+- ERP-standard styling for hotbar, shortcut panel, scan status, and quick payment grid.
+
+No SQL changes required.
+
+Post Upload
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+Hard refresh browser with Ctrl + F5.

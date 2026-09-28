@@ -1,0 +1,15 @@
+{
+  "name": "EzyLaw",
+  "alias": "ezylaw",
+  "description": "Standalone EzyLaw lawyer and legal practice management system",
+  "priority": 0,
+  "providers": [
+    "Modules\\EzyLaw\\Providers\\EzyLawServiceProvider"
+  ],
+  "aliases": {},
+  "files": [
+    "start.php"
+  ],
+  "requires": [],
+  "version": "4.0.0"
+}

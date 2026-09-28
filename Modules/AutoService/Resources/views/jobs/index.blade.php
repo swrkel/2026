@@ -1,0 +1,5 @@
+@extends('autoservice::layouts.master')
+@section('title','Auto Service Jobs')
+@section('autoservice_content')
+<div class="box"><div class="box-header"><a class="btn btn-success pull-right" href="{{ route('autoservice.jobs.create') }}">Add Job</a></div><div class="box-body table-responsive"><table class="table table-bordered"><thead><tr><th>Job No</th><th>Date</th><th>Vehicle</th><th>Status</th><th>Total</th><th>Paid</th><th>Balance</th><th>Action</th></tr></thead><tbody>@foreach($jobs as $j)<tr><td>{{ $j->job_no }}</td><td>{{ $j->job_date }}</td><td>{{ $j->vehicle_id }}</td><td>{{ ucfirst($j->status) }}</td><td>{{ number_format($j->total_amount,2) }}</td><td>{{ number_format($j->paid_amount,2) }}</td><td>{{ number_format($j->balance_amount,2) }}</td><td><a class="btn btn-xs btn-info" href="{{ route('autoservice.jobs.show',$j->id) }}">View</a> <a class="btn btn-xs btn-primary" href="{{ route('autoservice.jobs.edit',$j->id) }}">Edit</a> <a class="btn btn-xs btn-default" href="{{ route('autoservice.jobs.print',$j->id) }}" target="_blank">Print</a></td></tr>@endforeach</tbody></table>{{ $jobs->links() }}</div></div>
+@endsection

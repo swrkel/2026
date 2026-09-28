@@ -1,0 +1,20 @@
+DISNEW_006 - Large Parcel: Collections, Settlements, Customer/Sales Rep Portals and Operational Reports
+
+Added:
+- disnew_collections
+- disnew_settlements
+- disnew_settlement_lines
+- disnew_order_status_logs
+- disnew_portal_audit_logs
+- Collection controller/service/model/views/report
+- Settlement controller/service/model/views/report
+- Customer portal pages for customer-created orders
+- Sales rep portal pages for route/orders/collections
+- Operational daily summary report
+- Vehicle stock balance report
+- SMS event hooks for collections and settlement finalization through Distribution New SMS bridge
+
+Standalone rule:
+- All files remain inside Modules/DistributionNew.
+- No dependency on old Distribution module.
+- Customer information remains lookup/integration only through service layer.

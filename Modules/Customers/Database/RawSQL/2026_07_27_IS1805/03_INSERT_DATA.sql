@@ -1,0 +1,4 @@
+-- IS1805 Customers Module
+-- No seed/master-data INSERT statements are required for this correction.
+-- Future INSERT statements must use INSERT ... SELECT ... WHERE NOT EXISTS
+-- (or an equivalent duplicate-safe condition) to prevent duplicate tenant data.

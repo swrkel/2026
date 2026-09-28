@@ -1,0 +1,13 @@
+{
+    "name": "MyAuto",
+    "alias": "myauto",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MyAuto\\Providers\\MyAutoServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

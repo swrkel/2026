@@ -1,0 +1,772 @@
+/* Pump Operator Credit Sale — compact, touch-friendly modal */
+#direct_cr.pumper-credit-sale-modal {
+    z-index: 20010 !important;
+    padding-right: 0 !important;
+    font-family: Calibri, "Segoe UI", Arial, sans-serif;
+}
+
+#direct_cr .pumper-credit-sale-dialog {
+    width: calc(100vw - 40px);
+    max-width: 1320px;
+    margin: 16px auto;
+}
+
+#direct_cr .pumper-credit-sale-content {
+    height: calc(100vh - 32px);
+    height: calc(100dvh - 32px);
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #d0a84d;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 22px 60px rgba(27, 44, 68, .22);
+}
+
+#direct_cr .pumper-credit-sale-header {
+    flex: 0 0 auto;
+    min-height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 30px;
+    border-bottom: 1px solid #e5e8ee;
+    background: #fff;
+}
+
+#direct_cr .pumper-credit-sale-title {
+    margin: 0;
+    color: #15263a;
+    font-family: Calibri, "Segoe UI", Arial, sans-serif;
+    font-size: clamp(25px, 2vw, 34px);
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+#direct_cr .pumper-credit-sale-close {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #d8e2eb;
+    border-radius: 50%;
+    background: #f4f8fb;
+    color: #25384c;
+    font-size: 35px;
+    font-weight: 300;
+    line-height: 1;
+    opacity: 1;
+    text-shadow: none;
+    box-shadow: 0 8px 20px rgba(36, 59, 81, .10);
+}
+
+#direct_cr .pumper-credit-sale-close:hover,
+#direct_cr .pumper-credit-sale-close:focus {
+    background: #eaf2f8;
+    color: #17283a;
+    opacity: 1;
+    outline: none;
+}
+
+#direct_cr .pumper-credit-sale-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    padding: 0 24px 24px;
+    background: linear-gradient(135deg, #fff 0%, #fbfcfe 56%, #f3f8fc 100%);
+}
+
+#direct_cr .pumper-credit-sale-page,
+#direct_cr .pumper-credit-sale-page * {
+    box-sizing: border-box;
+    font-family: Calibri, "Segoe UI", Arial, sans-serif;
+}
+
+#direct_cr .pumper-credit-sale-page {
+    width: 100%;
+    max-width: 1260px;
+    margin: 0 auto;
+    color: #26364a;
+}
+
+#direct_cr .credit-sale-form-panel {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 16px 20px 18px;
+    border: 1px solid #d2ad5d;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(31, 52, 74, .09);
+}
+
+#direct_cr .credit-sale-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px 14px;
+    align-items: start;
+}
+
+#direct_cr .credit-sale-field,
+#direct_cr .credit-sale-add-cell {
+    min-width: 0;
+}
+
+#direct_cr .credit-sale-field .form-group {
+    margin: 0;
+}
+
+#direct_cr .credit-sale-field label {
+    display: block;
+    margin: 0 0 5px;
+    color: #35445a;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+#direct_cr .credit-sale-field .form-control,
+#direct_cr .credit-sale-field .select2-container .select2-selection--single {
+    width: 100% !important;
+    height: 42px;
+    min-height: 42px;
+    border: 1px solid #cdd4dc !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    color: #303b4b;
+    font-size: 16px !important;
+    box-shadow: inset 0 1px 2px rgba(18, 35, 53, .03) !important;
+}
+
+#direct_cr .credit-sale-field .form-control {
+    padding: 7px 12px;
+}
+
+#direct_cr .credit-sale-field select.form-control {
+    font-size: 15.33px !important;
+}
+
+#direct_cr .credit-sale-field .form-control:focus,
+#direct_cr .credit-sale-field .select2-container--focus .select2-selection--single,
+#direct_cr .credit-sale-field .select2-container--open .select2-selection--single {
+    border-color: #37689a !important;
+    box-shadow: 0 0 0 3px rgba(55, 104, 154, .13) !important;
+    outline: none;
+}
+
+#direct_cr .credit-sale-field .form-control[readonly],
+#direct_cr .credit-sale-field .form-control[disabled] {
+    background: #f4f6f8 !important;
+    color: #465163;
+    opacity: 1;
+}
+
+#direct_cr .credit-sale-select-control {
+    position: relative;
+    width: 100%;
+    min-height: 42px;
+}
+
+#direct_cr .credit-sale-select-control > .select2-container {
+    width: 100% !important;
+}
+
+/* Safety net: never display orphan Select2 containers. */
+#direct_cr .credit-sale-select-control > .select2-container + .select2-container {
+    display: none !important;
+}
+
+#direct_cr select.credit-sale-select2.select2-hidden-accessible {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+#direct_cr .credit-sale-field .select2-selection__rendered {
+    height: 40px;
+    padding: 5px 38px 5px 12px;
+    color: #303b4b;
+    font-size: 15.33px;
+    line-height: 30px;
+}
+
+#direct_cr .credit-sale-field .select2-selection__arrow {
+    top: 0;
+    right: 7px;
+    width: 28px;
+    height: 40px;
+}
+
+#direct_cr .select2-container,
+#direct_cr .select2-container .selection,
+#direct_cr .select2-selection--single {
+    pointer-events: auto !important;
+}
+
+#direct_cr .select2-container--open,
+#direct_cr .select2-dropdown {
+    z-index: 20060 !important;
+}
+
+/* 19px was accepted; reduced by 0.5 point as requested. */
+#direct_cr .select2-results__option {
+    min-height: 43px;
+    padding: 9px 13px !important;
+    font-family: Calibri, "Segoe UI", Arial, sans-serif;
+    font-size: 17.83px !important;
+    line-height: 1.3;
+    color: #26364a;
+}
+
+#direct_cr .select2-results__option--highlighted,
+#direct_cr .select2-results__option[aria-selected="true"] {
+    font-weight: 700;
+}
+
+#direct_cr .select2-search__field {
+    min-height: 40px;
+    padding: 7px 10px;
+    font-family: Calibri, "Segoe UI", Arial, sans-serif;
+    font-size: 16.83px !important;
+}
+
+#direct_cr select.form-control option {
+    font-size: 17.83px;
+}
+
+#direct_cr #unit_price,
+#direct_cr #unit_discount,
+#direct_cr #credit_sale_qty,
+#direct_cr #credit_total_amount,
+#direct_cr #credit_discount_amount {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+#direct_cr .credit-sale-confirmation[hidden] {
+    display: none !important;
+}
+
+#direct_cr .credit-sale-confirmation {
+    margin-top: 5px;
+}
+
+#direct_cr .credit-sale-reconfirmed-badge {
+    width: 100%;
+    min-height: 29px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #22a84f;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+#direct_cr .credit-sale-customer-reconfirm-button {
+    width: 100%;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 6px;
+    padding: 5px 12px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: transform .14s ease, box-shadow .14s ease, filter .14s ease;
+}
+
+#direct_cr .credit-sale-customer-reconfirm-button.is-pending {
+    background: linear-gradient(135deg, #f0a51a, #d98400);
+    box-shadow: 0 6px 14px rgba(217, 132, 0, .20);
+}
+
+#direct_cr .credit-sale-customer-reconfirm-button.is-pending:hover,
+#direct_cr .credit-sale-customer-reconfirm-button.is-pending:focus {
+    color: #fff;
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+    outline: none;
+}
+
+#direct_cr .credit-sale-customer-reconfirm-button.is-reconfirmed,
+#direct_cr .credit-sale-customer-reconfirm-button.is-reconfirmed:disabled {
+    background: #22a84f;
+    color: #fff;
+    opacity: 1;
+    cursor: default;
+    box-shadow: none;
+}
+
+#direct_cr .credit-sale-field.is-locked .form-control,
+#direct_cr .credit-sale-field.is-locked .select2-selection--single {
+    background: #eef7ef !important;
+}
+
+#direct_cr .credit-sale-hidden-fields {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+}
+
+#direct_cr .credit-sale-add-cell {
+    min-height: 42px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+#direct_cr .credit-sale-add-button {
+    width: 81px;
+    min-width: 81px;
+    min-height: 45px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 0;
+    border-radius: 7px;
+    background: linear-gradient(135deg, #234f80, #14355f);
+    color: #fff;
+    padding: 9px 12px;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(22, 58, 96, .18);
+}
+
+#direct_cr .credit-sale-add-button:hover,
+#direct_cr .credit-sale-add-button:focus {
+    color: #fff;
+    outline: none;
+    filter: brightness(1.06);
+}
+
+#direct_cr .credit-sale-note-field {
+    grid-column: 1 / -1;
+}
+
+#direct_cr .credit-sale-note-field textarea.form-control {
+    height: 88px;
+    min-height: 88px;
+    resize: vertical;
+    line-height: 1.4;
+}
+
+#direct_cr .credit-sale-status {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    padding: 16px 34px 14px;
+}
+
+#direct_cr .credit-sale-status-field {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(160px, auto) minmax(130px, 220px);
+    align-items: center;
+    justify-content: start;
+    gap: 14px;
+}
+
+#direct_cr .credit-sale-status-field label {
+    margin: 0;
+    color: #283948;
+    font-size: clamp(20px, 1.7vw, 27px);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+#direct_cr .credit-sale-status-input {
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    margin: 0;
+    border: 1px solid #bfcbd6;
+    border-radius: 7px;
+    background: #f7fafc !important;
+    color: #b41616 !important;
+    padding: 7px 12px;
+    text-align: right;
+    font-size: 19px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    opacity: 1;
+}
+
+#direct_cr .credit-sale-table-panel {
+    overflow: hidden;
+    border: 1px solid #d2ad5d;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(31, 52, 74, .10);
+}
+
+#direct_cr .credit-sale-table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#direct_cr #credit_sale_table {
+    width: 100%;
+    min-width: 1080px;
+    margin: 0;
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: auto;
+    background: #fff;
+}
+
+#direct_cr #credit_sale_table th,
+#direct_cr #credit_sale_table td {
+    padding: 11px 10px;
+    border: 0;
+    border-right: 1px solid #dfe5eb;
+    border-bottom: 1px solid #dfe5eb;
+    vertical-align: middle;
+    font-size: 15px;
+    line-height: 1.25;
+}
+
+#direct_cr #credit_sale_table th:last-child,
+#direct_cr #credit_sale_table td:last-child {
+    border-right: 0;
+}
+
+#direct_cr #credit_sale_table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: linear-gradient(135deg, #173f6c, #0e2d52);
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#direct_cr #credit_sale_table tbody tr:nth-child(even) td {
+    background: #f8fafc;
+}
+
+#direct_cr #credit_sale_table tbody tr:hover td {
+    background: #edf5fb;
+}
+
+#direct_cr #credit_sale_table td:nth-child(6),
+#direct_cr #credit_sale_table td:nth-child(7),
+#direct_cr #credit_sale_table td:nth-child(8),
+#direct_cr #credit_sale_table td:nth-child(9),
+#direct_cr #credit_sale_table td:nth-child(10),
+#direct_cr #credit_sale_table tfoot td {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+#direct_cr #credit_sale_table .credit-sale-customer-column,
+#direct_cr #credit_sale_table .credit-sale-customer-cell {
+    width: 190px;
+    min-width: 190px;
+    text-align: left;
+}
+
+#direct_cr .credit-sale-customer-name {
+    color: #26364a;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+#direct_cr .credit-sale-note-button {
+    min-width: 64px;
+    min-height: 28px;
+    margin-top: 6px;
+    border: 0;
+    border-radius: 5px;
+    background: #2b78c5;
+    color: #fff;
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+#direct_cr .credit-sale-note-button:hover,
+#direct_cr .credit-sale-note-button:focus {
+    background: #1f65aa;
+    color: #fff;
+    outline: none;
+}
+
+#direct_cr #credit_sale_table tfoot td {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+#direct_cr #credit_sale_table tfoot td {
+    background: #f7f9fb;
+    color: #25364a;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#direct_cr #credit_sale_table .delete_credit_sale_payment {
+    min-width: 38px;
+    min-height: 34px;
+    border-radius: 6px;
+}
+
+#direct_cr .credit-sale-final-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 2px 2px;
+}
+
+#direct_cr .credit-sale-final-button {
+    min-width: 150px;
+    min-height: 50px;
+    border: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #d84245, #b91f28);
+    color: #fff;
+    padding: 10px 18px;
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(184, 31, 40, .18);
+}
+
+#direct_cr .credit-sale-final-actions .credit_sale_finalize {
+    width: 75px;
+    min-width: 75px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#direct_cr .credit-sale-final-actions .credit_sale_finalize_print {
+    width: auto;
+    min-width: 150px;
+}
+
+#direct_cr .credit-sale-print-button {
+    background: linear-gradient(135deg, #36b85e, #1f8f48);
+    box-shadow: 0 8px 20px rgba(31, 143, 72, .20);
+}
+
+/* Reconfirmation popup */
+.swal-modal.credit-sale-reconfirm-popup {
+    width: min(520px, calc(100vw - 32px));
+    font-family: Calibri, "Segoe UI", Arial, sans-serif;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .swal-title {
+    margin-bottom: 8px;
+    font-size: 22px;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .credit-sale-reconfirm-detail {
+    margin: 4px auto 0;
+    padding: 12px 18px;
+    border: 1px solid #d7e1ea;
+    border-radius: 9px;
+    background: #f6f9fc;
+    text-align: center;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .credit-sale-reconfirm-detail-label {
+    margin-bottom: 5px;
+    color: #53677b;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .credit-sale-reconfirm-detail-value {
+    color: #173d67;
+    font-size: 22px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .swal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px 22px;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .swal-button-container {
+    flex: 1 1 0;
+    margin: 0;
+}
+
+/* SweetAlert renders No first; reverse the visual order so Yes is left. */
+.swal-modal.credit-sale-reconfirm-popup .swal-button-container:first-child {
+    order: 2;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .swal-button-container:last-child {
+    order: 1;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .swal-button {
+    width: 100%;
+    min-height: 42px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .swal-button--confirm {
+    background: #1f8f48;
+}
+
+.swal-modal.credit-sale-reconfirm-popup .swal-button--cancel {
+    background: #edf2f7;
+    color: #22364c;
+}
+
+@media (max-width: 1080px) {
+    #direct_cr .credit-sale-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #direct_cr .credit-sale-note-field {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 767px) {
+    #direct_cr .pumper-credit-sale-dialog {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
+
+    #direct_cr .pumper-credit-sale-content {
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        min-height: 0;
+        border: 0;
+        border-radius: 0;
+    }
+
+    #direct_cr .pumper-credit-sale-header {
+        min-height: 76px;
+        padding: 13px 16px;
+    }
+
+    #direct_cr .pumper-credit-sale-title {
+        font-size: 24px;
+    }
+
+    #direct_cr .pumper-credit-sale-close {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+        font-size: 30px;
+    }
+
+    #direct_cr .pumper-credit-sale-body {
+        padding: 0 12px 12px;
+    }
+
+    #direct_cr .credit-sale-form-panel {
+        padding: 14px 12px 16px;
+        border-radius: 10px;
+    }
+
+    #direct_cr .credit-sale-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    #direct_cr .credit-sale-add-cell {
+        justify-content: stretch;
+    }
+
+    #direct_cr .credit-sale-add-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    #direct_cr .credit-sale-status {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 16px 2px 12px;
+    }
+
+    #direct_cr .credit-sale-status-label {
+        font-size: 19px;
+    }
+
+    #direct_cr .credit-sale-status-value {
+        font-size: 18px;
+    }
+
+    #direct_cr .credit-sale-final-actions {
+        flex-direction: column;
+    }
+
+    #direct_cr .credit-sale-final-button {
+        width: 100%;
+    }
+}
+
+
+#direct_cr #credit_sale_table th:nth-child(8),
+#direct_cr #credit_sale_table td:nth-child(8),
+#direct_cr #credit_sale_table th:nth-child(10),
+#direct_cr #credit_sale_table td:nth-child(10) {
+    min-width: 105px;
+}
+
+/* Discount Total reduced by 40% from its earlier 153px allocation. */
+#direct_cr #credit_sale_table th:nth-child(9),
+#direct_cr #credit_sale_table td:nth-child(9) {
+    width: 92px;
+    min-width: 92px;
+    max-width: 92px;
+    white-space: normal;
+}
+
+@media (max-width: 767px) {
+    #direct_cr .credit-sale-status-field {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    #direct_cr .credit-sale-status-input {
+        max-width: none;
+    }
+
+    #direct_cr .credit-sale-final-actions .credit_sale_finalize,
+    #direct_cr .credit-sale-final-actions .credit_sale_finalize_print {
+        width: 100%;
+        min-width: 0;
+    }
+}

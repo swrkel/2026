@@ -1,0 +1,1 @@
+(function(){'use strict';document.addEventListener('DOMContentLoaded',function(){var tables=document.querySelectorAll('.stn-cr-table');tables.forEach(function(table){table.querySelectorAll('tbody tr').forEach(function(row){var variance=row.children[8];if(variance&&variance.textContent.trim()!=='0.0000'){row.classList.add('stn-has-variance');}});});});})();

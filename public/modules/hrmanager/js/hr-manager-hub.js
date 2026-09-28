@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.hr-hub-box').forEach(function(b){b.addEventListener('click',function(){this.classList.add('clicked');setTimeout(()=>this.classList.remove('clicked'),180);});});});

@@ -1,0 +1,38 @@
+IS1849 – Deposits – 31 July 2026
+Finance Module Fix
+
+Scope
+1. Finance / List Accounts / Cheque Deposit
+   - Corrected the table body to match the six visible headings:
+     Select, Name, Cheque No, Cheque Date, Bank, Amount.
+   - Cheque Date now resolves the exact cheque_date saved by Customer Register
+     Pay Due and Bulk Payment workflows.
+   - Supports direct transaction payments and bulk-payment parent/child records.
+   - Does not replace a missing cheque date with paid_on or operation_date.
+
+2. Finance / List Accounts / Cheque Deposit
+   - Deposit to Account now loads active bank ledger accounts belonging to the
+     current business.
+   - Select2 is initialized inside the Finance modal so the dropdown can be
+     opened and an account can be selected.
+
+3. Save confirmation
+   - Cheque Deposit, Cash Deposit, Card Deposit and Transfer return the exact
+     message: Successfully Saved
+   - Success notification background is green and text is white.
+
+Changed Finance files
+- Http/Controllers/AccountController.php
+- Services/Deposits/BankDepositAccountResolver.php (new)
+- Services/Deposits/ChequeDepositListService.php
+- Resources/views/account/cheque_deposit.blade.php
+- Resources/views/account/partials/cheque_list.blade.php
+- Resources/views/account/index.blade.php
+
+Conflict note
+- No Purchase module file was changed.
+- No Customers module file was changed.
+- The Finance query only reads the existing transaction/payment records.
+
+Database
+- No migration or raw SQL change is required.

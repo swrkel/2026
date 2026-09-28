@@ -1,0 +1,25 @@
+Expenses-New fixes - 05 Sep 2026
+
+Requested changes completed:
+1. Add/Edit Expense - Expense Category now uses the full business category list.
+2. Add/Edit Expense - category Select2 result list has an explicit vertical scrollbar.
+3. Add/Edit Expense - removed the Total Amount input. Existing total_amount DB/report/ledger field is preserved. New expenses derive it from Paid Amount; Edit preserves historical totals so old part-paid records are not silently rewritten.
+4. Add/Edit Expense - payment details are conditional:
+   - Cash: hides Reference No, Cheque No and Card No.
+   - Card: shows Reference No + Card No.
+   - Cheque: shows Reference No + Cheque No.
+   - Bank Transfer: shows Reference No.
+   - Accounting account remains selectable for every method because Finance Account Books require the correct Cash/Card/Cheque/Bank account.
+   Hidden stale values are cleared in browser and normalized again on the server.
+5. List Expenses - Total/Paid/Due values and footer totals now use Business Settings currency precision instead of fixed 4 decimals.
+6. List Expenses - corrected existing DataTables column-order/footer-index mismatch after Action had previously been moved to the first column.
+
+No database migration or SQL change is required.
+
+Changed files:
+- Services/OptionService.php
+- Http/Requests/ExpenseRequest.php
+- Http/Controllers/ExpenseController.php
+- Services/ExpensePostingService.php
+- Resources/views/expenses/form.blade.php
+- Resources/views/expenses/index.blade.php

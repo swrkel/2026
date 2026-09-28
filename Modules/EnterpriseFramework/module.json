@@ -1,0 +1,19 @@
+{
+    "name": "EnterpriseFramework",
+    "alias": "enterpriseframework",
+    "description": "Standalone Enterprise Framework for shared reporting, dashboards, filters, exports, scheduling and UI components.",
+    "keywords": [
+        "enterprise",
+        "framework",
+        "reports",
+        "dashboard"
+    ],
+    "priority": 1,
+    "providers": [
+        "Modules\\EnterpriseFramework\\Providers\\EnterpriseFrameworkServiceProvider",
+        "Modules\\EnterpriseFramework\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

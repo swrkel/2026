@@ -1,0 +1,6 @@
+DISNEW_017 - Mobile / Customer / Driver API + Offline Operations
+- Adds standalone API route file for Distribution New.
+- Adds mobile token, offline device, sync batch, sync item, delivery checkpoint and ePOD tables.
+- Adds customer, sales rep and driver API controllers.
+- Adds offline sync service and conflict handling foundation.
+- Adds POS-style admin visibility pages for mobile sessions and sync batches.

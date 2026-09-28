@@ -1,0 +1,14 @@
+{
+    "name": "BankingTreasury",
+    "alias": "banking-treasury",
+    "description": "BKG-RC-001 Treasury enterprise standalone module",
+    "keywords": ["banking", "enterprise", "treasury", "payments"],
+    "priority": 901,
+    "providers": [
+        "Modules\\BankingTreasury\\Providers\\BankingTreasuryServiceProvider",
+        "Modules\\BankingTreasury\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

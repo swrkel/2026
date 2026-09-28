@@ -1,0 +1,1 @@
+(function(){window.TailoringTM004={initDateDefaults:function(){document.querySelectorAll('[data-tailoring-today]').forEach(function(el){if(!el.value){el.value=new Date().toISOString().slice(0,10);}});},init:function(){this.initDateDefaults();}};document.addEventListener('DOMContentLoaded',function(){window.TailoringTM004.init();});})();

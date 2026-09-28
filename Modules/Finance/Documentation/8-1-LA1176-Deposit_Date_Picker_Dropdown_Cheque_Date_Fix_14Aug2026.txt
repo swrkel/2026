@@ -1,0 +1,198 @@
+Reference No: 8-1-LA1176
+Release ZIP: 8-1-LA1176-Deposit_Date_Picker_Dropdown_Cheque_Date_Fix_14Aug2026.zip
+
+LA-1176 - Finance Deposits: Date Picker, Account Dropdown and Cheque Date Fix
+Date: 14 August 2026
+
+Scope
+-----
+Finance Module > List Accounts > Cash Deposit
+Finance Module > List Accounts > Card Deposit
+Finance Module > List Accounts > Cheque Deposit
+(Fund Transfer shares the same date binding and is corrected with them.)
+
+Issues
+------
+1. In the Deposit form the date in the date picker could not be changed. The
+   month arrows and the today / clock / close row did nothing.
+2. Card Deposit: the account dropdown flickered when using Deposit to Account
+   Group.
+3. Cheque Deposit: the "Cheque Date" column was empty.
+
+
+Issue 1 - Root Cause
+--------------------
+The shared date binding (partials/date_picker_bind.blade.php, added by S-627)
+passed `widgetParent: $modalContent`, so the calendar was rendered into
+`.modal-content`.
+
+bootstrap-datetimepicker places the widget by measuring `component.position()`
+- a measurement taken against the nearest POSITIONED ancestor, which Bootstrap
+already makes the surrounding `.input-group`. It then applies that measurement
+inside `widgetParent`. With the two set to different boxes, the calendar was
+positioned as though the top of the dialog were the top of the date field, and
+so came out over the modal header rather than under its input. This matches the
+ticket screenshot exactly.
+
+Whatever the theme paints across the header strip then receives the clicks that
+land on it. The controls sitting inside that strip - the month arrows and the
+today / clock / close row - were therefore dead, while the day cells hanging
+clear of it still responded. LA-1131 attempted to solve this with
+`z-index: 10660`, but z-index only ranks siblings within a single stacking
+context; an element that establishes its own context is not outranked by a
+larger number.
+
+A second, independent fault in the same file: `hideOnPick` closed the widget on
+ANY `dp.change`. These fields carry a time as well as a date, and every
+adjustment in the time panel is also a `dp.change`, so the calendar closed on
+the first click inside it and a time could never be set. From the user's side
+the clock button did not work.
+
+Issue 1 - Correction
+--------------------
+1. The widget is parented to its own `.input-group.date`, so measurement and
+   placement are the same box and the calendar renders directly beneath its
+   field. It no longer reaches the modal chrome, so nothing can intercept it.
+2. The field is raised (`.finance-datepicker-open`) only while the calendar is
+   open, so a closed picker cannot sit over a neighbouring control.
+3. `hideOnPick` now closes the widget only when the change came from the day
+   grid, leaving the month/year and time panels usable.
+4. The three call sites no longer pass `widgetParent`.
+
+
+Issue 2 - Root Cause
+--------------------
+The Account Group control was being initialised as a select2 TWICE on every
+modal open, by two separate pieces of code that each destroyed and rebuilt any
+existing instance:
+
+  * financeModalRender() in account/index.blade.php, at modal-open time;
+  * the inline $(function(){...}) inside the Deposit / Cheque Deposit /
+    Transfer views.
+
+jQuery 3 defers ready callbacks to a later tick, so which of the two ran second
+depended on timing. The one that ran second tore out the rendered
+`.select2-container` and put a fresh one in its place - under the pointer if the
+user was clicking at that moment.
+
+The change handler behind the control had three further defects:
+
+  * `$('#account_group_id')` and `$('#from_account')` were UNSCOPED id lookups
+    searching the whole page, while Deposit and Transfer both render those ids
+    into the same `.account_model` container. The same class of mistake is
+    already documented in account/notes.blade.php and
+    deposits/transfer.blade.php.
+  * `.empty().append()` replaced the destination options behind select2's back
+    without a `change.select2`, so the box went on displaying an option that no
+    longer existed.
+  * every change fired another request with no attempt to cancel the previous
+    one, so several could be in flight at once, each rewriting the list as it
+    landed and in whatever order it returned.
+
+Issue 2 - Correction
+--------------------
+1. Both initialisation paths now skip a control that is already initialised, so
+   exactly one select2 instance is built.
+2. The account-group handler is scoped to the deposit form.
+3. select2 is notified with `change.select2` after the options are replaced.
+4. The previous in-flight request is aborted before a new one is issued, and an
+   aborted request no longer clears the list.
+
+
+Issue 3 - Root Cause
+--------------------
+Two contributing faults:
+
+  * ChequeDepositListService selected the cheque date from the cheque-date
+    columns alone. A cheque recorded through a screen with no cheque-date field
+    of its own leaves `transaction_payments.cheque_date` null while
+    `cheque_number` and `bank_name` are populated - which is the row in the
+    ticket screenshot, showing a number and a bank against an empty date.
+  * The view printed `format_date()` directly. When the helper could not make
+    sense of a value it returned nothing and the cell rendered EMPTY, without
+    falling through to the "-" placeholder, so a formatting failure and a
+    genuinely absent date looked different on screen and neither said which.
+
+Issue 3 - Correction
+--------------------
+1. A new `chequeDateDisplayExpression()` falls back to the payment date and
+   then the account transaction's operation date. This mirrors the substitution
+   the codebase already makes in
+   CustomerPaymentController::normalizeCustomerPaymentMethodFields() and in
+   CreatesExpenses / UpdatesExpenses.
+2. That expression is used for the SELECT ONLY. The existing
+   `chequeDateExpression()` still drives the date-range filter and the ORDER BY,
+   so no row can move into or out of the list as a result of this change.
+3. The view formats the value once, with a plain Carbon parse behind
+   format_date(), so a date that exists is always rendered and only a truly
+   absent one prints "-".
+
+
+Changed Code Files
+------------------
+Modules/Finance/Resources/views/account/partials/date_picker_bind.blade.php
+Modules/Finance/Resources/views/account/partials/cheque_list.blade.php
+Modules/Finance/Resources/views/account/deposit.blade.php
+Modules/Finance/Resources/views/account/cheque_deposit.blade.php
+Modules/Finance/Resources/views/account/transfer.blade.php
+Modules/Finance/Resources/views/account/index.blade.php
+Modules/Finance/Services/Deposits/ChequeDepositListService.php
+
+Database
+--------
+No migration or raw SQL is required.
+
+Routes, controllers, form actions, account logic and cheque logic are
+unchanged.
+
+Deployment
+----------
+Extract the changed-files ZIP from the Laravel project root, preserving the
+Modules/Finance path. Then run:
+
+php artisan optimize:clear
+
+Validation Performed
+--------------------
+- JavaScript syntax check of the shared date binding after Blade
+  preprocessing: passed.
+- JavaScript syntax check of the rewritten account-group handler and select2
+  initialisation, parsed standalone: passed.
+- Blade directive balance (@php/@endphp, @if/@endif, @foreach/@endforeach) on
+  all changed views: passed.
+- Whole-file script-block parse compared against the unmodified baseline: no
+  new failures introduced.
+- Diff review of every changed file against the released version.
+
+NOT YET PERFORMED - REQUIRED BEFORE SIGN-OFF
+--------------------------------------------
+No PHP runtime was available in the environment these fixes were prepared in,
+so the following still have to be done on the tenant server:
+
+- `php -l` on ChequeDepositListService.php and Blade compilation of the changed
+  views.
+- Authenticated click test of the Cash, Card and Cheque Deposit date pickers:
+  month arrows, today, clock/time panel, close, and picking a day.
+- Authenticated test of Card Deposit > Deposit to Account Group, confirming the
+  destination list repopulates once and the control does not flicker.
+- Confirmation against real data that the Cheque Date column now populates, and
+  that the number of rows returned by the Cheque Deposit list is unchanged for
+  the same filters (this is the check that the display-only expression did not
+  disturb filtering).
+
+Confidence Notes
+----------------
+Issue 1 is the best supported of the three: the widget geometry in the ticket
+screenshot is what the widgetParent/measurement mismatch predicts, and the set
+of controls reported as dead is exactly the set falling inside the modal header.
+
+Issue 2 is a correction of defects that are demonstrable in the code, but the
+precise mechanism behind the reported flicker could not be confirmed without a
+running instance, since it also depends on the jQuery, select2 and Bootstrap
+versions and on core CSS that is outside this module. It should be re-tested
+against the original report specifically.
+
+For Issue 3, note that the affected row still satisfied the active August
+date-range filter, which is applied to the cheque-date expression. That points
+towards the formatting fault rather than a null value, so correction 3 above may
+prove to be the operative one. Both causes are addressed.

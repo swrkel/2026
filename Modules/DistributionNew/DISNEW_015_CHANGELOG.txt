@@ -1,0 +1,13 @@
+DISNEW_015 - Advanced Analytics and Reporting Large Parcel
+
+Added production analytics layer for Distribution New:
+- Executive and KPI dashboard snapshot tables
+- Sales / route / territory / customer / product analytics snapshots
+- Scheduled report definitions and delivery logs
+- Email/SMS summary bridge hooks using existing SMS module only
+- Data export queue and export history
+- POS-style analytics views, widgets, filters and reports
+- Standalone services, controllers, models, routes, language, JS and CSS
+- Stage SQL, rollback SQL and migration file
+
+All new database objects use the disnew_ prefix.

@@ -1,0 +1,6 @@
+@extends('RiceMill::layout') @section('rcm-title','Paddy Stock')
+@section('rcm-content')<div class="rcm-card">
+@include('RiceMill::partials.functionality-bar',['tableId'=>'rcm-paddy-stock-table','exportName'=>'rice-mill-paddy-stock','serverPaged'=>true,'paginator'=>$lots,'rowsLabel'=>'lots'])
+<div class="rcm-table-wrap"><table id="rcm-paddy-stock-table" class="rcm-table rcm-managed-table"><thead><tr><th>Lot</th><th>Paddy</th><th>Received</th><th>Grade</th><th class="rcm-num">Original Qty</th><th class="rcm-num">Balance Qty</th><th data-rcm-no-export>Action</th></tr></thead><tbody>
+@forelse($lots as $r)<tr><td>{{ $r->lot_no }}</td><td>{{ $r->paddy_name ? (($r->paddy_code ? $r->paddy_code.' - ' : '').$r->paddy_name) : '-' }}</td><td>{{ $r->received_date }}</td><td>{{ $r->quality_grade }}</td><td class="rcm-num">{{ number_format($r->original_qty,$rcmQuantityPrecision) }}</td><td class="rcm-num">{{ number_format($r->balance_qty,$rcmQuantityPrecision) }}</td><td><a class="rcm-btn secondary" href="{{ route('rice-mill.paddy-stock.ledger',$r->id) }}">Ledger</a></td></tr>@empty<tr data-rcm-empty-row><td colspan="7" class="rcm-muted">No paddy stock found.</td></tr>@endforelse
+</tbody></table></div>{{ $lots->links() }}</div>@endsection

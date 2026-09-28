@@ -1,0 +1,45 @@
+Customers RC18 dependency scan generated: Wed Jul  1 13:19:08 UTC 2026 UTC
+Scope: active PHP/Blade/JS/CSS/routes files. Documentation and SQL intentionally omitted.
+
+Modules/Customers/Services/CustomerStandaloneAuditService.php:28:        'ContactsController',
+Modules/Customers/Services/CustomerStandaloneAuditService.php:30:        'contact.customer',
+routes/web.php:291:    Route::get('/customer/details/ledger', 'Ecom\ContactController@getLedger');
+routes/web.php:293:    Route::get('/customer/details/list-sucrity-deposit', 'Ecom\ContactController@listSecurityDeposit');
+routes/web.php:295:    Route::resource('/customer/details', 'Ecom\ContactController');
+routes/web.php:486:    Route::get('/contacts/get_outstanding', 'ContactController@get_outstanding');
+routes/web.php:492:    Route::get('/contacts/update-vatnumber/{id}', 'ContactController@addVatNumber');
+routes/web.php:493:    Route::put('/contacts/update-vatnumber/{id}', 'ContactController@updateVatNumber');
+routes/web.php:497:    Route::get('/contacts/settings', 'ContactController@settings');
+routes/web.php:501:    Route::post('/contacts/save-settings', 'ContactController@save_settings');
+routes/web.php:503:    Route::get('/contacts/stock-report/{supplier_id}', 'ContactController@getSupplierStockReport');
+routes/web.php:507:    Route::get('/contacts/add-more-numbers/{id}', 'ContactController@add_notification_numbers');
+routes/web.php:509:    Route::post('/contacts/add-more-numbers/{id}', 'ContactController@save_notification_numbers');
+routes/web.php:521:    Route::get('/contacts/suppliers', 'ContactController@getSuppliers');
+routes/web.php:529:    Route::get('/contacts/loan', 'ContactController@loan');
+routes/web.php:537:    Route::get('/contacts/linked_supplier_account', 'ContactController@linked_supplier_account');
+routes/web.php:630:    Route::post('contacts/mass-destroy', 'ContactController@massDestroy');
+routes/web.php:635:    Route::post('contacts/ob-export', 'ContactController@exportBalance');
+routes/web.php:651:    // Route::resource('contacts', 'ContactController');
+routes/web.php:658:        Route::resource('contacts', controller: 'ContactController')->middleware('permission:customer.view|supplier.view|customer.create|supplier.create');
+routes/web.php:664:    Route::get('location/customer-form/{id}', 'ContactController@getCustomerForm')->name('location.customer.form');
+routes/web.php:1902:    Route::get('get_account_sub_type', 'ContactController@getAccSubType');
+routes/web.php:1904:    Route::get('get_discount_account', 'ContactController@getDiscountAcc');
+routes/tenant.php:278:        Route::get('/customer/details/ledger', 'Ecom\ContactController@getLedger');
+routes/tenant.php:280:        Route::get('/customer/details/list-sucrity-deposit', 'Ecom\ContactController@listSecurityDeposit');
+routes/tenant.php:282:        Route::resource('/customer/details', 'Ecom\ContactController');
+routes/tenant.php:477:        Route::get('/contacts/get_outstanding', 'ContactController@get_outstanding');
+routes/tenant.php:483:        Route::get('/contacts/update-vatnumber/{id}', 'ContactController@addVatNumber');
+routes/tenant.php:484:        Route::put('/contacts/update-vatnumber/{id}', 'ContactController@updateVatNumber');
+routes/tenant.php:488:        Route::get('/contacts/settings', 'ContactController@settings');
+routes/tenant.php:492:        Route::post('/contacts/save-settings', 'ContactController@save_settings');
+routes/tenant.php:494:        Route::get('/contacts/stock-report/{supplier_id}', 'ContactController@getSupplierStockReport');
+routes/tenant.php:496:        Route::get('/contacts/add-more-numbers/{id}', 'ContactController@add_notification_numbers');
+routes/tenant.php:498:        Route::post('/contacts/add-more-numbers/{id}', 'ContactController@save_notification_numbers');
+routes/tenant.php:516:        Route::get('/contacts/suppliers', 'ContactController@getSuppliers');
+routes/tenant.php:525:        Route::get('/contacts/loan', 'ContactController@loan');
+routes/tenant.php:618:        Route::post('contacts/mass-destroy', 'ContactController@massDestroy');
+routes/tenant.php:623:        Route::post('contacts/ob-export', 'ContactController@exportBalance');
+routes/tenant.php:643:        Route::resource('contacts', controller: 'ContactController')->middleware('permission:customer.view|supplier.view|customer.create|supplier.create');
+routes/tenant.php:646:        Route::get('location/customer-form/{id}', 'ContactController@getCustomerForm')->name('location.customer.form');
+routes/tenant.php:1889:        Route::get('get_account_sub_type', 'ContactController@getAccSubType');
+routes/tenant.php:1891:        Route::get('get_discount_account', 'ContactController@getDiscountAcc');

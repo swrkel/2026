@@ -1,0 +1,181 @@
+{{--
+    Daily Cards.
+
+    Card payments taken during a shift. The card type IS a Finance account -
+    the accounts under the "Card" group - so choosing "Amex Card" is choosing
+    where the money lands.
+
+    RECORDS ONLY. Nothing posts until the settlement is saved.
+--}}
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            @component('components.filters', ['title' => __('report.filters')])
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_cd_location_id', __('purchase.business_location') . ':') !!}
+                        {!! Form::select('sw_cd_location_id', $business_locations ?? [], $default_location ?? null, [
+                            'class' => 'form-control select2', 'id' => 'sw_cd_location_id', 'style' => 'width:100%',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_cd_operator', __('sw::lang.pump_operator') . ':') !!}
+                        {!! Form::select('sw_cd_operator', $operator_list ?? [], null, [
+                            'class' => 'form-control select2', 'id' => 'sw_cd_operator',
+                            'style' => 'width:100%', 'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_cd_card_type', __('sw::lang.card_type') . ':') !!}
+                        {!! Form::select('sw_cd_card_type', $card_accounts ?? [], null, [
+                            'class' => 'form-control select2', 'id' => 'sw_cd_card_type',
+                            'style' => 'width:100%', 'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_cd_shift_no', __('sw::lang.shift_no') . ':') !!}
+                        {!! Form::text('sw_cd_shift_no', null, [
+                            'class' => 'form-control', 'id' => 'sw_cd_shift_no',
+                            'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+            @endcomponent
+        </div>
+    </div>
+
+    @component('components.widget', [
+        'class' => 'box-primary',
+        'title' => __('sw::lang.all_daily_cards'),
+    ])
+
+        @slot('tool')
+            <div class="row">
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-primary btn-modal"
+                        data-href="{{ route('sw.daily-cards.create') }}"
+                        data-container=".sw_daily_cards_modal">
+                        <i class="fa fa-plus"></i> @lang('messages.add')
+                    </button>
+                </div>
+            </div>
+        @endslot
+
+        <div class="sw-table-wrap table-responsive">
+            <table class="table table-bordered table-striped" id="sw_daily_cards_table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="notexport">@lang('messages.action')</th>
+                        <th>@lang('sw::lang.date')</th>
+                        <th>@lang('sw::lang.collection_form_no')</th>
+                        <th>@lang('sw::lang.shift_no')</th>
+                        <th>@lang('sw::lang.pump_operator')</th>
+                        <th>@lang('sw::lang.customer')</th>
+                        <th>@lang('sw::lang.card_type')</th>
+                        <th>@lang('sw::lang.card_number')</th>
+                        <th>@lang('sw::lang.slip_no')</th>
+                        <th class="text-right">@lang('sw::lang.amount')</th>
+                        <th class="text-right">@lang('sw::lang.total_collection')</th>
+                        <th>@lang('sw::lang.note')</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr class="bg-gray font-17 footer-total text-center">
+                        <td colspan="9"><strong>@lang('sale.total'):</strong></td>
+                        <td class="text-right"><span id="sw_cd_footer_total"></span></td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    @endcomponent
+
+    <div class="modal fade sw_daily_cards_modal" tabindex="-1" role="dialog"></div>
+
+</section>
+
+@include('sw::operators.partials._dropdown_fix')
+
+@push('css')
+<style>
+#sw_daily_cards_table { width: 100%% !important; }
+</style>
+@endpush
+
+@push('javascript')
+<script>
+$(function () {
+
+    var swCdTable = $('#sw_daily_cards_table').DataTable({
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '{{ route('sw.daily-cards.data') }}',
+            dataSrc: 'data',
+            data: function (d) { d.location_id = $('#sw_cd_location_id').val(); }
+        },
+        order: [[1, 'desc']],
+        columns: [
+            { data: 'action', orderable: false, searchable: false },
+            { data: 'date' },
+            { data: 'collection_form_no' },
+            { data: 'shift_no' },
+            { data: 'operator' },
+            { data: 'customer' },
+            { data: 'card_type' },
+            { data: 'card_number' },
+            { data: 'slip_no' },
+            { data: 'amount', className: 'text-right' },
+            { data: 'total_collection', className: 'text-right' },
+            { data: 'note' }
+        ],
+        /*
+         | Sums AMOUNT, not total collection.
+         |
+         | total_collection is a running total - summing it would count the same
+         | money once per card, so an operator with three card payments would
+         | appear to have taken far more than they did.
+        */
+        footerCallback: function () {
+            var total = this.api().column(9, { search: 'applied' }).data()
+                .reduce(function (a, b) {
+                    var n = parseFloat(String(b).replace(/,/g, ''));
+                    return a + (isNaN(n) ? 0 : n);
+                }, 0);
+            $('#sw_cd_footer_total').text(total.toFixed(2));
+        }
+    });
+
+    $('#sw_cd_location_id').on('change', function () { swCdTable.ajax.reload(); });
+
+    $('#sw_cd_operator').on('change', function () {
+        var name = $('#sw_cd_operator option:selected').text();
+        swCdTable.column(4).search($(this).val() ? name : '').draw();
+    });
+
+    $('#sw_cd_card_type').on('change', function () {
+        var name = $('#sw_cd_card_type option:selected').text();
+        swCdTable.column(6).search($(this).val() ? name : '').draw();
+    });
+
+    $('#sw_cd_shift_no').on('input', function () {
+        swCdTable.column(3).search($(this).val()).draw();
+    });
+
+});
+</script>
+@endpush

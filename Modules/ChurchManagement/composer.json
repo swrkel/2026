@@ -1,0 +1,16 @@
+{
+    "name": "nwidart/churchmanagement",
+    "description": "Standalone Church Management module",
+    "authors": [],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ChurchManagement\\": ""
+        }
+    }
+}

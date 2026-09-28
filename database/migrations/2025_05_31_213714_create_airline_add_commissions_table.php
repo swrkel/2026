@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        if (Schema::hasTable('airline_add_commissions')) {
+            return;
+        }
+
+        Schema::create('airline_add_commissions', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->timestamp('date')->useCurrentOnUpdate()->useCurrent();
+            $table->string('location', 50);
+            $table->string('airline_agent', 50);
+            $table->string('invoice_no', 50);
+            $table->string('ticket_no', 50);
+            $table->timestamp('air_ticket_date')->default('0000-00-00 00:00:00');
+            $table->string('commision_amount', 50);
+            $table->timestamp('created_at')->default('0000-00-00 00:00:00');
+            $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('airline_add_commissions');
+    }
+};

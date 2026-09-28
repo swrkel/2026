@@ -1,0 +1,19 @@
+{
+    "name": "PetroDirect",
+    "alias": "petrodirect",
+    "description": "Standalone Petro Direct module with module-owned routes, controllers, views, assets, permissions and isolation rules; no runtime dependency on Petro, Pumper Dashboard, Petro PD or Settlement SW.",
+    "keywords": [
+        "petro",
+        "direct",
+        "settlement",
+        "fuel",
+        "standalone"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\PetroDirect\\Providers\\PetroDirectServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

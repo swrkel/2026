@@ -1,0 +1,63 @@
+IS2216 – Finance Reports / Profit & Loss Fix
+8 Sep 2026
+
+SOURCE
+- Latest user-supplied FinanceReports.zip
+- Changes are confined to FinanceReports.
+- No SQL / migration is required.
+
+ROOT CAUSES AND FIXES
+
+1) COST did not agree with COGS Account Book
+Original Profit Breakdown calculated cost again from purchase_lines.purchase_price_inc_tax through purchase/sell mappings. This can differ from the amount actually posted to Accounting, including the reported 20,000.00 versus 19,999.82 case.
+
+Fix:
+- COST is now sourced from posted COGS account_transactions.
+- COGS accounts are resolved from the configured COGS Account Group/default group and compatible account names.
+- Debit COGS postings increase cost; credit/reversal postings reduce cost.
+- Posted COGS is attributed by sell_line_id / transaction_sell_line_id where available.
+- The final COST total is reconciled to the selected-period/location COGS ledger.
+- A valid ledger amount with no sell-line attribution is shown as "COGS Ledger Adjustment / Unallocated". It is deliberately not invented into a product/category row.
+
+2) Discount / Profit / Margin
+Added Discount to all nine Profit Breakdown tabs and exports.
+Revenue is presented before discount so the requested formulas are applied exactly:
+- Gross Profit = Revenue - Cost - Discount
+- Margin % = Gross Profit / (Revenue - Discount) * 100
+Line discount and bill-level discount are included, with fixed bill discounts allocated across lines by revenue.
+
+3) Direct Settlement Other Income
+Legacy/Direct settlement Other Income is stored in other_incomes and linked to the finalized sell/settlement transaction, while the legacy posting path credits Sales Income. The Financial Performance Summary now reclassifies that source amount from Sales / Operating Revenue to Other Income. Total Income and Net Profit are unchanged by the reclassification.
+
+4) Date auto-load
+Profit & Loss opts into immediate form submission after Date Range Apply/Clear. Other FinanceReports pages retain their previous shared-filter behavior.
+
+5) Toolbar / exports
+- Toolbar now targets the Profit Breakdown table explicitly.
+- Column Visibility includes header, body and total footer cells.
+- CSV / Excel / PDF export the active breakdown instead of the keyed Financial Performance Summary structure.
+- PDF opens the printable export in a new tab.
+- Print clones the complete P&L report into a direct body print root, fixing parent-section print hiding.
+
+CHANGED APPLICATION FILES
+FinanceReports/Services/ProfitBreakdownService.php
+FinanceReports/Services/FinanceReportsDataService.php
+FinanceReports/Http/Middleware/ExportFinanceReport.php
+FinanceReports/Resources/views/layouts/filter.blade.php
+FinanceReports/Resources/views/layouts/toolbar.blade.php
+FinanceReports/Resources/views/reports/profit_loss.blade.php
+FinanceReports/Resources/views/reports/partials/profit_breakdown.blade.php
+
+TEST CHECKLIST
+1. Open Finance Reports -> Profit & Loss and select exactly the same date period used in Finance -> COGS Account Book.
+2. Confirm Profit Breakdown total COST equals the COGS ledger total (example expected: 20,000.00, not 19,999.82).
+3. Check each tab: Products, Categories, Sub Categories, Brands, Locations, Invoice, Date, Customer, Day.
+4. Make a sale with a discount and verify Discount, Gross Profit and Margin formulas.
+5. Save a new Direct Settlement with Other Income and confirm Financial Performance Summary -> Other Income.
+6. Change Date Range and click Apply; the report should load automatically without Generate.
+7. Test CSV, Excel, Column Visibility, PDF and Print on Profit & Loss.
+
+DEPLOYMENT
+cd /home/nivasa/public_html
+php artisan optimize:clear
+Then Ctrl+F5.

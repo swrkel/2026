@@ -1,0 +1,20 @@
+{
+    "name": "BeautySaloons",
+    "alias": "beautysaloons",
+    "description": "Standalone Beauty Saloons module",
+    "keywords": [
+        "beauty",
+        "saloon",
+        "salon",
+        "appointments",
+        "pos",
+        "billing"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\BeautySaloons\\Providers\\BeautySaloonsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

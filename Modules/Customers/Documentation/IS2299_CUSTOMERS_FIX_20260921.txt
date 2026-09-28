@@ -1,0 +1,19 @@
+IS2299 – Customers Module – 21 Sep 2026
+
+Built on top of Customers_IS2297_Corrected_20260921 so prior IS2297 fixes remain intact.
+
+Changes:
+1. Customer Register > Action > Ledger
+   - System Created Date width +5%.
+   - Transaction Date width +5%.
+   - Description width -15%.
+   - Payment Status width -5%.
+   - Added an explicit colgroup so browser/Bootstrap table layout cannot override the requested proportions.
+   - Date values remain on one line for readability.
+
+2. Customer Register > Action > Edit > Credit / Opening Balance > Transaction Date
+   - Replaced plugin-dependent text field with a native HTML date input.
+   - Existing dates are converted safely to Y-m-d for the browser calendar.
+   - Calendar icon calls showPicker() where supported, with a safe legacy datepicker fallback.
+
+No database migration or SQL change is required.

@@ -1,0 +1,8 @@
+{
+  "name": "petro-pd-new",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo \"Petro PD-New assets are shipped pre-built\""
+  }
+}

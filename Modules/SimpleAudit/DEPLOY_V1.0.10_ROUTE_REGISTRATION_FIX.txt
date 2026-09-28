@@ -1,0 +1,20 @@
+Simple Audit v1.0.10 - deterministic route registration fix
+
+Reason:
+- v1.0.9 database installation/diagnosis passed, but `php artisan route:list | grep simple-audit` was empty.
+- The Central sidebar intentionally hides the module when the named route is missing.
+
+Fixes:
+1. Module provider directly registers Routes/web.php exactly once by checking the live named-route collection.
+2. Does not depend solely on loadRoutesFrom()/route-cache state.
+3. Canonical route prefix is fixed to /simple-audit.
+4. Central menu no longer disappears just because route discovery happens late; named-route URL is used when available, canonical URL is the fallback.
+5. check_sidebar.php now boots Laravel and verifies the live Simple Audit routes.
+
+No SQL changes. Do NOT re-run SQL manually.
+
+Deploy:
+php artisan module:enable SimpleAudit
+php artisan optimize:clear
+php Modules/SimpleAudit/Tools/check_sidebar.php
+php artisan route:list --name=simpleaudit

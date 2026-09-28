@@ -1,0 +1,21 @@
+{
+    "name": "Leasing",
+    "alias": "leasing",
+    "description": "Standalone Leasing module for lease_contracts, collateral lease_assets, application, payment, restructure, insurance and asset/location tracking.",
+    "keywords": [
+        "banking",
+        "leasing",
+        "lease_contract",
+        "collateral"
+    ],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Leasing\\Providers\\LeasingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

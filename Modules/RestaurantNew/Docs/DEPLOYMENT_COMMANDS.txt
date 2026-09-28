@@ -1,0 +1,27 @@
+RESTAURANT-NEW 2.0 DEPLOYMENT COMMANDS
+======================================
+
+cd /path/to/laravel/project
+composer dump-autoload
+php artisan module:enable RestaurantNew
+php artisan optimize:clear
+php artisan route:list --name=restaurant-new
+
+FRESH DATABASE — RUN PER TENANT ONLY
+------------------------------------
+Modules/RestaurantNew/Database/SQL/00_MASTER_INSTALL_RESTAURANT_NEW.sql
+
+UPGRADE FROM STAGE 1 — RUN PER TENANT ONLY
+-------------------------------------------
+Modules/RestaurantNew/Database/SQL/07_MASTER_UPGRADE_STAGE2_RESTAURANT_NEW.sql
+
+VERIFY PER TENANT
+-----------------
+Modules/RestaurantNew/Database/SQL/05_VERIFY_INSTALLATION.sql
+
+EXPECTED
+--------
+45 restnew_ tables
+55 restaurant_new.* permissions
+79 named restaurant-new routes
+RestaurantNew = true in modules_statuses.json

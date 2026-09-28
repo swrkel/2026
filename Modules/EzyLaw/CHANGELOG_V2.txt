@@ -1,0 +1,31 @@
+EzyLaw V2 - 05 Sep 2026
+=======================
+
+NEW LEGAL WORKFLOW
+- Matter chronology / key-event timeline
+- Matter parties / counsel / witnesses / experts
+- Retainer agreement register
+- Client trust accounts and trust ledger
+- Trust deposit, refund/disbursement and invoice application
+- Legal calendar combining hearings, task deadlines, appointments and reminders
+- Document template library with client/matter merge variables and print preview
+- Client communication log / optional outbound integration queue
+- Conflict checking with stored check history and potential matches
+
+INTEGRATIONS
+- Optional Finance trust accounting bridge
+- Finance idempotency guard using law_integration_queue
+- User Management New permission manifest expanded for V2 pages
+- Manage Side Bar direct-route guard via optional common SidebarPermissionUtil
+
+MULTI-TENANT / MULTI-BUSINESS SAFETY
+- Active session business takes priority over user default business
+- Every V2 law_ table contains business_id and uses LawModel scope
+- Conflict search OR conditions remain grouped under the business scope
+- EzyLaw auto-load migrations disabled by default to avoid central DB pollution
+
+DATABASE
+- V1 tables: 18
+- V2 new tables: 9
+- Total EzyLaw tables: 27
+- All EzyLaw-owned tables use law_ prefix

@@ -1,0 +1,43 @@
+
+/* ERP Experience Framework V4
+   Toolbar, DataTable, Page Header, Cards and Action Dropdown foundation.
+   Safe layer: loads after existing ERP CSS and does not change page wrappers. */
+:root{
+  --erp-exf-control-height: 32px;
+  --erp-exf-control-padding-x: 10px;
+  --erp-exf-control-radius: 6px;
+  --erp-exf-font-size: 13px;
+  --erp-exf-gap: 8px;
+  --erp-exf-card-radius: 10px;
+  --erp-exf-border: #e6edf5;
+  --erp-exf-muted: #6b7280;
+  --erp-exf-dark: #1f2937;
+  --erp-exf-soft-bg: #f8fafc;
+  --erp-exf-shadow: 0 2px 10px rgba(15,23,42,.06);
+}
+.erp-exf-page-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px 0;flex-wrap:wrap;}
+.erp-exf-page-title{font-size:20px;font-weight:700;margin:0;color:var(--erp-exf-dark);line-height:1.2;}
+.erp-exf-page-subtitle{font-size:12px;color:var(--erp-exf-muted);margin-top:3px;}
+.erp-exf-page-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.erp-exf-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 10px;background:#fff;border:1px solid var(--erp-exf-border);border-radius:var(--erp-exf-card-radius);box-shadow:var(--erp-exf-shadow);margin-bottom:10px;}
+.erp-exf-toolbar-left,.erp-exf-toolbar-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.erp-exf-btn,.erp-exf-toolbar .btn,.erp-exf-toolbar button{min-height:var(--erp-exf-control-height);height:var(--erp-exf-control-height);padding:0 var(--erp-exf-control-padding-x)!important;border-radius:var(--erp-exf-control-radius)!important;font-size:var(--erp-exf-font-size)!important;display:inline-flex!important;align-items:center;justify-content:center;gap:5px;line-height:1!important;white-space:nowrap;}
+.erp-exf-card{background:#fff;border:1px solid var(--erp-exf-border);border-radius:var(--erp-exf-card-radius);box-shadow:var(--erp-exf-shadow);margin-bottom:12px;}
+.erp-exf-card-header{padding:10px 12px;border-bottom:1px solid var(--erp-exf-border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.erp-exf-card-title{font-size:15px;font-weight:700;margin:0;color:var(--erp-exf-dark);}
+.erp-exf-card-body{padding:12px;}
+.erp-exf-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:12px;}
+.erp-exf-kpi{background:#fff;border:1px solid var(--erp-exf-border);border-radius:var(--erp-exf-card-radius);box-shadow:var(--erp-exf-shadow);padding:12px;}
+.erp-exf-kpi-label{font-size:12px;color:var(--erp-exf-muted);margin-bottom:4px;}
+.erp-exf-kpi-value{font-size:22px;font-weight:800;color:var(--erp-exf-dark);line-height:1.1;}
+.erp-exf-datatable-card .dataTables_wrapper{width:100%;overflow-x:auto;}
+.erp-exf-datatable-card table.dataTable{width:100%!important;}
+.erp-exf-datatable-card .dt-buttons .btn,.erp-exf-datatable-card .dt-buttons .dt-button{min-height:var(--erp-exf-control-height)!important;height:var(--erp-exf-control-height)!important;padding:0 10px!important;font-size:13px!important;border-radius:6px!important;line-height:1!important;}
+.erp-exf-action-dropdown .dropdown-menu{border-radius:8px;border:1px solid var(--erp-exf-border);box-shadow:0 10px 24px rgba(15,23,42,.14);padding:6px;}
+.erp-exf-action-dropdown .dropdown-item,.erp-exf-action-dropdown .dropdown-menu>li>a{border-radius:6px;padding:7px 10px;font-size:13px;color:#1f2937;display:flex;align-items:center;gap:6px;}
+.erp-exf-action-dropdown .dropdown-item:hover,.erp-exf-action-dropdown .dropdown-menu>li>a:hover{background:var(--erp-exf-soft-bg);color:#111827;}
+.erp-exf-empty{padding:28px 15px;text-align:center;border:1px dashed #cbd5e1;border-radius:10px;background:#fbfdff;color:var(--erp-exf-muted);}
+.erp-exf-empty .erp-exf-empty-title{font-weight:700;color:var(--erp-exf-dark);margin-bottom:4px;}
+.erp-exf-status{display:inline-flex;align-items:center;justify-content:center;min-height:22px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:700;line-height:1;}
+.erp-exf-status-success{background:#dcfce7;color:#166534;}.erp-exf-status-warning{background:#fef3c7;color:#92400e;}.erp-exf-status-danger{background:#fee2e2;color:#991b1b;}.erp-exf-status-info{background:#dbeafe;color:#1d4ed8;}.erp-exf-status-muted{background:#f1f5f9;color:#475569;}
+@media(max-width:768px){.erp-exf-page-header{align-items:flex-start}.erp-exf-toolbar{align-items:flex-start}.erp-exf-toolbar-left,.erp-exf-toolbar-right{width:100%}.erp-exf-page-actions{width:100%}.erp-exf-btn{flex:1}}

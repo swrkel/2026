@@ -1,0 +1,8 @@
+.pg-page .box { border-radius: 6px; }
+.pg-page .table > thead > tr > th { white-space: nowrap; }
+.pg-page .text-right { text-align: right !important; }
+.pg-summary-row .info-box { min-height: 88px; }
+@media (max-width: 767px) {
+    .pg-page .nav-tabs-custom > .nav-tabs > li { width: 100%; }
+    .pg-page .nav-tabs-custom > .nav-tabs > li > a { margin-right: 0; }
+}

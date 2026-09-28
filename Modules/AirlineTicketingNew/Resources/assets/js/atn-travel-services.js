@@ -1,0 +1,1 @@
+(function($){'use strict';$(function(){$('.atn-form-grid select').each(function(){if($.fn.select2){$(this).select2({width:'100%'});}});});})(window.jQuery);

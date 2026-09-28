@@ -1,0 +1,13 @@
+{
+    "name": "DailyCollectionSW",
+    "alias": "DailyCollectionsw",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DailyCollectionSW\\Providers\\DailyCollectionSWServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

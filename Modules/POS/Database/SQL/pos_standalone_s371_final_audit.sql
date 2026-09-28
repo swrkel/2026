@@ -1,0 +1,4 @@
+-- POS Standalone S371 Final Audit
+-- No structural database changes required in this parcel.
+-- Keep this file for package numbering consistency.
+-- Apply pos_standalone_master.sql only if previous POS SQL files were not already applied.

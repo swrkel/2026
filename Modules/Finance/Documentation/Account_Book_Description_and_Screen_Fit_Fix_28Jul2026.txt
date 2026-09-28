@@ -1,0 +1,31 @@
+FINANCE ACCOUNT BOOK — DESCRIPTION CLEANUP + FULL-SCREEN FIT
+Date: 28 July 2026
+
+CHANGED FILES
+1. Finance/Services/Accounts/AccountBookDataService.php
+2. Finance/Resources/views/account/show.blade.php
+
+CORRECTIONS
+- Hides the generated technical settlement reference from Account Book output only:
+  [SETL:...|BIZ:...|ACCT:...|CP:...]
+- Hides the generated "Daily Collection" label and repeated business/location/footer details.
+- Removes the small Added By/user line from Account Book descriptions.
+- Keeps the useful user-facing wording, including Settlement No, payment type,
+  transaction reference and contact/customer details.
+- Applies the same cleaned note to the Account Book Note popup.
+- Does not modify or delete the original database note.
+- Fits all visible Account Book columns within the available page width.
+- Removes the forced 1520px/max-content table width and horizontal DataTables scroll.
+- Uses compact, fixed column proportions with wrapping for long descriptions and amounts.
+- Removes the unused users-table join from the Account Book data query.
+- Preserves the Reconcile button below the applicable Debit/Credit value.
+- Preserves compatibility with older cached views that request reconcile_status.
+
+DATABASE
+- No migration required.
+- No SQL required.
+
+DEPLOYMENT
+1. Upload and overwrite the two changed files in the same paths.
+2. Run: php artisan optimize:clear
+3. Open the Account Book and press Ctrl+F5 once.

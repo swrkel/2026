@@ -1,0 +1,13 @@
+{
+  "name": "RiceMill",
+  "alias": "ricemill",
+  "description": "Standalone Rice Mill Management module",
+  "keywords": ["rice", "mill", "paddy", "production"],
+  "priority": 0,
+  "providers": [
+    "Modules\\RiceMill\\Providers\\RiceMillServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

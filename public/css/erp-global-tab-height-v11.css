@@ -1,0 +1,86 @@
+/* ERP Global Design System V11 - Safe top-layer tab height refinement
+   Purpose: reduce only tab button height/padding without changing colours, layout, breadcrumbs, cards, or toolbars. */
+
+:root {
+    --erp-tab-v11-padding-y: 8px;
+    --erp-tab-v11-padding-x: 18px;
+    --erp-tab-v11-min-height: 42px;
+    --erp-tab-v11-font-size: 14px;
+    --erp-tab-v11-icon-size: 15px;
+    --erp-tab-v11-radius: 0px;
+}
+
+/* Bootstrap/custom accounting/customer/petro tab selectors only */
+.nav-tabs-custom > .nav-tabs > li > a,
+ul.nav.nav-tabs > li > a[data-toggle="tab"],
+ul.nav.nav-tabs > li > a[data-bs-toggle="tab"],
+.nav-tabs > li > a,
+.nav-pills > li > a,
+.erp-tabs .erp-tab,
+.erp-tab,
+.erp-global-tabs .erp-global-tab,
+.account-tabs a,
+.customer-tabs a,
+.petro-tabs a,
+.petro-pd-tabs a {
+    min-height: var(--erp-tab-v11-min-height) !important;
+    height: auto !important;
+    padding-top: var(--erp-tab-v11-padding-y) !important;
+    padding-bottom: var(--erp-tab-v11-padding-y) !important;
+    padding-left: var(--erp-tab-v11-padding-x) !important;
+    padding-right: var(--erp-tab-v11-padding-x) !important;
+    font-size: var(--erp-tab-v11-font-size) !important;
+    line-height: 1.25 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    border-radius: var(--erp-tab-v11-radius) !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a i,
+ul.nav.nav-tabs > li > a[data-toggle="tab"] i,
+ul.nav.nav-tabs > li > a[data-bs-toggle="tab"] i,
+.nav-tabs > li > a i,
+.nav-pills > li > a i,
+.erp-tabs .erp-tab i,
+.erp-tab i,
+.erp-global-tabs .erp-global-tab i,
+.account-tabs a i,
+.customer-tabs a i,
+.petro-tabs a i,
+.petro-pd-tabs a i {
+    font-size: var(--erp-tab-v11-icon-size) !important;
+    line-height: 1 !important;
+}
+
+/* Preserve already approved active tab behaviour */
+.nav-tabs-custom > .nav-tabs > li.active > a,
+.nav-tabs-custom > .nav-tabs > li > a.active,
+ul.nav.nav-tabs > li.active > a[data-toggle="tab"],
+ul.nav.nav-tabs > li > a[data-toggle="tab"].active,
+ul.nav.nav-tabs > li.active > a[data-bs-toggle="tab"],
+ul.nav.nav-tabs > li > a[data-bs-toggle="tab"].active,
+.nav-tabs > li.active > a,
+.nav-tabs > li > a.active,
+.nav-pills > li.active > a,
+.nav-pills > li > a.active,
+.erp-tabs .erp-tab.active,
+.erp-tab.active,
+.erp-global-tabs .erp-global-tab.active {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Keep inactive tab text readable after height reduction */
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a,
+ul.nav.nav-tabs > li:not(.active) > a[data-toggle="tab"],
+ul.nav.nav-tabs > li:not(.active) > a[data-bs-toggle="tab"],
+.nav-tabs > li:not(.active) > a,
+.nav-pills > li:not(.active) > a,
+.erp-tabs .erp-tab:not(.active),
+.erp-global-tabs .erp-global-tab:not(.active) {
+    font-weight: 600 !important;
+}

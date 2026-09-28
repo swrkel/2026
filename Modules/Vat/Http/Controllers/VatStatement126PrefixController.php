@@ -1,0 +1,229 @@
+<?php
+
+namespace Modules\Vat\Http\Controllers;
+
+use App\Business;
+use App\BusinessLocation;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\Utils\ModuleUtil;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
+use App\Utils\ProductUtil;
+use App\Utils\TransactionUtil;
+use Illuminate\Support\Facades\Log;
+use Modules\Vat\Entities\VatInvoice2Prefix;
+
+class VatStatement126PrefixController extends Controller
+{
+    /**
+     * All Utils instance.
+     *
+     */
+    protected $productUtil;
+    protected $transactionUtil;
+    protected $moduleUtil;
+
+    /**
+     * Constructor
+     *
+     * @param ProductUtils $product
+     * @return void
+     */
+    public function __construct(ProductUtil $productUtil, TransactionUtil $transactionUtil, ModuleUtil $moduleUtil)
+    {
+        $this->productUtil = $productUtil;
+        $this->transactionUtil = $transactionUtil;
+        $this->moduleUtil = $moduleUtil;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        if (request()->ajax()) {
+            $query = VatInvoice2Prefix::leftjoin('users', 'vat_invoice2_prefixes.created_by', 'users.id')
+                ->where('vat_invoice2_prefixes.business_id', $business_id)
+                ->select([
+                    'vat_invoice2_prefixes.*',
+                    'users.username as user_created'
+                ]);
+            
+            $prefixes = Datatables::of($query)
+                ->addColumn(
+                    'action',
+                    function ($row) {
+                        $html = '<div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">'.__('messages.actions').'<span class="caret"></span><span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">';
+
+                        $html .= '<li><a href="#" data-href="'.action([\Modules\Vat\Http\Controllers\VatStatement126PrefixController::class, 'edit'], [$row->id]).'" class="btn-modal" data-container=".prefix_modal"><i class="glyphicon glyphicon-edit"></i> '.__('messages.edit').'</a></li>';
+                        $html .= '<li><a href="#" data-href="'.action([\Modules\Vat\Http\Controllers\VatStatement126PrefixController::class, 'destroy'], [$row->id]).'" class="delete_task" ><i class="fa fa-trash"></i> '.__('messages.delete').'</a></li>';
+
+                        $html .= '</ul></div>';
+
+                        return $html;
+                    }
+                )
+                ->removeColumn('id');
+
+            return $prefixes->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('vat::statement126_prefixes.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $business_id = request()->session()->get('user.business_id');
+        return view('vat::statement126_prefixes.create')->with(compact('business_id'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        try {
+            $business_id = request()->session()->get('user.business_id');
+            $validated = $request->validate([
+                'prefix' => 'nullable|string|max:191',
+                'starting_no' => ['required', 'regex:/^\d+$/'],
+            ]);
+            
+            DB::beginTransaction();
+            
+            $data = [
+                'prefix' => $validated['prefix'] ?? null,
+                'starting_no' => $validated['starting_no'],
+            ];
+            $data['created_by'] = auth()->user()->id;
+            $data['business_id'] = $business_id;
+            
+            VatInvoice2Prefix::create($data);
+            
+            DB::commit();
+
+            $output = [
+                'success' => true,
+                'msg' => __('messages.success')
+            ];
+        } catch (\Exception $e) {
+            Log::emergency('File: ' . $e->getFile() . 'Line: ' . $e->getLine() . 'Message: ' . $e->getMessage());
+
+            $output = [
+                'success' => false,
+                'msg' => __('messages.something_went_wrong')
+            ];
+        }
+
+        if ($request->ajax()) {
+            return response()->json($output);
+        }
+
+        return redirect()->back()->with('status', $output);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $business_id = request()->session()->get('user.business_id');
+        $data = VatInvoice2Prefix::findOrFail($id);
+        return view('vat::statement126_prefixes.edit')->with(compact('data'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+        $business_id = $request->session()->get('user.business_id');
+        
+        try {
+            $validated = $request->validate([
+                'prefix' => 'nullable|string|max:191',
+                'starting_no' => ['required', 'regex:/^\d+$/'],
+            ]);
+            $data = [
+                'prefix' => $validated['prefix'] ?? null,
+                'starting_no' => $validated['starting_no'],
+            ];
+            $data['created_by'] = auth()->user()->id;
+            $data['business_id'] = $business_id;
+            
+            VatInvoice2Prefix::where('id', $id)
+                            ->update($data);
+
+            $output = ['success' => true,
+                'msg' => __('lang_v1.updated_success'),
+            ];
+        } catch (\Exception $e) {
+            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+
+            $output = ['success' => false,
+                'msg' => __('messages.something_went_wrong'),
+            ];
+        }
+
+        if ($request->ajax()) {
+            return response()->json($output);
+        }
+
+        return redirect()->back()->with('status', $output);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        if (request()->ajax()) {
+            try {
+                VatInvoice2Prefix::where('id', $id)->delete();
+
+                $output = [
+                    'success' => true,
+                    'msg' => __('lang_v1.success'),
+                ];
+            } catch (\Exception $e) {
+                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+
+                $output = [
+                    'success' => false,
+                    'msg' => __('messages.something_went_wrong'),
+                ];
+            }
+
+            return $output;
+        }
+    }
+}

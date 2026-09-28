@@ -1,0 +1,11 @@
+<?php
+namespace Modules\RestaurantNew\Http\Controllers;
+use App\Http\Controllers\Controller;
+use Modules\RestaurantNew\Entities\{Category,DeliveryZone,DiningTable,MenuItem,Reservation};
+use Modules\RestaurantNew\Http\Requests\StoreOrderRequest;
+use Modules\RestaurantNew\Services\{OrderService,ShiftService,TenantScopeService};
+class WaiterController extends Controller
+{
+ public function index(TenantScopeService $scope,ShiftService $shifts){$businessId=$scope->businessId();abort_unless($businessId,403);$locationId=$scope->currentLocationId();$categoriesQuery=Category::where('is_active',true);$categories=$scope->applyOptionalLocationScope($categoriesQuery,'location_id',$locationId)->orderBy('sort_order')->get();$itemsQuery=MenuItem::with(['category','modifierGroups'=>fn($q)=>$q->where('restnew_modifier_groups.is_active',true)->orderBy('restnew_menu_item_modifier_groups.sort_order'),'modifierGroups.modifiers'=>fn($q)=>$q->where('is_active',true)->orderBy('name')])->where('is_active',true)->where('is_available',true);$items=$scope->applyOptionalLocationScope($itemsQuery,'location_id',$locationId)->orderBy('name')->get();$tablesQuery=DiningTable::with('floor')->where('is_active',true);$tables=$scope->applyOptionalLocationScope($tablesQuery,'location_id',$locationId)->orderBy('name')->get();$reservationQuery=Reservation::withoutGlobalScopes()->where('business_id',$businessId)->whereIn('status',['booked','confirmed'])->whereBetween('reserved_at',[now()->subHours(2),now()->addDay()]);$scope->applyOptionalLocationScope($reservationQuery,'location_id',$locationId);$reservations=$reservationQuery->orderBy('reserved_at')->get();$zoneQuery=DeliveryZone::withoutGlobalScopes()->where('business_id',$businessId)->where('is_active',true);$scope->applyOptionalLocationScope($zoneQuery,'location_id',$locationId);$deliveryZones=$zoneQuery->orderBy('name')->get();$shift=$shifts->current($locationId);return view('restaurantnew::waiter.index',compact('categories','items','tables','shift','locationId','reservations','deliveryZones'));}
+ public function store(StoreOrderRequest $request,OrderService $service){$order=$service->create($request->validated());return redirect()->route('restaurant-new.orders.show',$order)->with('success','Order '.$order->order_no.' was created and sent to the kitchen.');}
+}

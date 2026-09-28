@@ -1,0 +1,63 @@
+-- HOTELMGT_031_SQL.sql
+-- Online Booking Engine / direct web booking layer.
+-- Execute in each tenant database. No database name is hardcoded.
+
+CREATE TABLE IF NOT EXISTS `hm_online_promotions` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `promo_code` VARCHAR(80) NOT NULL,
+  `promo_name` VARCHAR(160) NOT NULL,
+  `discount_type` VARCHAR(30) NOT NULL DEFAULT 'percent',
+  `discount_value` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `valid_from` DATE NULL,
+  `valid_to` DATE NULL,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hm_online_promotions_business_code_unique` (`business_id`, `promo_code`),
+  KEY `hm_online_promotions_scope_idx` (`business_id`, `business_location_id`, `is_active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hm_online_bookings` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `business_location_id` BIGINT UNSIGNED NULL,
+  `booking_no` VARCHAR(80) NOT NULL,
+  `booking_source` VARCHAR(80) NOT NULL DEFAULT 'online_engine',
+  `guest_name` VARCHAR(160) NOT NULL,
+  `guest_mobile` VARCHAR(50) NULL,
+  `guest_email` VARCHAR(160) NULL,
+  `arrival_date` DATE NOT NULL,
+  `departure_date` DATE NOT NULL,
+  `room_type_id` BIGINT UNSIGNED NULL,
+  `rate_plan_id` BIGINT UNSIGNED NULL,
+  `rooms` INT NOT NULL DEFAULT 1,
+  `adults` INT NOT NULL DEFAULT 0,
+  `children` INT NOT NULL DEFAULT 0,
+  `coupon_code` VARCHAR(80) NULL,
+  `gross_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `discount_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `net_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `advance_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `balance_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `refund_amount` DECIMAL(22,4) NOT NULL DEFAULT 0.0000,
+  `refund_note` TEXT NULL,
+  `cancel_reason` TEXT NULL,
+  `cancelled_at` TIMESTAMP NULL DEFAULT NULL,
+  `refunded_at` TIMESTAMP NULL DEFAULT NULL,
+  `status` VARCHAR(40) NOT NULL DEFAULT 'new',
+  `remarks` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `updated_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hm_online_bookings_business_no_unique` (`business_id`, `booking_no`),
+  KEY `hm_online_bookings_scope_status_idx` (`business_id`, `business_location_id`, `status`),
+  KEY `hm_online_bookings_dates_idx` (`business_id`, `arrival_date`, `departure_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

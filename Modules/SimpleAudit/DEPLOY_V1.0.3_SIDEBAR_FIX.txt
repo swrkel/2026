@@ -1,0 +1,17 @@
+SIMPLE AUDIT v1.0.3 - SIDEBAR FIX
+
+1. Upload/replace Modules/SimpleAudit with this package.
+2. From Laravel project root run:
+
+   php artisan module:enable SimpleAudit
+   php artisan optimize:clear
+
+3. Verify:
+
+   php Modules/SimpleAudit/Tools/check_sidebar.php
+   php artisan route:list | grep simple-audit
+
+4. Refresh the browser. If your application uses Super Admin > Manage Side Bar,
+   confirm Simple Audit is not explicitly disabled for that business.
+
+No SQL re-import is required for a tenant that already passed 5/5 tables and 21/21 triggers.

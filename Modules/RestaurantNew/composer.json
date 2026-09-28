@@ -1,0 +1,9 @@
+{
+    "name": "modules/restaurantnew",
+    "description": "Standalone Restaurant-New module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\RestaurantNew\\": ""
+        }
+    }
+}

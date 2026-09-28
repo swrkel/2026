@@ -1,0 +1,1 @@
+@extends('customers::portal.statement')

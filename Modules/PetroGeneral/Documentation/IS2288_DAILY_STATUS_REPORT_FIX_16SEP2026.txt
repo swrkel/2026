@@ -1,0 +1,61 @@
+PETROGENERAL MODULE - IS2288 DAILY STATUS REPORT FIX
+Date: 16 September 2026
+
+ISSUES FIXED
+After selecting a date, the report displayed "Unable to load this section.
+Please refresh the report." instead of the related data in:
+
+1. Dip Details Section
+2. Pump Sales Details
+3. Fuel Sale Summary
+4. Lubricant Sale
+5. Other Sales
+6. Gas Sales
+7. Total Payment Summary
+8. Credit Sales
+
+ROOT CAUSE
+The latest PetroGeneral route registrar protects the installed module from old
+route-cache and core-module collisions by exposing the authoritative named
+routes under /petro-general-live. The Daily Status page still called hard-coded
+/petro-general URLs. Those requests could therefore be intercepted by an older
+or conflicting route and return HTML/error content instead of the JSON expected
+by DataTables.
+
+The report refresh list also omitted Gas Sales, so that section did not reload
+when the date range or location changed.
+
+CHANGED FILE
+PetroGeneral/Resources/views/daily_status_report/index.blade.php
+
+CHANGES
+- Replaced every hard-coded Daily Status AJAX URL with its authoritative named
+  PetroGeneral route.
+- Updated Dip Details, Pump Sales, Fuel Sales, Lubricants, Other Sales, Gas
+  Sales, Credit Sales and Total Payments.
+- Updated the report form, Print and PDF endpoints to the same safe route family.
+- Added Gas Sales to the date/location refresh operation.
+- Made all client-side total calculations safe for numeric, formatted, null or
+  missing values, preventing a section draw from being interrupted by NaN or a
+  string-only .replace() call.
+
+VALIDATION COMPLETED
+- Daily Status JavaScript syntax check: PASS
+- Named-route declaration and usage contract: PASS
+- All seven DataTables included in date/location refresh: PASS
+- No hard-coded /petro-general Daily Status endpoint remains: PASS
+- ZIP integrity checks: complete during parcel creation
+
+DATABASE / SQL
+No database change, migration or SQL import is required.
+
+DEPLOYMENT
+Use either the full consolidated module parcel or the changed-files-only parcel.
+Do not install both.
+
+After upload/extraction, run from the Laravel project root:
+php artisan optimize:clear
+
+Then refresh the browser with Ctrl+F5 and test Petro General -> Daily Status
+Report with a known date and location.
+

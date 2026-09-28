@@ -1,0 +1,21 @@
+{
+    "name": "Audit",
+    "alias": "audit",
+    "description": "Standalone automated ERP audit, reconciliation and exception-management module.",
+    "keywords": [
+        "audit",
+        "reconciliation",
+        "integrity",
+        "multi-tenant"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\Audit\\Providers\\AuditServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "bootstrap.php"
+    ],
+    "requires": [],
+    "version": "1.0.20"
+}

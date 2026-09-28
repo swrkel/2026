@@ -1,0 +1,2 @@
+-- RestaurantNew Stage 003 ALTER SQL
+-- No shared/legacy table alteration is required in this stage.

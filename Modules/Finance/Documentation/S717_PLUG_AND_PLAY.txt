@@ -1,0 +1,28 @@
+S717 v4 - Supplier Advance Payment - Plug and Play
+
+Correct accounting rule:
+- Debit: Accounts Payable only.
+- Credit: the payment-method account selected by the user only
+  (Bank, Cash, Card, Cheque or another configured payment account).
+- The payment-method account must never receive the debit leg of the same
+  Supplier Advance Payment.
+
+Deployment:
+1. Replace/extract the Finance and Suppliers module folders.
+2. Refresh the browser (Ctrl+F5 recommended).
+
+No manual SQL import, targeted migration command, or vendor:publish command is
+required. Historical affected Supplier advance_payment rows are re-checked
+automatically and idempotently in the active tenant/business when Suppliers or
+Finance is used.
+
+Safety:
+- Only Supplier advance_payment families are considered.
+- Accounts Payable is resolved only from the business's Accounts Payable account.
+- The payment account must be the actual stored/selected account; the repair does
+  not invent or guess a bank/payment account.
+- Debit rows wrongly sitting in the selected payment account/Cash are moved to
+  Accounts Payable.
+- Credit rows stay/move only to the selected payment-method account.
+- If the correct target row already exists for the same transaction/payment and
+  amount, the duplicate wrong row is removed instead of creating another entry.

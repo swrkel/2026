@@ -1,0 +1,61 @@
+IS2246 – Deposits – 11 Sep 2026
+Finance Module cumulative correction
+
+User clarification
+- Reconcile Status must remain REMOVED from all Account Books.
+- Do not restore the Reconcile Status column/button requested by item 7 of the document.
+
+1. Finance -> List Accounts -> Add: HTTP 500
+Root cause:
+- account/create.blade.php uses @json($parentAccountsData), but buildFinanceAddAccountFormData()
+  returned only $parentAccounts. Rendering the modal therefore failed with an undefined variable.
+Fix:
+- ManagesAccounts now supplies parentAccountsData for the Finance Add form.
+- Add form account-group lookup uses the Finance-owned /finance/account-groups/by-type/{id} route.
+- Main A/C / Sub A/C iCheck state remains mutually exclusive and updates dependent fields immediately.
+- Existing automatic account-number prefix/next-number flow remains in place.
+
+2. Finance -> List Accounts: Transfer button missing
+Fix:
+- Restored a permanent Transfer button in the List Accounts toolbar, immediately to the left of Add.
+- Uses the Finance-owned id-less transfer route so the form supplies a From Account selector.
+- Uses a Finance-specific toolbar class so generic ERP .transfer_btn CSS/JS cannot hide it.
+
+3. Cash Deposit / Card Deposit Save incorrectly says "Please select at least one cheque to realize"
+Root cause:
+- Realize Cheque and Cash/Card Deposit shared the DOM id #deposit_form.
+- Realize Cheque registered a delegated document submit handler for #deposit_form; after opening that
+  modal once, the handler remained alive and intercepted later Cash/Card Deposit submissions.
+Fix:
+- Realize Cheque now owns #realize_cheque_form and its own namespaced submit handler only.
+- Cash/Card Deposit keeps its own form; the realize validation can no longer intercept it.
+
+4. Account Settings Save disabled
+Fix:
+- Save now has a Finance-specific id and every state change is scoped to #account_settings_add_form.
+- Normal account opening balances always keep Save visible/enabled.
+- Only Cheques in Hand can temporarily gate Save when cheque breakdown does not equal the entered amount.
+- Save disables only after validation passes and the actual submission begins.
+
+5. Account Book screen fit / automatic movement
+Fix:
+- Account Book uses fixed viewport-bounded layout with horizontal DataTables scrolling disabled.
+- Removed automatic sidebar collapse on Account Book load, which could change page geometry after opening.
+- Disabled browser scroll anchoring for the Account Book page and re-adjust columns only on real viewport/sidebar changes.
+- The page keeps the earlier Date+Time two-line display and two-line requested headings.
+
+6. Account Book requested width reductions
+- Description: reduced by a further 25% from the previous Account Book layout.
+- Debit: reduced by 25%.
+- Credit: reduced by 25%.
+- Remaining Balance: reduced by 25%.
+- Card/Cheque Number keeps the stricter earlier 50% reduction (already narrower than this document asks).
+- Existing Date, Transaction Date, PD/Cheque Date and Opening Balance reductions remain.
+
+7. Reconcile Status
+- Removed from the visible Account Book by explicit user clarification.
+- Backend compatibility field remains empty only to protect old browser/DataTables caches from tn/4 warnings.
+- Bank Reconciliation module functionality is not removed.
+
+Database
+- No SQL or migration is required for this parcel.

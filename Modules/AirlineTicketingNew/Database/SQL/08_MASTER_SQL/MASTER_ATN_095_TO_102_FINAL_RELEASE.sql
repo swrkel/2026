@@ -1,0 +1,1 @@
+-- Run all earlier parcel master SQL files in order, then final indexes, views, permissions and verification SQL.

@@ -1,0 +1,10 @@
+S365 - POS Sales Workspace + Customers Module Integration
+
+- POS customer selection now searches the existing standalone Customers module.
+- POS credit-sale posting now writes to Customers module contact ledger when available.
+- POS does not duplicate customer master data in pos_customers for the sales workspace.
+- Walk-in Customer remains supported.
+- POS sales/cart/register/product logic remains inside the POS module.
+- UI remains on ERP layouts.app foundation from S364.
+
+No compulsory SQL is required for this stage.

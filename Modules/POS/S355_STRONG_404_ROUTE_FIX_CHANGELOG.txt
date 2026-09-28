@@ -1,0 +1,24 @@
+POS Standalone S355 - Strong 404 Route Fix
+
+Changed files:
+- Modules/POS/module.json
+- Modules/POS/start.php
+- Modules/POS/Http/routes.php
+- Modules/POS/Providers/POSServiceProvider.php
+- Modules/POS/Providers/RouteServiceProvider.php
+
+Purpose:
+- Fix persistent 404 on /pos-module and /pos-module/registers.
+- Restore active=true in module.json.
+- Add legacy start.php route loader for older module boot systems.
+- Add legacy Http/routes.php route loader for modules that use the old start.php convention.
+- Keep all route loading inside POS module files.
+
+After replacing, run:
+php artisan optimize:clear
+php artisan route:clear
+
+If still 404, check modules_statuses.json and ensure POS is true:
+"POS": true
+
+No SQL needed.

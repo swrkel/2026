@@ -1,0 +1,28 @@
+POS Standalone S382 - Sync Conflict Manager
+
+Included:
+- /pos-module/offline-sync/conflict-manager page.
+- Manager conflict dashboard for stock, credit, duplicate invoice, failed queue and unsupported sync items.
+- Retry single conflict.
+- Retry all safe failed/conflict queue items.
+- Manager resolution actions:
+  * retry after cache refresh
+  * accept server version
+  * approve negative stock
+  * approve credit over limit
+  * convert credit to cash/card
+  * cancel offline transaction
+  * manual adjustment created
+- Server-side payload marking for manager-approved negative stock and credit over-limit cases.
+- Queue dependency columns foundation for later payment/return/register dependency ordering.
+- Audit log SQL foundation for all conflict decisions.
+
+Risk controls strengthened:
+- Duplicate sync remains protected by client_token.
+- Duplicate invoices can be reviewed without double posting.
+- Returns before sale sync remain blocked for manager review.
+- Register/shift offline closures remain conflict-controlled until S383/S384.
+- Customers module credit conflicts now require explicit manager decision.
+
+SQL:
+Modules/POS/Database/SQL/pos_standalone_s382_sync_conflict_manager.sql

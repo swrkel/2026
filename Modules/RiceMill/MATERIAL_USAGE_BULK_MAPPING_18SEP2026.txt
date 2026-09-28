@@ -1,0 +1,21 @@
+Rice Mill - Material Usage Mapping bulk entry update
+Date: 18 Sep 2026
+
+Changed area:
+Rice Mill / Settings / Material Usage Mapping
+
+Implemented:
+1. Rice Product selected once.
+2. Bag Size selected once.
+3. Every Packaging Material added in /rice-mill/packaging-materials is displayed one below another.
+4. Active Packaging Materials show an individual Usage per Bag input.
+5. Inactive Packaging Materials remain visible but their input is disabled.
+6. Multiple Usage per Bag values are saved together in one request/transaction.
+7. Existing mapping rows are updated when the same Business + Rice Product + Bag Size + Packaging Material is saved again.
+8. Blank/zero rows are skipped; at least one positive usage is required.
+9. All saved mappings continue to display in the table below.
+10. Existing PackingService consumption behavior is unchanged and continues to consume the saved mappings.
+11. Legacy single-material save payload remains supported for the standalone Material Usage Mapping page.
+
+Database changes: NONE.
+No SQL import is required for this update.

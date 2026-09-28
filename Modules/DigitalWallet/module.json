@@ -1,0 +1,22 @@
+{
+    "name": "DigitalWallet",
+    "alias": "digitalwallet",
+    "description": "Standalone enterprise digital wallet platform for credits, ledgers, top-ups, charges, transfers, adjustments, reports and module integrations.",
+    "keywords": [
+        "digitalwallet",
+        "wallet",
+        "credits",
+        "ledger",
+        "topup",
+        "charges",
+        "platform"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\DigitalWallet\\Providers\\DigitalWalletServiceProvider",
+        "Modules\\DigitalWallet\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

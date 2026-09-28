@@ -1,0 +1,105 @@
+Finance Module - List Accounts Add + IS2229 Cash/Card Deposit
+Date: 10 Sep 2026
+Baseline: Finance_IS2227_Root_Cause_Fixed_10Sep2026.zip
+
+FIX A - List Accounts -> Add -> Main A/C / Sub A/C
+--------------------------------------------------
+Root causes:
+1. The Add form uses iCheck, but the mutual-exclusion code changed only the native
+   checkbox property. iCheck's visible wrapper was not updated, so the control could
+   appear not to respond or could visually disagree with the submitted value.
+2. Add/store did not keep parent_account_id in its server-side input whitelist. A
+   selected Sub A/C could therefore be saved without its Main A/C parent.
+
+Correction:
+- One guarded Main/Sub state machine now synchronizes both native checkbox state and
+  the iCheck wrapper.
+- Selecting Main A/C immediately clears Sub A/C and hides Parent Account/Opening Balance.
+- Selecting Sub A/C immediately clears Main A/C and shows/requires Parent Account.
+- Store now accepts and validates parent_account_id for Sub A/C.
+- The parent must be a Main A/C in the same business and in the selected account type
+  (or its child type), matching the existing Add dropdown rule.
+- Existing Edit behavior and accounting semantics were not changed.
+
+FIX B - List Accounts -> Add -> Account Number automatic prefix/number
+---------------------------------------------------------------------
+Root causes:
+1. The previous lookup matched Account Type by display NAME against
+   default_account_types. This is fragile when tenant account type names differ.
+2. The existing-number lookup was not scoped to business_id, so another business's
+   number could advance the sequence.
+3. The code calculated the acc_no_manually permission but ignored it.
+
+Correction:
+- Numbering now reads the active tenant DB account_numbers table.
+- It resolves the selected account type primarily through account_types.default_account_type_id,
+  which is the id stored by Super Admin -> Default Accounts -> Account Numbers.
+- Name matching remains only as a compatibility fallback for old data.
+- Existing numbers are inspected only for the current business.
+- Both PREFIX-123 and older PREFIX123 values are recognized when finding the next number.
+- The returned value always uses PREFIX-NUMBER format.
+- If manual account numbering is allowed, the configured next number still auto-loads
+  but remains editable. Otherwise it is read-only.
+- If no numbering setup exists for the selected account type, the field stays manual.
+
+FIX C - IS2229 Cash Deposit and Card Deposit forms returning HTTP 500
+--------------------------------------------------------------------
+Root cause:
+The shared Finance deposit Blade directly used @includeIf('sw::partials.shift_field').
+An includeIf still asks Laravel's view finder to resolve the SW namespace; on a tenant
+where the SW service provider/view namespace is not registered, this can throw
+"No hint path defined for [sw]" and the AJAX modal request returns HTTP 500. Because
+Cash Deposit and Card Deposit share the same Blade, both buttons fail together.
+
+A second unnecessary coupling was also removed: getDeposit queried PetroDailyShift even
+though the current deposit Blade no longer uses that variable. Finance Cash/Card Deposit
+should not require Petro to be booted merely to open.
+
+Correction:
+- Replaced the SW namespaced include with a Finance-owned optional SW shift adapter.
+- The adapter reads open SW shifts from the active tenant DB only if the required tables
+  are present and renders nothing otherwise.
+- It uses no SW view namespace, SW model class, or SW route to render the Finance form.
+- Removed the unused PetroDailyShift query from Cash/Card form opening.
+- The optional MPCS subscription check is protected so it cannot prevent the Finance
+  deposit form from opening.
+- Existing deposit posting logic was not changed.
+
+CHANGED APPLICATION FILES
+-------------------------
+1. Finance/Http/Controllers/Account/Concerns/ManagesAccounts.php
+2. Finance/Resources/views/account/index.blade.php
+3. Finance/Http/Controllers/Account/Concerns/HandlesDepositsAndTransfers.php
+4. Finance/Resources/views/account/deposit.blade.php
+5. Finance/Resources/views/account/partials/optional_sw_shift_field.blade.php (new)
+
+DEPLOYMENT
+----------
+1. Replace the Finance module with the full corrected package.
+2. From Laravel root run:
+   php artisan optimize:clear
+3. Hard refresh the browser (Ctrl+F5).
+
+TEST
+----
+A. Add Account Main/Sub
+- Finance -> List Accounts -> Add.
+- Tick Main A/C: Sub A/C must clear immediately.
+- Tick Sub A/C: Main A/C must clear immediately; Parent Account and Opening Balance show.
+- Save a Sub A/C and confirm it is linked to the selected Main A/C.
+
+B. Automatic Account Number
+- In Super Admin -> Super Admin Settings -> Default Accounts -> Account Numbers confirm
+  a prefix/start number exists for the account type.
+- Finance -> List Accounts -> Add -> select that Account Type.
+- Account Number must immediately load the configured prefix + next number.
+- Create one account, reopen Add, select the same type and confirm the number increments.
+
+C. Cash/Card Deposit
+- Finance -> List Accounts -> Cash Deposit: form must open without HTTP 500.
+- Finance -> List Accounts -> Card Deposit: form must open without HTTP 500.
+- Submit a normal test deposit for each to confirm existing posting still works.
+
+DATABASE
+--------
+No new SQL query or migration is required for these corrections.

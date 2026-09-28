@@ -1,0 +1,16 @@
+{
+    "name": "BankingTesterUI",
+    "alias": "banking-tester-ui",
+    "description": "BKG-TEST-UI-001 Banking Tester UI Release",
+    "keywords": [
+        "banking",
+        "tester",
+        "ui",
+        "navigation"
+    ],
+    "priority": 120,
+    "providers": [
+        "Modules\\BankingTesterUI\\Providers\\BankingTesterUIServiceProvider"
+    ],
+    "aliases": {}
+}

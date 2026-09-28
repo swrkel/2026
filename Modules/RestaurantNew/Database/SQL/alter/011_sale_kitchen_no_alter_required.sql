@@ -1,0 +1,1 @@
+-- Stage 011 creates standalone sale/kitchen tables. No ALTER required for existing tables.

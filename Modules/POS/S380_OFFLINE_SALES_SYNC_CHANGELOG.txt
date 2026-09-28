@@ -1,0 +1,23 @@
+POS Standalone S380 - Offline Sales Sync
+
+Included:
+- Added server endpoint: POST /pos-module/offline-sync/sync-now
+- Added server endpoint: GET /pos-module/offline-sync/offline-sales
+- Added server-side offline sale posting flow from pos_offline_sync_queue to pos_sales/pos_sale_lines/pos_payments
+- Added idempotency protection using client_token
+- Added duplicate offline sale protection on pos_sales.offline_client_token
+- Added stock validation before posting offline sales
+- Added stock reduction after successful sync
+- Added credit customer validation before confirming credit sale
+- Added conflict queue for unsupported transaction type, missing product, stock conflict, duplicate sale, and credit limit conflict
+- Updated browser IndexedDB script for offline sale queue and server processing
+- Updated offline sync dashboard labels and controls
+
+Important:
+- S380 enables offline SALES sync only.
+- Offline returns, offline register close, and offline cash reconciliation are intentionally held for later stages and go to conflict/review if submitted.
+- The Customers module remains the customer source. Credit sale validation is checked again on the server during sync.
+
+SQL:
+- Modules/POS/Database/SQL/pos_standalone_s380_offline_sales_sync.sql
+- Master SQL updated.

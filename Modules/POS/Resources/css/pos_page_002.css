@@ -1,0 +1,14 @@
+.pos-content .box { border-radius: 10px; border-top: 3px solid #3c8dbc; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.pos-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.pos-toolbar-left { min-width:260px; max-width:420px; flex:1; }
+.pos-toolbar-right { display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+.pos-standard-table th { white-space:nowrap; background:#f7f9fb; font-weight:600; }
+.pos-standard-table td { vertical-align:middle !important; }
+.pos-money, .pos-standard-table .text-right { font-variant-numeric: tabular-nums; }
+.pos-large-save { min-width:155px; min-height:46px; font-size:16px; font-weight:700; }
+.pos-alert { border-radius:8px; font-weight:600; }
+.pos-kpi-row { margin-bottom:15px; }
+.pos-kpi-card { padding:16px; border:1px solid #e7edf3; border-radius:10px; background:#fff; min-height:86px; }
+.pos-kpi-card span { display:block; color:#667085; font-size:12px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:7px; }
+.pos-kpi-card strong { display:block; font-size:18px; color:#1f2937; }
+@media print { .no-print, .pos-toolbar-card, .main-header, .main-sidebar, .content-header { display:none !important; } .content-wrapper { margin-left:0 !important; } }

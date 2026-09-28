@@ -1,0 +1,3 @@
+<?php
+namespace Modules\BankingMicrofinanceTreasury\Http\Controllers;use Illuminate\Routing\Controller;use Modules\BankingMicrofinanceTreasury\Services\TreasuryLiquidityService;
+class LiquidityController extends Controller{public function position(TreasuryLiquidityService $service){$position=$service->position(auth()->user()->business_id ?? null);$snapshot=$service->snapshot(auth()->user()->business_id ?? null);return view('bankingmicrofinancetreasury::liquidity.position',compact('position','snapshot'));}public function gapAnalysis(){return view('bankingmicrofinancetreasury::liquidity.gap',['buckets'=>['0-7 Days'=>0,'8-30 Days'=>0,'31-90 Days'=>0,'91+ Days'=>0]]);}}

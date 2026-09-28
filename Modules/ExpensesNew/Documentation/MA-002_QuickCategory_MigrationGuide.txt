@@ -1,0 +1,60 @@
+MA-002 - MIGRATING THE 26 QUICK-ADD CATEGORY CALLS TO ExpensesNew
+=====================================================================
+
+WHAT EXISTS NOW
+  GET   /expenses-new/quick-category/create    bare modal markup
+  POST  /expenses-new/quick-category           { success, expense_category_id, msg }
+  GET   /expenses-new/quick-category/options   refreshed <option> list
+
+  The JSON keys are IDENTICAL to core's, so the JavaScript already on those
+  26 screens needs no change.
+
+
+HOW TO MIGRATE ONE SCREEN
+  Replace
+
+      action('ExpenseCategoryController@create', ['quick_add' => true])
+
+  with
+
+      action('\Modules\ExpensesNew\Http\Controllers\QuickCategoryController@create')
+
+  Nothing else changes. The modal markup, the .btn-modal handler and the
+  success callback all behave the same.
+
+
+WHERE THE 26 CALLS ARE  (smallest modules first - do them in this order)
+
+    AutoRepairServices    2      Fleet          2
+    PetroPD               2      EVCharging     2
+    SettlementSW          4      Property       4
+    PetroGeneral          4      PetroDirect    4
+    Petro                 6
+
+  The four two-reference modules make a sensible first batch: enough to prove
+  the pattern, small enough to eyeball.
+
+
+WHY THIS CONTROLLER USES `expense_categories` AND NOT THE MODULE'S OWN TABLE
+  ExpensesNew\Entities\Category writes to `expnew_categories`. The 26 calling
+  screens build their dropdowns from `expense_categories`.
+
+      expense_categories    12 rows
+      expnew_categories      0 rows      nothing syncs them
+
+  A quick-add on the module's own model would save and the dropdown would
+  never show the row - no error, no explanation. So this controller writes
+  where the callers read.
+
+  It changes nothing about which table ExpensesNew's own screens use, and it
+  does not pre-empt that decision. One constant - QuickCategoryController::TABLE
+  - is the whole of it.
+
+
+THE DECISION STILL OUTSTANDING
+  Which table owns expense categories. Recommendation remains: point
+  ExpensesNew\Entities\Category at `expense_categories` while
+  `expnew_categories` is still empty. Nothing to migrate today; steadily more
+  expensive once real data lands in the new table. If instead ownership moves
+  the other way, this controller follows with a one-line change plus a
+  migration of the 12 existing rows.

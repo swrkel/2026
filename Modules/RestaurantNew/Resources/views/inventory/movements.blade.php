@@ -1,0 +1,5 @@
+@extends('restaurantnew::layouts.app')
+@section('title', __('restaurantnew::lang.stock_movements'))
+@section('content')
+<div class="restnew-page"><div class="restnew-header"><h1>{{ __('restaurantnew::lang.stock_movements') }}</h1></div><div class="restnew-card">@include('restaurantnew::partials.toolbar')<table class="table table-bordered restnew-table"><thead><tr><th>{{ __('restaurantnew::lang.date') }}</th><th>{{ __('restaurantnew::lang.type') }}</th><th>{{ __('restaurantnew::lang.ingredient') }}</th><th>{{ __('restaurantnew::lang.in') }}</th><th>{{ __('restaurantnew::lang.out') }}</th><th>{{ __('restaurantnew::lang.balance') }}</th></tr></thead><tbody>@foreach($movements as $movement)<tr><td>{{ $movement->created_at }}</td><td>{{ $movement->movement_type }}</td><td>{{ $movement->ingredient_id }}</td><td>{{ number_format($movement->quantity_in,4) }}</td><td>{{ number_format($movement->quantity_out,4) }}</td><td>{{ number_format($movement->balance_qty,4) }}</td></tr>@endforeach</tbody></table>{{ $movements->links() }}</div></div>
+@endsection

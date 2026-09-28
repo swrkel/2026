@@ -1,0 +1,4 @@
+<?php
+namespace Modules\Ran\Http\Requests;
+use Illuminate\Foundation\Http\FormRequest;
+class StockReceiptRequest extends FormRequest {public function authorize():bool{return auth()->check();} public function rules():array{return ['item_id'=>'required|integer','location_id'=>'required|integer','store_id'=>'required|integer','lot_no'=>'nullable|string|max:60','serial_no'=>'nullable|string|max:100','rfid_tag'=>'nullable|string|max:100','quantity'=>'required|numeric|min:0','gross_weight'=>'nullable|numeric|min:0','net_weight'=>'nullable|numeric|min:0','stone_weight'=>'nullable|numeric|min:0','fine_weight'=>'nullable|numeric|min:0','unit_cost'=>'nullable|numeric|min:0','sale_price'=>'nullable|numeric|min:0','received_on'=>'required|date','bin_location'=>'nullable|string|max:100','notes'=>'nullable|string|max:2000'];}}

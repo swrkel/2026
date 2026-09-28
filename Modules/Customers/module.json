@@ -1,0 +1,21 @@
+{
+    "name": "Customers",
+    "alias": "customers",
+    "description": "Standalone Customers Module for customer master management, customer documents, customer notes, customer reports, statements, ledgers, aging and customer activity.",
+    "keywords": [
+        "customers",
+        "contacts",
+        "customer-master",
+        "customer-reports",
+        "customer-ledger",
+        "customer-statement",
+        "customer-aging"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\Customers\\Providers\\CustomersServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

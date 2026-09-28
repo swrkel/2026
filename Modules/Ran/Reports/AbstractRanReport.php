@@ -1,0 +1,3 @@
+<?php
+namespace Modules\Ran\Reports;use Illuminate\Database\Query\Builder;use Modules\Ran\Support\RanContext;
+abstract class AbstractRanReport implements RanReport{protected function filter(Builder $q,array $f,string $date,string $alias=''):Builder{$p=$alias?$alias.'.':'';$q->where($p.'business_id',RanContext::businessId());if(!empty($f['date_from']))$q->whereDate($date,'>=',$f['date_from']);if(!empty($f['date_to']))$q->whereDate($date,'<=',$f['date_to']);if(!empty($f['location_id']))$q->where($p.'location_id',$f['location_id']);if(!empty($f['store_id']))$q->where($p.'store_id',$f['store_id']);return $q;}public function totals(array $rows):array{return [];}}

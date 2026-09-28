@@ -1,0 +1,8 @@
+<div class="row">
+<div class="col-md-4 col-sm-6"><div class="box box-primary"><div class="box-body"><h4>@lang('purchase::lang.purchase_register')</h4><a href="{{ route('purchase.reports.purchase-register') }}" class="btn btn-primary btn-sm">@lang('messages.view')</a></div></div></div>
+<div class="col-md-4 col-sm-6"><div class="box box-primary"><div class="box-body"><h4>@lang('purchase::lang.purchase_payment_report')</h4><a href="{{ route('purchase.reports.purchase-payment') }}" class="btn btn-primary btn-sm">@lang('messages.view')</a></div></div></div>
+<div class="col-md-4 col-sm-6"><div class="box box-primary"><div class="box-body"><h4>@lang('purchase::lang.product_purchase_report')</h4><a href="{{ route('purchase.reports.product-purchase') }}" class="btn btn-primary btn-sm">@lang('messages.view')</a></div></div></div>
+<div class="col-md-4 col-sm-6"><div class="box box-primary"><div class="box-body"><h4>@lang('purchase::lang.purchase_sell_report')</h4><a href="{{ route('purchase.reports.purchase-sell') }}" class="btn btn-primary btn-sm">@lang('messages.view')</a></div></div></div>
+<div class="col-md-4 col-sm-6"><div class="box box-primary"><div class="box-body"><h4>@lang('purchase::lang.stock_purchase_sale_report')</h4><a href="{{ route('purchase.reports.stock-purchase-sale') }}" class="btn btn-primary btn-sm">@lang('messages.view')</a></div></div></div>
+<div class="col-md-4 col-sm-6"><div class="box box-primary"><div class="box-body"><h4>@lang('purchase::lang.supplier_outstanding_report')</h4><a href="{{ route('purchase.reports.supplier-outstanding') }}" class="btn btn-primary btn-sm">@lang('messages.view')</a></div></div></div>
+</div>

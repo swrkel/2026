@@ -1,0 +1,15 @@
+@extends('pos::layouts.app')
+@section('pos_content')
+<div class="pos-kpi-grid">
+    <div class="pos-kpi"><span>Products</span><strong>{{ number_format($stats['products']) }}</strong></div>
+    <div class="pos-kpi"><span>Stock Value</span><strong>{{ number_format($stats['stock_value'], 2) }}</strong></div>
+    <div class="pos-kpi"><span>Low Stock</span><strong>{{ number_format($stats['low_stock']) }}</strong></div>
+    <div class="pos-kpi"><span>Categories</span><strong>{{ number_format($stats['categories']) }}</strong></div>
+</div>
+<div class="card"><div class="card-header pos-flex"><strong>Product Register</strong><div><a class="btn btn-primary" href="{{ route('pos.products.create') }}">Add Product</a> <a class="btn btn-success" href="{{ route('pos.purchases.create') }}">Purchase Stock</a> <a class="btn btn-warning" href="{{ route('pos.products.stock_adjust_form') }}">Stock Adjustment</a> <a class="btn btn-info" href="{{ route('pos.inventory_setup.index') }}">Setup</a> <a class="btn btn-default" href="{{ route('pos.products.movements') }}">Movements</a></div></div>
+<div class="card-body">
+<form class="pos-filter" method="get"><input class="form-control" name="search" value="{{ request('search') }}" placeholder="Search name, SKU or barcode"><select class="form-control" name="category_id"><option value="">All Categories</option>@foreach($categories as $row)<option value="{{ $row->id }}" @selected(request('category_id') == $row->id)>{{ $row->name }}</option>@endforeach</select><select class="form-control" name="stock_status"><option value="">All Stock</option><option value="low" @selected(request('stock_status')==='low')>Low Stock</option><option value="out" @selected(request('stock_status')==='out')>Out of Stock</option></select><button class="btn btn-primary">Search</button><a class="btn btn-default" href="{{ route('pos.products.index') }}">Reset</a></form>
+<table class="table pos-table"><thead><tr><th>Product</th><th>SKU / Barcode</th><th>Category</th><th>Brand</th><th class="text-right">Stock</th><th class="text-right">Selling</th><th>Status</th><th class="text-right">Action</th></tr></thead><tbody>@forelse($products as $row)<tr><td><strong>{{ $row->name }}</strong><br><small>{{ $row->description }}</small></td><td>{{ $row->sku }}<br><small>{{ $row->barcode }}</small></td><td>{{ $row->category_name }}</td><td>{{ $row->brand_name }}</td><td class="text-right">{{ number_format($row->current_stock, 3) }} {{ $row->unit_short_name }}</td><td class="text-right">{{ number_format($row->selling_price, 2) }}</td><td>{{ $row->is_active ? 'Active' : 'Inactive' }}</td><td class="text-right"><a class="btn btn-primary" href="{{ route('pos.products.edit', $row->id) }}">Edit</a><form method="post" action="{{ route('pos.products.destroy', $row->id) }}" style="display:inline">@csrf @method('delete')<button class="btn btn-danger" onclick="return confirm('Remove this product?')">Delete</button></form></td></tr>@empty<tr><td colspan="8" class="text-center">No products found.</td></tr>@endforelse</tbody></table>
+{{ $products->links() }}
+</div></div>
+@endsection

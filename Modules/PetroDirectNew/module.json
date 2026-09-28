@@ -1,0 +1,19 @@
+{
+    "name": "PetroDirectNew",
+    "alias": "petro-direct-new",
+    "description": "Clean-room Petro Direct-New module with independent pdirectnew_ operations, current-system layout, five primary sidebar pages and legacy-equivalent pumper workflows.",
+    "keywords": [
+        "petro",
+        "direct",
+        "settlement",
+        "fuel",
+        "standalone"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\PetroDirectNew\\Providers\\PetroDirectNewServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

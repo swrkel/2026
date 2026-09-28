@@ -1,0 +1,135 @@
+IS2267 – SW Settlement – 13 Sep 2026
+ROOT-CAUSE FIX (2 repeatedly outstanding items)
+=================================================
+
+BASE USED
+---------
+This parcel is built on the most recent consolidated SW package already produced
+in this conversation: SW_IS2263_Fixed_13Sep2026.zip.  It therefore keeps the
+IS2260/IS2263 fixes instead of reverting to the older SW.zip.
+
+1) Finance / List Accounts / Cash Deposit + Card Deposit / Daily Shift No
+-------------------------------------------------------------------------
+WHY THE PREVIOUS ATTEMPTS DID NOT FIX IT
+The field shown in the Finance modal is NOT sw::partials.shift_field.
+Finance owns a different select named "daily_shift_no".  Its deposit controller
+historically fills the view variable $petroDailyShifts from PetroDailyShift.
+Therefore repeated changes to SW's shared SW Shift No partial / shift-options
+endpoint could never change the Daily Shift No dropdown shown in this Finance
+modal.
+
+ROOT FIX
+- SWServiceProvider now attaches a view composer to Finance's existing deposit
+  modal view (finance::account.deposit; account.deposit kept as legacy alias).
+- At render time, after tenant middleware has selected the tenant DB, the
+  composer reads the authoritative sw_shifts table for the ACTIVE business.
+- Only semantically OPEN shifts are supplied to Finance's existing
+  $petroDailyShifts variable.
+- Shift::normalizeStatusValue(status, closed_at) is used, so both current
+  numeric status values and older text status values are handled safely.
+- closed_at is authoritative: a legacy row that still looks "open" but has a
+  closed_at timestamp is NOT shown.
+- soft-deleted shifts are excluded when deleted_at exists.
+- No 500-row cap is used.
+- Finance's existing modal AJAX uses a fresh request when opened, so opening a
+  new SW shift appears on the next modal open and closing it removes it on the
+  next modal open.
+- No Finance source file is changed; Finance posting/calculation logic remains
+  untouched.
+- If SW is disabled for the business, Finance's original list is left untouched.
+
+2) SW Settlement / New Settlement / Payments / Expenses / Expense Category
+----------------------------------------------------------------------------
+WHY THE PREVIOUS ATTEMPTS DID NOT FIX IT
+Expenses New is standalone.  Expenses New / Categories / Add writes to:
+
+    expnew_categories
+
+The previous SW fixes kept refreshing / reading the legacy host table:
+
+    expense_categories
+
+The refresh/race/cache logic could therefore work perfectly and the newly added
+Expenses New category would still never be returned, because it was asking the
+wrong table.
+
+ROOT FIX
+- Added Services/ExpenseCategoryLookupService.php.
+- expnew_categories is now authoritative whenever that table exists.
+- The lookup matches Expenses New's own category option rule:
+    business_id = active selected business
+    is_active = 1 OR is_active IS NULL
+    name IS NOT NULL
+    ORDER BY name
+- legacy expense_categories is used only as a compatibility fallback when the
+  Expenses New category table genuinely does not exist.
+- Initial settlement Blade options and live AJAX refresh now use the SAME lookup
+  service, so they cannot disagree.
+- Business resolution now follows Expenses New's multi-business convention:
+  selected session business first, user's default business last.
+- Removed the JavaScript fallback to /expense-categories/get-drop-down because
+  that endpoint serves the legacy category master and could overwrite the
+  correct Expenses New list.
+- Existing one-request-at-a-time / Select2 opening race protection from IS2263
+  is retained.
+- Live endpoint remains no-store/no-cache and is refreshed when Expenses is
+  selected/opened and when the page regains focus.
+
+CHANGED / ADDED FILES
+---------------------
+SW/Providers/SWServiceProvider.php
+SW/Services/ExpenseCategoryLookupService.php                     (NEW)
+SW/Http/Controllers/PaymentSummaryController.php
+SW/Http/Controllers/SettlementCreateController.php
+SW/Resources/views/settlements/partials/payments_js.blade.php
+SW/CHANGE_MANIFEST_IS2267.txt                                    (NEW)
+
+NOT CHANGED
+-----------
+- SW settlement calculations
+- SW settlement save/finalize arithmetic
+- Finance deposit posting logic
+- Finance source files
+- Customer ledger logic
+- Purchase logic
+- Tank/stock calculations
+- Existing sw_shifts table or its lifecycle
+- Database schema / migrations
+
+DATABASE
+--------
+NO SQL / migration is required for IS2267.
+The fix uses the existing sw_shifts and expnew_categories tables.
+
+VALIDATION PERFORMED
+--------------------
+- PHP syntax check on all 133 PHP/Blade PHP files in the consolidated SW module.
+- payments_js.blade.php JavaScript syntax checked after replacing Blade
+  interpolations with neutral placeholders.
+- Confirmed only one select2:opening.swExpenseCategories handler remains.
+- Confirmed the wrong legacy /expense-categories/get-drop-down endpoint is no
+  longer called.
+- Confirmed Finance bridge reads sw_shifts and writes the exact existing
+  $petroDailyShifts view variable expected by the deposit form.
+- ZIP integrity test performed after packaging.
+
+INSTALL
+-------
+1. Replace the current Modules/SW folder with the SW folder in the consolidated
+   parcel (or overlay the changed-files-only parcel if you deliberately prefer
+   that method).
+2. From the Laravel project root run:
+
+       php artisan optimize:clear
+
+3. Hard refresh the browser once (Ctrl+F5).
+
+TARGET TEST
+-----------
+A. Open a new SW Shift. Then open Finance / List Accounts / Cash Deposit and
+   Card Deposit. The new SW shift must be listed under Daily Shift No.
+B. Close that SW Shift. Reopen Cash Deposit and Card Deposit. The closed shift
+   must no longer be listed.
+C. Add an ACTIVE category at Expenses New / Categories / Add.
+D. Open SW Settlement / New Settlement / Payments / Expenses and open Expense
+   Category. The new category must be present immediately.

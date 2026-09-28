@@ -1,0 +1,9 @@
+@extends('hotelmanagement::layouts.app')
+@section('hotel_content')
+<section class="content-header"><h1>Check-In / Check-Out Report <small>POS standard layout</small></h1></section>
+<section class="content">
+@include('hotelmanagement::partials.nav')
+<div class="box"><div class="box-header"><h3 class="box-title">Filters</h3></div><div class="box-body">@include('hotelmanagement::reports.partials.filters')</div></div>
+<div class="row"><div class="col-md-6"><div class="box"><div class="box-header"><h3 class="box-title">Check-Ins</h3></div><div class="box-body"><div class="table-responsive"><table class="table hm-table table-striped"><thead><tr><th>ID</th><th>Reservation</th><th>Room</th><th>Date</th><th>Status</th></tr></thead><tbody>@forelse($checkins as $row)<tr><td>{{ $row->id ?? '' }}</td><td>{{ $row->reservation_id ?? '-' }}</td><td>{{ $row->room_id ?? '-' }}</td><td>{{ $row->created_at ?? '' }}</td><td><span class="hm-badge checked_in">Checked In</span></td></tr>@empty<tr><td colspan="5"><div class="hm-empty">No check-ins found.</div></td></tr>@endforelse</tbody></table></div></div></div></div><div class="col-md-6"><div class="box"><div class="box-header"><h3 class="box-title">Check-Outs</h3></div><div class="box-body"><div class="table-responsive"><table class="table hm-table table-striped"><thead><tr><th>ID</th><th>Reservation</th><th>Room</th><th>Date</th><th>Status</th></tr></thead><tbody>@forelse($checkouts as $row)<tr><td>{{ $row->id ?? '' }}</td><td>{{ $row->reservation_id ?? '-' }}</td><td>{{ $row->room_id ?? '-' }}</td><td>{{ $row->created_at ?? '' }}</td><td><span class="hm-badge closed">Checked Out</span></td></tr>@empty<tr><td colspan="5"><div class="hm-empty">No check-outs found.</div></td></tr>@endforelse</tbody></table></div></div></div></div></div>
+</section>
+@endsection

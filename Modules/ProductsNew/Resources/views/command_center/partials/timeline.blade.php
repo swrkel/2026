@@ -1,0 +1,1 @@
+<ul class="productsnew-timeline-list">@forelse($workspace['timeline'] as $item)<li><strong>{{ $item->event_type ?? 'Activity' }}</strong><span>{{ $item->description ?? '' }}</span><em>{{ $item->created_at }}</em></li>@empty<li class="text-muted">No timeline records yet.</li>@endforelse</ul>

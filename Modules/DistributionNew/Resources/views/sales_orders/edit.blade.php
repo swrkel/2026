@@ -1,0 +1,2 @@
+@extends('distributionnew::layouts.app', ['title' => 'Edit Sales Order'])
+@section('content')<div class="ch-card"><div class="ch-card-header"><h3 class="ch-card-title">Edit Sales Order</h3></div><div class="ch-card-body"><form method="post" action="{{ route('distributionnew.sales-orders.update', $order->id) }}">@csrf @method('PUT') @include('distributionnew::sales_orders.form')</form></div></div>@endsection

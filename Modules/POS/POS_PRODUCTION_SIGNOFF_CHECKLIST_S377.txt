@@ -1,0 +1,14 @@
+POS Production Signoff Checklist - S377
+
+1. Open /pos-module/production-readiness.
+2. Confirm all route checks are Available.
+3. Confirm all tenant table checks are Available.
+4. Open /pos-module/sales/workspace.
+5. Complete cash, card and credit sales.
+6. Confirm customer ledger and statement update in Customers module for credit sale/payment.
+7. Confirm stock movements after sale, purchase, return and exchange.
+8. Close shift and compare register summary with reports.
+9. Print 58mm/80mm receipt and A4 invoice.
+10. Compare UI with Communication Hub for font, colours, spacing, buttons, cards and tables.
+
+If all pass, POS can be treated as production-ready subject to live business feedback.

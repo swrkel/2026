@@ -1,0 +1,57 @@
+{
+    "name": "SimpleAudit",
+    "alias": "simpleaudit",
+    "description": "Standalone Simple Audit module with Purchase Audit reporting for multi-tenant, multi-business, multi-location and multi-store ERP installations.",
+    "keywords": [
+        "audit",
+        "purchase audit",
+        "standalone"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\SimpleAudit\\Providers\\SimpleAuditServiceProvider"
+    ],
+    "files": [],
+    "navigation": [
+        {
+            "label": "Simple Audit",
+            "icon": "fa fa-search-plus",
+            "children": [
+                {
+                    "label": "Purchase Audit",
+                    "route": "simpleaudit.purchase-audit"
+                }
+            ]
+        }
+    ],
+    "permissions": [
+        {
+            "name": "simpleaudit.view",
+            "label": "Simple Audit - View"
+        },
+        {
+            "name": "simpleaudit.export",
+            "label": "Simple Audit - Export Excel/CSV"
+        },
+        {
+            "name": "simpleaudit.print",
+            "label": "Simple Audit - Print"
+        },
+        {
+            "name": "simpleaudit.pdf",
+            "label": "Simple Audit - PDF"
+        },
+        {
+            "name": "simpleaudit.email",
+            "label": "Simple Audit - Email"
+        },
+        {
+            "name": "simpleaudit.whatsapp",
+            "label": "Simple Audit - WhatsApp"
+        }
+    ],
+    "version": "1.0.21",
+    "route_prefix": "superadmin/simple-audit",
+    "central_only": true,
+    "scope": "central_superadmin_only"
+}

@@ -1,0 +1,5 @@
+-- Stage 010: Reporting suite does not require new physical tables.
+-- Reports read from RestaurantNew standalone tables only:
+-- restaurantnew_orders, restaurantnew_order_lines, restaurantnew_payments,
+-- restaurantnew_tables, restaurantnew_staff_members, restaurantnew_menu_items,
+-- restaurantnew_menu_categories, restaurantnew_kitchen_tickets, restaurantnew_kitchen_ticket_lines.

@@ -1,0 +1,416 @@
+<div class="modal-dialog" role="document" style="width: 65%;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            @php
+                $settlement_display_no = !empty($settlement->settlement_no) ? $settlement->settlement_no : $settlement->id;
+                if (request()->input('source') === 'petro_pd' && !\Illuminate\Support\Str::startsWith((string) $settlement_display_no, 'PDST')) {
+                    $pd_settlement = \Modules\PetroGeneral\Entities\Settlement::where('business_id', session()->get('user.business_id'))
+                        ->where('id', $settlement->id)
+                        ->where('settlement_no', 'LIKE', 'PDST%')
+                        ->first();
+                    if (!empty($pd_settlement)) {
+                        $settlement_display_no = $pd_settlement->settlement_no;
+                    }
+                }
+            @endphp
+            <h4 class="modal-title">{{ $settlement_display_no }}</h4>
+        </div>
+
+        <div class="modal-body">
+            @php
+            $business_id = session()->get('user.business_id');
+            $business_details = App\Business::find($business_id);
+            $currency_precision = !empty($business_details->currency_precision) ? $business_details->currency_precision
+            : 2;
+            @endphp
+            <div class="row">
+                <div class="col-xs-12 text-center" style="font-weight: bold; maring-bottom: -10px; font-size: 18px;">
+                    @lang('petrogeneral::lang.payment_details')
+                </div>
+                <div class="">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.loan_payments' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="7">@lang('petrogeneral::lang.loan_account')</th>
+                                    <th>@lang('petrogeneral::lang.amount')</th>
+                                </tr>
+                                @foreach ($settlement->loan_payments as $loan)
+                                <tr>
+                                    <td colspan="7">
+                                        @php
+                                        $loan_account = \App\Account::findOrFail($loan->loan_account);
+                                        @endphp
+                                        {{!empty($loan_account) ? $loan_account->name : ''}}
+                                    </td>
+                                    <td>{{number_format($loan->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->loan_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.drawing_payments' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="7">@lang('petrogeneral::lang.account')</th>
+                                    <th>@lang('petrogeneral::lang.amount')</th>
+                                </tr>
+                                @foreach ($settlement->drawings_payments as $drawing)
+                                <tr>
+                                    <td colspan="7">
+                                        @php
+                                        $drawing_account = \App\Account::findOrFail($drawing->loan_account);
+                                        @endphp
+                                        {{!empty($drawing_account) ? $drawing_account->name : ''}}
+                                    </td>
+                                    <td>{{number_format($drawing->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->drawings_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+                                
+                                
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.cash' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="7">@lang('petrogeneral::lang.customer')</th>
+                                    <th>@lang('petrogeneral::lang.amount')</th>
+                                </tr>
+                                @foreach ($settlement->cash_payments as $cash)
+                                <tr>
+                                    <td colspan="7">
+                                        @php
+                                        $cash_customer = \App\Contact::findOrFail($cash->customer_id);
+                                        @endphp
+                                        {{!empty($cash_customer) ? $cash_customer->name : ''}}
+                                    </td>
+                                    <td>{{number_format($cash->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->cash_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+                                
+                                
+                                
+                                
+                                
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.cash_deposit' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="7">@lang('petrogeneral::lang.bank')</th>
+                                    <th>@lang('petrogeneral::lang.amount')</th>
+                                </tr>
+                                @php
+                                    // Fallback: manually load cash deposits if relationship didn't load them
+                                    $cash_deposits_to_display = $settlement->cash_deposits;
+                                    if ($cash_deposits_to_display->isEmpty()) {
+                                        $cash_deposits_to_display = \Modules\PetroGeneral\Entities\SettlementCashDeposit::where('settlement_no', $settlement->settlement_no)
+                                            ->orWhere('settlement_no', $settlement->id)
+                                            ->get();
+                                    }
+                                @endphp
+                                @foreach ($cash_deposits_to_display as $cash)
+                                <tr>
+                                    <td colspan="7">
+                                        @php
+                                        $cash_customer = \App\Account::findOrFail($cash->bank_id);
+                                        @endphp
+                                        {{!empty($cash_customer) ? $cash_customer->name : ''}}
+                                    </td>
+                                    <td>{{number_format($cash->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($cash_deposits_to_display->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+                                
+                                
+                                
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.cards' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">@lang('petrogeneral::lang.customer')</th>
+                                    <th colspan="2">@lang('petrogeneral::lang.card_number')</th>
+                                    <th>@lang('petrogeneral::lang.amount')</th>
+                                </tr>
+                                @foreach ($settlement->card_payments as $card) 
+                                <tr>
+                                    <td colspan="3">
+                                        @php
+                                        $card_customer = \App\Contact::findOrFail($card->customer_id);
+                                        @endphp
+                                        {{!empty($card_customer) ? $card_customer->name : ''}}
+                                    </td>
+                                    <td colspan="2">
+                                        {{$card->card_number}}
+                                    </td>
+                                    <td>{{number_format($card->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->card_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.cheques' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">@lang('petrogeneral::lang.customer')</th>
+                                    <th>@lang('petrogeneral::lang.bank_name')</th>
+                                    <th>@lang('petrogeneral::lang.cheque_number')</th>
+                                    <th>@lang('petrogeneral::lang.cheque_date')</th>
+                                    <th>@lang('petrogeneral::lang.amount')</th>
+                                </tr>
+                                @foreach ($settlement->cheque_payments as $cheque)
+                                <tr>
+                                    <td colspan="2">
+                                        @php
+                                        $cheque_customer = \App\Contact::findOrFail($cheque->customer_id);
+                                        @endphp
+                                        {{!empty($cheque_customer) ? $cheque_customer->name : ''}}
+                                    </td>
+                                    <td>
+                                        {{$cheque->bank_name}}
+                                    </td>
+                                    <td>
+                                        {{$cheque->cheque_number}}
+                                    </td>
+                                    <td>
+                                        {{$cheque->cheque_date}}
+                                    </td>
+                                    <td>{{number_format($cheque->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->cheque_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.credit_sales' )</th>
+                                </tr>
+                                <tr>
+                                    <th>@lang('petrogeneral::lang.customer')</th>
+                                    <th>@lang('petrogeneral::lang.order_number')</th>
+                                    <th>@lang('petrogeneral::lang.order_date')</th>
+                                    <th>@lang('petrogeneral::lang.product')</th>
+                                    <th>@lang('petrogeneral::lang.qty')</th>
+                                    <th>@lang('petrogeneral::lang.sub_total' )</th>
+                                    <th>@lang('petrogeneral::lang.discount_total' )</th>
+                                    <th>@lang('petrogeneral::lang.total' )</th>
+                                </tr>
+                                @foreach ($settlement->credit_sale_payments as $credit_sale)
+                                <tr>
+                                    <td>
+                                        @php
+                                        $credit_sale_customer = \App\Contact::findOrFail($credit_sale->customer_id);
+                                        $credit_sale_product = \App\Product::findOrFail($credit_sale->product_id);
+                                        @endphp
+                                        {{!empty($credit_sale_customer) ? $credit_sale_customer->name : ''}}
+                                    </td>
+                                    <td>
+                                        {{$credit_sale->order_number}}
+                                    </td>
+                                    <td>
+                                        {{$credit_sale->order_date}}
+                                    </td>
+                                    <td>
+                                        {{!empty($credit_sale_product) ? $credit_sale_product->name : ''}}
+                                    </td>
+                                    <td>
+                                        {{$credit_sale->qty}}
+                                    </td>
+                                    <td>{{number_format($credit_sale->amount, $currency_precision)}}</td>
+                                    <td>{{number_format($credit_sale->total_discount, $currency_precision)}}</td>
+                                    <td>{{number_format($credit_sale->amount-$credit_sale->total_discount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="2">
+                                        <button data-href="{{ action('\Modules\PetroGeneral\Http\Controllers\AddPaymentController@productPreview', [$settlement->id]) }}?source=petro_pd&active_settlement_id={{ $settlement->id }}" type="button" class="btn-modal btn btn-primary pull-left credit_sale_product_detail" data-container=".preview_settlement" id="product_preview_btn">Credit Sales Product details</button>
+                                    </th>
+                                    <th colspan="3" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->credit_sale_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                    <td>{{number_format($settlement->credit_sale_payments->sum('total_discount'), $currency_precision)}}
+                                    </td>
+                                    <td>{{number_format(($settlement->credit_sale_payments->sum('amount')-$settlement->credit_sale_payments->sum('total_discount')), $currency_precision)}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.expense' )</th>
+                                </tr>
+                                <tr>
+                                    <th>@lang('petrogeneral::lang.expense_number' )</th>
+                                    <th colspan="2">@lang('petrogeneral::lang.reference_no' )</th>
+                                    <th colspan="2">@lang('petrogeneral::lang.reason')</th>
+                                    <th>@lang('petrogeneral::lang.amount')</th>
+                                </tr>
+                                @foreach ($settlement->expense_payments as $expense)
+                                <tr>
+                                    <td>
+                                        {{$expense->expense_number}}
+                                    </td>
+                                    <td colspan="2">
+                                        {{$expense->reference_no}}
+                                    </td>
+                                    <td colspan="2">
+                                        {{$expense->reference_no}}
+                                    </td>
+                                    <td>{{number_format($expense->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->expense_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.shortage' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="7"></th>
+                                    <th>@lang('petrogeneral::lang.amount' )</th>
+                                </tr>
+                                @foreach ($settlement->shortage_payments as $shortage)
+                                <tr>
+                                    <td colspan="7"></td>
+                                    <td>{{number_format($shortage->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->shortage_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.excess' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="7"></th>
+                                    <th>@lang('petrogeneral::lang.amount' )</th>
+                                </tr>
+                                @foreach ($settlement->excess_payments as $excess)
+                                <tr>
+                                    <td colspan="7"></td>
+                                    <td>{{number_format($excess->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->excess_payments->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="8" class="text-red">@lang('petrogeneral::lang.customer_loans' )</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="7">@lang('petrogeneral::lang.customer')</th>
+                                    <th>@lang('petrogeneral::lang.amount')</th>
+                                </tr>
+                                @foreach ($settlement->customer_loans as $loan)
+                                <tr>
+                                    <td colspan="7">
+                                        @php
+                                        $loan_customer = \App\Contact::findOrFail($loan->customer_id);
+                                        @endphp
+                                        {{!empty($loan_customer) ? $loan_customer->name : ''}}
+                                    </td>
+                                    <td>{{number_format($loan->amount, $currency_precision)}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        @lang('petrogeneral::lang.total')
+                                    </th>
+                                    <td>{{number_format($settlement->customer_loans->sum('amount'), $currency_precision)}}
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                       <b> @lang('petrogeneral::lang.total')</b>
+                                    </th>
+                                    @php
+                                        // Fallback for cash deposits total calculation
+                                        $cash_deposits_total = $settlement->cash_deposits->sum('amount');
+                                        if ($cash_deposits_total == 0) {
+                                            $cash_deposits_total = \Modules\PetroGeneral\Entities\SettlementCashDeposit::whereIn('settlement_no', [$settlement->settlement_no, $settlement->id])->sum('amount');
+                                        }
+                                    @endphp
+                                    <td><b>{{number_format(($settlement->loan_payments->sum('amount')
+                                        + $settlement->cash_payments->sum('amount')
+                                        + $cash_deposits_total
+                                        + $settlement->card_payments->sum('amount')
+                                        + $settlement->cheque_payments->sum('amount')
+                                        + ($settlement->credit_sale_payments()->sum('amount')
+                                            -$settlement->credit_sale_payments()->sum('total_discount')
+                                        )
+                                        + $settlement->expense_payments->sum('amount')
+                                        + $settlement->shortage_payments->sum('amount')
+                                        + $settlement->excess_payments->sum('amount')
+                                        + $settlement->customer_loans->sum('amount')
+                                    ), $currency_precision)}}</b>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">@lang( 'messages.close' )</button>
+        </div>
+
+    </div>
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

@@ -1,0 +1,1 @@
+Stage 022 adds standalone online ordering platform foundations: customer portal, menu, checkout, online orders, kitchen online queue, order tracking, permissions, migrations, SQL, JS/CSS, and language files.

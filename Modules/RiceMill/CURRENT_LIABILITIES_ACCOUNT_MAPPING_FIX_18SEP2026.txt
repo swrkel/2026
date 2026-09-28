@@ -1,0 +1,16 @@
+Rice Mill - Current Liabilities Account Mapping Fix - 18 Sep 2026
+
+Product Category Mapping > Payment Account now lists all active/not-closed List Accounts
+linked to the Finance Account Group named "Current Liabilities" for the current business.
+
+Source relationship used by Finance/List Accounts:
+  accounts.asset_type -> account_groups.id
+
+Updated areas:
+- ExternalMasterDataService: currentLiabilityAccounts()
+- SettingsController mapping load/save validation
+- Product Category Mapping Paddy/Rice Payment Account dropdowns
+- Paddy Purchase create/payment validation
+- PurchasePaymentService validation/credit-purchase mapping
+
+No database schema change is required for this correction.

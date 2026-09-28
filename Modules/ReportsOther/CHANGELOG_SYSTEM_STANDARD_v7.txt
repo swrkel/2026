@@ -1,0 +1,24 @@
+Reports - Other v7 - 20 Sep 2026
+
+1. System sidebar rule
+- Reports - Other now obeys the host Manage Side Bar parent gate using SidebarPermissionUtil when available.
+- Direct URLs are blocked with 403 when the parent module is disabled.
+- Child Cash Receipt visibility also respects the user role/page permission.
+- Added the host check.route.permission middleware to module-protected routes.
+- Removed any always-visible sidebar bypass behavior.
+
+2. Receipt print clipping
+- Added A4 @page margins (12mm top/bottom, 14mm left/right).
+- Receipt width is constrained to the printable area instead of max-width:none.
+- Tables use fixed layout and safe word wrapping.
+- Cheque and signature sections are constrained so they cannot push beyond the page.
+- Live Print Current Design and saved Receipt print both receive print-safe side spacing.
+
+3. List Receipt system-standard controls
+- Added standard Date Range options: This Year, Last Year, This FY, Last FY, Custom.
+- Financial-year start month is read directly from Business Settings (business.fy_start_month when available).
+- Custom From/To dates are typeable as DD/MM/YYYY with automatic slash movement.
+- Date changes refresh only the List Receipt tab through the instant-tab engine.
+- List/action buttons and export/share buttons now use distinct system-standard colors.
+
+No database schema change.

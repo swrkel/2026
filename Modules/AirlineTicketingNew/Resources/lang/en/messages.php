@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'module_name' => 'Airline Ticketing - New',
+    'dashboard' => 'Dashboard',
+    'settings' => 'Settings',
+    'command_center' => 'Airline Ticketing Command Center',
+    'command_center_help' => 'Bookings, ticketing, refunds and settlements for the selected business.',
+    'new_booking' => 'New Booking',
+    'today_bookings' => 'Today Bookings',
+    'today_tickets' => 'Today Tickets',
+    'pending_ticketing' => 'Pending Ticketing',
+    'pending_refunds' => 'Pending Refunds',
+    'foundation_status' => 'Foundation Status',
+    'foundation_ready' => 'ATN-001 standalone foundation is installed. Operational pages will be added in the next parcels.',
+    'general_settings' => 'General Settings',
+    'default_currency_code' => 'Default Currency Code',
+    'default_service_fee' => 'Default Service Fee',
+    'booking_prefix' => 'Booking Prefix',
+    'ticket_prefix' => 'Ticket Prefix',
+    'save' => 'Save',
+    'settings_saved' => 'Airline Ticketing settings saved successfully.',
+    'unauthorised' => 'You are not authorised to access Airline Ticketing - New.',
+    'business_required' => 'A valid business must be selected.',
+];

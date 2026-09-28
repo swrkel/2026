@@ -1,0 +1,14 @@
+Finance List Accounts - Cheques Opening Balance AJAX fix - 15 Sep 2026
+
+Issue:
+DataTables warning: table id=cheques_ob_details_table - Ajax error (tn/7).
+
+Fix:
+- Cheques opening-balance table now uses /finance/list-accounts-live/cheques-ob-details.
+- Removed strict request()->ajax() dependency that could return 404 behind proxies.
+- Reader adapts to older/newer transaction_payments and transactions schemas.
+- Edit/update/delete URLs are also Finance-owned live routes.
+- Server-side failures return valid DataTables JSON and write a precise Finance log entry.
+
+Deployment:
+Upload/extract/replace Finance and Ctrl+F5. No SQL or Artisan command required.

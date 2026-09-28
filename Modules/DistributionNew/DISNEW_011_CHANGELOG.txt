@@ -1,0 +1,15 @@
+DISNEW 011 - Role dashboards, notification preferences, seeded permissions, advanced filters and deployment rollback support.
+
+Added:
+- RoleDashboardController and role-based Distribution New dashboard service.
+- NotificationPreferenceController and business/user notification preference service.
+- AdvancedFilterService for uniform DataTables/report filters.
+- PermissionSeederService for repeatable permission creation.
+- BusinessLimitUsageService for usage panels in Super Admin/Manage.
+- New standalone models: DisnewNotificationPreference, DisnewSavedFilter, DisnewPermissionSeed, DisnewDeploymentLog.
+- Stage 11 SQL and updated master SQL.
+- Rollback SQL for Stage 11 only.
+
+Notes:
+- SMS remains integrated through the existing SMS module bridge only; no SMS module duplication.
+- Customer dependency remains through a clean lookup/service boundary only.

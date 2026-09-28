@@ -1,0 +1,18 @@
+POS Standalone S360 - Settings & Security
+
+Added/updated:
+- POS Configuration Center Settings page at /pos-module/settings
+- Receipt settings
+- Tax and discount rules
+- Terminal/register settings
+- Security and manager approval rules
+- Server-side settings persistence using POS-owned pos_settings table
+- POS audit log SQL foundation using POS-owned pos_audit_logs table
+- Communication Hub style cards, rounded controls, buttons and sticky save area
+
+SQL:
+- Modules/POS/Database/SQL/pos_standalone_s360_settings_security.sql
+
+Notes:
+- POS remains standalone and does not use main ERP settings controllers/models.
+- Routes remain under /pos-module.

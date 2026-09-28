@@ -1,0 +1,15 @@
+Finance Module - Sidebar Language Break Fix - 11 Sep 2026
+
+Issue
+-----
+Finance sidebar could display raw Laravel translation keys (finance::...) because several keys used by the Finance sidebar were absent from the module language files.
+
+Fix
+---
+1. Added missing Finance sidebar labels to en/si/ta account language files.
+2. Added missing Cheques / Cheque Deposits labels to en/si/ta cheque language files.
+3. Added defensive English fallbacks in the Finance sidebar/menu so a missing locale entry can never expose a raw translation key.
+4. Preserved the requested List Accounts label and all prior Finance cumulative fixes.
+5. Added the same Finance parent-label safeguard to the Finance permissions partial.
+
+Database changes: none.

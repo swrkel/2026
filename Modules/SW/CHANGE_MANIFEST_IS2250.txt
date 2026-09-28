@@ -1,0 +1,54 @@
+IS2250 – SW Settlement – 11 Sep 2026
+
+Base used
+- Built on the consolidated SW_IS2249_FIXED_2026-09-11 parcel so all IS2249 corrections remain included.
+- Changes are limited to the SW module.
+- No SQL or migration is required for IS2250.
+
+1. SW Settlement / List SW Shift / Pump Nos
+Problem
+- A newly opened/unsettled shift could display every active pump at the location because the list used location/operator fallbacks when no saved settlement pump existed.
+
+Fix
+- Pump Nos now display only from sw_settlement_lines linked through sw_settlement_shifts.
+- Open/new/unsettled shifts display no Pump Nos (—).
+- After the settlement is saved, only pumps actually saved on that settlement are displayed.
+- Shift detail/print follows the same rule.
+- The Pump filter now uses the same settlement-only relationship, so filtering cannot pull in an open shift merely because the pump exists at the location or is currently assigned to an operator.
+
+2. SW Settlement / New Settlement / Payments / Expenses / Expense Category
+Problem
+- Expense Categories added after the settlement page was already open could remain missing/stale in the Expense Category dropdown.
+
+Fix
+- Added a dedicated tenant-scoped live endpoint: /sw/settlements/expense-categories.
+- Endpoint reads expense_categories directly for the authenticated tenant business on every request.
+- No-store/no-cache response headers prevent stale category results.
+- Expenses button refreshes the category list from the live endpoint every time it is selected.
+- Stale AJAX requests are aborted/ignored to prevent an older response overwriting a newer one.
+- Existing working options are kept if the refresh request fails; the dropdown is only rebuilt after a successful response.
+- Returning to the settlement browser window while Expenses is active triggers another refresh, covering categories added in another browser tab/window.
+- The old payment-accounts special category request remains compatible for any browser that still has earlier settlement JavaScript cached.
+
+Changed files
+- SW/Http/Controllers/ListShiftController.php
+- SW/Http/Controllers/PaymentSummaryController.php
+- SW/Resources/views/settlements/partials/payments_js.blade.php
+- SW/Routes/web.php
+
+Validation performed
+- PHP syntax checked for all 128 PHP files: PASS.
+- payments_js JavaScript syntax check: PASS.
+- Final ZIP integrity test: run during packaging.
+
+Deployment
+1. Replace the existing SW module with this consolidated parcel.
+2. From the Laravel project root run:
+   php artisan optimize:clear
+3. Hard refresh the browser once (Ctrl+F5) because this fix changes settlement JavaScript.
+4. No database import/migration is required.
+
+Quick verification
+A. Open a new SW shift and check List SW Shift: Pump Nos should show — before settlement.
+B. Complete/save the settlement with specific pumps: the row should show only those saved pumps.
+C. Add a new Expense Category, return to New Settlement > Payments > Expenses, and confirm the new category appears without reloading the whole settlement page.

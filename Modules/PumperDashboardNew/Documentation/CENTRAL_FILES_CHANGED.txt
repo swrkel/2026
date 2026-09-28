@@ -1,0 +1,12 @@
+Central application files included in this package:
+
+1. app/Http/Middleware/UserLocationAccess.php
+   - Allows Pumper Dashboard-New routes to use the module's own validated operator/location session.
+
+2. resources/views/auth/login.blade.php
+   - Adds the Pumper Dashboard New login entry.
+   - Adds Pump Operator Display 2 to the business-specific login-display choices.
+   - Redirects the selected display to /pumper-dashboard-new/login?cc=<company_number>.
+
+3. modules_statuses.json
+   - Registers PumperDashboardNew as enabled.

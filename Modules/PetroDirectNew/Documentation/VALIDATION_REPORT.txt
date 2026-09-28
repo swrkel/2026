@@ -1,0 +1,30 @@
+Petro Direct-New Static Validation Report
+Generated: 02 Aug 2026 SLST
+
+Files: 113
+Database tables: 29
+Permissions: 24
+Named module routes: 29
+Primary sidebar pages: 5
+Pumper Management tabs: 10
+
+Checks passed:
+- PHP and Blade syntax
+- JSON parsing
+- Route-to-controller method resolution
+- Named route references in views
+- Controller view references
+- Static Blade include references
+- Migration / raw SQL / entity table equality
+- Required pdirectnew_ table prefix
+- PHP / SQL permission equality
+- Permission references
+- Exact five-page sidebar contract
+- Exact ten-tab Pumper Management contract
+- Legacy Petro Direct runtime dependency scan
+- Direct pdirectnew_ table-reference scan
+
+Not performed:
+- Live tenant database execution
+- Authenticated browser testing
+- Production settlement posting validation

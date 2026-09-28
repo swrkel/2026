@@ -1,0 +1,3 @@
+-- Optional seed data only. Replace @business_id and @location_id before running if required.
+-- INSERT INTO rn_settings (business_id, location_id, `key`, `value`, created_at, updated_at)
+-- VALUES (@business_id, @location_id, 'enable_kot', '1', NOW(), NOW());

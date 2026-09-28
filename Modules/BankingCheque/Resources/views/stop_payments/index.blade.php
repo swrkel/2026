@@ -1,0 +1,2 @@
+@extends('bankingcheque::layout')
+@section('banking_cheque_content')<a href="{{ route('banking.cheques.stop-payments.create') }}" class="btn btn-warning">New Stop Payment</a><table class="table table-bordered mt-3"><tr><th>Account</th><th>Leaf</th><th>Reason</th><th>Status</th></tr>@foreach($stops as $stop)<tr><td>{{ $stop->account_no }}</td><td>{{ $stop->leaf_no }}</td><td>{{ $stop->reason }}</td><td>{{ $stop->status }}</td></tr>@endforeach</table>@endsection

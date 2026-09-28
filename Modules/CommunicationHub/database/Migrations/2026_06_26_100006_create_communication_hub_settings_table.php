@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration; use Illuminate\Database\Schema\Blueprint; use Illuminate\Support\Facades\Schema;
+return new class extends Migration { public function up(): void { if (! Schema::hasTable('communication_hub_settings')) { Schema::create('communication_hub_settings', function (Blueprint $table) { $table->id(); $table->string('group')->nullable()->index(); $table->string('key')->unique(); $table->longText('value')->nullable(); $table->json('meta')->nullable(); $table->timestamps(); }); } } public function down(): void { Schema::dropIfExists('communication_hub_settings'); } };

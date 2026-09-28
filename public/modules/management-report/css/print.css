@@ -1,0 +1,50 @@
+@page { size:A4; margin:8mm 7mm 9mm; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Arial,Helvetica,sans-serif; color:#111827; font-size:9px; background:#fff; }
+.public-report-tools { position:sticky; top:0; z-index:10; display:flex; gap:8px; align-items:center; padding:10px; background:#111827; color:#fff; }
+.public-report-tools a,.public-report-tools button { border:0; border-radius:5px; padding:7px 10px; background:#fff; color:#111827; text-decoration:none; cursor:pointer; }
+.public-report-tools span { margin-left:auto; }
+.mgmt-print-document { width:100%; }
+.mgmt-report-header { display:table; width:100%; border-bottom:2px solid #111827; padding-bottom:8px; }
+.mgmt-report-brand,.mgmt-report-meta { display:table-cell; vertical-align:middle; }
+.mgmt-report-brand { width:53%; }
+.mgmt-report-logo { float:left; width:42px; height:42px; line-height:42px; text-align:center; margin-right:9px; border-radius:7px; background:#111827; color:#fff; font-size:18px; font-weight:bold; }
+.mgmt-report-brand h1 { margin:2px 0 0; font-size:15px; }
+.mgmt-report-brand h2 { margin:3px 0 0; font-size:9px; text-transform:uppercase; color:#667085; }
+.mgmt-report-meta { width:47%; }
+.mgmt-report-meta>div { display:inline-block; width:48%; margin-bottom:3px; }
+.mgmt-report-meta span,.mgmt-report-meta strong { display:block; }
+.mgmt-report-meta span { color:#667085; font-size:7px; }
+.mgmt-report-meta strong { font-size:8px; }
+.mgmt-report-section { margin-top:9px; page-break-inside:avoid; }
+.mgmt-report-section-title { border-left:3px solid #4f46e5; background:#eef2f6; padding:4px 6px; margin-bottom:4px; }
+.mgmt-report-section-title span { color:#4f46e5; font-size:7px; font-weight:bold; margin-right:5px; }
+.mgmt-report-section-title h3 { display:inline; margin:0; font-size:9px; text-transform:uppercase; }
+.mgmt-report-table { width:100%; border-collapse:collapse; font-size:7.4px; }
+.mgmt-report-table th,.mgmt-report-table td { border:.5px solid #98a2b3; padding:3px 4px; }
+.mgmt-report-table thead th { background:#dfe3e8; }
+.mgmt-report-table tfoot th { background:#eef0f3; }
+.mgmt-report-table .num { text-align:right; white-space:nowrap; }
+.mgmt-report-table .empty { text-align:center; color:#667085; }
+.mgmt-summary-row { width:100%; display:table; table-layout:fixed; margin-bottom:4px; }
+.mgmt-summary-row>div { display:table-cell; border:1px solid #d0d5dd; padding:5px; }
+.mgmt-summary-row small,.mgmt-summary-row strong { display:block; }
+.mgmt-summary-row strong { text-align:right; font-size:10px; }
+.mgmt-summary-primary { background:#eef2ff; }
+.mgmt-two-column { display:table; width:100%; table-layout:fixed; }
+.mgmt-two-column>div { display:table-cell; width:50%; vertical-align:top; padding-right:3px; }
+.mgmt-two-column>div+div { padding-right:0; padding-left:3px; }
+.mgmt-subheading { margin:0; padding:4px; font-size:8px; }
+.mgmt-add-heading { background:#dcfae6; }
+.mgmt-less-heading { background:#fee4e2; }
+.mgmt-review-grid { display:table; width:100%; table-layout:fixed; }
+.mgmt-review-item { display:table-cell; border:1px solid #d0d5dd; padding:4px; }
+.mgmt-review-item small,.mgmt-review-item strong,.mgmt-review-item span { display:block; }
+.mgmt-review-item strong { text-align:right; font-size:9px; }
+.mgmt-review-item span { font-size:6px; text-transform:uppercase; }
+.mgmt-review-attention { border-left:2px solid #d92d20; }
+.mgmt-review-ok { border-left:2px solid #039855; }
+.mgmt-review-info { border-left:2px solid #1570ef; }
+.mgmt-preview-toolbar { display:none; }
+.mgmt-print-footer { display:flex; justify-content:space-between; margin-top:10px; padding-top:5px; border-top:1px solid #d0d5dd; color:#667085; font-size:7px; }
+@media print { .public-report-tools { display:none!important; } }

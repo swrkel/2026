@@ -1,0 +1,19 @@
+Super Admin / Super Admin Settings / Banners
+Update date: 17 Sep 2026
+
+Completed:
+1. New Banner form auto-loads the current local date.
+2. New Banner form supports selecting/uploading multiple banner images in one save.
+   - Each image is stored as its own banner record.
+   - Common form settings (date, title, duration, link, tenants, status) apply to all images in that batch.
+   - Batch database inserts are transactional and written files are cleaned up if the batch fails.
+3. Tenants defaults to All Tenants for every new banner batch.
+   - User can still select one or more specific tenants.
+4. Edit Banner remains a single-banner operation, with one optional replacement image.
+
+Database changes: NONE.
+Routes changes: NONE.
+
+Changed application files:
+- Superadmin/Http/Controllers/SuperadminSettingsController.php
+- Superadmin/Resources/views/superadmin_settings/partials/banner.blade.php

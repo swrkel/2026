@@ -1,0 +1,29 @@
+Simple Audit v1.0.8 - Tenant Database Name Resolution Fix
+
+Problem fixed
+-------------
+Tenant ID 100 was incorrectly treated as physical database name `100` when
+`tenants.data.tenancy_db_name` was empty. On this ERP the tenancy bootstrap
+uses a database prefix (normally `nivasa_`), so tenant 100 is `nivasa_100`.
+This caused MySQL error 1044 even though the configured MySQL user can access
+the real tenant database.
+
+What changed
+------------
+- Resolve explicit tenants.data database name first.
+- Then use SAU_TENANT_DATABASE_PREFIX / TENANT_DATABASE_PREFIX.
+- Then Stancl tenancy database prefix when available.
+- Then derive the prefix from the central DB name (e.g. nivasa_base -> nivasa_).
+- Final compatibility fallback is nivasa_.
+- Diagnose command now prints Tenant ID and Resolved DB before connecting.
+
+No SQL changes are required.
+
+After deployment
+----------------
+php artisan module:enable SimpleAudit
+php artisan optimize:clear
+php artisan simple-audit:diagnose --tenant=100
+
+Expected first line:
+Tenant ID: 100 / Resolved DB: nivasa_100

@@ -1,0 +1,6 @@
+IS2339 - Payment Options - 25 Sep 2026
+
+Purchase Add/Edit already read active + Purchases-enabled methods from business_locations.default_payment_accounts.
+This release also makes server account validation accept legacy custom method keys containing spaces/punctuation by normalising stored keys during lookup.
+
+No SQL/migration required.

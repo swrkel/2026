@@ -1,0 +1,24 @@
+{
+    "name": "nwidart/hrmanager",
+    "description": "Standalone enterprise HR Manager module",
+    "authors": [
+        {
+            "name": "Syzygy Lanka",
+            "email": "support@example.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\HRManager\\Providers\\HRManagerServiceProvider",
+                "Modules\\HRManager\\Providers\\RouteServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\HRManager\\": ""
+        }
+    }
+}

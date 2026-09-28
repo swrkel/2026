@@ -1,0 +1,118 @@
+body{background-color:#efefef}#app-header{background-color:#fff!important;box-shadow:0 0 15px 5px hsla(0,0%,65%,.31);color:#444}#app-header .nav-link{color:#000}
+
+/* ========================================================================
+   ERP GLOBAL TAB BUTTON STANDARD - 2026-07-07
+   Purpose:
+   - Inactive tab buttons: white text on their existing coloured background.
+   - Active/clicked tab buttons: black text on white background.
+   - Applies to Bootstrap 3/4/5 tabs used across modules without affecting sidebar menus.
+   ======================================================================== */
+.content .nav-tabs > li > a,
+.content .nav-tabs .nav-link,
+.content .nav-tabs button.nav-link,
+.content .nav-tabs-custom > .nav-tabs > li > a,
+.content .settlement_tabs > .nav-tabs > li > a,
+.content [role="tablist"] > li > a,
+.content [role="tablist"] .nav-link,
+.content [role="tablist"] button.nav-link,
+.content .tab-buttons .btn,
+.content .customer-tabs .btn,
+.content .module-tabs .btn,
+.content .erp-module-tabs .btn,
+.content .settings-tabs .btn,
+.content .payment-tabs .btn {
+    color: #ffffff !important;
+    font-weight: 600;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.content .nav-tabs > li > a:hover,
+.content .nav-tabs > li > a:focus,
+.content .nav-tabs .nav-link:hover,
+.content .nav-tabs .nav-link:focus,
+.content .nav-tabs button.nav-link:hover,
+.content .nav-tabs button.nav-link:focus,
+.content .nav-tabs-custom > .nav-tabs > li > a:hover,
+.content .nav-tabs-custom > .nav-tabs > li > a:focus,
+.content .settlement_tabs > .nav-tabs > li > a:hover,
+.content .settlement_tabs > .nav-tabs > li > a:focus,
+.content [role="tablist"] > li > a:hover,
+.content [role="tablist"] > li > a:focus,
+.content [role="tablist"] .nav-link:hover,
+.content [role="tablist"] .nav-link:focus,
+.content [role="tablist"] button.nav-link:hover,
+.content [role="tablist"] button.nav-link:focus,
+.content .tab-buttons .btn:hover,
+.content .tab-buttons .btn:focus,
+.content .customer-tabs .btn:hover,
+.content .customer-tabs .btn:focus,
+.content .module-tabs .btn:hover,
+.content .module-tabs .btn:focus,
+.content .erp-module-tabs .btn:hover,
+.content .erp-module-tabs .btn:focus,
+.content .settings-tabs .btn:hover,
+.content .settings-tabs .btn:focus,
+.content .payment-tabs .btn:hover,
+.content .payment-tabs .btn:focus {
+    color: #ffffff !important;
+}
+
+.content .nav-tabs > li.active > a,
+.content .nav-tabs > li.active > a:hover,
+.content .nav-tabs > li.active > a:focus,
+.content .nav-tabs .nav-link.active,
+.content .nav-tabs .nav-link.active:hover,
+.content .nav-tabs .nav-link.active:focus,
+.content .nav-tabs button.nav-link.active,
+.content .nav-tabs button.nav-link.active:hover,
+.content .nav-tabs button.nav-link.active:focus,
+.content .nav-tabs .nav-item.show .nav-link,
+.content .nav-tabs-custom > .nav-tabs > li.active > a,
+.content .nav-tabs-custom > .nav-tabs > li.active > a:hover,
+.content .nav-tabs-custom > .nav-tabs > li.active > a:focus,
+.content .settlement_tabs > .nav-tabs > li.active > a,
+.content .settlement_tabs > .nav-tabs > li.active > a:hover,
+.content .settlement_tabs > .nav-tabs > li.active > a:focus,
+.content [role="tablist"] > li.active > a,
+.content [role="tablist"] > li.active > a:hover,
+.content [role="tablist"] > li.active > a:focus,
+.content [role="tablist"] .nav-link.active,
+.content [role="tablist"] .nav-link.active:hover,
+.content [role="tablist"] .nav-link.active:focus,
+.content [role="tablist"] button.nav-link.active,
+.content [role="tablist"] button.nav-link.active:hover,
+.content [role="tablist"] button.nav-link.active:focus,
+.content [role="tablist"] [aria-selected="true"],
+.content .tab-buttons .btn.active,
+.content .customer-tabs .btn.active,
+.content .module-tabs .btn.active,
+.content .erp-module-tabs .btn.active,
+.content .settings-tabs .btn.active,
+.content .payment-tabs .btn.active,
+.content .tab-buttons .btn[aria-selected="true"],
+.content .customer-tabs .btn[aria-selected="true"],
+.content .module-tabs .btn[aria-selected="true"],
+.content .erp-module-tabs .btn[aria-selected="true"],
+.content .settings-tabs .btn[aria-selected="true"],
+.content .payment-tabs .btn[aria-selected="true"] {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: #d9e2ef !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08) !important;
+    filter: none !important;
+}
+
+.content .nav-tabs > li.active > a *,
+.content .nav-tabs .nav-link.active *,
+.content .nav-tabs-custom > .nav-tabs > li.active > a *,
+.content .settlement_tabs > .nav-tabs > li.active > a *,
+.content [role="tablist"] .nav-link.active *,
+.content [role="tablist"] [aria-selected="true"] *,
+.content .tab-buttons .btn.active *,
+.content .customer-tabs .btn.active *,
+.content .module-tabs .btn.active *,
+.content .erp-module-tabs .btn.active *,
+.content .settings-tabs .btn.active *,
+.content .payment-tabs .btn.active * {
+    color: #000000 !important;
+}

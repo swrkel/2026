@@ -1,0 +1,6 @@
+DISNEW_023 FINAL READINESS
+- Added final readiness check page.
+- Added tenant installation verification table.
+- Added permission/menu/route verification support.
+- Added SQL, rollback SQL, and Laravel migration.
+- Prepared consolidated replacement package path for testing.

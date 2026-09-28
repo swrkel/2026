@@ -1,0 +1,15 @@
+@extends('ezylaw::layouts.module')
+@section('ezylaw_title', $client->exists ? 'Edit Client' : 'Add Client')
+@section('ezylaw_content')
+<form method="post" action="{{ $client->exists ? route('ezylaw.clients.update',$client) : route('ezylaw.clients.store') }}" class="box box-primary"><div class="box-body law-form-grid">@csrf @if($client->exists) @method('PUT') @endif
+<label>Client No<input class="form-control" name="client_no" value="{{ old('client_no',$client->client_no) }}"></label>
+<label>Client Type<select class="form-control" name="client_type"><option value="individual" @selected(old('client_type',$client->client_type)==='individual')>Individual</option><option value="company" @selected(old('client_type',$client->client_type)==='company')>Company</option></select></label>
+<label>Name *<input class="form-control" name="name" value="{{ old('name',$client->name) }}" required></label><label>Company Name<input class="form-control" name="company_name" value="{{ old('company_name',$client->company_name) }}"></label>
+<label>NIC / Passport<input class="form-control" name="nic_passport" value="{{ old('nic_passport',$client->nic_passport) }}"></label><label>Registration No<input class="form-control" name="registration_no" value="{{ old('registration_no',$client->registration_no) }}"></label>
+<label>Mobile<input class="form-control" name="mobile" value="{{ old('mobile',$client->mobile) }}"></label><label>Phone<input class="form-control" name="phone" value="{{ old('phone',$client->phone) }}"></label>
+<label>Email<input type="email" class="form-control" name="email" value="{{ old('email',$client->email) }}"></label><label>Tax No<input class="form-control" name="tax_no" value="{{ old('tax_no',$client->tax_no) }}"></label>
+<label>Address 1<input class="form-control" name="address_line_1" value="{{ old('address_line_1',$client->address_line_1) }}"></label><label>Address 2<input class="form-control" name="address_line_2" value="{{ old('address_line_2',$client->address_line_2) }}"></label>
+<label>City<input class="form-control" name="city" value="{{ old('city',$client->city) }}"></label><label>Country<input class="form-control" name="country" value="{{ old('country',$client->country) }}"></label>
+<label>Contact Person<input class="form-control" name="contact_person" value="{{ old('contact_person',$client->contact_person) }}"></label><label>Status<select class="form-control" name="status"><option value="active">Active</option><option value="inactive" @selected(old('status',$client->status)==='inactive')>Inactive</option></select></label>
+<label class="law-span-2">Notes<textarea class="form-control" name="notes">{{ old('notes',$client->notes) }}</textarea></label></div><div class="box-footer"><button class="btn btn-primary">Save Client</button> <a class="btn btn-default" href="{{ route('ezylaw.clients.index') }}">Cancel</a></div></form>
+@endsection

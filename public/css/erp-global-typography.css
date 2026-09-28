@@ -1,0 +1,114 @@
+/*
+ * ERP global typography standard.
+ * Reference: Finance Module / List Account (/accounting-module/account).
+ * Opt-in class keeps every user login page outside this rule.
+ */
+:root {
+    --erp-global-font-family: Calibri, "Segoe UI", Arial, sans-serif;
+    --erp-global-base-font-size: 14px;
+    --erp-global-text-font-size: 15px;
+    --erp-global-page-title-font-size: 24px;
+    --erp-global-section-title-font-size: 18px;
+    --erp-global-label-font-size: 14px;
+    --erp-global-control-font-size: 14px;
+    --erp-global-button-font-size: 14px;
+    --erp-global-column-heading-font-size: 15px;
+    --erp-global-table-data-font-size: 16px;
+    --erp-global-small-font-size: 12px;
+}
+
+body.erp-global-typography,
+body.erp-global-typography .main-content,
+body.erp-global-typography .content-wrapper,
+body.erp-global-typography .modal,
+body.erp-global-typography .dropdown-menu,
+body.erp-global-typography .select2-dropdown,
+body.erp-global-typography .daterangepicker,
+body.erp-global-typography .ui-datepicker,
+body.erp-global-typography .dataTables_wrapper,
+body.erp-global-typography .invoice,
+body.erp-global-typography .print_section {
+    font-family: var(--erp-global-font-family) !important;
+    font-size: var(--erp-global-base-font-size) !important;
+}
+
+body.erp-global-typography p,
+body.erp-global-typography .table td,
+body.erp-global-typography .invoice,
+body.erp-global-typography .print_section {
+    font-size: var(--erp-global-text-font-size) !important;
+}
+
+body.erp-global-typography .page-title,
+body.erp-global-typography .content-header h1 {
+    font-size: var(--erp-global-page-title-font-size) !important;
+}
+
+body.erp-global-typography .box-title,
+body.erp-global-typography .panel-title,
+body.erp-global-typography .card-title,
+body.erp-global-typography .modal-title {
+    font-size: var(--erp-global-section-title-font-size) !important;
+}
+
+body.erp-global-typography label,
+body.erp-global-typography .control-label,
+body.erp-global-typography .dataTables_filter label,
+body.erp-global-typography .dataTables_length label {
+    font-family: var(--erp-global-font-family) !important;
+    font-size: var(--erp-global-label-font-size) !important;
+}
+
+body.erp-global-typography input,
+body.erp-global-typography select,
+body.erp-global-typography textarea,
+body.erp-global-typography .form-control,
+body.erp-global-typography .select2-selection__rendered,
+body.erp-global-typography .select2-search__field,
+body.erp-global-typography .select2-results__option,
+body.erp-global-typography .selectize-input,
+body.erp-global-typography .selectize-dropdown {
+    font-family: var(--erp-global-font-family) !important;
+    font-size: var(--erp-global-control-font-size) !important;
+}
+
+body.erp-global-typography button,
+body.erp-global-typography .btn,
+body.erp-global-typography .dt-button,
+body.erp-global-typography .dataTables_wrapper .dt-buttons .btn,
+body.erp-global-typography .dataTables_wrapper .dt-buttons button {
+    font-family: var(--erp-global-font-family) !important;
+    font-size: var(--erp-global-button-font-size) !important;
+}
+
+body.erp-global-typography table.table thead th,
+body.erp-global-typography table.dataTable thead th,
+body.erp-global-typography .dataTables_scrollHead table.dataTable thead th {
+    font-family: var(--erp-global-font-family) !important;
+    font-size: var(--erp-global-column-heading-font-size) !important;
+}
+
+body.erp-global-typography table.table tbody td,
+body.erp-global-typography table.dataTable tbody td,
+body.erp-global-typography .dataTables_scrollBody table.dataTable tbody td {
+    font-family: var(--erp-global-font-family) !important;
+    font-size: var(--erp-global-table-data-font-size) !important;
+}
+
+body.erp-global-typography .dropdown-menu > li > a,
+body.erp-global-typography .nav-tabs > li > a,
+body.erp-global-typography .pagination > li > a,
+body.erp-global-typography .pagination > li > span,
+body.erp-global-typography .dataTables_info,
+body.erp-global-typography .dataTables_paginate {
+    font-family: var(--erp-global-font-family) !important;
+    font-size: var(--erp-global-base-font-size) !important;
+}
+
+body.erp-global-typography small,
+body.erp-global-typography .small,
+body.erp-global-typography .help-block,
+body.erp-global-typography .form-text,
+body.erp-global-typography .text-muted {
+    font-size: var(--erp-global-small-font-size) !important;
+}

@@ -1,0 +1,4 @@
+<?php
+namespace Modules\BankingCoreDeposits\Services;
+use Modules\BankingCoreDeposits\Entities\DepositAccount; use Modules\BankingCoreDeposits\Entities\DepositProduct; use Modules\BankingCoreDeposits\Entities\InterestAccrual;
+class InterestEngineService { public function accrueForDate(string $date): int { $count = 0; DepositAccount::where('status','active')->chunkById(100, function ($accounts) use ($date, &$count) { foreach ($accounts as $account) { $product = DepositProduct::find($account->product_id); $rate = (float) optional($product)->interest_rate; if ($rate <= 0) { continue; } $interest = round(((float)$account->ledger_balance * $rate / 100) / 365, 4); InterestAccrual::firstOrCreate(['account_id'=>$account->id,'accrual_date'=>$date], ['business_id'=>$account->business_id,'balance_basis'=>$account->ledger_balance,'rate'=>$rate,'interest_amount'=>$interest]); $count++; } }); return $count; } }

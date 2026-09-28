@@ -1,0 +1,19 @@
+POS Standalone S384 - Enterprise Monitoring & Multi-Terminal Synchronization
+
+Added:
+- /pos-module/offline-sync/monitoring-center page
+- Live terminal/device monitoring dashboard
+- Multi-terminal device registration endpoint
+- Trusted/blocked terminal control foundation
+- Device heartbeat summary and network/queue status indicators
+- Branch/location-aware monitoring summary
+- Device event SQL foundation
+- Replay/request signature columns for stronger sync security foundation
+
+Run after upload:
+php artisan optimize:clear
+php artisan route:clear
+php artisan view:clear
+
+SQL:
+Modules/POS/Database/SQL/pos_standalone_s384_enterprise_monitoring_multiterminal.sql

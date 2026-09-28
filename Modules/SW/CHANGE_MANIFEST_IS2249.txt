@@ -1,0 +1,35 @@
+IS2249 – SW Settlement – 11 Sep 2026
+
+Fixed inside the SW module only; no SQL/migration is required.
+
+1. SW Shifts / Daily Shift / Status filter
+   - Uses authenticated tenant business context first.
+   - Open / Closed / Settled filtering now supports current numeric and legacy text status values.
+   - sw_settlement_shifts is treated as authoritative evidence of Settled status.
+
+2. List SW Shift
+   - Increased table cell/heading height by 25%.
+   - Total Amount and Settlement Amount headings are shown on two lines.
+   - Date column allocation increased by 5% from its previous width.
+   - Pump Nos now resolve from settlement pumps, operator-assigned pumps, then active pumps at the shift location.
+   - Pump filter follows the same fallback relationship.
+
+3. Settlement / Payments / Expenses
+   - Expense-category AJAX now uses the authenticated tenant business, matching the settlement controller.
+   - Selecting Expenses refreshes expense_categories so newly added categories appear without reloading the page.
+
+4. Settlement / Payments / Excess
+   - Negative Excess values are accepted and saved (example: -11003.13).
+   - Negative Excess reduces Total Paid and clears a negative settlement balance correctly.
+   - Finance posting keeps the established positive ledger amount with credit direction for Excess.
+
+5. Product New / Stock Center / Available
+   - Each newly posted stock-enabled SW sell line now reduces variation_location_details.qty_available.
+   - Stock reduction is inside the settlement transaction.
+   - A sell-line marker prevents duplicate stock reduction on retries and can repair pre-fix SW sell lines once if Finance posting is retried.
+   - Credit Sales remain allocation-only and do not reduce stock a second time.
+
+Deployment:
+- Replace the SW module with this parcel.
+- Run: php artisan optimize:clear
+- No database import or migration is required for IS2249.

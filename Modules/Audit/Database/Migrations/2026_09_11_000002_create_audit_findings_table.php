@@ -1,0 +1,7 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+class CreateAuditFindingsTable extends Migration
+{
+    public function up(){if(!Schema::hasTable('audit_findings')) Schema::create('audit_findings',function(Blueprint $t){$t->bigIncrements('id');$t->unsignedBigInteger('audit_run_id')->nullable()->index();$t->string('finding_no',60)->unique();$t->string('fingerprint',64)->unique();$t->string('rule_code',100)->index();$t->string('module',100)->index();$t->string('tenant_key',100)->nullable()->index();$t->unsignedBigInteger('business_id')->nullable()->index();$t->unsignedBigInteger('location_id')->nullable()->index();$t->string('source_table',120)->nullable();$t->string('source_id',120)->nullable();$t->string('severity',30)->default('warning')->index();$t->string('status',30)->default('open')->index();$t->string('title',255);$t->text('message')->nullable();$t->text('expected_value')->nullable();$t->text('actual_value')->nullable();$t->longText('payload')->nullable();$t->dateTime('first_seen_at')->nullable()->index();$t->dateTime('last_seen_at')->nullable()->index();$t->dateTime('resolved_at')->nullable();$t->unsignedBigInteger('resolved_by')->nullable();$t->timestamps();$t->index(['business_id','location_id','module','status'],'audit_findings_context_idx');});}
+    public function down(){Schema::dropIfExists('audit_findings');}
+}

@@ -1,0 +1,65 @@
+CREATE TABLE IF NOT EXISTS restaurant_new_ai_recommendations (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  recommendation_type VARCHAR(80) NOT NULL,
+  priority VARCHAR(30) NOT NULL DEFAULT 'normal',
+  title VARCHAR(255) NOT NULL,
+  description TEXT NULL,
+  source_payload JSON NULL,
+  action_payload JSON NULL,
+  status VARCHAR(40) NOT NULL DEFAULT 'open',
+  assigned_to BIGINT UNSIGNED NULL,
+  resolved_by BIGINT UNSIGNED NULL,
+  resolved_at TIMESTAMP NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  KEY rn_ai_rec_business_idx (business_id), KEY rn_ai_rec_location_idx (location_id), KEY rn_ai_rec_type_idx (recommendation_type)
+);
+CREATE TABLE IF NOT EXISTS restaurant_new_ai_forecasts (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  forecast_date DATE NOT NULL,
+  forecast_area VARCHAR(80) NOT NULL,
+  predicted_sales DECIMAL(22,4) NOT NULL DEFAULT 0,
+  predicted_orders INT NOT NULL DEFAULT 0,
+  predicted_guests INT NOT NULL DEFAULT 0,
+  forecast_payload JSON NULL,
+  confidence_score DECIMAL(8,4) NOT NULL DEFAULT 0,
+  method VARCHAR(80) NOT NULL DEFAULT 'rule_based_foundation',
+  created_by BIGINT UNSIGNED NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  KEY rn_ai_forecast_business_idx (business_id), KEY rn_ai_forecast_location_idx (location_id), KEY rn_ai_forecast_date_idx (forecast_date)
+);
+CREATE TABLE IF NOT EXISTS restaurant_new_ai_inventory_signals (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  ingredient_id BIGINT UNSIGNED NOT NULL,
+  signal_type VARCHAR(60) NOT NULL,
+  current_qty DECIMAL(22,4) NOT NULL DEFAULT 0,
+  predicted_consumption_qty DECIMAL(22,4) NOT NULL DEFAULT 0,
+  recommended_reorder_qty DECIMAL(22,4) NOT NULL DEFAULT 0,
+  expected_shortage_date DATE NULL,
+  priority VARCHAR(30) NOT NULL DEFAULT 'normal',
+  calculation_payload JSON NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  KEY rn_ai_inv_business_idx (business_id), KEY rn_ai_inv_location_idx (location_id), KEY rn_ai_inv_ingredient_idx (ingredient_id)
+);
+CREATE TABLE IF NOT EXISTS restaurant_new_ai_anomaly_logs (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NOT NULL,
+  location_id BIGINT UNSIGNED NULL,
+  anomaly_area VARCHAR(80) NOT NULL,
+  severity VARCHAR(30) NOT NULL DEFAULT 'info',
+  title VARCHAR(255) NOT NULL,
+  details TEXT NULL,
+  metric_payload JSON NULL,
+  status VARCHAR(40) NOT NULL DEFAULT 'new',
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  KEY rn_ai_anomaly_business_idx (business_id), KEY rn_ai_anomaly_location_idx (location_id), KEY rn_ai_anomaly_area_idx (anomaly_area)
+);

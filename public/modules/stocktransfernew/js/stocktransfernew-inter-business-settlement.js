@@ -1,0 +1,1 @@
+(function(){'use strict';document.addEventListener('change',function(e){if(e.target.matches('[data-stn-check-all]')){document.querySelectorAll('input[name="transfer_ids[]"]').forEach(function(c){c.checked=e.target.checked;});}});})();

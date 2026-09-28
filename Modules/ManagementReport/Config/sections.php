@@ -1,0 +1,17 @@
+<?php
+return [
+    'sales' => ['label' => 'Total Sales by Product Sub Category', 'service' => Modules\ManagementReport\Services\Reports\Sections\SalesSectionService::class, 'view' => 'managementreport::daily.sections.sales', 'order' => 10, 'default' => true],
+    'operator_sales' => ['label' => 'Sales by Cashiers / Pump Operators', 'service' => Modules\ManagementReport\Services\Reports\Sections\OperatorSalesSectionService::class, 'view' => 'managementreport::daily.sections.operator-sales', 'order' => 20, 'default' => true],
+    'received_in' => ['label' => 'Received In', 'service' => Modules\ManagementReport\Services\Reports\Sections\ReceivedInSectionService::class, 'view' => 'managementreport::daily.sections.received-in', 'order' => 25, 'default' => true],
+    'total_add' => ['label' => 'Total Add', 'service' => Modules\ManagementReport\Services\Reports\Sections\TotalAddSectionService::class, 'view' => 'managementreport::daily.sections.total-add', 'order' => 26, 'default' => true],
+    'out' => ['label' => 'Total Out', 'service' => Modules\ManagementReport\Services\Reports\Sections\OutSectionService::class, 'view' => 'managementreport::daily.sections.out', 'order' => 30, 'default' => true],
+    'returns' => ['label' => 'Sales Return / Purchase Return', 'service' => Modules\ManagementReport\Services\Reports\Sections\ReturnsSectionService::class, 'view' => 'managementreport::daily.sections.returns', 'order' => 40, 'default' => true],
+    'financial_status' => ['label' => 'Financial Status', 'service' => Modules\ManagementReport\Services\Reports\Sections\FinancialStatusSectionService::class, 'view' => 'managementreport::daily.sections.financial-status', 'order' => 50, 'default' => true],
+    'financial_status_two' => ['label' => 'Financial Status II', 'service' => Modules\ManagementReport\Services\Reports\Sections\FinancialStatusTwoSectionService::class, 'view' => 'managementreport::daily.sections.financial-status-two', 'order' => 55, 'default' => true],
+    'financial_breakup' => ['label' => 'Financial Status Breakups', 'service' => Modules\ManagementReport\Services\Reports\Sections\FinancialBreakupSectionService::class, 'view' => 'managementreport::daily.sections.financial-breakup', 'order' => 60, 'default' => true],
+    'outstanding' => ['label' => 'Outstanding Details', 'service' => Modules\ManagementReport\Services\Reports\Sections\OutstandingSectionService::class, 'view' => 'managementreport::daily.sections.outstanding', 'order' => 70, 'default' => true],
+    'stock_value' => ['label' => 'Stock Value Status', 'service' => Modules\ManagementReport\Services\Reports\Sections\StockValueSectionService::class, 'view' => 'managementreport::daily.sections.stock-value', 'order' => 80, 'default' => true],
+    'pump_variance' => ['label' => 'Pump Operator Shortage / Excess', 'service' => Modules\ManagementReport\Services\Reports\Sections\PumpVarianceSectionService::class, 'view' => 'managementreport::daily.sections.pump-variance', 'order' => 90, 'default' => true],
+    'dip_details' => ['label' => 'Dip Details', 'service' => Modules\ManagementReport\Services\Reports\Sections\DipDetailsSectionService::class, 'view' => 'managementreport::daily.sections.dip-details', 'order' => 100, 'default' => true],
+    'final_review' => ['label' => 'Final Review Status', 'service' => Modules\ManagementReport\Services\Reports\Sections\FinalReviewSectionService::class, 'view' => 'managementreport::daily.sections.final-review', 'order' => 110, 'default' => true],
+];

@@ -1,0 +1,6 @@
+@component('components.filters', ['title' => __('report.filters')])
+<div class="col-md-3"><div class="form-group">{!! Form::label('date_range', __('report.date_range') . ':') !!}{!! Form::text('date_range', @format_date('first day of this month') . ' ~ ' . @format_date('last day of this month'), ['class' => 'form-control', 'id' => 'pg_transfer_date_range', 'readonly']) !!}</div></div>
+<div class="col-md-3"><div class="form-group">{!! Form::label('location_id', __('petrogeneral::lang.location') . ':') !!}{!! Form::select('location_id', $business_locations ?? [], null, ['class' => 'form-control select2', 'id' => 'pg_transfer_location_id', 'placeholder' => __('petrogeneral::lang.all')]) !!}</div></div>
+<div class="col-md-3"><div class="form-group">{!! Form::label('from_tank', __('petrogeneral::lang.from_tank') . ':') !!}{!! Form::select('from_tank', $tank_numbers ?? [], null, ['class' => 'form-control select2', 'id' => 'pg_transfer_from_tank', 'placeholder' => __('petrogeneral::lang.all')]) !!}</div></div>
+<div class="col-md-3"><div class="form-group">{!! Form::label('to_tank', __('petrogeneral::lang.to_tank') . ':') !!}{!! Form::select('to_tank', $tank_numbers ?? [], null, ['class' => 'form-control select2', 'id' => 'pg_transfer_to_tank', 'placeholder' => __('petrogeneral::lang.all')]) !!}</div></div>
+@endcomponent

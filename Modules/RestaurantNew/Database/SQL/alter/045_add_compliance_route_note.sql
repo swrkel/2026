@@ -1,0 +1,2 @@
+-- No ALTER required for Stage 045 if Stage 045 CREATE scripts are executed.
+-- Include Modules/RestaurantNew/Routes/compliance.php from RestaurantNew route provider if not auto-loaded.

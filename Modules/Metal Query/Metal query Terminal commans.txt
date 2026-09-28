@@ -1,0 +1,12 @@
+php artisan module:migrate MetalQueryMgmt
+php artisan db:seed --class="Modules\\MetalQueryMgmt\\Database\\Seeders\\MetalQueryMgmtDatabaseSeeder"
+php artisan storage:link
+php artisan permission:cache-reset
+php artisan optimize:clear
+
+
+php artisan module:migrate MetalQueryMgmt
+php artisan db:seed --class="Modules\\MetalQueryMgmt\\Database\\Seeders\\MetalQueryMgmtDatabaseSeeder"
+php artisan storage:link
+php artisan permission:cache-reset
+php artisan optimize:clear

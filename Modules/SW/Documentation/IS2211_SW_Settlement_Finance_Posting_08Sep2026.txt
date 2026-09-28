@@ -1,0 +1,55 @@
+IS2211 – SW Settlement – 8 Sep 2026
+
+Scope
+-----
+New SW Settlement module only. No historical settlement backfill is included or required.
+
+Fixed
+-----
+1. SW > SW Settlement > List SW Settlements
+   - Sales, Collected and Variance are now saved from the actual settlement detail rows after the settlement sections are stored.
+   - The browser-calculated totals are not trusted for Finance posting.
+
+2. Finance > List Accounts / Account Books
+   - Final SW settlements now create the standard core accounting records used by Finance:
+     * transactions
+     * transaction_sell_lines
+     * transaction_payments
+     * account_transactions
+     * transaction_sell_lines_purchase_lines (through the existing TransactionUtil mapper)
+   - Meter Sales / Other Sales / Other Income create the standard sale-side records.
+   - Sales Income, Cost of Goods Sold and Finished Goods entries use the application's existing TransactionUtil account-mapping rules.
+   - Cash, Card, Cheque and Cash Deposit settlement collections create standard payment/account entries.
+   - Credit Sales create customer receivable sale/account entries.
+   - Settlement allocation types are posted to their selected/related Finance accounts without duplicating receipt rows.
+
+3. Finance reports and Finance Reports module
+   - The fix is made at the accounting source. Reports that already read the application's standard transactions/account_transactions/sell-line mapping tables receive the SW Settlement automatically; no report-only duplicate SW data source is introduced.
+
+Safety
+------
+- Posting is idempotent through SW source markers and existing transaction/ledger checks.
+- The SW save and Finance posting execute inside the same database transaction.
+- No historical page-load or report-load write is performed.
+- No database SQL/migration change is required for IS2211. The latest SW schema already contains total_sales, total_collected and variance.
+
+Changed code
+------------
+SW/Services/SettlementSaveService.php
+SW/Services/SettlementFinancePostingService.php (new)
+
+Deployment
+----------
+Replace the SW module with the full corrected module or copy the changed files preserving paths.
+Then run from the Laravel root:
+
+php artisan optimize:clear
+
+Testing
+-------
+Create a NEW SW settlement containing representative Meter Sale, Other Sale, Credit Sale and payment rows.
+Confirm:
+- SW > List SW Settlements shows Sales and Collected.
+- Finance account books show payment, Sales Income, COGS and Finished Goods entries.
+- Finance P&L/Trading, Trial Balance, Income Statement and Balance Sheet include the new settlement.
+- Finance Reports Trial Balance, Income Statement, Balance Sheet and Profit & Loss include the same standard accounting entries.

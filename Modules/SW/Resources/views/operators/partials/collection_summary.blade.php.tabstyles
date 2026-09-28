@@ -1,0 +1,129 @@
+{{--
+    Collection Summary.
+
+    One shift at a time: operators down, payment types across, totals both ways.
+
+    Closed shifts are included, unlike Daily Cash Status - a summary is
+    something people look back at, and hiding a shift the moment it closes would
+    make it useless the day after.
+--}}
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            @component('components.filters', ['title' => __('sw::lang.choose_a_shift')])
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::label('sw_cls_location', __('purchase.business_location') . ':') !!}
+                        {!! Form::select('sw_cls_location', $business_locations ?? [], $default_location ?? null, [
+                            'class' => 'form-control select2', 'id' => 'sw_cls_location', 'style' => 'width:100%',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::label('sw_cls_shift', __('sw::lang.shift_no') . ':') !!}
+                        <select id="sw_cls_shift" class="form-control" style="width:100%">
+                            <option value="">{{ __('sw::lang.loading') }}</option>
+                        </select>
+                        <span class="help-block" style="margin-bottom:0">
+                            @lang('sw::lang.includes_closed_shifts')
+                        </span>
+                    </div>
+                </div>
+
+            @endcomponent
+        </div>
+    </div>
+
+    <div id="sw_cls_panel">
+        <div class="text-center text-muted" style="padding:40px">
+            <i class="fa fa-table" style="font-size:28px;display:block;margin-bottom:10px"></i>
+            @lang('sw::lang.choose_a_shift_to_see')
+        </div>
+    </div>
+
+</section>
+
+@push('css')
+<style>
+.sw-cls-table { width: 100%; margin: 0; }
+.sw-cls-table th { background: #f7f9fc; font-size: 13px; }
+.sw-cls-table td, .sw-cls-table th { padding: 10px 14px; vertical-align: middle; }
+.sw-cls-table td.num, .sw-cls-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.sw-cls-table tbody tr:hover { background: #f7f9fc; }
+.sw-cls-table .sw-cls-operator { font-weight: 600; }
+.sw-cls-table tfoot td {
+    background: #eef5ff; border-top: 2px solid #7ea6dd;
+    font-weight: 700; font-size: 15px;
+}
+/* A zero is quieter than a figure - the eye should go to the amounts. */
+.sw-cls-zero { color: #b8c0cc; }
+</style>
+@endpush
+
+@push('javascript')
+<script>
+$(function () {
+
+    function swClsLoadShifts() {
+        var $shift = $('#sw_cls_shift');
+        var locationId = $('#sw_cls_location').val();
+
+        $shift.prop('disabled', true).html('<option value="">{{ __('sw::lang.loading') }}</option>');
+        $('#sw_cls_panel').html('');
+
+        if (!locationId) {
+            $shift.prop('disabled', false)
+                  .html('<option value="">{{ __('sw::lang.choose_a_location_first') }}</option>');
+            return;
+        }
+
+        $.get('{{ route('sw.collection-summary.shifts') }}', { location_id: locationId }, function (rows) {
+            var html = '<option value="">{{ __('messages.please_select') }}</option>';
+
+            if (!rows.length) {
+                html = '<option value="">{{ __('sw::lang.no_shift_at_location') }}</option>';
+            } else {
+                $.each(rows, function (i, r) {
+                    html += '<option value="' + r.id + '">'
+                          + $('<div>').text(r.label).html() + '</option>';
+                });
+            }
+
+            $shift.html(html).prop('disabled', false);
+        });
+    }
+
+    function swClsLoadPanel() {
+        var shiftId = $('#sw_cls_shift').val();
+        var $panel = $('#sw_cls_panel');
+
+        if (!shiftId) {
+            $panel.html('<div class="text-center text-muted" style="padding:40px">'
+                + '{{ __('sw::lang.choose_a_shift_to_see') }}</div>');
+            return;
+        }
+
+        $panel.html('<div class="text-center text-muted" style="padding:40px">'
+            + '<i class="fa fa-spinner fa-spin"></i> {{ __('sw::lang.loading') }}</div>');
+
+        $.get('{{ route('sw.collection-summary.show') }}', { sw_shift_id: shiftId }, function (html) {
+            $panel.html(html);
+        }).fail(function () {
+            $panel.html('<div class="alert alert-danger">'
+                + '{{ __('sw::lang.could_not_load_summary') }}</div>');
+        });
+    }
+
+    $('#sw_cls_location').on('change', swClsLoadShifts);
+    $('#sw_cls_shift').on('change', swClsLoadPanel);
+
+    swClsLoadShifts();
+
+});
+</script>
+@endpush

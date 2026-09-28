@@ -1,0 +1,17 @@
+Finance Module / List Accounts / Account Book
+Changed files only package
+
+Implemented:
+1. Date and time displayed on separate lines in Date column.
+2. Transaction Date heading split into two rows.
+3. Card Cheque No heading split into two rows.
+4. Description width increased from 260px to 390px (50%).
+5. PD Cheque Date heading split into two rows.
+6. PD Cheque Date width reduced and fixed at approximately 96px.
+7. Opening Balance heading split into two rows.
+8. Remaining Balance heading split into two rows.
+9. Header and body columns aligned through matching column classes.
+10. Amount columns use content-based widths and right alignment.
+11. Reconcile button moved below the applicable Debit or Credit amount; separate Reconcile column removed.
+
+No database migration or SQL is required.

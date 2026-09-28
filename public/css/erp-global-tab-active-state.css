@@ -1,0 +1,395 @@
+/*
+ * Global tab presentation — 2026.08.03 R20.
+ * Presentation only: no click, route, permission, sidebar or module logic.
+ */
+:root {
+    --erp-active-tab-bg: #ffffff;
+    --erp-active-tab-text: #111827;
+    --erp-active-tab-accent: #2563eb;
+    --erp-active-tab-shadow: 0 8px 20px rgba(37, 99, 235, .22);
+}
+
+/* Bootstrap 3 parent-active tabs and Bootstrap 4/5 link-active tabs. */
+html body .nav-tabs > li.active > a,
+html body .nav-tabs > li.active > a:hover,
+html body .nav-tabs > li.active > a:focus,
+html body .nav-pills > li.active > a,
+html body .nav-pills > li.active > a:hover,
+html body .nav-pills > li.active > a:focus,
+html body .nav-tabs .nav-link.active,
+html body .nav-pills .nav-link.active,
+html body a[data-toggle="tab"].active,
+html body button[data-toggle="tab"].active,
+html body a[data-bs-toggle="tab"].active,
+html body button[data-bs-toggle="tab"].active,
+html body a[data-toggle="pill"].active,
+html body button[data-toggle="pill"].active,
+html body a[data-bs-toggle="pill"].active,
+html body button[data-bs-toggle="pill"].active,
+html body [role="tab"][aria-selected="true"] {
+    position: relative !important;
+    z-index: 2 !important;
+    background: var(--erp-active-tab-bg) !important;
+    background-color: var(--erp-active-tab-bg) !important;
+    background-image: none !important;
+    color: var(--erp-active-tab-text) !important;
+    border: 2px solid var(--erp-active-tab-accent) !important;
+    border-bottom: 4px solid var(--erp-active-tab-accent) !important;
+    box-shadow: inset 0 -5px 0 var(--erp-active-tab-accent), var(--erp-active-tab-shadow) !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    text-shadow: none !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Some legacy ERP tabs paint their colour on the LI instead of the link. */
+html body .nav-tabs > li.active,
+html body .nav-pills > li.active,
+html body .nav-tabs > li:has(> a.active),
+html body .nav-pills > li:has(> a.active),
+html body .nav-tabs > li:has(> [aria-selected="true"]),
+html body .nav-pills > li:has(> [aria-selected="true"]) {
+    position: relative !important;
+    z-index: 2 !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #111827 !important;
+    border-radius: 6px 6px 0 0 !important;
+    box-shadow: inset 0 -5px 0 #2563eb, 0 8px 20px rgba(37, 99, 235, .22) !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Icons and nested labels follow the selected tab's black text. */
+html body .nav-tabs > li.active > a *,
+html body .nav-pills > li.active > a *,
+html body .nav-tabs .nav-link.active *,
+html body .nav-pills .nav-link.active *,
+html body a[data-toggle="tab"].active *,
+html body button[data-toggle="tab"].active *,
+html body a[data-bs-toggle="tab"].active *,
+html body button[data-bs-toggle="tab"].active *,
+html body a[data-toggle="pill"].active *,
+html body button[data-toggle="pill"].active *,
+html body a[data-bs-toggle="pill"].active *,
+html body button[data-bs-toggle="pill"].active *,
+html body [role="tab"][aria-selected="true"] * {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: var(--erp-active-tab-text) !important;
+    fill: currentColor !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    text-shadow: none !important;
+}
+
+/* Remove legacy coloured overlays which can cover the active anchor. */
+html body .nav-tabs > li.active::before,
+html body .nav-tabs > li.active::after,
+html body .nav-pills > li.active::before,
+html body .nav-pills > li.active::after,
+html body .nav-tabs > li.active > a::before,
+html body .nav-tabs > li.active > a::after,
+html body .nav-pills > li.active > a::before,
+html body .nav-pills > li.active > a::after,
+html body .nav-tabs .nav-link.active::before,
+html body .nav-tabs .nav-link.active::after,
+html body .nav-pills .nav-link.active::before,
+html body .nav-pills .nav-link.active::after,
+html body [role="tab"][aria-selected="true"]::before,
+html body [role="tab"][aria-selected="true"]::after,
+html body [role="tab"][aria-selected="true"] *::before,
+html body [role="tab"][aria-selected="true"] *::after {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: #111827 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* Keep keyboard focus visible without replacing the selected-tab treatment. */
+html body .nav-tabs a:focus-visible,
+html body .nav-pills a:focus-visible,
+html body [role="tab"]:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, .38) !important;
+    outline-offset: 2px !important;
+}
+
+/*
+ * Global seven-colour sequence for current and future tab buttons.
+ * The sequence automatically repeats after every seventh tab.
+ */
+html body :is(.nav-tabs, .nav-pills, [role="tablist"]) > :nth-child(7n + 1) {
+    --erp-tab-cycle-colour: #2563eb;
+}
+
+html body :is(.nav-tabs, .nav-pills, [role="tablist"]) > :nth-child(7n + 2) {
+    --erp-tab-cycle-colour: #7e22ce;
+}
+
+html body :is(.nav-tabs, .nav-pills, [role="tablist"]) > :nth-child(7n + 3) {
+    --erp-tab-cycle-colour: #0e7490;
+}
+
+html body :is(.nav-tabs, .nav-pills, [role="tablist"]) > :nth-child(7n + 4) {
+    --erp-tab-cycle-colour: #15803d;
+}
+
+html body :is(.nav-tabs, .nav-pills, [role="tablist"]) > :nth-child(7n + 5) {
+    --erp-tab-cycle-colour: #b45309;
+}
+
+html body :is(.nav-tabs, .nav-pills, [role="tablist"]) > :nth-child(7n + 6) {
+    --erp-tab-cycle-colour: #be123c;
+}
+
+html body :is(.nav-tabs, .nav-pills, [role="tablist"]) > :nth-child(7n + 7) {
+    --erp-tab-cycle-colour: #4338ca;
+}
+
+/* Bootstrap list-item tabs. */
+html body :is(.nav-tabs, .nav-pills, [role="tablist"])
+    > li:not(.active)
+    > :is(a, button):not(.active):not([aria-selected="true"]),
+/* Bootstrap/custom direct-link tabs. */
+html body :is(.nav-tabs, .nav-pills, [role="tablist"])
+    > :is(a, button):not(.active):not([aria-selected="true"]) {
+    background: var(--erp-tab-cycle-colour, #2563eb) !important;
+    background-color: var(--erp-tab-cycle-colour, #2563eb) !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border-color: var(--erp-tab-cycle-colour, #2563eb) !important;
+    box-shadow: 0 5px 14px rgba(15, 23, 42, .14) !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    text-shadow: none !important;
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease !important;
+}
+
+/* Existing nested labels/icons must follow their assigned tab colour. */
+html body :is(.nav-tabs, .nav-pills, [role="tablist"])
+    > li:not(.active)
+    > :is(a, button):not(.active):not([aria-selected="true"]) *,
+html body :is(.nav-tabs, .nav-pills, [role="tablist"])
+    > :is(a, button):not(.active):not([aria-selected="true"]) * {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    fill: currentColor !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+html body :is(.nav-tabs, .nav-pills, [role="tablist"])
+    > li:not(.active)
+    > :is(a, button):not(.active):not([aria-selected="true"]):hover,
+html body :is(.nav-tabs, .nav-pills, [role="tablist"])
+    > :is(a, button):not(.active):not([aria-selected="true"]):hover {
+    color: #ffffff !important;
+    filter: brightness(.92) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .2) !important;
+}
+
+/*
+ * R19 authoritative seven-colour palette.
+ *
+ * Older ERP stylesheets contain an eight-colour nth-child palette with
+ * !important declarations.  Assign literal colours here (rather than an
+ * inherited custom property) and use a deliberately stronger selector so
+ * this final presentation layer is the single source of truth.
+ */
+html body .nav-tabs-custom > ul.nav.nav-tabs > li:nth-child(7n + 1):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-tabs > li:nth-child(7n + 1):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-pills > li:nth-child(7n + 1):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > li:nth-child(7n + 1):not(.active) > :is(a, button):not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > :is(a, button):nth-child(7n + 1):not(.active):not([aria-selected="true"]) {
+    --erp-tab-cycle-colour: #2563eb !important;
+    background: #2563eb !important;
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+}
+
+html body .nav-tabs-custom > ul.nav.nav-tabs > li:nth-child(7n + 2):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-tabs > li:nth-child(7n + 2):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-pills > li:nth-child(7n + 2):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > li:nth-child(7n + 2):not(.active) > :is(a, button):not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > :is(a, button):nth-child(7n + 2):not(.active):not([aria-selected="true"]) {
+    --erp-tab-cycle-colour: #7e22ce !important;
+    background: #7e22ce !important;
+    background-color: #7e22ce !important;
+    border-color: #7e22ce !important;
+}
+
+html body .nav-tabs-custom > ul.nav.nav-tabs > li:nth-child(7n + 3):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-tabs > li:nth-child(7n + 3):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-pills > li:nth-child(7n + 3):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > li:nth-child(7n + 3):not(.active) > :is(a, button):not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > :is(a, button):nth-child(7n + 3):not(.active):not([aria-selected="true"]) {
+    --erp-tab-cycle-colour: #0e7490 !important;
+    background: #0e7490 !important;
+    background-color: #0e7490 !important;
+    border-color: #0e7490 !important;
+}
+
+html body .nav-tabs-custom > ul.nav.nav-tabs > li:nth-child(7n + 4):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-tabs > li:nth-child(7n + 4):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-pills > li:nth-child(7n + 4):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > li:nth-child(7n + 4):not(.active) > :is(a, button):not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > :is(a, button):nth-child(7n + 4):not(.active):not([aria-selected="true"]) {
+    --erp-tab-cycle-colour: #15803d !important;
+    background: #15803d !important;
+    background-color: #15803d !important;
+    border-color: #15803d !important;
+}
+
+html body .nav-tabs-custom > ul.nav.nav-tabs > li:nth-child(7n + 5):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-tabs > li:nth-child(7n + 5):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-pills > li:nth-child(7n + 5):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > li:nth-child(7n + 5):not(.active) > :is(a, button):not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > :is(a, button):nth-child(7n + 5):not(.active):not([aria-selected="true"]) {
+    --erp-tab-cycle-colour: #b45309 !important;
+    background: #b45309 !important;
+    background-color: #b45309 !important;
+    border-color: #b45309 !important;
+}
+
+html body .nav-tabs-custom > ul.nav.nav-tabs > li:nth-child(7n + 6):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-tabs > li:nth-child(7n + 6):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-pills > li:nth-child(7n + 6):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > li:nth-child(7n + 6):not(.active) > :is(a, button):not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > :is(a, button):nth-child(7n + 6):not(.active):not([aria-selected="true"]) {
+    --erp-tab-cycle-colour: #be123c !important;
+    background: #be123c !important;
+    background-color: #be123c !important;
+    border-color: #be123c !important;
+}
+
+html body .nav-tabs-custom > ul.nav.nav-tabs > li:nth-child(7n + 7):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-tabs > li:nth-child(7n + 7):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body ul.nav.nav-pills > li:nth-child(7n + 7):not(.active) > a:not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > li:nth-child(7n + 7):not(.active) > :is(a, button):not(.active):not([aria-selected="true"]),
+html body [role="tablist"] > :is(a, button):nth-child(7n + 7):not(.active):not([aria-selected="true"]) {
+    --erp-tab-cycle-colour: #4338ca !important;
+    background: #4338ca !important;
+    background-color: #4338ca !important;
+    border-color: #4338ca !important;
+}
+
+/*
+ * R20 final authority for legacy module tabs.
+ *
+ * A number of older modules paint their own three-colour sequence in a
+ * <style> block rendered after the layout stylesheets.  nth-of-type plus the
+ * repeated class/attribute specificity below makes the seven-colour standard
+ * authoritative without changing any tab JavaScript or navigation markup.
+ * The sequence is: blue, purple, teal, green, amber, rose, indigo; it repeats
+ * automatically from the eighth tab.
+ */
+html body ul.nav.nav-tabs[class][class] > li:nth-of-type(7n + 1):not(.active) > a[href][data-toggle="tab"],
+html body ul.nav.nav-pills[class][class] > li:nth-of-type(7n + 1):not(.active) > a[href][data-toggle],
+html body [role="tablist"][class][class] > li:nth-of-type(7n + 1):not(.active) > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button):nth-of-type(7n + 1):not(.active) {
+    background: #2563eb !important;
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+}
+
+html body ul.nav.nav-tabs[class][class] > li:nth-of-type(7n + 2):not(.active) > a[href][data-toggle="tab"],
+html body ul.nav.nav-pills[class][class] > li:nth-of-type(7n + 2):not(.active) > a[href][data-toggle],
+html body [role="tablist"][class][class] > li:nth-of-type(7n + 2):not(.active) > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button):nth-of-type(7n + 2):not(.active) {
+    background: #7e22ce !important;
+    background-color: #7e22ce !important;
+    border-color: #7e22ce !important;
+}
+
+html body ul.nav.nav-tabs[class][class] > li:nth-of-type(7n + 3):not(.active) > a[href][data-toggle="tab"],
+html body ul.nav.nav-pills[class][class] > li:nth-of-type(7n + 3):not(.active) > a[href][data-toggle],
+html body [role="tablist"][class][class] > li:nth-of-type(7n + 3):not(.active) > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button):nth-of-type(7n + 3):not(.active) {
+    background: #0e7490 !important;
+    background-color: #0e7490 !important;
+    border-color: #0e7490 !important;
+}
+
+html body ul.nav.nav-tabs[class][class] > li:nth-of-type(7n + 4):not(.active) > a[href][data-toggle="tab"],
+html body ul.nav.nav-pills[class][class] > li:nth-of-type(7n + 4):not(.active) > a[href][data-toggle],
+html body [role="tablist"][class][class] > li:nth-of-type(7n + 4):not(.active) > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button):nth-of-type(7n + 4):not(.active) {
+    background: #15803d !important;
+    background-color: #15803d !important;
+    border-color: #15803d !important;
+}
+
+html body ul.nav.nav-tabs[class][class] > li:nth-of-type(7n + 5):not(.active) > a[href][data-toggle="tab"],
+html body ul.nav.nav-pills[class][class] > li:nth-of-type(7n + 5):not(.active) > a[href][data-toggle],
+html body [role="tablist"][class][class] > li:nth-of-type(7n + 5):not(.active) > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button):nth-of-type(7n + 5):not(.active) {
+    background: #b45309 !important;
+    background-color: #b45309 !important;
+    border-color: #b45309 !important;
+}
+
+html body ul.nav.nav-tabs[class][class] > li:nth-of-type(7n + 6):not(.active) > a[href][data-toggle="tab"],
+html body ul.nav.nav-pills[class][class] > li:nth-of-type(7n + 6):not(.active) > a[href][data-toggle],
+html body [role="tablist"][class][class] > li:nth-of-type(7n + 6):not(.active) > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button):nth-of-type(7n + 6):not(.active) {
+    background: #be123c !important;
+    background-color: #be123c !important;
+    border-color: #be123c !important;
+}
+
+html body ul.nav.nav-tabs[class][class] > li:nth-of-type(7n + 7):not(.active) > a[href][data-toggle="tab"],
+html body ul.nav.nav-pills[class][class] > li:nth-of-type(7n + 7):not(.active) > a[href][data-toggle],
+html body [role="tablist"][class][class] > li:nth-of-type(7n + 7):not(.active) > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button):nth-of-type(7n + 7):not(.active) {
+    background: #4338ca !important;
+    background-color: #4338ca !important;
+    border-color: #4338ca !important;
+}
+
+/* Keep every inactive tab label and icon readable over the palette. */
+html body ul.nav.nav-tabs[class][class] > li:not(.active) > a[href][data-toggle="tab"],
+html body ul.nav-pills[class][class] > li:not(.active) > a[href][data-toggle],
+html body [role="tablist"][class][class] > li:not(.active) > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button):not(.active):not([aria-selected="true"]) {
+    color: #ffffff !important;
+    background-image: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    text-shadow: none !important;
+}
+
+html body ul.nav.nav-tabs[class][class] > li:not(.active) > a[href][data-toggle="tab"] *,
+html body ul.nav-pills[class][class] > li:not(.active) > a[href][data-toggle] *,
+html body [role="tablist"][class][class] > li:not(.active) > :is(a, button)[class] *,
+html body [role="tablist"][class][class] > :is(a, button):not(.active):not([aria-selected="true"]) * {
+    color: #ffffff !important;
+    fill: currentColor !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Active always remains the prominent white tab, irrespective of its slot. */
+html body ul.nav.nav-tabs[class][class] > li.active > a[href][data-toggle="tab"],
+html body ul.nav-pills[class][class] > li.active > a[href][data-toggle],
+html body [role="tablist"][class][class] > li.active > :is(a, button)[class],
+html body [role="tablist"][class][class] > :is(a, button).active,
+html body [role="tablist"][class][class] > :is(a, button)[aria-selected="true"] {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #111827 !important;
+    border-color: #2563eb !important;
+}

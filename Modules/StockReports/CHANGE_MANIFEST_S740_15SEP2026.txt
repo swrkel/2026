@@ -1,0 +1,45 @@
+S740 - Stock Transaction Report - View 403 Fix
+Date: 15 Sep 2026
+
+Issue
+-----
+Stock Reports > Stock Transaction Report > View returned HTTP 403 instead of opening the transaction view.
+
+Root cause
+----------
+The report Action/View button redirected many transaction types to core Sales/Purchase/Return/Adjustment show routes. Those core routes enforce their own permissions, so a user who is authorized to view the Stock Transaction Report could still receive HTTP 403 when opening a row.
+
+Fix
+---
+1. The View button no longer redirects to core transaction show routes.
+2. Every report row now opens the StockReports module's own transaction detail modal.
+3. The detail request is sent to the current Stock Transaction Report URL itself using AJAX, preserving the active tenant/session/business context and the same authorization path that already allowed the report to load.
+4. A dedicated module-owned JavaScript handler is used instead of the global btn-modal handler, avoiding interference from unrelated global modal/permission logic.
+5. Transaction lookup remains business-scoped.
+6. Modal loading failures now return clear module-owned messages and the server logs unexpected exceptions.
+
+Operational files changed
+-------------------------
+- Http/Controllers/StockReportsController.php
+- Resources/views/index.blade.php
+
+Database changes
+----------------
+None. No SQL or migration is required.
+
+Installation
+------------
+Replace Modules/StockReports with this consolidated module, then run:
+php artisan optimize:clear
+
+Browser
+-------
+Hard refresh once (Ctrl+F5).
+
+Verification
+------------
+1. Open Stock Reports > Stock Transaction Report.
+2. Click View on a Sale row.
+3. Confirm the StockReports transaction modal opens without HTTP 403.
+4. Repeat with Purchase, Stock Adjustment, Return and other available transaction types.
+5. Confirm the modal only displays transactions belonging to the active business.

@@ -1,0 +1,14 @@
+{
+    "name": "Chequer",
+    "alias": "chequer",
+    "description": "Standalone Chequer module",
+    "keywords": ["cheque", "chequer", "templates", "cheque-books"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Chequer\\Providers\\ChequerServiceProvider",
+        "Modules\\Chequer\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

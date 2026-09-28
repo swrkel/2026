@@ -1,0 +1,40 @@
+IS2067 – Transfer and Deposit – 20 Aug 2026
+
+Scope
+-----
+Finance module only.
+No database migration or raw SQL change is required.
+
+Issues corrected
+----------------
+1. Finance Module / List Deposits & Transfers
+   - Date & Time now displays the saved account_transactions.operation_date with the business date/time format.
+   - Legacy null/zero operation_date rows fall back to created_at so the column no longer appears blank.
+   - Date-range filtering keeps those legacy fallback rows visible in the correct period.
+
+2. Finance Module / Transfers
+   - Normal Account Transfer is now treated as an account transfer, not as a cheque payment.
+   - Transfer From / Transfer To / amount are validated server-side.
+   - Transfer date is parsed through a hardened multi-format resolver.
+   - Paired credit/debit account_transactions are created atomically and linked both ways.
+   - Manual transfers bypass the generic duplicate guard so two legitimate same-amount transfers are not collapsed.
+   - Cheque/PDC mode on the List Accounts transfer form remains available and separate.
+   - Notification/SMS failure no longer makes an already-committed transfer appear to have failed.
+   - Successful List Accounts transfer redirects to the List Deposits & Transfers tab.
+   - Successful Finance Deposits-page transfer returns to Finance Deposits where the new row is listed.
+
+3. Cheque Deposit customer name
+   - Customer Name resolves from the source transaction contact, transaction_payments.payment_for, and (when supported) the parent payment contact used by bulk payments.
+   - This is applied to both List Accounts > List Deposits & Transfers and Finance > Deposits list paths.
+
+Changed files
+-------------
+Modules/Finance/Http/Controllers/Accounts/ListDepositTransferController.php
+Modules/Finance/Http/Controllers/Account/Concerns/HandlesDepositsAndTransfers.php
+Modules/Finance/Http/Controllers/Deposits/DepositsController.php
+Modules/Finance/Resources/views/account/transfer.blade.php
+Modules/Finance/Resources/views/deposits/transfer.blade.php
+
+Database
+--------
+No database changes.

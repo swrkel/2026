@@ -1,0 +1,7 @@
+@extends('communicationhub::layout')
+
+@section('communicationhub_title', $campaign->exists ? 'Edit Campaign' : 'Add Campaign')
+@section('communicationhub_content')
+<form method="POST" action="{{ $campaign->exists ? route('communicationhub.campaigns.update', $campaign) : route('communicationhub.campaigns.store') }}">@csrf @if($campaign->exists) @method('PUT') @endif
+<div class="box box-primary"><div class="box-body"><div class="row"><div class="col-md-6"><div class="form-group"><label>Campaign Name *</label><input type="text" name="name" class="form-control" value="{{ old('name', $campaign->name) }}" required></div></div><div class="col-md-3"><div class="form-group"><label>Channel</label><select name="channel" class="form-control"><option value="sms">SMS</option><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="push">Push</option></select></div></div><div class="col-md-3"><div class="form-group"><label>Schedule Date/Time</label><input type="datetime-local" name="scheduled_at" class="form-control"></div></div></div><div class="form-group"><label>Description</label><textarea name="description" class="form-control" rows="4">{{ old('description', $campaign->description) }}</textarea></div></div><div class="box-footer"><button type="submit" class="btn btn-primary">Save</button><a href="{{ route('communicationhub.campaigns.index') }}" class="btn btn-default">Back</a></div></div></form>
+@endsection

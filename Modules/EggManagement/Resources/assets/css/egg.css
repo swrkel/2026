@@ -1,0 +1,241 @@
+:root{
+  --egg-bg:#f5f7fb;
+  --egg-card:#fff;
+  --egg-border:#e5eaf2;
+  --egg-text:#111827;
+  --egg-muted:#667085;
+  --egg-accent:#2f6fed;
+  --egg-accent-dark:#255ecb;
+  --egg-success:#12a66a;
+  --egg-danger:#d92d20;
+  --egg-shadow:0 8px 24px rgba(16,24,40,.055);
+  --egg-radius:16px;
+}
+
+/* Egg module page shell. Everything is namespaced to avoid changing other ERP pages. */
+.egg-page{
+  background:var(--egg-bg);
+  min-height:calc(100vh - 120px);
+  padding:24px 26px 34px;
+  color:var(--egg-text);
+  font-family:inherit;
+  box-sizing:border-box;
+}
+.egg-page *{box-sizing:border-box}
+.egg-page-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin:0 0 20px;
+}
+.egg-page-heading{min-width:0}
+.egg-page-head h1{
+  margin:2px 0 0;
+  font-size:30px;
+  line-height:1.15;
+  font-weight:750;
+  letter-spacing:-.025em;
+  color:#101828;
+}
+.egg-kicker{
+  font-size:11px;
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:.09em;
+  color:#667085;
+}
+.egg-page-subtitle{
+  margin-top:7px;
+  color:#667085;
+  font-size:13px;
+  line-height:1.45;
+}
+.egg-head-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+
+.egg-card,.egg-pos-panel{
+  background:var(--egg-card);
+  border:1px solid var(--egg-border);
+  border-radius:var(--egg-radius);
+  box-shadow:var(--egg-shadow);
+}
+.egg-card{padding:20px;margin-bottom:18px}
+.egg-card h3{margin:0 0 14px;font-size:17px;font-weight:750;color:#101828}
+
+.egg-grid-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.egg-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px}
+.egg-metric{background:#fff;border:1px solid var(--egg-border);border-radius:16px;padding:20px;box-shadow:var(--egg-shadow)}
+.egg-metric span,.egg-metric small{display:block;color:var(--egg-muted)}
+.egg-metric strong{display:block;font-size:28px;margin:6px 0}
+.egg-quick{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.egg-quick a{padding:16px;border:1px solid var(--egg-border);border-radius:12px;color:var(--egg-text);text-decoration:none;font-weight:650}
+
+/* Standard Egg toolbar */
+.egg-toolbar,.egg-share-row{display:flex;align-items:center;gap:10px;margin:0 0 14px;flex-wrap:wrap}
+.egg-toolbar-spacer{flex:1}
+.egg-search-wrap{position:relative;min-width:270px}
+.egg-search{width:100%;padding:10px 38px 10px 12px;border:1px solid var(--egg-border);border-radius:10px;background:#fff;min-height:42px}
+.egg-search-wrap span{position:absolute;right:13px;top:8px;font-size:20px;color:#667085}
+
+.egg-btn{
+  border:1px solid transparent;
+  border-radius:10px;
+  padding:10px 15px;
+  min-height:42px;
+  font-weight:750;
+  line-height:1.1;
+  cursor:pointer;
+  text-decoration:none!important;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:transform .15s ease,box-shadow .15s ease,filter .15s ease,border-color .15s ease;
+  white-space:nowrap;
+  color:#fff!important;
+}
+.egg-btn:hover{transform:translateY(-1px);text-decoration:none!important;filter:brightness(.97)}
+.egg-btn:focus{outline:0;box-shadow:0 0 0 3px rgba(47,111,237,.14)}
+.egg-btn-primary,.egg-btn-blue{background:#2f6fed;border-color:#2f6fed;box-shadow:0 5px 12px rgba(47,111,237,.18)}
+.egg-btn-green{background:#158a5b;border-color:#158a5b;box-shadow:0 5px 12px rgba(21,138,91,.17)}
+.egg-btn-purple{background:#7152c7;border-color:#7152c7;box-shadow:0 5px 12px rgba(113,82,199,.17)}
+.egg-btn-orange{background:#d86a1d;border-color:#d86a1d;box-shadow:0 5px 12px rgba(216,106,29,.17)}
+.egg-btn-cyan{background:#117d98;border-color:#117d98;box-shadow:0 5px 12px rgba(17,125,152,.17)}
+.egg-btn-red{background:#c64137;border-color:#c64137;box-shadow:0 5px 12px rgba(198,65,55,.17)}
+.egg-btn-indigo{background:#4756b8;border-color:#4756b8;box-shadow:0 5px 12px rgba(71,86,184,.17)}
+.egg-btn-light{background:#fff;border-color:var(--egg-border);color:#344054!important;box-shadow:none}
+.egg-btn-light:hover{border-color:#cbd5e1;background:#f8fafc;color:#101828!important}
+.egg-btn-danger{background:#c64137;border-color:#c64137;color:#fff!important}
+
+/* Clean system-standard filter bar used by dashboard and reports. */
+.egg-filter-card{
+  background:#fff;
+  border:1px solid #e3e8ef;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(16,24,40,.045);
+  padding:0;
+  margin:0 0 18px;
+  overflow:visible;
+}
+.egg-filter-card-head{
+  min-height:54px;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  border-bottom:1px solid #edf0f4;
+}
+.egg-filter-card-title{display:flex;align-items:center;gap:10px;min-width:0}
+.egg-filter-title-icon{width:34px;height:34px;border-radius:9px;background:#edf4ff;color:#2f6fed;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.egg-filter-card-title strong,.egg-filter-card-title small{display:block}
+.egg-filter-card-title strong{font-size:13px;color:#1d2939;line-height:1.25}
+.egg-filter-card-title small{margin-top:2px;font-size:10.5px;color:#667085;font-weight:500}
+.egg-filter-hint{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:#f8fafc;color:#667085;font-size:10.5px;font-weight:700;white-space:nowrap}
+.egg-filter-hint i{color:#2f6fed}
+.egg-filter-grid{
+  display:grid;
+  grid-template-columns:minmax(290px,1.45fr) minmax(220px,1fr) minmax(180px,.82fr) auto;
+  align-items:end;
+  gap:14px;
+  padding:15px 16px 16px;
+}
+.egg-filter-field{display:flex;flex-direction:column;gap:7px;margin:0;min-width:0}
+.egg-filter-label{font-size:10.5px;line-height:1.1;font-weight:800;letter-spacing:.025em;color:#475467;text-transform:none}
+.egg-filter-card input,.egg-filter-card select,
+.egg-form input,.egg-form select,.egg-form textarea,
+.egg-table input,.egg-table select{
+  width:100%;
+  min-height:44px;
+  border:1px solid #d6dde8;
+  border-radius:10px;
+  padding:9px 11px;
+  background:#fff;
+  color:#1d2939;
+  outline:none;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+.egg-filter-card input:focus,.egg-filter-card select:focus,
+.egg-form input:focus,.egg-form select:focus,.egg-form textarea:focus,
+.egg-table input:focus,.egg-table select:focus{
+  border-color:#7da6fb;
+  box-shadow:0 0 0 3px rgba(47,111,237,.09);
+}
+.egg-date-range-control{position:relative;display:block}
+.egg-date-range-control .egg-date-range-input{padding-left:40px;padding-right:34px;font-weight:700;letter-spacing:.01em;cursor:pointer;background:#fff}
+.egg-date-range-leading,.egg-date-range-trailing{position:absolute;top:50%;transform:translateY(-50%);z-index:2;pointer-events:none}
+.egg-date-range-leading{left:14px;color:#2f6fed}
+.egg-date-range-trailing{right:13px;color:#98a2b3}
+.egg-filter-actions{display:flex;align-items:flex-end;gap:9px;white-space:nowrap}
+.egg-filter-apply{min-width:124px;height:44px}
+.egg-filter-reset{min-width:92px;height:44px}
+
+/* Make Select2 (when present in the ERP layout) match the system form height. */
+.egg-filter-card .select2-container{width:100%!important}
+.egg-filter-card .select2-container .select2-selection--single{height:44px!important;border:1px solid #d6dde8!important;border-radius:10px!important;background:#fff!important}
+.egg-filter-card .select2-container .select2-selection--single .select2-selection__rendered{line-height:42px!important;padding-left:12px!important;padding-right:34px!important;color:#1d2939!important;font-weight:650}
+.egg-filter-card .select2-container .select2-selection--single .select2-selection__arrow{height:42px!important;right:7px!important}
+.egg-filter-card .select2-container--open .select2-selection--single{border-color:#7da6fb!important;box-shadow:0 0 0 3px rgba(47,111,237,.09)!important}
+
+/* daterangepicker is global in the ERP; these rules only refine its visual fit on Egg pages. */
+.daterangepicker .ranges li.active{background:#2f6fed!important;color:#fff!important}
+.daterangepicker .drp-buttons .applyBtn{background:#158a5b!important;border-color:#158a5b!important;color:#fff!important}
+.daterangepicker .drp-buttons .cancelBtn{background:#d86a1d!important;border-color:#d86a1d!important;color:#fff!important}
+.daterangepicker td.active,.daterangepicker td.active:hover{background:#2f6fed!important}
+
+/* General forms and tables */
+.egg-table{width:100%;border-collapse:separate;border-spacing:0;background:#fff}
+.egg-table th{background:#f8fafc;color:#344054;font-weight:750;text-align:left;padding:12px;border-bottom:1px solid var(--egg-border);white-space:nowrap}
+.egg-table td{padding:12px;border-bottom:1px solid var(--egg-border);vertical-align:middle}
+.egg-form label{display:flex;flex-direction:column;gap:6px;font-weight:650;color:#344054}
+.egg-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.egg-span-2{grid-column:span 2}
+.egg-form textarea{min-height:90px;resize:vertical}
+.egg-form-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.egg-alert{display:flex;align-items:center;gap:9px;background:#f2f4f7;border:1px solid var(--egg-border);padding:12px 14px;border-radius:10px;margin-bottom:14px}
+.egg-alert-success{background:#ecfdf3;border-color:#abefc6;color:#05603a}
+.egg-alert-danger{background:#fef3f2;border-color:#fecdca;color:#b42318}
+.egg-empty{text-align:center;color:var(--egg-muted);padding:30px!important}
+.egg-public{background:var(--egg-bg);padding:30px;max-width:900px;margin:auto}
+.egg-public dl{display:grid;grid-template-columns:140px 1fr;gap:8px}
+.egg-page .table-responsive,.egg-table-wrap{overflow:auto}
+.egg-pagination{margin-top:14px}
+
+@media(max-width:1250px){
+  .egg-filter-grid{grid-template-columns:minmax(260px,1.3fr) minmax(210px,1fr) minmax(180px,.8fr)}
+  .egg-filter-actions{grid-column:1 / -1;justify-content:flex-end}
+}
+
+@media(max-width:980px){
+  .egg-metrics{grid-template-columns:repeat(2,1fr)}
+  .egg-grid-2{grid-template-columns:1fr}
+  .egg-page-head{align-items:flex-start}
+}
+@media(max-width:720px){
+  .egg-page{padding:16px 14px 28px}
+  .egg-page-head{flex-direction:column}
+  .egg-head-actions{width:100%;justify-content:flex-start;flex-wrap:wrap}
+  .egg-filter-card-head{align-items:flex-start}.egg-filter-hint{display:none}
+  .egg-filter-grid{grid-template-columns:1fr 1fr}
+  .egg-filter-date-range{grid-column:1 / -1}
+  .egg-filter-location,.egg-filter-store{grid-column:span 1}
+  .egg-filter-actions{grid-column:1 / -1;justify-content:stretch}.egg-filter-actions .egg-btn{flex:1}
+  .egg-metrics,.egg-form-grid{grid-template-columns:1fr}
+  .egg-span-2{grid-column:auto}
+  .egg-toolbar{flex-wrap:wrap}
+  .egg-search-wrap{min-width:100%}
+}
+@media(max-width:480px){.egg-filter-grid{grid-template-columns:1fr}.egg-filter-date-range,.egg-filter-location,.egg-filter-store,.egg-filter-actions{grid-column:auto}.egg-filter-actions{flex-direction:column}.egg-filter-actions .egg-btn{width:100%}.egg-page-head h1{font-size:26px}}
+
+@media print{
+  .no-print,.egg-page-head .egg-head-actions{display:none!important}
+  .egg-page{padding:0;background:#fff}
+  .egg-card,.egg-pos-panel{box-shadow:none;border:0;padding:0}
+  .egg-table th,.egg-table td{font-size:11px;padding:6px}
+}
+
+/* AdminLTE-style collapsed sidebar toggle can float over the first page title. */
+@media(min-width:992px){
+  body.sidebar-collapse .egg-page-head,
+  body.sidebar-mini.sidebar-collapse .egg-page-head{padding-left:72px}
+}

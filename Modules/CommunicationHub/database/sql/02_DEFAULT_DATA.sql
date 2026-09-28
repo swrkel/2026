@@ -1,0 +1,3 @@
+-- CommunicationHub default seed data placeholder.
+-- Keep tenant-specific default providers, packages, sender IDs, and templates here.
+-- Safe to leave empty until final gateway/provider details are confirmed.

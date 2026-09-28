@@ -1,0 +1,13 @@
+{
+    "name": "PumperDashboard",
+    "alias": "pumperdashboard",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PumperDashboard\\Providers\\PumperDashboardServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

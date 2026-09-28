@@ -1,0 +1,1 @@
+.atn-service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.atn-service-card{background:#fff;border:1px solid #dfe5ec;border-radius:8px;padding:16px}.atn-table th{white-space:nowrap}.atn-table td{vertical-align:middle}.atn-form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}

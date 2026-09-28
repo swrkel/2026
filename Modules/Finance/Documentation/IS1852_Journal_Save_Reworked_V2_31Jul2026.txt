@@ -1,0 +1,54 @@
+IS1852 – Finance Journal Save Reworked V2 – 31 July 2026
+
+Scope
+-----
+Finance module / List Journal / Add / Save
+
+Required behaviour
+------------------
+1. A valid balanced journal must save from the Add Journal modal.
+2. After the Save button is clicked, it must not accept a second click.
+3. The user must physically see that saving is in progress.
+
+Reworked correction
+-------------------
+1. The AJAX-loaded Journal form now has its own direct Finance-owned submit handler.
+   This handler runs before generic application-level delegated form handlers.
+2. Journal saving is performed through AJAX and the Journal List DataTable is refreshed
+   immediately after the server confirms the database commit.
+3. The Save button is locked as soon as submission starts. Additional clicks and repeat
+   submit events are ignored while the request is in progress.
+4. The Save button changes to a spinning "Saving..." state and a visible
+   "Saving journal. Please wait..." status is shown.
+5. On success, the button/status changes to Saved, a success message is shown, the list
+   reloads, and the modal closes.
+6. On validation/server failure, the actual Finance response message is shown and the
+   button is safely restored for correction and retry.
+7. The Finance Journal store endpoint now returns JSON for AJAX requests while retaining
+   the standard redirect fallback for older installations.
+8. Validation, reviewed-date blocks, permission errors, and database exceptions all
+   return a consistent response to the modal.
+9. Logged-in user resolution now falls back to the ERP session user ID if the default
+   Auth guard does not expose the user during the AJAX request.
+10. Existing debit/credit row alignment, balanced-total validation, tenant/business
+    scoping, location access validation, and database transaction rollback are retained.
+11. Cash-balance AJAX responses can no longer re-enable the Save button while a journal
+    is being saved.
+12. The modal cannot be closed while the database save request is in progress.
+
+Changed files
+-------------
+- Finance/Http/Controllers/Journal/JournalController.php
+- Finance/Resources/views/journal/create.blade.php
+- Finance/Resources/views/journal/index.blade.php
+- Finance/Documentation/IS1852_Journal_Save_Reworked_V2_31Jul2026.txt
+
+Database
+--------
+No migration or raw SQL is required.
+
+Conflict check
+--------------
+No Purchase module file was changed.
+No Customer module file was changed.
+All code changes are inside the Finance module.

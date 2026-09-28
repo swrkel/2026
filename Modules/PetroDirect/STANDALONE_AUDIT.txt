@@ -1,0 +1,45 @@
+PETRO DIRECT STANDALONE AUDIT
+=============================
+
+Source baseline: 9641-latest-code.zip plus the confirmed global UI guards
+Audit date: 1 August 2026
+
+Confirmed module-owned boundaries:
+- Route registration and route names
+- Controllers, entities, services, reports and exports
+- Blade views and sidebar
+- JavaScript used by settlement/payment pages
+- Import templates
+- Permission identifiers
+- Petro PD-only operator/pump/settlement isolation logic
+
+Removed dependency classes and paths:
+- Modules\Petro
+- Modules\PumperDashboard
+- Modules\PetroPD
+- Modules\SettlementSW
+- App\Utils\PetroPdIsolationUtil
+- legacy Petro and Pumper Dashboard runtime endpoint prefixes
+- Petro/PumperDashboard permission identifiers
+- shared public settlement/payment JavaScript
+
+IS1858 data ownership boundary:
+- Petro Direct continues to use the legacy meter_sales table for database
+  compatibility, but now reads and mutates only rows with shift_id NULL/0.
+- Positive operational shift IDs belong to Pumper Dashboard/Petro PD and are
+  excluded from Direct Settlement relations, totals, tables and edit/delete
+  actions even if old data carries the same settlement foreign key.
+- Add Payment tab permissions are now scoped by module, so a disabled Cash,
+  Cards or Shortage selector in another module cannot block Petro Direct.
+
+The obsolete Petro-PD settlement view clone and historical audit documents
+are intentionally not included in the replacement package.
+
+IS1855 verification:
+- Direct Settlement Other Sale uses the active tenant/business fallback used by
+  the standalone settlement workflow.
+- Add Payment customer details load without depending on business.id alone and
+  tolerate optional customer-reference/payment-history tables.
+- Every Add Payment save action resolves the active business consistently,
+  including Cash, Customer Loan, Loan Payment, Drawing, Cash Deposit, Card,
+  Cheque, Credit Sale, Expense, Shortage, Excess and POS.

@@ -1,0 +1,13 @@
+/* Product list page styles kept inside the Product module. */
+.product-list-table th,
+.product-list-table td {
+    vertical-align: middle !important;
+}
+
+.product-list-table .product-name-cell {
+    min-width: 220px;
+}
+
+.product-list-table .product-sku-cell {
+    min-width: 110px;
+}

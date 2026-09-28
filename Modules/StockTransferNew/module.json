@@ -1,0 +1,18 @@
+{
+    "name": "StockTransferNew",
+    "alias": "stocktransfernew",
+    "description": "Standalone Stock Transfer-New module for multi-tenant, multi-business, multi-location and multi-store stock transfers.",
+    "keywords": [
+        "stock",
+        "transfer",
+        "inventory",
+        "stores"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\StockTransferNew\\Providers\\StockTransferNewServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

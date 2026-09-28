@@ -1,0 +1,3 @@
+-- S368 Chequer route foundation fix
+-- No database changes required.
+-- This file is intentionally included for deployment tracking only.

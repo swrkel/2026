@@ -1,0 +1,41 @@
+CREATE TABLE IF NOT EXISTS restaurant_new_integrity_checks (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NULL,
+  location_id BIGINT UNSIGNED NULL,
+  check_code VARCHAR(120) NOT NULL,
+  check_group VARCHAR(80) NOT NULL,
+  status ENUM('passed','warning','failed') NOT NULL DEFAULT 'passed',
+  message TEXT NULL,
+  details JSON NULL,
+  checked_at TIMESTAMP NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  INDEX restnew_integrity_business_idx (business_id),
+  INDEX restnew_integrity_location_idx (location_id),
+  INDEX restnew_integrity_code_idx (check_code),
+  INDEX restnew_integrity_group_idx (check_group),
+  INDEX restnew_integrity_status_idx (status),
+  INDEX restnew_integrity_checked_idx (checked_at)
+);
+
+CREATE TABLE IF NOT EXISTS restaurant_new_tenant_scope_logs (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  business_id BIGINT UNSIGNED NULL,
+  location_id BIGINT UNSIGNED NULL,
+  user_id BIGINT UNSIGNED NULL,
+  route_name VARCHAR(160) NULL,
+  model_name VARCHAR(180) NULL,
+  operation VARCHAR(80) NULL,
+  status ENUM('allowed','blocked') NOT NULL DEFAULT 'allowed',
+  reason VARCHAR(255) NULL,
+  payload JSON NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  INDEX restnew_scope_business_idx (business_id),
+  INDEX restnew_scope_location_idx (location_id),
+  INDEX restnew_scope_user_idx (user_id),
+  INDEX restnew_scope_route_idx (route_name),
+  INDEX restnew_scope_model_idx (model_name),
+  INDEX restnew_scope_operation_idx (operation),
+  INDEX restnew_scope_status_idx (status)
+);

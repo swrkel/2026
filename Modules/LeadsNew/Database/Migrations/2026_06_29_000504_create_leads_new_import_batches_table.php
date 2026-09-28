@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration; use Illuminate\Database\Schema\Blueprint; use Illuminate\Support\Facades\Schema;
+return new class extends Migration { public function up(){ Schema::create('leads_new_import_batches', function(Blueprint $t){ $t->id(); $t->unsignedBigInteger('business_id')->index(); $t->string('file_name'); $t->string('status')->default('pending'); $t->unsignedInteger('total_rows')->default(0); $t->unsignedInteger('success_rows')->default(0); $t->unsignedInteger('failed_rows')->default(0); $t->json('errors')->nullable(); $t->unsignedBigInteger('created_by')->nullable(); $t->timestamps(); }); } public function down(){ Schema::dropIfExists('leads_new_import_batches'); } };

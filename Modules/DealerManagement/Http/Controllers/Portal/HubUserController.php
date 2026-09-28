@@ -1,0 +1,13 @@
+<?php
+namespace Modules\DealerManagement\Http\Controllers\Portal;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Modules\DealerManagement\Services\{HubContext,HubDatabaseManager,HubIdentityService};
+class HubUserController extends Controller
+{
+ public function index(){ $u=app(HubContext::class)->user();abort_unless($u->is_hub_admin,403);$data=app(HubDatabaseManager::class)->central(function()use($u){return ['rows'=>DB::table('dlr_hub_users')->where('hub_dealer_id',$u->hub_dealer_id)->orderBy('name')->get(),'outlets'=>DB::table('dlr_hub_outlets')->where('hub_dealer_id',$u->hub_dealer_id)->where('is_active',1)->orderBy('name')->get()];});return view('dealermanagement::hub.users.index',$data); }
+ public function store(Request $r){$u=app(HubContext::class)->user();abort_unless($u->is_hub_admin,403);$d=$r->validate(['name'=>'required|string|max:191','mobile'=>'nullable|string|max:50','email'=>'nullable|email|max:191','role_name'=>'required|string|max:100','permissions'=>'nullable|array','outlet_ids'=>'nullable|array','outlet_ids.*'=>'integer','notes'=>'nullable|string']);$result=app(HubDatabaseManager::class)->central(function()use($u,$d){$code=app(HubIdentityService::class)->uniqueLoginCode($u->hub_dealer_id);$pw='Dlr@'.random_int(100000,999999);$id=DB::table('dlr_hub_users')->insertGetId(['hub_dealer_id'=>$u->hub_dealer_id,'name'=>$d['name'],'login_code'=>$code,'mobile'=>$d['mobile']??null,'email'=>$d['email']??null,'password'=>Hash::make($pw),'role_name'=>$d['role_name'],'permissions_json'=>json_encode($d['permissions']??[]),'is_hub_admin'=>0,'is_active'=>1,'must_change_password'=>1,'notes'=>$d['notes']??null,'created_at'=>now(),'updated_at'=>now()]);$valid=DB::table('dlr_hub_outlets')->where('hub_dealer_id',$u->hub_dealer_id)->whereIn('id',$d['outlet_ids']??[])->pluck('id');$rows=[];foreach($valid as $oid)$rows[]=['hub_user_id'=>$id,'hub_outlet_id'=>$oid,'created_at'=>now(),'updated_at'=>now()];if($rows)DB::table('dlr_hub_user_outlets')->insert($rows);return [$code,$pw];});return back()->with('status','Staff user created. Login code: '.$result[0].' Temporary password: '.$result[1]); }
+ public function reset(int $id){$u=app(HubContext::class)->user();abort_unless($u->is_hub_admin,403);$pw='Dlr@'.random_int(100000,999999);app(HubDatabaseManager::class)->central(fn()=>DB::table('dlr_hub_users')->where('hub_dealer_id',$u->hub_dealer_id)->where('id',$id)->update(['password'=>Hash::make($pw),'must_change_password'=>1,'password_reset_at'=>now(),'updated_at'=>now()]));return back()->with('status','Password reset. Temporary password: '.$pw);}
+}

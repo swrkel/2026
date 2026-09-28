@@ -1,0 +1,1 @@
+.atn-admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.atn-table th{white-space:nowrap}.atn-table td{vertical-align:middle}.atn-status-pill{display:inline-flex;padding:3px 8px;border-radius:20px;font-size:12px;font-weight:700}.atn-upload-zone{border:2px dashed #cfd7e3;padding:24px;text-align:center;border-radius:8px}

@@ -1,0 +1,16 @@
+/* RestaurantNew POS stage styles - standalone */
+.restaurantnew-pos-screen .restaurantnew-card{background:#fff;border-radius:8px;padding:15px;margin-bottom:15px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.restaurantnew-card-title{font-weight:600;font-size:16px;margin-bottom:12px}
+.restaurantnew-pos-toolbar .btn{margin-right:6px;color:#fff}
+.restaurantnew-table-grid,.restaurantnew-menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;min-height:70px}
+.restaurantnew-menu-item-card,.restaurantnew-table-card{border:1px solid #e5e7eb;border-radius:8px;padding:12px;cursor:pointer;background:#fafafa}
+.restaurantnew-menu-item-card:hover,.restaurantnew-table-card:hover{background:#f1f5f9}
+.restaurantnew-toolbar{display:flex;gap:8px;margin-bottom:12px}
+.restaurantnew-running-order{position:sticky;top:70px}
+.restaurantnew-order-meta{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;margin-bottom:10px}
+.restaurantnew-order-line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #ddd}
+.restaurantnew-totals{margin-top:15px;border-top:1px solid #eee;padding-top:10px}
+.restaurantnew-totals div{display:flex;justify-content:space-between;margin-bottom:7px}
+.restaurantnew-grand-total{font-size:18px;font-weight:700}
+.restaurantnew-muted{color:#6b7280;padding:12px;text-align:center}
+.restaurantnew-payment-actions{margin-top:15px}

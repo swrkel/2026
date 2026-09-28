@@ -1,0 +1,15 @@
+Rice Mill - Product Category Mapping management update
+18 Sep 2026
+
+Changes:
+- Added mappings are displayed in the same Settings / Product Category Mapping tab.
+- Saved Paddy and Rice mappings show Product Category, Payment Account, Status and Action.
+- Edit is available and moves the user to the same on-page mapping form.
+- Delete is intentionally not provided.
+- User can Disable/Enable Paddy and Rice mappings independently.
+- Disabling keeps the saved Product Category and Payment Account; nothing is deleted.
+- Disabled category mappings are not used for new Paddy Variety / Rice Product selections.
+- A disabled Paddy mapping is also blocked from being used for new Purchase Order payment posting.
+- Existing historical records are untouched.
+
+Database changes: NONE. The enabled/disabled state is stored in the existing rcm_settings.settings JSON.

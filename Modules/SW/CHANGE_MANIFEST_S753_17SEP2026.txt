@@ -1,0 +1,113 @@
+SW MODULE - S753 SETTLEMENT SAVE COMPLETION FIX
+Date: 17 September 2026
+
+ISSUES FIXED
+1. New Settlement remained at "Saving..." and did not complete.
+2. A successfully inserted settlement could be hidden from List SW Settlements
+   because the save page and list page resolved the current business differently.
+3. Save Settlement floated/stuck while the page was scrolled.
+4. Unexpected save failures could leave the operator without a controlled return
+   to the completed form.
+5. The screen could show Balance 0.00 but the server refused Save with
+   "Settlement balance must be zero before saving."
+6. Save Settlement could remain hidden even after the visible Balance reached
+   0.00 because an unrelated optional AJAX readiness flag remained false.
+
+ROOT CAUSE
+The earlier S752 change repaired the visible button location and click handler,
+but did not correct the server save path. SettlementSaveService still attempted
+ALTER TABLE statements during the interactive save request. On a busy tenant
+database, ALTER TABLE waits for a metadata lock and the browser remains at
+"Saving..." before any settlement is committed.
+
+The List Settlements controller also preferred older session business values,
+while New Settlement and Save Settlement preferred the authenticated tenant
+user's business. A stale session value could therefore exclude the newly saved
+row immediately after the success redirect.
+
+The 17 September production log proved that the POST now reaches Laravel and
+returns a controlled response, but the server receives a different settlement
+payload from the one balanced on screen. Meter Sales, Other Sales, Other Income
+and Credit Sales rendered their hidden submission inputs directly below <tr>
+elements instead of inside a cell or outside the table. That is invalid table
+markup and browsers may relocate or omit those fields when building the form
+submission. The visible JavaScript arrays could therefore total correctly while
+Laravel received incomplete sales/credit rows.
+
+CHANGES
+1. Services/SettlementSaveService.php
+   - Removed live ALTER TABLE preflight calls from create().
+   - Kept all safe runtime compatibility behavior: live-column filtering,
+     legacy sw_shift_id population whenever that old column exists, and optional
+     detail-field filtering.
+   - Settlement, details, Finance posting, shift status, and audit log remain in
+     one database transaction.
+   - Added numeric-only balance diagnostics (section totals, payment totals and
+     row counts) if a future client/server balance mismatch is rejected.
+
+2. Http/Controllers/SettlementCreateController.php
+   - Added controlled handling and detailed server logging for unexpected save
+     exceptions.
+   - A failed transaction returns to the populated form instead of leaving the
+     browser on an uncontrolled error response.
+   - Existing successful redirect and success message remain unchanged.
+
+3. Http/Controllers/SettlementController.php
+   - Uses the same authenticated tenant/business resolution as New Settlement
+     and Save Settlement so the committed row appears in List SW Settlements.
+
+4. Resources/views/settlements/partials/section_styles.blade.php
+   - Save Settlement stays in the Payment totals row but is now static.
+   - Removed sticky positioning and floating shadow.
+
+5. Resources/views/settlements/create.blade.php
+   - Rebuilds all dynamic section submission fields immediately before Save,
+     then repeats the existing zero-balance and required-field checks.
+   - Shows and enables Save from the actual live rule: a selected shift and a
+     displayed Balance within the same half-cent zero tolerance used on Save.
+   - Removed the unrelated all-AJAX-success flag from button visibility.
+
+6. Settlement section views and JavaScript
+   - Resources/views/settlements/partials/meter_sales.blade.php
+   - Resources/views/settlements/partials/meter_sales_js.blade.php
+   - Resources/views/settlements/partials/other_sales.blade.php
+   - Resources/views/settlements/partials/other_sales_js.blade.php
+   - Resources/views/settlements/partials/other_income.blade.php
+   - Resources/views/settlements/partials/other_income_js.blade.php
+   - Resources/views/settlements/partials/credit_sales.blade.php
+   - Resources/views/settlements/partials/credit_sales_js.blade.php
+   - Moved posted row fields to dedicated hidden containers outside the tables.
+   - Kept those fields synchronized when rows are added, removed, restored, or
+     submitted, so the server receives exactly the rows used for Balance 0.00.
+
+7. Resources/views/settlements/partials/payments_js.blade.php
+   - Removes stale/manual Cash rows from older browser drafts and immediately
+     before submission. Closed-shift Cash now comes only from the same Daily Cash
+     records that the server reloads authoritatively.
+
+8. Resources/views/settlements/partials/section_styles.blade.php
+   - Save is hidden while Balance is non-zero and becomes visible only at
+     Balance 0.00. Shift/form validity remains a separate submission safeguard.
+
+DATABASE / SQL
+No new migration or SQL file is required. Existing module migrations remain the
+authoritative place for schema repair; the interactive save request no longer
+performs database definition changes.
+
+DEPLOYMENT
+Replace the existing Modules/SW folder with the supplied full parcel, or copy
+the changed files while preserving their SW-relative paths. Then run:
+
+    php artisan optimize:clear
+
+If the supplied module migrations have not previously been applied on the
+server, also run the project's normal production migration process.
+
+EXPECTED RESULT
+- Clicking Save Settlement completes the transaction and redirects to List SW
+  Settlements with the successful message.
+- The newly saved settlement is visible in the list.
+- The Save and Cancel controls remain in their Payment totals row and do not
+  float when scrolling.
+- A Balance 0.00 settlement posts all visible dynamic rows and passes the same
+  server balance calculation before it is committed.

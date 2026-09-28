@@ -1,0 +1,7 @@
+@extends('layouts.app')
+@section('title','Repayment Allocation')
+@section('content')
+<div class="container-fluid"><h3>Repayment Allocation</h3><form method="post" action="{{ route('banking.microfinance.accounting.repayment-allocation.apply') }}">@csrf
+<div class="row"><div class="col-md-2"><input class="form-control" name="loan_id" placeholder="Loan ID"></div><div class="col-md-2"><input class="form-control" name="received_amount" placeholder="Received"></div><div class="col-md-2"><input class="form-control" name="fee_due" placeholder="Fees Due"></div><div class="col-md-2"><input class="form-control" name="penalty_due" placeholder="Penalty Due"></div><div class="col-md-2"><input class="form-control" name="interest_due" placeholder="Interest Due"></div><div class="col-md-2"><input class="form-control" name="principal_due" placeholder="Principal Due"></div></div><button class="btn btn-primary mt-2">Post Allocation</button></form>
+<table class="table table-bordered mt-3"><thead><tr><th>Date</th><th>Loan</th><th>Received</th><th>Fees</th><th>Penalty</th><th>Interest</th><th>Principal</th></tr></thead><tbody>@foreach($allocations as $a)<tr><td>{{ $a->allocation_date }}</td><td>{{ $a->loan_id }}</td><td>{{ number_format($a->received_amount,4) }}</td><td>{{ number_format($a->fee_amount,4) }}</td><td>{{ number_format($a->penalty_amount,4) }}</td><td>{{ number_format($a->interest_amount,4) }}</td><td>{{ number_format($a->principal_amount,4) }}</td></tr>@endforeach</tbody></table>{{ $allocations->links() }}</div>
+@endsection

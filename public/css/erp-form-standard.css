@@ -1,0 +1,404 @@
+/*
+ * GLOBAL-DESIGN-01
+ * ERP Global Form/Page Standard
+ * Approved reference: Distribution -> Sales Orders page.
+ * Purpose: reusable professional card, section, form, button and table styling across all modules.
+ */
+:root {
+    --erp-page-bg: #f4f8fb;
+    --erp-card-bg: #ffffff;
+    --erp-border: #e2edf5;
+    --erp-border-strong: #d4e2ec;
+    --erp-text: #24384c;
+    --erp-muted: #6d7f8f;
+    --erp-primary: #2f82c2;
+    --erp-primary-2: #11add2;
+    --erp-success: #4caf50;
+    --erp-danger: #ef4b37;
+    --erp-warning: #ff9f1c;
+    --erp-shadow: 0 12px 35px rgba(31, 64, 104, 0.08);
+    --erp-shadow-soft: 0 8px 24px rgba(31, 64, 104, 0.06);
+    --erp-radius: 18px;
+    --erp-radius-sm: 12px;
+}
+
+body {
+    background: var(--erp-page-bg);
+}
+
+.content-wrapper,
+.right-side {
+    background: var(--erp-page-bg) !important;
+}
+
+.erp-page-wrap,
+.erp-standard-page {
+    padding: 18px 22px;
+}
+
+.erp-header-card {
+    background: var(--erp-card-bg);
+    border: 1px solid var(--erp-border);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow);
+    padding: 24px 28px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.erp-header-card h1,
+.erp-header-card h2,
+.erp-header-title {
+    margin: 0 0 8px 0;
+    color: var(--erp-text);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.erp-header-subtitle,
+.erp-muted {
+    color: var(--erp-muted);
+    font-size: 14px;
+}
+
+.erp-badge-card,
+.erp-number-card {
+    min-width: 160px;
+    padding: 18px 22px;
+    border-radius: 18px;
+    color: #fff;
+    text-align: center;
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-2));
+    box-shadow: 0 12px 28px rgba(23, 146, 205, 0.22);
+}
+
+.erp-badge-card .label,
+.erp-number-card .label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.95;
+    margin-bottom: 6px;
+}
+
+.erp-badge-card .value,
+.erp-number-card .value {
+    display: block;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.erp-card,
+.erp-form-card,
+.erp-list-card,
+.erp-section-card {
+    background: var(--erp-card-bg);
+    border: 1px solid var(--erp-border);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow-soft);
+    padding: 24px 26px;
+    margin-bottom: 22px;
+}
+
+.erp-card-title,
+.erp-section-title {
+    color: var(--erp-text);
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 18px 0;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--erp-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.erp-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 28px;
+}
+
+.erp-form-grid.three-col {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.erp-form-grid.one-col {
+    grid-template-columns: 1fr;
+}
+
+.erp-form-group,
+.form-group.erp-form-group {
+    margin-bottom: 18px;
+}
+
+.erp-form-group label,
+.form-group.erp-form-group label,
+.erp-label {
+    display: block;
+    color: var(--erp-text);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.erp-required::after,
+.erp-label.required::after,
+.erp-form-group.required label::after {
+    content: ' *';
+    color: var(--erp-danger);
+    font-weight: 800;
+}
+
+.erp-control,
+.erp-form-control,
+.erp-select,
+.erp-textarea,
+.erp-form-card .form-control,
+.erp-form-card select.form-control,
+.erp-form-card textarea.form-control,
+.erp-card .form-control,
+.erp-card select.form-control,
+.erp-card textarea.form-control {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid var(--erp-border-strong) !important;
+    border-radius: var(--erp-radius-sm) !important;
+    padding: 10px 14px !important;
+    color: var(--erp-text);
+    background-color: #fff !important;
+    box-shadow: none !important;
+    font-size: 14px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.erp-textarea,
+.erp-form-card textarea.form-control,
+.erp-card textarea.form-control {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.erp-control:focus,
+.erp-form-control:focus,
+.erp-select:focus,
+.erp-textarea:focus,
+.erp-form-card .form-control:focus,
+.erp-card .form-control:focus {
+    border-color: var(--erp-primary) !important;
+    box-shadow: 0 0 0 3px rgba(47, 130, 194, .10) !important;
+}
+
+.erp-control[readonly],
+.erp-control[disabled],
+.erp-form-card .form-control[readonly],
+.erp-form-card .form-control[disabled],
+.erp-card .form-control[readonly],
+.erp-card .form-control[disabled] {
+    background-color: #eef2f5 !important;
+    color: #5e6f7f;
+}
+
+.erp-actions,
+.erp-button-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.erp-btn,
+.btn.erp-btn {
+    min-height: 44px;
+    border-radius: 12px !important;
+    padding: 10px 18px !important;
+    font-weight: 800 !important;
+    border: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none !important;
+}
+
+.erp-btn-primary,
+.btn.erp-btn-primary {
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-2)) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 22px rgba(47, 130, 194, .24);
+}
+
+.erp-btn-success,
+.btn.erp-btn-success {
+    background: var(--erp-success) !important;
+    color: #fff !important;
+}
+
+.erp-btn-danger,
+.btn.erp-btn-danger {
+    background: var(--erp-danger) !important;
+    color: #fff !important;
+}
+
+.erp-btn-light,
+.btn.erp-btn-light {
+    background: #ffffff !important;
+    color: var(--erp-text) !important;
+    border: 1px solid var(--erp-border) !important;
+}
+
+.erp-toolbar {
+    background: #fff;
+    border: 1px solid var(--erp-border);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow-soft);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.erp-toolbar-left,
+.erp-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.erp-table-card {
+    background: #fff;
+    border: 1px solid var(--erp-border);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow-soft);
+    overflow: hidden;
+}
+
+.erp-table-card table,
+.erp-table {
+    margin-bottom: 0 !important;
+    width: 100%;
+}
+
+.erp-table-card thead th,
+.erp-table thead th {
+    background: #f2f7fb !important;
+    color: #5d7185 !important;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--erp-border) !important;
+    padding: 14px 12px !important;
+}
+
+.erp-table-card tbody td,
+.erp-table tbody td {
+    color: var(--erp-text);
+    border-top: 1px solid #edf2f6 !important;
+    padding: 14px 12px !important;
+    vertical-align: middle !important;
+}
+
+.erp-upload-box {
+    border: 1px dashed var(--erp-border-strong);
+    border-radius: var(--erp-radius-sm);
+    padding: 16px;
+    background: #fbfdff;
+}
+
+.erp-image-preview,
+.erp-upload-preview img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 12px;
+    border: 1px solid var(--erp-border);
+    box-shadow: var(--erp-shadow-soft);
+    object-fit: cover;
+    margin-top: 10px;
+}
+
+.erp-help-text {
+    color: var(--erp-muted);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.erp-status-active {
+    background: #55b957;
+    color: #fff;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.erp-status-inactive {
+    background: #7b8794;
+    color: #fff;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+/* Give existing Bootstrap panels a softer ERP look only when opted-in by parent class. */
+.erp-standard-page .box,
+.erp-standard-page .panel,
+.erp-standard-page .card {
+    border: 1px solid var(--erp-border) !important;
+    border-radius: var(--erp-radius) !important;
+    box-shadow: var(--erp-shadow-soft) !important;
+}
+
+.erp-standard-page .box-header,
+.erp-standard-page .panel-heading,
+.erp-standard-page .card-header {
+    border-bottom: 1px solid var(--erp-border) !important;
+    background: #fff !important;
+    border-radius: var(--erp-radius) var(--erp-radius) 0 0 !important;
+}
+
+@media (max-width: 991px) {
+    .erp-form-grid,
+    .erp-form-grid.three-col {
+        grid-template-columns: 1fr;
+    }
+
+    .erp-header-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .erp-badge-card,
+    .erp-number-card {
+        width: 100%;
+    }
+
+    .erp-toolbar {
+        align-items: stretch;
+    }
+
+    .erp-toolbar-left,
+    .erp-toolbar-right,
+    .erp-actions,
+    .erp-button-row {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .erp-btn,
+    .btn.erp-btn {
+        width: 100%;
+    }
+}

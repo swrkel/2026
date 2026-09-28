@@ -1,0 +1,54 @@
+LA-1131 - Finance Deposits Date Calendar Fix
+Date: 05 August 2026
+
+Scope
+-----
+Finance Module > List Account > Card Deposit
+Finance Module > List Account > Cash Deposit
+Finance Module > List Account > Cheque Deposit
+
+Issue
+-----
+The operation date calendar was visible, but another date could not be selected by clicking a calendar day.
+
+Root Cause
+----------
+1. Cash/Card Deposit appended the Bootstrap DateTimePicker widget to the document body and then manually repositioned it with an extreme z-index. This separated the calendar from the Bootstrap modal and allowed modal/focus layers to intercept clicks.
+2. Cheque Deposit initialized the picker directly on the input and its date-range calendars were not owned by the active Finance modal.
+
+Correction
+----------
+1. The DateTimePicker widgets are now appended inside the active Finance modal content.
+2. Calendar date/action cells explicitly accept pointer events.
+3. The operation date inputs are editable and support both calendar selection and valid typed dates.
+4. Selected date/time values are synchronized back to the existing operation_date field before form submission.
+5. Cheque Deposit date-range filters are also appended inside the active modal.
+6. Existing routes, controllers, form actions, account logic, cheque logic, and database structure are unchanged.
+
+Changed Code Files
+------------------
+Modules/Finance/Resources/views/account/deposit.blade.php
+Modules/Finance/Resources/views/account/cheque_deposit.blade.php
+
+Database
+--------
+No migration or raw SQL is required.
+
+Deployment
+----------
+Extract the changed-files ZIP from the Laravel project root, preserving the Modules/Finance path.
+Then run:
+
+php artisan optimize:clear
+
+Validation Performed
+--------------------
+- JavaScript syntax check after Blade preprocessing: passed for both changed views.
+- Blade/form/style/script structural checks: passed.
+- Existing Finance route names and controller view mappings: unchanged.
+- Physical Chromium mouse-click test: passed for Cash/Card operation date picker.
+- Physical Chromium mouse-click test: passed for Cheque operation date picker.
+- PHP syntax validation of the complete Finance module: passed.
+- ZIP integrity test: passed.
+
+A final authenticated test on the tenant server is required after deployment.

@@ -1,0 +1,11 @@
+{
+  "name": "modules/ran",
+  "description": "Standalone Ran jewellery production, storage and sales module",
+  "type": "laravel-module",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "Modules\\Ran\\": ""
+    }
+  }
+}

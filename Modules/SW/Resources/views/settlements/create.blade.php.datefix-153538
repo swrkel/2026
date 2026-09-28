@@ -1,0 +1,239 @@
+{{--
+    SW Settlement — create.  8043, laid out as Petro Direct's settlement.
+
+    Header first: settlement number, location, operator, date, shift, note.
+    The sections follow beneath.
+
+    The operator is chosen BEFORE the shifts, and the shift list follows from
+    it - 8043 is explicit that shifts are "linked to the selected operator
+    only". Offering every shift and filtering afterwards would let someone
+    settle another operator's shift.
+--}}
+
+@extends('layouts.app')
+
+@section('title', __('sw::lang.new_settlement'))
+
+@section('content')
+
+<section class="content-header">
+    <h1>@lang('sw::lang.new_settlement')
+        <small>@lang('sw::lang.new_settlement_subtitle')</small>
+    </h1>
+</section>
+
+<section class="content main-content-inner">
+
+    {!! Form::open(['url' => route('sw.settlements.store'), 'method' => 'post', 'id' => 'sw_settlement_form']) !!}
+
+    <div class="row settlement-header-row">
+        <div class="col-md-12">
+            @component('components.filters', ['title' => __('report.filters')])
+            <div class="row">
+
+                {{-- Auto-incremented, shown, and not editable: a settlement
+                     number the user can change is a settlement number that can
+                     collide with another. --}}
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {!! Form::label('settlement_no', __('sw::lang.settlement_no') . ':') !!}
+                        {!! Form::text('settlement_no', $settlement_no, [
+                            'class' => 'form-control', 'readonly', 'id' => 'sw_settlement_no',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {!! Form::label('location_id', __('purchase.business_location') . ':*') !!}
+                        {!! Form::select('location_id', $business_locations, $default_location, [
+                            'class' => 'form-control select2',
+                            'id' => 'sw_st_location',
+                            'required',
+                            'placeholder' => __('messages.please_select'),
+                            'style' => 'width:100%',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {!! Form::label('pump_operator_id', __('sw::lang.pump_operator') . ':*') !!}
+                        {!! Form::select('pump_operator_id', $pump_operators, null, [
+                            'class' => 'form-control select2',
+                            'id' => 'sw_st_operator',
+                            'required',
+                            'placeholder' => __('sw::lang.please_select_the_operator'),
+                            'style' => 'width:100%',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {!! Form::label('transaction_date', __('sw::lang.transaction_date') . ':*') !!}
+                        {!! Form::text('transaction_date', null, [
+                            'class' => 'form-control sw-date',
+                            'id' => 'sw_st_date',
+                            'required',
+                            'readonly',
+                        ]) !!}
+                    </div>
+                </div>
+
+                {{-- Pending shifts for the chosen operator. Multiple may be
+                     settled together, so the payment figures sum across them. --}}
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {!! Form::label('shift_ids', __('sw::lang.sw_shift_number') . ':*') !!}
+                        {!! Form::select('shift_ids[]', [], null, [
+                            'class' => 'form-control select2',
+                            'id' => 'sw_st_shifts',
+                            'multiple',
+                            'required',
+                            'style' => 'width:100%',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {!! Form::label('note', __('sw::lang.note') . ':') !!}
+                        {!! Form::text('note', null, [
+                            'class' => 'form-control', 'id' => 'sw_st_note',
+                        ]) !!}
+                    </div>
+                </div>
+
+            </div>
+            @endcomponent
+        </div>
+    </div>
+
+    @include('sw::settlements.partials.section_styles')
+
+    {{-- The sections hold their rows in the browser until the settlement is
+         saved, so they live in the page rather than in the AJAX body. --}}
+    <div id="sw_st_sections" style="display:none">
+        @include('sw::settlements.partials.meter_sales')
+        @include('sw::settlements.partials.other_sales')
+        @include('sw::settlements.partials.payments')
+    </div>
+
+    <input type="hidden" name="total_meter_sales" id="sw_meter_total_input" value="0">
+
+    <div id="sw_st_body"></div>
+
+    <div class="row" id="sw_st_save_row" style="display:none">
+        <div class="col-md-12">
+            @component('components.widget', ['class' => 'box-default'])
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> @lang('sw::lang.save_settlement')
+                </button>
+                <a href="{{ route('sw.settlements.index') }}" class="btn btn-default">
+                    @lang('messages.cancel')
+                </a>
+                <div class="text-muted" style="font-size:12px;margin-top:10px">
+                    <i class="fa fa-info-circle"></i>
+                    @lang('sw::lang.settlement_locks_shifts')
+                </div>
+            @endcomponent
+        </div>
+    </div>
+
+    {!! Form::close() !!}
+
+</section>
+
+@include('sw::settlements.partials.meter_sales_js')
+@include('sw::settlements.partials.other_sales_js')
+
+@push('javascript')
+<script>
+$(function () {
+
+    /*
+     | The date cannot be before the system opening date, and cannot be today
+     | if today's accounts are closed.
+     |
+     | Enforced by the picker rather than only on save: a user who fills in a
+     | whole settlement and is then refused has lost the work.
+    */
+    $('#sw_st_date').datepicker({
+        format: moment_date_format.toLowerCase(),
+        autoclose: true,
+        startDate: '{{ $opening_date ?? "" }}',
+        endDate: '{{ $max_date ?? "" }}',
+    }).datepicker('setDate', new Date());
+
+    /*
+     | The shift list follows the OPERATOR, not just the location.
+     |
+     | 8043: shifts are linked to the selected operator only. Offering every
+     | shift at a location would let someone settle a shift another operator
+     | worked.
+    */
+    function swLoadShifts() {
+        var $sel = $('#sw_st_shifts');
+        var locationId = $('#sw_st_location').val();
+        var operatorId = $('#sw_st_operator').val();
+
+        $sel.html('').trigger('change');
+        $('#sw_st_sections, #sw_st_save_row').hide();
+        $('#sw_st_body').html('');
+
+        if (!locationId || !operatorId) { return; }
+
+        $.get('{{ route('sw.settlements.available-shifts') }}', {
+            location_id: locationId,
+            pump_operator_id: operatorId
+        }, function (rows) {
+            if (!rows.length) {
+                toastr.info('{{ __('sw::lang.no_pending_shifts_for_operator') }}');
+                return;
+            }
+            $.each(rows, function (i, r) {
+                $sel.append($('<option>', { value: r.id, text: r.label }));
+            });
+            $sel.trigger('change');
+        });
+    }
+
+    $('#sw_st_location, #sw_st_operator').on('change', swLoadShifts);
+
+    // The pump list follows the location.
+    $('#sw_st_location').on('change', function () {
+        if (typeof window.swLoadPumps === 'function') {
+            window.swLoadPumps($(this).val());
+        }
+        if (typeof window.swLoadStores === 'function') {
+            window.swLoadStores($(this).val());
+        }
+    });
+
+    $('#sw_st_shifts').on('change', function () {
+        var ids = $(this).val() || [];
+
+        if (!ids.length) {
+            $('#sw_st_sections, #sw_st_save_row').hide();
+            $('#sw_st_body').html('');
+            return;
+        }
+
+        $('#sw_st_sections, #sw_st_save_row').show();
+
+        $.get('{{ route('sw.settlements.assemble') }}', { shift_ids: ids }, function (html) {
+            $('#sw_st_body').html(html);
+        });
+    });
+
+    // One location, one operator: choose them rather than making the user.
+    if ($('#sw_st_location option').length === 2 && !$('#sw_st_location').val()) {
+        $('#sw_st_location').val($('#sw_st_location option').eq(1).val()).trigger('change');
+    }
+
+});
+</script>
+@endpush
+
+@endsection

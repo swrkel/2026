@@ -1,0 +1,15 @@
+DISNEW_013 - Smart Logistics Large Parcel
+
+Added fully standalone logistics operations to Distribution New:
+- Driver master and helper master
+- Driver licence/expiry tracking
+- Trip expenses and driver/helper commissions
+- Fuel entries and fuel consumption analysis foundation
+- Vehicle odometer history
+- Vehicle maintenance schedule and maintenance cost tracking
+- Vehicle document expiry tracking
+- Smart logistics dashboard cards
+- Logistics reports for fuel, expenses, maintenance and document expiry
+- SQL, rollback SQL, Laravel migration and menu/route visibility updates
+
+All new database objects use the disnew_ prefix and remain inside the DistributionNew module.

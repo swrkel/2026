@@ -1,0 +1,19 @@
+{
+    "name": "Finance",
+    "alias": "finance",
+    "description": "Standalone Finance/Accounting module",
+    "keywords": [
+        "finance",
+        "accounting",
+        "accounts",
+        "cheques",
+        "ledger"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\Finance\\Providers\\FinanceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

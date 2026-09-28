@@ -1,0 +1,3 @@
+<?php
+namespace Modules\BankingMicrofinanceTreasury\Http\Controllers;use Illuminate\Routing\Controller;use Modules\BankingMicrofinanceTreasury\Entities\TreasuryVaultMovement;use Modules\BankingMicrofinanceTreasury\Entities\TreasuryFundingLine;
+class TreasuryReportController extends Controller{public function dailyLiquidity(){return view('bankingmicrofinancetreasury::reports.daily_liquidity');}public function vaultMovement(){return view('bankingmicrofinancetreasury::reports.vault_movement',['movements'=>TreasuryVaultMovement::latest()->paginate(50)]);}public function fundingUtilization(){return view('bankingmicrofinancetreasury::reports.funding_utilization',['lines'=>TreasuryFundingLine::latest()->get()]);}}

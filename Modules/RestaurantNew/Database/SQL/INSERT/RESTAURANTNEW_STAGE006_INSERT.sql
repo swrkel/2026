@@ -1,0 +1,1 @@
+-- Optional default billing settings can be inserted here per tenant/business when required.

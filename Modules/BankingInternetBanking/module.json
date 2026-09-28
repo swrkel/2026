@@ -1,0 +1,21 @@
+{
+    "name": "BankingInternetBanking",
+    "alias": "banking-internet-banking",
+    "description": "BKG-CORE-005 Internet Banking Enterprise Edition standalone module",
+    "keywords": [
+        "banking",
+        "internet-banking",
+        "digital-banking",
+        "transfers",
+        "beneficiaries",
+        "bill-payments"
+    ],
+    "priority": 505,
+    "providers": [
+        "Modules\\BankingInternetBanking\\Providers\\BankingInternetBankingServiceProvider",
+        "Modules\\BankingInternetBanking\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

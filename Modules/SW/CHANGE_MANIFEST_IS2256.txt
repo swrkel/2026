@@ -1,0 +1,77 @@
+IS2256 – SW Settlement – 13 Sep 2026
+=====================================
+Base: latest SW.zip supplied with IS2256.
+Scope: SW module only. No SQL / migration required by this parcel.
+
+1) Finance List Accounts -> Cash Deposit / Card Deposit -> Daily Shift No
+- Kept the real sw_shifts table as the authoritative source.
+- Shift options endpoint returns OPEN shifts only for the selected location/business.
+- Added no-store/no-cache headers so an old open/closed list cannot be reused.
+- Finance/AJAX-loaded shift fields now refresh every time the modal is shown,
+  when the browser returns from another tab/window, and when the dropdown is used.
+- A newly opened SW shift therefore appears without a full page reload.
+- Once the SW shift is closed it is removed from NEW deposit dropdowns.
+- Existing records keep their already-saved closed shift value on edit; no old
+  transaction is silently unlinked.
+
+2) SW Settlement -> Payments -> Expenses -> Expense Category
+- SW's live tenant endpoint is now the authoritative category feed.
+- Business is resolved from the selected settlement location and current session.
+- Category list is cache-busted and refreshed on Expenses selection, page return,
+  visibility return, and category-selector focus/open.
+- The core Expenses dropdown endpoint remains a safe fallback only.
+
+3) List SW Shift -> Action -> View / Print
+- View and Print remain present for every row.
+- Fixed Bootstrap/DataTables table-responsive clipping by temporarily floating the
+  action menu above the scroll container while it is open.
+- Menu is restored safely on close/redraw/resize/scroll.
+
+4) List SW Shift -> View -> Print
+- Print route now uses a dedicated standalone print view instead of the normal ERP
+  page layout.
+- Added professional A4 landscape report design: business/location, shift metadata,
+  status, totals, settlement details, Cash/Card/Credit/Cheque sections, and clean
+  print-only formatting.
+- Browser print preview opens automatically from the Print action.
+
+5) Petro General -> Tank Transaction Details / Summary -> SW Testing litres
+- No fake Petro settlements or duplicate meter_sales rows are created.
+- Added a narrowly-scoped SW middleware only to Petro's two Tank Transaction AJAX
+  endpoints after route matching, inside the tenant context.
+- Tank Transaction Details reads testing_qty directly from sw_settlement_lines for
+  the SW settlement number + actual pump fuel tank and displays it in Testing.
+- Tank Transaction Summary adds SW testing litres to the existing Purchase /
+  Transferred In / Testing In display for the same date/tank. The displayed Out
+  quantity is increased by the same testing litres so the report keeps Petro's
+  gross movement equation while the physical balance remains unchanged.
+- Physical stock/balance is NOT modified by this report integration. IS2253's
+  tank_sell_lines posting remains the only SW tank OUT movement, avoiding double
+  reduction or double return of testing litres.
+
+6) Petro General -> Tank Transaction Details -> Type
+- Report response wraps the existing Type value in a compact two-line-capable span.
+- The value itself is unchanged; only presentation is adjusted to prevent overlap
+  with Ref No and keep the table readable.
+
+Files changed
+-------------
+SW/Http/Controllers/ListShiftController.php
+SW/Http/Controllers/PaymentSummaryController.php
+SW/Http/Controllers/ShiftOptionController.php
+SW/Http/Middleware/AugmentPetroTankTransactions.php   [new]
+SW/Providers/SWServiceProvider.php
+SW/Resources/views/list_shifts/index.blade.php
+SW/Resources/views/list_shifts/partials/actions.blade.php
+SW/Resources/views/list_shifts/print.blade.php        [new]
+SW/Resources/views/partials/shift_field.blade.php
+SW/Resources/views/settlements/partials/payments_js.blade.php
+
+Important safety notes
+----------------------
+- sw_shifts remains REQUIRED and is not bypassed.
+- No changes were made to SW settlement amount calculation, Finance posting,
+  stock-decrement logic, or IS2253 tank OUT posting.
+- No changes were made to Petro General source files; the SW module augments only
+  the two requested Tank Transaction JSON responses.
+- No SQL import is required for IS2256.

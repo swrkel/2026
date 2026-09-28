@@ -1,0 +1,36 @@
+/* V053: single-source Manage page hierarchy UI cleanup. */
+.sa-module-master-disabled .sa-child-permission-disabled {
+    opacity: .55;
+}
+.sa-module-master-disabled input[type="checkbox"] {
+    cursor: not-allowed;
+}
+.sa-module-master-disabled input[type="checkbox"][data-sa-master-checkbox="1"],
+.sa-module-master-disabled .sa-master-module-checkbox,
+.sa-module-master-disabled input[type="checkbox"][name*="module"],
+.sa-module-master-disabled input[type="checkbox"][id*="module"] {
+    opacity: 1 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+.sa-module-master-disabled [data-sa-master-wrapper="1"],
+.sa-module-master-disabled [data-sa-master-wrapper="1"] * {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+.sa-child-permission-disabled {
+    opacity: .55;
+}
+.sa-child-permission-disabled input[type="checkbox"] {
+    cursor: not-allowed;
+}
+.sa-module-enabled-force .sa-child-permission-disabled {
+    opacity: 1 !important;
+}
+.sa-module-enabled-force input[type="checkbox"],
+.sa-module-enabled-force .icheckbox_square-red,
+.sa-module-enabled-force .icheckbox_minimal-red,
+.sa-module-enabled-force .icheckbox_square-blue,
+.sa-module-enabled-force .icheckbox_minimal-blue {
+    pointer-events: auto !important;
+}

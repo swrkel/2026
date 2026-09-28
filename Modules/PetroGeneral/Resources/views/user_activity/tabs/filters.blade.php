@@ -1,0 +1,5 @@
+@component('components.filters', ['title' => __('report.filters')])
+<div class="col-md-3"><div class="form-group">{!! Form::label('date_range', __('report.date_range') . ':') !!}{!! Form::text('date_range', @format_date('first day of this month') . ' ~ ' . @format_date('last day of this month'), ['class' => 'form-control', 'id' => 'pg_activity_date_range', 'readonly']) !!}</div></div>
+<div class="col-md-3"><div class="form-group">{!! Form::label('user_id', __('role.user') . ':') !!}{!! Form::select('user_id', $users ?? [], null, ['class' => 'form-control select2', 'id' => 'pg_activity_user_id', 'placeholder' => __('petrogeneral::lang.all')]) !!}</div></div>
+<div class="col-md-3"><div class="form-group">{!! Form::label('location_id', __('petrogeneral::lang.location') . ':') !!}{!! Form::select('location_id', $business_locations ?? [], null, ['class' => 'form-control select2', 'id' => 'pg_activity_location_id', 'placeholder' => __('petrogeneral::lang.all')]) !!}</div></div>
+@endcomponent

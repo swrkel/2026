@@ -1,0 +1,14 @@
+{
+  "name": "ManagementReport",
+  "alias": "managementreport",
+  "description": "Standalone multi-tenant management reporting, review and secure delivery module.",
+  "keywords": ["management", "daily report", "sms", "email", "whatsapp", "pdf"],
+  "priority": 0,
+  "providers": [
+    "Modules\\ManagementReport\\Providers\\ManagementReportServiceProvider",
+    "Modules\\ManagementReport\\Providers\\RouteServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

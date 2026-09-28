@@ -1,0 +1,92 @@
+IS2227 - Cheque Deposit - Root Cause Fix - 10 Sep 2026
+======================================================
+
+Scope
+-----
+Finance Module -> List Accounts -> Cheque Deposit
+
+Reported issues
+---------------
+1. Newly saved cheque payments do not appear in the Cheque Deposit form.
+2. Cheque Number and Amount dropdowns do not work.
+
+Root causes found in the latest supplied Finance module
+-------------------------------------------------------
+1. ChequeDepositListService used the Schema facade for parent-payment/account-group
+   metadata checks. In the multi-tenant application those checks can be evaluated
+   against a stale/default connection instead of the active tenant connection.
+   When that happens the service drops the parent/child payment branch and/or the
+   Cheques-in-Hand group account branch, so valid saved cheques disappear.
+
+2. Finance already exposed the route
+      finance.account.cheque-deposit.filter-options
+   and the controller called ChequeDepositListService::filterOptions(), but the
+   service did not contain that method. Any code using the Finance-owned filter
+   endpoint therefore failed.
+
+3. The parent List Accounts page and the AJAX-loaded Cheque Deposit modal each had
+   their own independent cheque-list AJAX loader. A legacy call could race the
+   modal's current request and replace a fresh table/options result with an older
+   response.
+
+4. The list service accepted the legacy Cheques in Hand account AND operational
+   child accounts linked to the Cheques in Hand group, but the form opener and
+   deposit POST still required the exact account name "Cheques in Hand". A cheque
+   could therefore be valid enough to list but not valid enough to post.
+
+5. If every selected row was rejected by that account mismatch, the POST still
+   returned "Deposit Successful" even though the deposited total was zero.
+
+Corrections
+-----------
+- All schema/column checks in ChequeDepositListService now use the active default
+  DB connection's schema builder, keyed by the active database.
+- Added the missing Finance-owned filterOptions() implementation. One request can
+  return both Cheque Number and Amount values, using the exact same authoritative
+  cheque query as the table.
+- The modal still populates filter options immediately from rendered rows, then
+  refreshes them from the Finance-owned endpoint. If the options refresh fails,
+  the row-derived values remain usable.
+- The old global get_cheques_list() is now only a compatibility bridge to the
+  modal-owned loader, so there is one authoritative list request path.
+- Opening, listing and posting now use the SAME Cheques-in-Hand account resolver.
+- Deposit posting accepts child/group-linked Cheques-in-Hand source accounts and
+  credits the exact source account that actually held the cheque.
+- A zero-row/zero-amount POST now returns a clear failure instead of a false
+  Deposit Successful message.
+
+Preserved behaviour
+-------------------
+- Blank Date Range and Created On means all outstanding cheques.
+- Existing date filters and operation-date picker are unchanged.
+- Deposit success message remains exactly "Deposit Successful" when a real cheque
+  is posted.
+- Existing Bank Reconciliation, List Accounts, Balance Sheet and other Finance
+  changes in the supplied module are preserved.
+- No SQL or migration is required.
+
+Changed application files
+-------------------------
+Finance/Services/Deposits/ChequeDepositListService.php
+Finance/Http/Controllers/Account/Concerns/HandlesCheques.php
+Finance/Resources/views/account/cheque_deposit.blade.php
+Finance/Resources/views/account/index.blade.php
+
+Deployment
+----------
+1. Replace the Finance module with the supplied full fixed Finance folder/ZIP.
+2. From the Laravel root run:
+      php artisan optimize:clear
+3. Hard refresh the browser (Ctrl+F5).
+
+Recommended fresh-data test
+---------------------------
+1. Save a NEW normal customer cheque payment.
+2. Open Finance -> List Accounts -> Cheque Deposit.
+3. Confirm the new cheque is visible immediately with Date Range and Created On blank.
+4. Open Cheque Number; select the new cheque number; confirm only the matching row remains.
+5. Reset to All, open Amount; select the payment amount; confirm filtering works.
+6. Tick the cheque, select a bank account, and submit.
+7. Confirm "Deposit Successful" and confirm the cheque leaves the outstanding list.
+8. Repeat with a cheque posted to an operational Cheques-in-Hand child account if that
+   business uses one.

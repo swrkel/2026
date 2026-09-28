@@ -1,0 +1,2 @@
+file,line,match,status,snippet
+Entities/CustomerCommunication.php,13,CRM,REVIEW,* depend on generic ERP notes/CRM classes.

@@ -1,0 +1,1 @@
+-- Stage 021 contains support/readiness files only. No alter SQL required.

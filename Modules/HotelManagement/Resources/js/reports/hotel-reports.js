@@ -1,0 +1,1 @@
+window.HotelManagementReports = window.HotelManagementReports || {};

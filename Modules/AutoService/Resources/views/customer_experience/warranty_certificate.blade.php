@@ -1,0 +1,8 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Warranty Certificate - {{ $job->job_no }}</title>
+<style>body{font-family:Arial,sans-serif;color:#1f2d3d}.wrap{max-width:900px;margin:auto}.cert{border:3px solid #1f6fb2;padding:24px}.table{width:100%;border-collapse:collapse}.table th,.table td{border:1px solid #d9e2ec;padding:8px;font-size:13px}.center{text-align:center}@media print{.no-print{display:none}}</style></head><body><div class="wrap">
+<button class="no-print" onclick="window.print()">Print / Save PDF</button>
+<div class="cert"><h1 class="center">Service Warranty Certificate</h1><p class="center">Issued for service job <strong>{{ $job->job_no }}</strong></p>
+<table class="table"><tr><th>Vehicle</th><td>{{ $vehicle->registration_no ?? '-' }}</td><th>Invoice</th><td>{{ $invoice->invoice_no ?? '-' }}</td></tr><tr><th>Service Date</th><td>{{ $job->job_date }}</td><th>Status</th><td>{{ ucwords(str_replace('_',' ', $job->status)) }}</td></tr><tr><th>Warranty Note</th><td colspan="3">{{ $job->warranty_note ?? $job->customer_visible_note ?? 'Warranty terms are subject to workshop policy and approved parts/labour coverage.' }}</td></tr></table>
+<h3>Warranty / Claim Records</h3><table class="table"><thead><tr><th>Claim No</th><th>Date</th><th>Status</th><th>Description</th></tr></thead><tbody>@forelse($warranties as $w)<tr><td>{{ $w->claim_no ?? $w->id }}</td><td>{{ $w->created_at }}</td><td>{{ $w->status }}</td><td>{{ $w->description ?? $w->customer_note ?? '-' }}</td></tr>@empty<tr><td colspan="4">No warranty claim records against this job.</td></tr>@endforelse</tbody></table>
+<p style="margin-top:30px">Authorized Signature: __________________________</p></div></div></body></html>

@@ -1,0 +1,2 @@
+-- SAN_001: No stored procedures are required.
+-- Business logic is kept in standalone Laravel services for maintainability.

@@ -1,0 +1,1 @@
+(function($){'use strict';$(function(){$('.atn-inline-filters select').each(function(){if($.fn.select2){$(this).select2({width:'resolve'});}});});})(window.jQuery);

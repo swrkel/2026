@@ -1,0 +1,13 @@
+{
+  "name": "StockAdjustmentNew",
+  "alias": "stock-adjustment-new",
+  "description": "Standalone Stock Adjustment - New module for multi-tenant, multi-business, multi-location and multi-store ERP stock corrections.",
+  "keywords": ["stock", "adjustment", "inventory", "standalone"],
+  "priority": 0,
+  "providers": [
+    "Modules\\StockAdjustmentNew\\Providers\\StockAdjustmentNewServiceProvider"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}

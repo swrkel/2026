@@ -1,0 +1,34 @@
+Simple Audit v1.0.6 - CENTRAL SUPER ADMIN 403 FIX
+
+Purpose
+-------
+Fixes the 403 shown to a genuine Central Super Admin:
+  Simple Audit is available only from the Central Super Admin system.
+
+Root cause
+----------
+The v1.0.5 access gate required both the Super Admin identity and an exact
+match against tenancy.central_domains. This ERP already has its own canonical
+identity helper for distinguishing a genuine Central Super Admin from
+"Login As Business". Host/domain configuration can legitimately differ
+between deployments and should not override that signed identity check.
+
+Fix
+---
+1. A genuine Central Super Admin session is accepted through
+   App\Utils\SidebarPermissionUtil::isGenuineSuperAdmin().
+2. Login As Business remains blocked through isSuperAdminInsideBusiness().
+3. Ordinary tenant/business users remain blocked.
+4. A central-host + Super Admin fallback remains for older installations.
+5. No database or SQL change is required.
+
+After deployment
+----------------
+php artisan module:enable SimpleAudit
+php artisan optimize:clear
+php artisan route:list | grep simple-audit
+
+Then sign in to the genuine Central Super Admin system and open:
+  /simple-audit
+
+Do not test from Login As Business; that context is intentionally denied.

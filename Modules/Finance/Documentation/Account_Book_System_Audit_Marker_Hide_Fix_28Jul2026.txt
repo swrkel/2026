@@ -1,0 +1,36 @@
+FINANCE ACCOUNT BOOK - SYSTEM AUDIT MARKER HIDE FIX
+Date: 28 July 2026
+
+PURPOSE
+Petro PD cash-reconciliation correction text is an internal system audit marker. It must not appear as a user Note button or as normal Account Book description text, while the related amount and database transaction remain fully intact.
+
+CORRECTION
+1. Hides messages matching the Petro PD internal marker:
+   PETROPD-CASHSAVE-ROOTFIX-###
+2. Hides the related generated wording:
+   auto cash correction: matched submitted Payment to Finalize Total Amount
+3. Hides the same generated wording even when the internal code prefix is absent.
+4. The correction is display-only. It does not delete or change the account transaction, amount, balance, reconciliation status, database note, or audit trail.
+5. Genuine user-entered notes continue to show normally.
+6. If a technical marker and a genuine user note are stored on separate lines, only the genuine user note remains visible.
+7. Previous Account Book conditional Note-button, screen-fit, font-size, Action-column and reconcile_status corrections remain included.
+
+CHANGED APPLICATION FILE
+Finance/Services/Accounts/AccountBookDataService.php
+
+VALIDATION
+- PHP syntax check: passed.
+- Exact PETROPD-CASHSAVE-ROOTFIX-005 message: hidden.
+- Technical marker plus genuine note on a separate line: marker hidden and genuine note retained.
+- Normal user note: retained.
+- Existing settlement technical key cleanup: retained.
+
+DEPLOYMENT
+Upload and overwrite the included Finance file, then run:
+
+php artisan optimize:clear
+
+Refresh the Account Book page with Ctrl+F5.
+
+DATABASE
+No migration or raw SQL is required. Existing database records are not modified.

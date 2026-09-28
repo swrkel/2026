@@ -1,0 +1,25 @@
+IS1757 Changed Files Manifest
+
+Modules/Finance/Documentation/IS1757_Final_Fix_24Jul2026.txt
+Modules/Finance/Entities/ContactLedger.php
+Modules/Finance/Entities/Journal.php
+Modules/Finance/Http/Controllers/Accounts/DisabledAccountController.php
+Modules/Finance/Http/Controllers/Financial/BalanceSheetComparisonController.php
+Modules/Finance/Http/Controllers/Financial/BalanceSheetController.php
+Modules/Finance/Http/Controllers/FixedAssets/FixedAssetController.php
+Modules/Finance/Http/Controllers/Journal/JournalController.php
+Modules/Finance/Http/Controllers/Reports/TradingProfitController.php
+Modules/Finance/Providers/FinanceServiceProvider.php
+Modules/Finance/Resources/views/account/disabled_accounts.blade.php
+Modules/Finance/Resources/views/account/profit_loss_report.blade.php
+Modules/Finance/Resources/views/account_reports/balance_sheet.blade.php
+Modules/Finance/Resources/views/account_reports/balance_sheet_comparison.blade.php
+Modules/Finance/Resources/views/fixed_assets/index.blade.php
+Modules/Finance/Resources/views/journal/edit.blade.php
+Modules/Finance/Resources/views/journal/get_row.blade.php
+Modules/Finance/Resources/views/journal/index.blade.php
+Modules/Finance/Routes/accounting_module.php
+Modules/Finance/Routes/fixed_assets.php
+Modules/Finance/Routes/journal.php
+Modules/Finance/Services/Accounts/FinanceAccountBalanceService.php
+Modules/Finance/module.json

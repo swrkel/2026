@@ -1,0 +1,19 @@
+DISNEW_027 - SERVER TESTING FIX PACK 2
+
+Purpose:
+- Strengthen server-side testing after the full replacement deployment.
+- Add diagnostic pages for missing tables, missing permissions, route registration, menu registration, tenant/business filters, and asset availability.
+- Keep all implementation inside DistributionNew with no dependency on legacy Distribution files.
+
+Main files added:
+- Http/Controllers/DisnewServerTestingFixController.php
+- Services/ServerTesting/DisnewServerTestingFixService.php
+- Services/Diagnostics/DisnewDiagnosticChecklistService.php
+- Routes/web_stage27.php
+- Config/menu_stage27.php
+- Config/permissions_stage27.php
+- Resources/views/server_testing/fix_pack_2.blade.php
+- Database/Migrations/2026_07_06_027000_create_disnew_server_fix_pack_2_tables.php
+- Database/SQL/DISNEW_027_SERVER_TESTING_FIX_PACK_2.sql
+- Database/Rollback/DISNEW_027_ROLLBACK.sql
+- Documentation/DISNEW_027_SERVER_TESTING_FIX_PACK_2_GUIDE.md

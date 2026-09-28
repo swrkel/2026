@@ -1,0 +1,10 @@
+DISNEW_012 - UI Stabilization and Visibility Patch
+
+- Replaced route file with fully qualified controller routes to prevent namespace-related 404 errors.
+- Updated service provider to load web routes, API routes, translations, views, migrations, public assets and config.
+- Added standalone menu config for all completed Stage 1-11 pages.
+- Added sidebar blade include for Distribution New UI visibility.
+- Added tenant SQL for module UI status and menu items.
+- Added safe permission insert block for Spatie-style permission table.
+- Added rollback SQL for Stage 12 only.
+- Added route test list and installation notes.

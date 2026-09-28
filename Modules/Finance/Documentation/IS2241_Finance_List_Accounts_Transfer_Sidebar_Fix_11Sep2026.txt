@@ -1,0 +1,53 @@
+IS2241 follow-up - Finance List Accounts Transfer + Sidebar Label - 11 Sep 2026
+============================================================================
+
+Requested
+---------
+1. Finance sidebar page "Accounts" must be renamed to "List Accounts".
+2. Restore the missing Transfer button in Finance -> List Accounts toolbar,
+   immediately to the left of Add.
+
+Changes
+-------
+- Resources/views/layouts/partials/menu.blade.php
+  The Finance menu entry now uses finance::account.list_accounts. No global
+  Accounts translation was changed, so labels in filters/reports are untouched.
+
+- Resources/views/account/index.blade.php
+  The List Accounts Transfer button now:
+  * uses the existing Finance-owned id-less route
+    finance.account.fund-transfer.select;
+  * displays the existing account.fund_transfer text ("Transfer");
+  * uses Finance-only class finance-toolbar-transfer instead of the generic
+    transfer_btn class, preventing global CSS/JS from hiding it;
+  * explicitly forces visible inline-flex rendering and a stable minimum width;
+  * is placed immediately after Add in source order so pull-right places it
+    directly to Add's left.
+
+Existing transfer workflow preserved
+------------------------------------
+- GET /accounting-module/finance-fund-transfer
+- GET /accounting-module/finance-fund-transfer/{id}
+- POST /accounting-module/finance-fund-transfer
+- Row-level Action -> Transfer remains unchanged.
+- The transfer form still allows selecting From Account when launched from the
+  toolbar and still uses the selected account when launched from a row.
+
+Database
+--------
+No SQL or migration required.
+
+Deployment
+----------
+1. Replace Modules/Finance with the supplied full parcel, or overlay the changed
+   files parcel.
+2. Run: php artisan optimize:clear
+3. Hard refresh: Ctrl+F5
+
+Test
+----
+A. Sidebar: Finance -> "List Accounts" is visible instead of "Accounts".
+B. Open List Accounts: Transfer appears directly left of Add.
+C. Click Transfer: modal opens and From Account can be selected.
+D. Complete a transfer and confirm existing success/save behaviour.
+E. Row Action -> Transfer continues to work as before.

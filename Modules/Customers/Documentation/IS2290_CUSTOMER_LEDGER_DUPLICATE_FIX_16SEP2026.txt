@@ -1,0 +1,53 @@
+IS2290 - Customer Ledger duplicate payment fix
+Date: 16 September 2026
+
+Reported issue
+--------------
+Customer Register > Action > Ledger showed the customer payment 72,205.34
+more than once, although Customer Reports > Payment Report correctly showed one
+logical payment.
+
+Root cause
+----------
+The existing duplicate guard only collapsed repeated contact_ledgers rows when
+they pointed to the same transaction_payment_id. Historical payment edits or
+retries can leave rows linked to different payment IDs that share the same
+payment reference. A ledger row linked to a soft-deleted payment revision could
+also remain visible even though the Payment Report excludes that revision.
+
+Fix
+---
+Updated Services/CustomerPaymentDuplicateResolver.php to:
+
+1. Exclude a ledger row when its linked transaction payment exists and is soft
+   deleted. Missing/unlinked legacy ledger records are left unchanged.
+2. Keep only the earliest live ledger posting for the same business, customer,
+   debit/credit direction, amount, and non-empty payment reference.
+3. Apply the same logical-payment de-duplication after fallback ledger rows are
+   merged. Old cheque rows without a payment reference use cheque number and
+   bank as their durable identity.
+4. Preserve distinct payments when their reference, customer, direction, or
+   amount differs. Anonymous cash/bank entries are not collapsed.
+
+The shared resolver is used by the ledger row query and the ledger aggregate
+queries, so the displayed rows, running balance, Customer Register total due,
+and dashboard outstanding stay consistent.
+
+Data impact
+-----------
+No payment, ledger, accounting, or audit records are deleted or modified by
+this display/aggregation fix. No SQL migration is required.
+
+Deployment
+----------
+Replace the Customers module with the supplied full ZIP, or copy the files from
+the changed-files-only ZIP while preserving their paths. Then run:
+
+    php artisan optimize:clear
+
+Refresh the browser with Ctrl+F5 and re-open the affected customer's Ledger.
+
+Expected result
+---------------
+The 72,205.34 payment appears once. A separate genuine payment such as 66,396.00
+continues to appear as its own entry, and ledger totals use the same result.

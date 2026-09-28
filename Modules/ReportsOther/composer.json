@@ -1,0 +1,10 @@
+{
+  "name": "nivasa/reports-other",
+  "description": "Standalone Reports - Other module",
+  "type": "laravel-module",
+  "autoload": {
+    "psr-4": {
+      "Modules\\ReportsOther\\": ""
+    }
+  }
+}

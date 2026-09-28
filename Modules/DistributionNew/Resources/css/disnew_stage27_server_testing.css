@@ -1,0 +1,11 @@
+.disnew-stage27-page .disnew-pos-card,
+.disnew-stage27-page .disnew-pos-box {
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+.disnew-stage27-table th {
+    white-space: nowrap;
+}
+.disnew-stage27-header h1 {
+    font-weight: 600;
+}

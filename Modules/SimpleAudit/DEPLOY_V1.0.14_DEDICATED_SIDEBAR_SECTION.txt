@@ -1,0 +1,27 @@
+Simple Audit v1.0.14 - Dedicated Central Sidebar Section
+25 Sep 2026
+
+Purpose
+-------
+Move the Central Simple Audit menu into its own host sidebar section file:
+resources/views/layouts/partials/sidebar-sections/sidebar-simple-audit.blade.php
+
+Why
+---
+- Cleaner than embedding module markup inside sidebar-superadmin.blade.php.
+- Central-only by construction: only sidebar-superadmin includes it.
+- Does not depend on business Manage Side Bar / Manage Page / Role permissions.
+- Does not depend on AutomaticModuleRegistry to decide whether the link renders.
+- Keeps the tenant/business sidebar free of Simple Audit.
+
+Deploy
+------
+Extract at Laravel project root and overwrite matching files.
+Then run:
+  php artisan module:enable SimpleAudit
+  php artisan optimize:clear
+  php artisan view:clear
+  php Modules/SimpleAudit/Tools/check_sidebar.php
+  php artisan simple-audit:routes
+
+No SQL changes are required.

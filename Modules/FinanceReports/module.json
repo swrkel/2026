@@ -1,0 +1,19 @@
+{
+    "name": "FinanceReports",
+    "alias": "financereports",
+    "description": "Standalone read-only Finance Reports module",
+    "keywords": [
+        "finance",
+        "reports",
+        "accounting",
+        "management"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\FinanceReports\\Providers\\FinanceReportsServiceProvider",
+        "Modules\\FinanceReports\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

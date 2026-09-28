@@ -1,0 +1,192 @@
+{{--
+    SW Settlement - create.
+
+    Choose a location and the closed shifts to settle. The body is fetched once
+    shifts are chosen, so the figures are read at the moment they are looked at
+    rather than when the page opened.
+
+    The settlement is authoritative: it holds its own figures and does not write
+    back to the daily entries. A difference between what was recorded and what
+    was settled stays visible, which is the point of keeping both.
+--}}
+
+@extends('layouts.app')
+
+@section('title', __('sw::lang.new_settlement'))
+
+@section('content')
+
+<section class="content-header">
+    <h1>@lang('sw::lang.new_settlement')
+        <small>@lang('sw::lang.new_settlement_subtitle')</small>
+    </h1>
+</section>
+
+<section class="content">
+
+    {!! Form::open(['url' => route('sw.settlements.store'), 'method' => 'post', 'id' => 'sw_settlement_form']) !!}
+
+    @component('components.widget', ['class' => 'box-primary', 'title' => __('sw::lang.shifts_to_settle')])
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('location_id', __('purchase.business_location') . ':*') !!}
+                    {!! Form::select('location_id', $business_locations, null, [
+                        'class' => 'form-control select2', 'id' => 'sw_st_location',
+                        'required', 'style' => 'width:100%',
+                        'placeholder' => __('messages.please_select'),
+                    ]) !!}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('transaction_date', __('sw::lang.date') . ':*') !!}
+                    {!! Form::date('transaction_date', date('Y-m-d'), ['class' => 'form-control', 'required']) !!}
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>
+                        @lang('sw::lang.closed_shifts')
+                        <small class="text-muted">&mdash; @lang('sw::lang.closed_shifts_only')</small>
+                    </label>
+                    <div id="sw_st_shifts" style="border:1px solid #e4e9f1;border-radius:8px;padding:10px;min-height:52px">
+                        <span class="text-muted">@lang('sw::lang.choose_a_location_first')</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    @endcomponent
+
+    {{-- Filled once shifts are chosen. --}}
+    <div id="sw_st_body">
+        <div class="text-center text-muted" style="padding:40px">
+            <i class="fa fa-list-alt" style="font-size:28px;display:block;margin-bottom:10px"></i>
+            @lang('sw::lang.choose_shifts_to_continue')
+        </div>
+    </div>
+
+    <div class="row" id="sw_st_save_row" style="display:none">
+        <div class="col-md-12">
+            @component('components.widget', ['class' => 'box-default'])
+                <div class="form-group">
+                    {!! Form::label('note', __('sw::lang.note') . ':') !!}
+                    {!! Form::textarea('note', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> @lang('sw::lang.save_settlement')
+                </button>
+                <a href="{{ route('sw.settlements.index') }}" class="btn btn-default">
+                    @lang('messages.cancel')
+                </a>
+
+                <div class="text-muted" style="font-size:12px;margin-top:10px">
+                    <i class="fa fa-info-circle"></i>
+                    @lang('sw::lang.settlement_locks_shifts')
+                </div>
+            @endcomponent
+        </div>
+    </div>
+
+    {!! Form::close() !!}
+
+</section>
+
+@push('javascript')
+<script>
+$(function () {
+
+    function swStLoadShifts() {
+        var $box = $('#sw_st_shifts');
+        var locationId = $('#sw_st_location').val();
+
+        $('#sw_st_body').html('');
+        $('#sw_st_save_row').hide();
+
+        if (!locationId) {
+            $box.html('<span class="text-muted">{{ __('sw::lang.choose_a_location_first') }}</span>');
+            return;
+        }
+
+        $box.html('<i class="fa fa-spinner fa-spin"></i>');
+
+        $.get('{{ route('sw.settlements.available-shifts') }}', { location_id: locationId },
+            function (rows) {
+                if (!rows.length) {
+                    $box.html('<span class="text-muted">{{ __('sw::lang.no_closed_shifts') }}</span>');
+                    return;
+                }
+
+                var html = '';
+                $.each(rows, function (i, r) {
+                    html += '<label class="sw-shift-check">'
+                        + '<input type="checkbox" name="shift_ids[]" value="' + r.id + '">'
+                        + '<span>' + $('<div>').text(r.label).html() + '</span>'
+                        + '</label>';
+                });
+
+                $box.html(html);
+            }
+        );
+    }
+
+    /*
+     | The body reloads whenever the chosen shifts change.
+     |
+     | Settling two shifts is not settling one twice - the figures are summed
+     | across them, so the whole body is rebuilt rather than added to.
+    */
+    function swStLoadBody() {
+        var ids = $('#sw_st_shifts input:checked').map(function () { return this.value; }).get();
+        var $body = $('#sw_st_body');
+
+        if (!ids.length) {
+            $body.html('<div class="text-center text-muted" style="padding:40px">'
+                + '{{ __('sw::lang.choose_shifts_to_continue') }}</div>');
+            $('#sw_st_save_row').hide();
+            return;
+        }
+
+        $body.html('<div class="text-center text-muted" style="padding:40px">'
+            + '<i class="fa fa-spinner fa-spin"></i></div>');
+
+        $.get('{{ route('sw.settlements.assemble') }}', { shift_ids: ids }, function (html) {
+            $body.html(html);
+            $('#sw_st_save_row').show();
+        }).fail(function () {
+            $body.html('<div class="alert alert-danger">{{ __('sw::lang.could_not_assemble') }}</div>');
+        });
+    }
+
+    $('#sw_st_location').on('change', swStLoadShifts);
+    $(document).on('change', '#sw_st_shifts input[type="checkbox"]', function () {
+        $(this).closest('.sw-shift-check').toggleClass('is-checked', this.checked);
+        swStLoadBody();
+    });
+
+    swStLoadShifts();
+
+});
+</script>
+@endpush
+
+@push('css')
+<style>
+.sw-shift-check {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 400; font-size: 14px;
+    padding: 7px 12px; margin: 0 8px 8px 0;
+    border: 1px solid #e4e9f1; border-radius: 8px; cursor: pointer;
+}
+.sw-shift-check:hover { background: #f7f9fc; }
+.sw-shift-check input { width: 17px; height: 17px; margin: 0; cursor: pointer; }
+.sw-shift-check.is-checked { background: #eef5ff; border-color: #7ea6dd; font-weight: 600; }
+</style>
+@endpush
+
+@endsection

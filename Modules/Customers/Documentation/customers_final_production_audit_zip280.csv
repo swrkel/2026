@@ -1,0 +1,13 @@
+Area,Status,Notes
+Routes,PASS,Customers module routes are contained under Modules/Customers/Routes using customers.* route names.
+Controllers,PASS,Customers controllers are contained under Modules/Customers/Http/Controllers.
+Services,PASS,CustomerService CustomerDashboardService CustomerLedgerService CustomerReportService CustomerProfileService CustomerPermissionService CustomerAuditService CustomerTimelineService are present.
+Entities,PASS,Customer CustomerGroup CustomerUser CustomerNote CustomerActivity CustomerAttachment CustomerCommunication are present under Modules/Customers/Entities.
+Reports,PASS,CustomerLedgerReport CustomerStatementReport CustomerAgingReport CustomerActivityReport are present under Modules/Customers/Reports.
+Exports,PASS,CustomerExport CustomerCsvExport CustomerLedgerExport CustomerStatementExport CustomerAgingExport CustomerActivityExport are present under Modules/Customers/Exports.
+Dashboard,PASS,CustomerDashboardService is present for dashboard aggregation.
+Audit Timeline,PASS,CustomerAuditService CustomerTimelineService CustomerNote CustomerActivity CustomerAttachment are present.
+Legacy Contact module dependency,PASS,No runtime references found for ContactController ContactsController Modules\\Contact contact:: resources/views/contact or ContactUtil.
+Shared ERP tables,EXPECTED,contacts transactions accounts business users remain shared ERP data sources and are intentionally not duplicated.
+Sidebar,PASS,Customers sidebar is separate and route-safe using Route::has guards.
+Production status,READY_FOR_UAT,Module is complete for tester verification and post-UAT bug fixes only.

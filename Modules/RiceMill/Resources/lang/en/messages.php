@@ -1,0 +1,1 @@
+<?php return ['module_name'=>'Rice Mill Module','dashboard'=>'Dashboard','paddy_purchase'=>'Purchase Order','paddy_receiving'=>'Paddy Receiving','production'=>'Production / Milling','packing'=>'Packing','dispatch'=>'Sales / Dispatch','reports'=>'Reports','settings'=>'Settings'];

@@ -1,0 +1,195 @@
+@include('sw::partials.tab_styles')
+
+{{--
+    Daily Credit Sales.
+
+    A header per sale - customer, order, vehicle - with product lines beneath.
+    The same shape your daily_vouchers and daily_voucher_items already use,
+    rather than a third arrangement.
+
+    RECORDS ONLY. Nothing here posts to the ledger or to the customer's account:
+    that happens when the settlement is saved.
+--}}
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            @component('components.filters', ['title' => __('report.filters')])
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_cs_location_id', __('purchase.business_location') . ':') !!}
+                        {!! Form::select('sw_cs_location_id', $business_locations ?? [], $default_location ?? null, [
+                            'class' => 'form-control select2',
+                            'id' => 'sw_cs_location_id',
+                            'style' => 'width:100%',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_cs_operator', __('sw::lang.pump_operator') . ':') !!}
+                        {!! Form::select('sw_cs_operator', $operator_list ?? [], null, [
+                            'class' => 'form-control select2',
+                            'id' => 'sw_cs_operator',
+                            'style' => 'width:100%',
+                            'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_cs_customer', __('sw::lang.customer') . ':') !!}
+                        {!! Form::text('sw_cs_customer', null, [
+                            'class' => 'form-control',
+                            'id' => 'sw_cs_customer',
+                            'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sw_cs_shift_no', __('sw::lang.shift_no') . ':') !!}
+                        {!! Form::text('sw_cs_shift_no', null, [
+                            'class' => 'form-control',
+                            'id' => 'sw_cs_shift_no',
+                            'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+
+            @endcomponent
+        </div>
+    </div>
+
+    @component('components.widget', [
+        'class' => 'box-primary',
+        'title' => __('sw::lang.all_daily_credit_sales'),
+    ])
+
+        @slot('tool')
+            <div class="row">
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-primary btn-modal"
+                        data-href="{{ route('sw.daily-credit-sales.create') }}"
+                        data-container=".sw_credit_sale_modal">
+                        <i class="fa fa-plus"></i> @lang('messages.add')
+                    </button>
+                </div>
+            </div>
+        @endslot
+
+        <div class="sw-table-wrap table-responsive">
+            <table class="table table-bordered table-striped" id="sw_credit_sales_table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="notexport">@lang('messages.action')</th>
+                        <th>@lang('sw::lang.date')</th>
+                        <th>@lang('sw::lang.customer')</th>
+                        <th class="text-right">@lang('sw::lang.outstanding')</th>
+                        <th class="text-right">@lang('sw::lang.limit')</th>
+                        <th>@lang('sw::lang.order')<br>@lang('sw::lang.no')</th>
+                        <th>@lang('sw::lang.vehicle')<br>@lang('sw::lang.no')</th>
+                        <th>@lang('sw::lang.sw_shift')</th>
+                        <th>@lang('sw::lang.pump_operator')</th>
+                        <th class="text-right">@lang('sw::lang.sub_total')</th>
+                        <th class="text-right">@lang('sw::lang.discount')<br>@lang('sw::lang.total')</th>
+                        <th class="text-right">@lang('sw::lang.total')</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr class="bg-gray font-17 footer-total text-center">
+                        <td colspan="9"><strong>@lang('sale.total'):</strong></td>
+                        <td class="text-right"><span id="sw_cs_footer_sub"></span></td>
+                        <td class="text-right"><span id="sw_cs_footer_disc"></span></td>
+                        <td class="text-right"><span id="sw_cs_footer_total"></span></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    @endcomponent
+
+    <div class="modal fade sw_credit_sale_modal" tabindex="-1" role="dialog"></div>
+
+</section>
+
+@include('sw::operators.partials._dropdown_fix')
+
+@push('css')
+<style>
+#sw_credit_sales_table { width: 100%% !important; }
+</style>
+@endpush
+
+@push('javascript')
+<script>
+$(function () {
+
+    var swCsTable = $('#sw_credit_sales_table').DataTable({
+        processing: true,
+        serverSide: false,
+        ajax: {
+            url: '{{ route('sw.daily-credit-sales.data') }}',
+            dataSrc: 'data',
+            data: function (d) { d.location_id = $('#sw_cs_location_id').val(); }
+        },
+        order: [[1, 'desc']],
+        columns: [
+            { data: 'action', orderable: false, searchable: false },
+            { data: 'date' },
+            { data: 'customer' },
+            { data: 'outstanding', className: 'text-right' },
+            { data: 'credit_limit', className: 'text-right' },
+            { data: 'order_no' },
+            { data: 'vehicle_no' },
+            { data: 'shift_no' },
+            { data: 'operator' },
+            { data: 'sub_total', className: 'text-right' },
+            { data: 'discount_total', className: 'text-right' },
+            { data: 'total', className: 'text-right' }
+        ],
+        /*
+         | Totals over every FILTERED row across all pages.
+         |
+         | Outstanding and Limit are deliberately NOT summed: they are the
+         | customer's position at the time of each sale, so adding them together
+         | would count one customer's balance once per sale and produce a figure
+         | that means nothing.
+        */
+        footerCallback: function () {
+            var api = this.api();
+            var sum = function (i) {
+                return api.column(i, { search: 'applied' }).data().reduce(function (a, b) {
+                    var n = parseFloat(String(b).replace(/,/g, ''));
+                    return a + (isNaN(n) ? 0 : n);
+                }, 0);
+            };
+            $('#sw_cs_footer_sub').text(sum(9).toFixed(2));
+            $('#sw_cs_footer_disc').text(sum(10).toFixed(2));
+            $('#sw_cs_footer_total').text(sum(11).toFixed(2));
+        }
+    });
+
+    $('#sw_cs_location_id').on('change', function () { swCsTable.ajax.reload(); });
+
+    $('#sw_cs_operator').on('change', function () {
+        var name = $('#sw_cs_operator option:selected').text();
+        swCsTable.column(8).search($(this).val() ? name : '').draw();
+    });
+
+    $('#sw_cs_customer').on('input', function () {
+        swCsTable.column(2).search($(this).val()).draw();
+    });
+
+    $('#sw_cs_shift_no').on('input', function () {
+        swCsTable.column(7).search($(this).val()).draw();
+    });
+
+});
+</script>
+@endpush

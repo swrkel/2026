@@ -1,0 +1,102 @@
+CREATE TABLE IF NOT EXISTS `hrm_departments` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'active',
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hrm_departments_business_id_index` (`business_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hrm_designations` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `department_id` BIGINT UNSIGNED NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'active',
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hrm_designations_business_id_index` (`business_id`),
+  KEY `hrm_designations_department_id_index` (`department_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hrm_employees` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `location_id` BIGINT UNSIGNED NULL,
+  `employee_code` VARCHAR(50) NOT NULL,
+  `first_name` VARCHAR(255) NOT NULL,
+  `last_name` VARCHAR(255) NULL,
+  `display_name` VARCHAR(255) NOT NULL,
+  `nic_no` VARCHAR(80) NULL,
+  `mobile` VARCHAR(40) NULL,
+  `email` VARCHAR(255) NULL,
+  `department_id` BIGINT UNSIGNED NULL,
+  `designation_id` BIGINT UNSIGNED NULL,
+  `joining_date` DATE NULL,
+  `employment_type` VARCHAR(50) NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'active',
+  `photo_path` VARCHAR(255) NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hrm_emp_business_code_unique` (`business_id`,`employee_code`),
+  KEY `hrm_employees_business_id_index` (`business_id`),
+  KEY `hrm_employees_location_id_index` (`location_id`),
+  KEY `hrm_employees_employee_code_index` (`employee_code`),
+  KEY `hrm_employees_display_name_index` (`display_name`),
+  KEY `hrm_employees_nic_no_index` (`nic_no`),
+  KEY `hrm_employees_mobile_index` (`mobile`),
+  KEY `hrm_employees_department_id_index` (`department_id`),
+  KEY `hrm_employees_designation_id_index` (`designation_id`),
+  KEY `hrm_employees_status_index` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hrm_attendance_logs` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `location_id` BIGINT UNSIGNED NULL,
+  `employee_id` BIGINT UNSIGNED NOT NULL,
+  `attendance_date` DATE NOT NULL,
+  `punch_type` VARCHAR(30) NOT NULL,
+  `punch_time` DATETIME NOT NULL,
+  `source` VARCHAR(40) NOT NULL DEFAULT 'manual',
+  `device_uid` VARCHAR(255) NULL,
+  `ip_address` VARCHAR(80) NULL,
+  `latitude` DECIMAL(12,8) NULL,
+  `longitude` DECIMAL(12,8) NULL,
+  `match_score` DECIMAL(8,4) NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'approved',
+  `note` TEXT NULL,
+  `created_by` BIGINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hrm_attendance_logs_business_id_index` (`business_id`),
+  KEY `hrm_attendance_logs_location_id_index` (`location_id`),
+  KEY `hrm_attendance_logs_employee_id_index` (`employee_id`),
+  KEY `hrm_attendance_logs_attendance_date_index` (`attendance_date`),
+  KEY `hrm_attendance_logs_punch_time_index` (`punch_time`),
+  KEY `hrm_attendance_logs_status_index` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `hrm_face_profiles` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` BIGINT UNSIGNED NULL,
+  `employee_id` BIGINT UNSIGNED NOT NULL,
+  `provider` VARCHAR(80) NOT NULL DEFAULT 'browser-face-api',
+  `face_template_hash` VARCHAR(128) NULL,
+  `template_payload` JSON NULL,
+  `registered_at` DATETIME NULL,
+  `registered_by` BIGINT UNSIGNED NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'active',
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hrm_face_business_employee_unique` (`business_id`,`employee_id`),
+  KEY `hrm_face_profiles_business_id_index` (`business_id`),
+  KEY `hrm_face_profiles_employee_id_index` (`employee_id`),
+  KEY `hrm_face_profiles_status_index` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

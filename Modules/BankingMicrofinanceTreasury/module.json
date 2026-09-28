@@ -1,0 +1,18 @@
+{
+    "name": "BankingMicrofinanceTreasury",
+    "alias": "banking-mfi-treasury",
+    "description": "Standalone Treasury & Liquidity extension for Banking Microfinance",
+    "keywords": [
+        "banking",
+        "microfinance",
+        "treasury",
+        "liquidity"
+    ],
+    "priority": 860,
+    "providers": [
+        "Modules\\BankingMicrofinanceTreasury\\Providers\\BankingMicrofinanceTreasuryServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

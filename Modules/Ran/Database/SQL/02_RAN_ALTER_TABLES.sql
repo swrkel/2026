@@ -1,0 +1,2 @@
+-- Ran is a new standalone module. No ALTER statements are required after running 01_RAN_CREATE_TABLES.sql.
+-- Future upgrade parcels will append idempotent ALTER statements here.

@@ -1,0 +1,14 @@
+POS Standalone S374 - Live Support Diagnostics
+
+Added:
+- /pos-module/live-testing-support page.
+- Route registration checks for important POS URLs.
+- Tenant database table checks for key POS standalone tables.
+- Final live testing order inside the POS UI.
+
+Purpose:
+- Helps confirm whether deployment/server issues are route-related, table-related, or page-specific.
+- Uses the same ERP/Communication Hub UI foundation already aligned in S364+.
+
+SQL:
+- No SQL required for S374.

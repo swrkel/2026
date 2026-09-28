@@ -1,0 +1,5 @@
+.rn-production-dashboard .rn-command-cards { margin-top: 15px; }
+.rn-card--metric { background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:16px; margin-bottom:15px; }
+.rn-card--metric span { display:block; font-size:13px; color:#6b7280; }
+.rn-card--metric strong { display:block; font-size:26px; margin-top:6px; }
+.rn-toolbar--pos-standard { display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; }

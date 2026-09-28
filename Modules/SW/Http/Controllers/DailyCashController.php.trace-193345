@@ -1,0 +1,319 @@
+<?php
+
+namespace Modules\SW\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Modules\SW\Entities\DailyCash;
+use Modules\SW\Entities\Shift;
+use Modules\SW\Services\CollectionFormNumberService;
+
+/**
+ * Daily Cash - tab 3 of SW Operators.
+ *
+ * RECORDS ONLY. Nothing here posts to the ledger: that happens when the
+ * settlement is saved. A shift in progress should not be moving money.
+ */
+class DailyCashController extends Controller
+{
+    public function __construct(protected CollectionFormNumberService $numbers)
+    {
+    }
+
+    protected function businessId(): int
+    {
+        return (int) (session('business.id') ?: session('user.business_id') ?: 0);
+    }
+
+    public function data(Request $request)
+    {
+        $businessId = $this->businessId();
+
+        $rows = DB::table('sw_daily_cash')
+            ->join('sw_shifts', 'sw_shifts.id', '=', 'sw_daily_cash.sw_shift_id')
+            ->leftJoin('pump_operators', 'pump_operators.id', '=', 'sw_daily_cash.pump_operator_id')
+            ->leftJoin('business_locations', 'business_locations.id', '=', 'sw_shifts.location_id')
+            ->leftJoin('users', 'users.id', '=', 'sw_daily_cash.created_by')
+            ->where('sw_shifts.business_id', $businessId)
+            ->when($request->filled('location_id'),
+                fn ($q) => $q->where('sw_shifts.location_id', (int) $request->location_id))
+            ->orderByDesc('sw_daily_cash.id')
+            ->limit(5000)
+            ->get([
+                'sw_daily_cash.*',
+                'sw_shifts.sw_shift_no',
+                'sw_shifts.status as shift_status',
+                'pump_operators.name as operator_name',
+                'business_locations.name as location_name',
+                DB::raw("TRIM(CONCAT(COALESCE(users.first_name,''), ' ', COALESCE(users.last_name,''))) as created_by_name"),
+                'users.username as created_by_username',
+            ]);
+
+        $data = $rows->map(function ($r) {
+            $when = $r->collection_date ?: $r->created_at;
+
+            return [
+                'action' => view('sw::operators.partials.daily_cash_actions', ['row' => $r])->render(),
+                'date' => $when ? \Carbon\Carbon::parse($when)->format('d/m/Y') : '—',
+                'collection_form_no' => e($r->collection_form_no ?? '—'),
+                'shift_no' => e($r->sw_shift_no ?? '—'),
+                'location_name' => e($r->location_name ?? '—'),
+                'operator' => e($r->operator_name ?? '—'),
+                'current_amount' => number_format((float) $r->current_amount, 2),
+                'balance_collection' => number_format((float) $r->balance_collection, 2),
+                /*
+                 | A button when there is a note, nothing when there is not.
+                 |
+                 | An empty button invites a click that does nothing, and a long
+                 | note printed into the cell would widen the column past every
+                 | width set beside it.
+                */
+                'note' => empty($r->note) ? '' : (
+                    '<button type="button" class="btn btn-xs btn-default sw-note-btn"'
+                    . ' title="' . e($r->note) . '"'
+                    . ' data-note="' . e($r->note) . '"'
+                    . ' data-settlement="' . e($r->collection_form_no ?? '') . '">'
+                    . __('sw::lang.note') . '</button>'
+                ),
+                'created_by' => e($r->created_by_name ?: ($r->created_by_username ?? '—')),
+            ];
+        });
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function create(Request $request)
+    {
+        return view('sw::operators.partials.daily_cash_form', [
+            'row' => null,
+            'operators' => $this->operators($this->businessId()),
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $businessId = $this->businessId();
+
+        $row = DB::table('sw_daily_cash')
+            ->join('sw_shifts', 'sw_shifts.id', '=', 'sw_daily_cash.sw_shift_id')
+            ->where('sw_shifts.business_id', $businessId)
+            ->where('sw_daily_cash.id', (int) $id)
+            ->select('sw_daily_cash.*', 'sw_shifts.sw_shift_no', 'sw_shifts.status as shift_status')
+            ->first();
+
+        abort_if(! $row, 404);
+
+        /*
+         | A closed shift's figures have been agreed and may already be settled.
+         | Editing one afterwards changes a total someone has signed off, so it
+         | is refused rather than quietly allowed.
+        */
+        if ((int) $row->shift_status !== Shift::STATUS_OPEN) {
+            return $this->refuse(__('sw::lang.shift_closed_no_edit'));
+        }
+
+        return view('sw::operators.partials.daily_cash_form', [
+            'row' => $row,
+            'operators' => $this->operators($businessId),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $this->validated($request);
+        $businessId = $this->businessId();
+
+        $shift = $this->openShiftOrFail($businessId, (int) $data['sw_shift_id']);
+
+        DB::transaction(function () use ($data, $businessId, $shift) {
+            DB::table('sw_daily_cash')->insert([
+                'sw_shift_id' => $shift->id,
+                'pump_operator_id' => $data['pump_operator_id'],
+                'collection_form_no' => $this->numbers->next($businessId, (int) $shift->location_id),
+                'current_amount' => $data['current_amount'],
+                'amount' => $data['current_amount'],
+                'denom_qty' => ! empty($data['denom_qty']) ? json_encode($data['denom_qty']) : null,
+                'collection_date' => $data['collection_date'],
+                'note' => $data['note'] ?? null,
+                'created_by' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $this->refreshBalances($shift->id, (int) $data['pump_operator_id']);
+        });
+
+        return redirect()->route('sw.payments.index')
+            ->with('status', ['success' => 1, 'msg' => __('sw::lang.daily_cash_added')])
+            ->with('status.tab', 'sw_daily_cash');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $this->validated($request);
+        $businessId = $this->businessId();
+
+        $existing = DB::table('sw_daily_cash')->where('id', (int) $id)->first();
+        abort_if(! $existing, 404);
+
+        $shift = $this->openShiftOrFail($businessId, (int) $existing->sw_shift_id);
+
+        DB::transaction(function () use ($data, $id, $existing, $shift) {
+            DB::table('sw_daily_cash')->where('id', (int) $id)->update([
+                'pump_operator_id' => $data['pump_operator_id'],
+                'current_amount' => $data['current_amount'],
+                'amount' => $data['current_amount'],
+                'denom_qty' => ! empty($data['denom_qty']) ? json_encode($data['denom_qty']) : null,
+                'collection_date' => $data['collection_date'],
+                'note' => $data['note'] ?? null,
+                'updated_by' => auth()->id(),
+                'updated_at' => now(),
+            ]);
+
+            // The operator may have changed, so both are recomputed.
+            $this->refreshBalances($shift->id, (int) $existing->pump_operator_id);
+            $this->refreshBalances($shift->id, (int) $data['pump_operator_id']);
+        });
+
+        return redirect()->route('sw.payments.index')
+            ->with('status', ['success' => 1, 'msg' => __('sw::lang.daily_cash_updated')])
+            ->with('status.tab', 'sw_daily_cash');
+    }
+
+    public function destroy($id)
+    {
+        $businessId = $this->businessId();
+
+        $existing = DB::table('sw_daily_cash')->where('id', (int) $id)->first();
+        abort_if(! $existing, 404);
+
+        $shift = $this->openShiftOrFail($businessId, (int) $existing->sw_shift_id);
+
+        DB::transaction(function () use ($id, $existing, $shift) {
+            DB::table('sw_daily_cash')->where('id', (int) $id)->delete();
+            $this->refreshBalances($shift->id, (int) $existing->pump_operator_id);
+        });
+
+        return redirect()->route('sw.payments.index')
+            ->with('status', ['success' => 1, 'msg' => __('sw::lang.daily_cash_deleted')])
+            ->with('status.tab', 'sw_daily_cash');
+    }
+
+    // ------------------------------------------------------------------
+
+    /**
+     * Recompute the running total for one operator on one shift.
+     *
+     * balance_collection is a CACHE of the payments, not a second source. A
+     * running total written once and never revisited drifts the moment a row is
+     * corrected or removed - so it is rebuilt from the sum every time anything
+     * changes.
+     */
+    protected function refreshBalances(int $shiftId, int $operatorId): void
+    {
+        $rows = DB::table('sw_daily_cash')
+            ->where('sw_shift_id', $shiftId)
+            ->where('pump_operator_id', $operatorId)
+            ->orderBy('id')
+            ->get(['id', 'current_amount']);
+
+        $running = 0.0;
+        foreach ($rows as $row) {
+            $running += (float) $row->current_amount;
+            DB::table('sw_daily_cash')->where('id', $row->id)
+                ->update(['balance_collection' => round($running, 4)]);
+        }
+    }
+
+    /**
+     * Entries may only be added to an OPEN shift.
+     *
+     * Checked server-side as well as in the dropdown: a closed shift's figures
+     * have been agreed, and a late entry would change a balance someone has
+     * already signed off.
+     */
+    protected function openShiftOrFail(int $businessId, int $shiftId): Shift
+    {
+        $shift = Shift::where('business_id', $businessId)->find($shiftId);
+
+        abort_if(! $shift, 404);
+        abort_unless($shift->isOpen(), 422, __('sw::lang.shift_closed_no_entry'));
+
+        return $shift;
+    }
+
+    protected function validated(Request $request): array
+    {
+        return $request->validate([
+            'sw_shift_id' => 'required|integer',
+            'pump_operator_id' => 'required|integer',
+            'current_amount' => 'required|numeric|min:0',
+            'collection_date' => 'required|date',
+            'note' => 'nullable|string',
+            'denom_qty' => 'nullable|array',
+        ]);
+    }
+
+    protected function operators(int $businessId)
+    {
+        if (! Schema::hasTable('pump_operators')) {
+            return collect();
+        }
+
+        return DB::table('pump_operators')
+            ->where('pump_operators.business_id', $businessId)
+            ->where('pump_operators.active', 1)
+            // S-697: only operators with an OPEN shift. Cash cannot be recorded
+            // against someone who is not working.
+            ->whereExists(function ($q) use ($businessId) {
+                $q->select(DB::raw(1))
+                  ->from('sw_shift_operators')
+                  ->join('sw_shifts', 'sw_shifts.id', '=', 'sw_shift_operators.sw_shift_id')
+                  ->whereColumn('sw_shift_operators.pump_operator_id', 'pump_operators.id')
+                  ->where('sw_shifts.business_id', $businessId)
+                  ->where('sw_shifts.status', 'open');
+            })
+            ->orderBy('pump_operators.name')
+            ->pluck('pump_operators.name', 'pump_operators.id');
+    }
+
+    /**
+     * What this operator is already carrying - S-697.
+     *
+     * The running balance, not the last amount typed: someone recording cash
+     * needs to know what the operator holds, not what they wrote yesterday.
+     */
+    public function previousAmount(\Illuminate\Http\Request $request)
+    {
+        $businessId = $this->businessId();
+        $operatorId = (int) $request->input('pump_operator_id');
+
+        if ($businessId <= 0 || $operatorId <= 0) {
+            return response()->json(['previous_amount' => 0]);
+        }
+
+        $row = DB::table('sw_daily_cash')
+            ->where('business_id', $businessId)
+            ->where('pump_operator_id', $operatorId)
+            ->orderByDesc('id')
+            ->first(['balance_collection']);
+
+        return response()->json([
+            'previous_amount' => (float) ($row->balance_collection ?? 0),
+        ]);
+    }
+
+    protected function refuse(string $message)
+    {
+        return response(
+            '<div class="modal-dialog"><div class="modal-content">'
+            . '<div class="modal-body"><div class="alert alert-warning" style="margin:0">'
+            . e($message)
+            . '</div></div><div class="modal-footer">'
+            . '<button type="button" class="btn btn-default" data-dismiss="modal">'
+            . __('messages.close') . '</button></div></div></div>'
+        );
+    }
+}

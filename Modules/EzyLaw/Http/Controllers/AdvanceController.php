@@ -1,0 +1,11 @@
+<?php
+namespace Modules\EzyLaw\Http\Controllers;
+use Illuminate\Http\Request; use Illuminate\Routing\Controller;
+use Modules\EzyLaw\Entities\{LawClientAdvance,LawClient,LawMatter,LawInvoice,LawAdvanceAllocation}; use Modules\EzyLaw\Services\AdvanceService; use Modules\EzyLaw\Contracts\FinanceGateway;
+class AdvanceController extends Controller {
+ public function index(){return view('ezylaw::advances.index',['advances'=>LawClientAdvance::with(['client','matter','allocations.invoice'])->orderByDesc('received_on')->paginate(25),'clients'=>LawClient::where('status','active')->orderBy('name')->get(),'matters'=>LawMatter::whereIn('status',['open','pending'])->orderBy('matter_no')->get(),'invoices'=>LawInvoice::with('client')->where('balance','>',0)->orderByDesc('invoice_date')->get()]);}
+ public function deposit(Request $r,AdvanceService $s){$d=$r->validate(['advance_type'=>'required|in:client,expense','client_id'=>'nullable|required_if:advance_type,client|integer','recipient_user_id'=>'nullable|required_if:advance_type,expense|integer','matter_id'=>'nullable|integer','received_on'=>'required|date','amount'=>'required|numeric|min:0.0001','method'=>'required|string|max:50','reference'=>'nullable|string|max:120','notes'=>'nullable|string']);$s->deposit($d);return back()->with('success','Client advance recorded.');}
+ public function allocate(Request $r,LawClientAdvance $advance,AdvanceService $s){$d=$r->validate(['invoice_id'=>'required|integer','allocated_on'=>'required|date','amount'=>'required|numeric|min:0.0001','notes'=>'nullable|string']);$invoice=LawInvoice::findOrFail($d['invoice_id']);$s->allocate($advance,$invoice,(float)$d['amount'],$d);return back()->with('success','Advance allocated to invoice.');}
+ public function syncAdvance(LawClientAdvance $advance,FinanceGateway $finance){$result=$finance->syncClientAdvance($advance->id);$advance->update(['finance_sync_status'=>$result['status']]);return back()->with($result['success']?'success':'warning',$result['message']);}
+ public function syncAllocation(LawAdvanceAllocation $allocation,FinanceGateway $finance){$result=$finance->syncAdvanceAllocation($allocation->id);$allocation->update(['finance_sync_status'=>$result['status']]);return back()->with($result['success']?'success':'warning',$result['message']);}
+}
